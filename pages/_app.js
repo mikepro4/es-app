@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Provider, useDispatch, useSelector } from "react-redux";
+import '../styles/main.scss';
+
+import Head from "next/head";
+import Script from 'next/script';
 
 import { 
   store, 
   fetchUserInfo 
 } from "../redux";
-
-
-import '../styles/main.scss';
-import Head from "next/head";
 
 const App = ({ children }) => {
   const dispatch = useDispatch();
@@ -46,24 +46,24 @@ export default function MainApp({ Component, pageProps }) {
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <link rel="manifest" href="/site.webmanifest" />
-        <script type="text/javascript" src="/MochiKit/Base.js"></script>
-        <script type="text/javascript" src="/MochiKit/Iter.js"></script>
-        <script type="text/javascript" src="/MochiKit/Logging.js"></script>
-        <script type="text/javascript" src="/MochiKit/DateTime.js"></script>
-        <script type="text/javascript" src="/MochiKit/Format.js"></script>
-        <script type="text/javascript" src="/MochiKit/Async.js"></script>
-        <script type="text/javascript" src="/MochiKit/DOM.js"></script>
-        <script type="text/javascript" src="/MochiKit/Style.js"></script>
-        <script type="text/javascript" src="/MochiKit/LoggingPane.js"></script>
-        <script type="text/javascript" src="/MochiKit/Color.js"></script>
-        <script type="text/javascript" src="/MochiKit/Signal.js"></script>
-        <script type="text/javascript" src="/MochiKit/Style.js"></script>
-        <script type="text/javascript" src="/MochiKit/Position.js"></script>
-        <script type="text/javascript" src="/MochiKit/Visual.js"></script>
-    
-        <script type="text/javascript" src="/SVGKit.js" ></script>
-        <script type="text/javascript" src="/SVGCanvas.js"></script>
       </Head>
+
+      <Script src="/MochiKit/Base.js" strategy="beforeInteractive"/>
+      <Script src="/MochiKit/Iter.js" strategy="beforeInteractive"/>
+      <Script src="/MochiKit/Logging.js" strategy="beforeInteractive"/>
+      <Script src="/MochiKit/DateTime.js" strategy="beforeInteractive"/>
+      <Script src="/MochiKit/Format.js" strategy="beforeInteractive"/>
+      <Script src="/MochiKit/Async.js" strategy="beforeInteractive"/>
+      <Script src="/MochiKit/DOM.js" strategy="beforeInteractive"/>
+      <Script src="/MochiKit/Style.js" strategy="beforeInteractive"/>
+      <Script src="/MochiKit/LoggingPane.js" strategy="beforeInteractive"/>
+      <Script src="/MochiKit/Color.js" strategy="beforeInteractive"/>
+      <Script src="/MochiKit/Signal.js" strategy="beforeInteractive"/>
+      <Script src="/MochiKit/Style.js" strategy="beforeInteractive"/>
+      <Script src="/MochiKit/Position.js" strategy="beforeInteractive"/>
+      <Script src="/MochiKit/Visual.js" strategy="beforeInteractive"/>
+      <Script src="/SVGKit.js" strategy="beforeInteractive"/>
+      <Script src="/SVGCanvas.js" strategy="beforeInteractive"/>
 
       <Provider store={store}>
 
