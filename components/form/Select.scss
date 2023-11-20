@@ -1,0 +1,52 @@
+select.main-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    letter-spacing: -0.35px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    color: rgb(33, 33, 33);
+    border: 0px;
+    height: 100%;
+    width: 100%;
+    background-color: unset;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    color: rgba(0,0,0,0.3);
+    transition: all 0.2s $animation_easing;
+    color: #fff;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+.chxt-select {
+    background: #222222;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    border-radius: 6px;
+
+}
+
+.select-caret {
+    // transform: rotate(90deg);
+    position: relative;
+    top: 0;
+    right: 0;
+
+    svg {
+        width: 16px;
+        height: 16px;
+
+        path {
+            fill: $white;
+        }
+        
+    }
+}

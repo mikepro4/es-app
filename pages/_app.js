@@ -14,6 +14,18 @@ const App = ({ children }) => {
   const dispatch = useDispatch();
   const app = useSelector((state) => state.app);
 
+  const fetchUserDetails = async () => {
+    const userIdFromStorage = localStorage.getItem("token");
+
+    if (userIdFromStorage) {
+      dispatch(fetchUserInfo());
+    }
+  };
+
+  useEffect(() => {
+    fetchUserDetails();
+  }, []);
+
   return (
     <>
       {children}

@@ -1,0 +1,198 @@
+.chxt-button {
+
+    button {
+        display: inline-flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+        cursor: pointer;
+        appearance: none;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        outline: none;
+        user-select: none;
+        padding: 0px 12px;
+        margin: 0px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        border-radius: 100px;
+        min-height: 40px;
+        min-width: 100%;
+        transition: background-color 40ms ease 0s, box-shadow 40ms ease 0s;
+        box-shadow: rgb(0 0 0 / 3%) 0px 1px 1px;
+        background-color: rgb(255, 255, 255);
+        color: $black;
+        transition: all 0.5s;
+        font-size: 14px;
+
+        .icon-left {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 7px;
+
+            svg {
+                width: 18px;
+                height: 18px;
+                fill: $black;
+            }
+        }
+
+        &:hover {
+            border-color: rgba(0, 0, 0, 0.15);
+            background-color: #F9F9F9;
+        }
+
+        // &:active {
+        //     background: rgba(0,0,0,0.05);
+        // }
+
+        &.only-icon {
+            padding: 0px 9px;
+
+            .icon-left {
+                margin-right: 0px;
+            }
+        }
+
+        .button-label {
+            display: flex;
+            // margin-right: 5px;
+
+            // &:last-child {
+            //     margin-right: -3px;
+            // }
+        }
+
+
+        .icon-right {
+            position: relative;
+            right: -5px
+        }
+
+    }
+
+    &.small {
+        button {
+            // font-size: 16px;
+            min-height: 36px;
+            // color: rgba(255,255,255, 0.5);
+
+            .button-label { 
+                position: relative;
+                // top: -1px;
+                font-size: 13px;
+                font-weight: 550;
+                letter-spacing: -0.43px;
+            }
+        }
+
+        &.primary {
+            button {
+                background: $blue;
+                color: #fff;
+
+                svg {
+                    path {
+                        fill: white
+                    }
+                }
+            }
+
+            &.disabled {
+                button {
+                    background: #222222;
+                    color: rgba(255,255,255, 0.4);
+
+                    svg {
+                        opacity: 0.3;
+                    }
+                }
+            }
+        }
+    }
+
+    &.minimal {
+        // margin-left: 5px;
+
+       
+        button {
+            transition: all 0.2s;
+            background: rgba(255,255,255, 0.1);
+            border: none;
+            box-shadow: none;
+            color: $white;
+        }
+
+        svg {
+            path {
+                fill: white
+            }
+        }
+
+        &:hover {
+            button {
+                background: rgba(255,255,255, 0.15);
+            }
+        }
+
+        &:active {
+            button {
+                background: rgba(0,0,0,0.1);
+            }
+        }
+
+        &.primary {
+            button {
+                background: #f46a35;
+                color: white
+            }
+        }
+
+        
+        &.small {
+            button {
+                font-size: 16px;
+            }
+        }
+       
+    }
+
+    &.action-list-item {
+        button {
+            justify-content: left;
+            font-size: 20px;
+            font-weight: 400;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            height: auto;
+
+            .icon-left {
+                margin-right: 12px;
+            }
+        }
+
+        .button-label {
+            position: relative;
+            top: -1px
+        }
+
+        .icon-left svg {
+            width: 20px;
+            height: 20px;
+        }
+
+    }
+
+    
+
+
+    &.chevron-only {
+        .icon-right {
+            margin-left: 0;
+        }
+    }
+}

@@ -1,11 +1,13 @@
 
 import React from 'react';
+import { useRouter } from 'next/router'
 
 const TestView = () => {
+  const router = useRouter()
+
   return (
     <div>
-      <h1>Welcome to the Test View!</h1>
-      <p>This is a basic React view.</p>
+      Login
     </div>
   );
 };

@@ -1,0 +1,50 @@
+textarea.main-input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    letter-spacing: -0.35px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    color: $white;
+    border: 0px;
+    height: 100%;
+    width: 100%;
+    background-color: unset;
+    text-overflow: ellipsis;
+    padding: 20px;
+    background: #121212;
+    // border-radius: 6px;
+
+    // &:active {
+    //     border: 2px solid #588CE3;
+    // }
+}
+
+.has-icon {
+    position: relative;
+
+    input.main-input {
+        padding-left: 40px;
+    }
+}
+
+.input-icon-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+    svg {
+        width: 16px;
+        height: 16px;
+        opacity: 0.4;
+    }
+}
