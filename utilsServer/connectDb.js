@@ -6,6 +6,7 @@ function connectDb() {
   try {
     mongoose.set("strictQuery", false);
     const options = {
+      dbName: "ethereal"
     }
     mongoose.connect(keys.mongoURI, options);
   } catch (error) {
