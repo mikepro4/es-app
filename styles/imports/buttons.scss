@@ -1,0 +1,95 @@
+.bp3-button {
+    width: 100%;
+    border-radius: 0;
+    font-family: "A";
+    font-weight: 300;
+    font-size: 14px;
+    border-radius: 3px;
+
+    &.main-button {
+        white-space: nowrap;
+
+        &:not([class*="bp3-intent-"]) {
+            border: none;
+            box-shadow: none;
+            padding: 0 75px;
+            border-radius: 50px;
+            height: 41px;
+            transition: all 0.2s ease;
+
+            svg {
+                fill:white;
+                position: relative;
+                // top: -1px
+            }
+    
+    
+            @media only screen and (max-width: $mobile) {
+                padding: 7px 75px;
+                font-weight: 400;
+                font-size: 14px;
+               
+            }
+
+            .bp3-spinner-animation {
+                svg {
+                    width: 30px;
+                    height: 30px;
+                }
+            }
+        
+    
+            .bp3-button-text {
+                position: relative;
+                top: -2px;
+                letter-spacing: 0.5px;
+            }
+    
+            &:not([class*="control"]) {
+                background: transparent;
+                border: 1px solid $white;
+                color: $white;
+    
+            }
+    
+            &:active,
+            &:hover {
+                background: $white;
+                color: $black;
+                border: 1px solid $white;
+
+                svg {
+                    fill:black
+                }
+            }
+        }
+    
+        &:active,
+        &:hover {
+            background: $white;
+            color: $black;
+            &.control {
+                @media only screen and (max-width: $mobile) {
+                    // background: none !important;
+                }
+            }
+        }
+    
+        &:active {
+            @media only screen and (max-width: $mobile) {
+                // transform: scale(0.8);
+            }
+        }
+    }
+
+   
+}
+
+.bp3-button.bp3-minimal {
+    color: $white;
+    font-size: 14px;
+
+    &:hover {
+        color: $white;
+    }
+}

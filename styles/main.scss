@@ -1,0 +1,142 @@
+// reset
+@import "./imports/reset";
+
+// blueprint
+@import "../node_modules/@blueprintjs/core/lib/css/blueprint.css";
+@import "../node_modules/@blueprintjs/core/lib/scss/variables.scss";
+
+// imports
+@import "./imports/colors";
+@import "./imports/fonts_aeonik";
+@import "./imports/variables";
+@import "./imports/blueprint_overides";
+@import "./imports/animations";
+@import "./imports/buttons";
+@import "./imports/select";
+@import "./imports/variables";
+@import "./imports/label";
+
+
+.line-hover {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  white-space: nowrap;
+
+  span {
+    transition: all 2s cubic-bezier(0.19, 1, .22, 1);
+  }
+
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    margin-top: -1px;
+    background-color: $white;
+    transform: translateX(-108%);
+    transition: transform 1s cubic-bezier(.26, .9, .21, .94);
+    transition-delay: .1s;
+    z-index: 1;
+    opacity: 0;
+  }
+
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    margin-top: -1px;
+    background-color: $white;
+    transform: translateX(-108%);
+    transition: transform 1s cubic-bezier(.26, .9, .21, .94);
+    transition-delay: .1s;
+    z-index: 2;
+    opacity: 0;
+  }
+
+  &:hover {
+    &:after {
+      transform: translateX(108%);
+      opacity: 1;
+    }
+
+    &:before {
+
+      opacity: 1;
+    }
+  }
+}
+
+
+html {
+  touch-action: manipulation;
+  user-select: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  // background: #F9F9F9;
+  background: $black;
+  color: $white;
+  font-family: "Aeonik", sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: subpixel-antialiased;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  opacity: 1;
+  transition: opacity 1s;
+
+
+  &.no-scroll {
+    overflow: hidden;
+  }
+}
+
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-overflow-scrolling: touch;
+}
+
+// Selection
+// -------------------------
+
+::selection {
+  background: $yellow;
+  color: $black;
+}
+
+::-moz-selection {
+  background: $yellow;
+  color: $black;
+}
+
+// Links
+// -------------------------
+
+a {
+  text-decoration: none !important;
+  font-weight: 400;
+  color: $white;
+  transition: none;
+
+  &:hover,
+  &:active {
+    color: $white
+  }
+}
+
