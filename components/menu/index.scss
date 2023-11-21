@@ -1,0 +1,19 @@
+
+.menu-container {
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
+    // box-shadow: rgb(0 0 0 / 10%) 0px 0px 0px 1px;
+    // border: 1px solid $border2;
+    padding: 10px;
+    min-width: 222px;
+    position: relative;
+    z-index: 1000;
+    /* Rectangle 19 */
+    background: #222;
+    box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.06), 0px 8px 84px rgba(148, 142, 135, 0.18);
+    backdrop-filter: blur(28.5px);
+    animation: menuShow .2s  $animation_easing forwards;
+    /* Note: backdrop-filter has minimal browser support */
+
+
+}

@@ -25,7 +25,7 @@ const SingleForm = () => {
         parameter: 20, 
         agree: false,
         math: 'sin',
-        color: 'rgba(255,0,0,1)',
+        background: 'rgba(255, 0, 0, 1)',
     };
 
     const validationSchema = Yup.object().shape({
@@ -118,8 +118,8 @@ const SingleForm = () => {
                                 />
 
                                 <Field
-                                    name="color"
-                                    title="Color"
+                                    name="background"
+                                    title="Background"
                                     component={ColorPicker}
                                 />
                             </div>
