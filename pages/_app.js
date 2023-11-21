@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Provider, useDispatch, useSelector } from "react-redux";
+import { FocusStyleManager } from "@blueprintjs/core";
+
 import '../styles/main.scss';
 
 import Head from "next/head";
@@ -9,6 +11,9 @@ import {
   store, 
   fetchUserInfo 
 } from "../redux";
+
+FocusStyleManager.onlyShowFocusOnTabs();
+
 
 import Drawer from "../components/drawer";
 

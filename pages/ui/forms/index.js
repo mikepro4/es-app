@@ -4,6 +4,8 @@ import { Provider, useDispatch, useSelector } from "react-redux";
 import { useRouter } from 'next/router'
 import Button from "../../../components/button";
 
+import { H5, Slider, Switch, Icon } from '@blueprintjs/core';
+
 import { toggleDrawer } from '@/redux/slices/appSlice';
 
 import SingleForm from './singleForm';
@@ -11,6 +13,15 @@ import SingleForm from './singleForm';
 const TestView = () => {
   const router = useRouter()
   const dispatch = useDispatch();
+
+  const [value, setValue] = useState(0);
+
+  const handleChange = useCallback((value) => {
+    console.log(value);
+    setValue(value), []
+  });
+
+  
 
 
   return (
@@ -39,6 +50,21 @@ const TestView = () => {
         <li>
           <SingleForm/>
         </li>
+
+        {/* <li style={{
+          padding: "20px 10px"
+        }} >
+          <Slider
+            min={-100}
+            max={100}
+            initialValue={0}
+            stepSize={0.1}
+            labelStepSize={50}
+            value={value}
+            onChange={handleChange}
+            showTrackFill={value !== 0}
+          />
+        </li> */}
 
       </ul>
 

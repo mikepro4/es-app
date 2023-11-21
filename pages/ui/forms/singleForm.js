@@ -3,9 +3,12 @@ import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { useRouter } from 'next/router'
 
-import { Form, Field, FormSpy } from 'react-final-form';
+import { Formik, Form, Field } from 'formik';
 
 import Input from "../../../components/form/BladeInput";
+import BlueprintCheckbox from "../../../components/form/BlueprintCheckbox";
+import Slider from "../../../components/form/Slider";
+
 import Button from "../../../components/button";
 
 
@@ -15,9 +18,11 @@ const SingleForm = () => {
     const dispatch = useDispatch();
 
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [agree, setAgree] = useState(false);
 
-    const onSubmit = () => {
-        dispatch(signin({ email, password }))
+    const onSubmit = (values) => {
+        console.log(values)
     };
 
     const validateEmail = value => {
@@ -33,55 +38,49 @@ const SingleForm = () => {
         if (!value) return "Password is required";
     }
 
+    const handleFormChange = (values) => {
+        console.log(values); 
+    };
+
+    const initialValues = {
+        parameter: 20, // Assuming you want the initial value of the slider to be 50
+        // Add initial values for other fields as needed
+    };
+
+    const handleSubmit = (values) => {
+        console.log(values); // Process form submission
+    };
 
 
     return (
         <div className="form-container">
 
-            <Form
-                onSubmit={onSubmit}
-                render={({ handleSubmit }) => (
-                    <form onSubmit={handleSubmit}>
+            <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+                {({ values, handleChange, handleSubmit })  => (
+                    <Form
+                    >
                         <div className="form-fields">
-                            <Field
-                                name="email"
-                                title="Email address"
-                                component={Input}
-                                onFocus={() => {
-                                    if (onFocus) onFocus()
-                                }}
-                                placeholder="Email address"
-                                onChange={(value) => {
-                                    setEmail(value.nativeEvent.text)
-                                }}
-                                validate={validateEmail}
-                            />
-
-                            <Field
-                                name="password"
-                                title="Password"
-                                component={Input}
-                                onFocus={() => {
-                                    if (onFocus) onFocus()
-                                }}
-                                placeholder="Password"
-                                onChange={(value) => {
-                                    setEmail(value.nativeEvent.text)
-                                }}
-                                type={"password"}
-                                validate={validatePassword}
+                            <Field 
+                                name="parameter" 
+                                displayName="Parameter"
+                                component={Slider} 
+                                min={-100} 
+                                max={100} 
+                                step={0.1}
+                                labelStepSize={50}
+                                onChange={() => handleFormChange(values)}
                             />
                         </div>
+                        
+
 
                         <Button
                             type="submit"
                             label="Sign up"
-                            onClick={handleSubmit}
                         />
-
-                    </form>
+                    </Form>
                 )}
-            />
+            </Formik>
 
 
         </div>
