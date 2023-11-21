@@ -9,6 +9,7 @@ import { Formik, Form, Field } from 'formik';
 import Input from "../../../components/form/BladeInput";
 import BlueprintCheckbox from "../../../components/form/BlueprintCheckbox";
 import Slider from "../../../components/form/Slider";
+import TabSwitcher from "../../../components/form/TabSwitcher";
 
 import Button from "../../../components/button";
 
@@ -20,8 +21,9 @@ const SingleForm = () => {
 
     const initialValues = {
         email: "",
-        parameter: "20", 
-        agree: false
+        parameter: 20, 
+        agree: false,
+        math: 'sin'
     };
 
     const validationSchema = Yup.object().shape({
@@ -38,6 +40,24 @@ const SingleForm = () => {
     const handleSubmit = (values) => {
         console.log(values); // Process form submission
     };
+
+    // const tabOptions = ['Tab1', 'Tab2', 'Tab3'];
+    const tabOptions = [{
+        name: 'Sin',
+        value: 'sin',
+    }, {
+        name: 'Cos',
+        value: 'cos',
+    }, {
+        name: 'Tan',
+        value: 'tan',
+    }, {
+        name: 'Atan',
+        value: 'atan',
+    }, {
+        name: 'Log',
+        value: 'log',
+    }];
 
     return (
         <div className="form-container">
@@ -86,6 +106,13 @@ const SingleForm = () => {
                                     name="agree"
                                     component={BlueprintCheckbox}
                                     label="Agree"
+                                />
+
+                                <Field
+                                    name="math"
+                                    title="Math"
+                                    component={TabSwitcher}
+                                    options={tabOptions}
                                 />
                             </div>
 

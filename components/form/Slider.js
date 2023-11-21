@@ -25,7 +25,7 @@ const SliderComponent = ({ field, form, stepSize, min, max, step, onChange, disp
                         labelStepSize={labelStepSize}
                         value={Number(field.value)}
                         onChange={(value) => { 
-                            form.setFieldValue(field.name, value.toString())
+                            form.setFieldValue(field.name, value)
                             if(onChange) onChange()
                         }}
                         showTrackFill={Number(field.value) !== 0}
@@ -40,7 +40,7 @@ const SliderComponent = ({ field, form, stepSize, min, max, step, onChange, disp
                         icon="target"
                         type="button"
                         onClick={() => {
-                            form.setFieldValue(field.name, "0")
+                            form.setFieldValue(field.name, 0)
                             if(onChange) onChange()
                         }}
                     />
@@ -52,7 +52,7 @@ const SliderComponent = ({ field, form, stepSize, min, max, step, onChange, disp
                         type="button"
                         onClick={() => {
                             let newValue = Number(field.value) - step;
-                            form.setFieldValue(field.name, newValue.toString())
+                            form.setFieldValue(field.name, newValue)
                             if(onChange) onChange()
                         }}
                     />
@@ -64,7 +64,7 @@ const SliderComponent = ({ field, form, stepSize, min, max, step, onChange, disp
                         type="button"
                         onClick={() => {
                             let newValue = Number(field.value) + step;
-                            form.setFieldValue(field.name, newValue.toString())
+                            form.setFieldValue(field.name, newValue)
                             if(onChange) onChange()
                         }}
                     />

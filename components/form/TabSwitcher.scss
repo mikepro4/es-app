@@ -1,0 +1,50 @@
+.tab-switcher {
+    display: flex;              // Use flexbox for layout
+    justify-content: stretch;   // Stretch children to fill the available space
+    align-items: center; 
+    
+    .single-tab {
+        flex: 1;                  
+        margin: 0 5px;            
+        padding: 8px 15px;       
+        background-color: rgba(255,255,255,0.1);  
+        color: white;            
+        border: none;             
+        border-radius: 5px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+            background-color: rgba(255,255,255,0.2); 
+        }
+
+
+        &.active-tab {
+            background-color: #fff;
+            color: #000;
+        }
+
+        &:first-child {
+            margin-left: 0;
+        }
+
+        &:last-child {
+            margin-right: 0;
+        }
+
+        .tab-label {
+            position: relative;
+            top: -1px
+        }
+    }
+}
+
+.tab-title {
+    font-size: 11px;
+    margin-bottom: 10px;
+}
+
+.tab-container {
+    margin: 10px 0;
+}

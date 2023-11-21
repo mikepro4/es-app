@@ -3,7 +3,8 @@
 }
 
 .bp5-control input:checked ~ .bp5-control-indicator,
-.bp5-control:hover input:checked ~ .bp5-control-indicator
+.bp5-control:hover input:checked ~ .bp5-control-indicator,
+.bp5-control input:not(:disabled):active:checked ~ .bp5-control-indicator
 {
     background-color: $purple;
 }
