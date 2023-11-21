@@ -25,10 +25,10 @@ const SliderComponent = ({ field, form, stepSize, min, max, step, onChange, disp
                         labelStepSize={labelStepSize}
                         value={Number(field.value)}
                         onChange={(value) => { 
-                            form.setFieldValue(field.name, value)
+                            form.setFieldValue(field.name, value.toString())
                             if(onChange) onChange()
                         }}
-                        showTrackFill={field.value !== 0}
+                        showTrackFill={Number(field.value) !== 0}
                     />
                 </div>
 
@@ -40,7 +40,7 @@ const SliderComponent = ({ field, form, stepSize, min, max, step, onChange, disp
                         icon="target"
                         type="button"
                         onClick={() => {
-                            form.setFieldValue(field.name, 0)
+                            form.setFieldValue(field.name, "0")
                             if(onChange) onChange()
                         }}
                     />
@@ -51,7 +51,8 @@ const SliderComponent = ({ field, form, stepSize, min, max, step, onChange, disp
                         icon="minus"
                         type="button"
                         onClick={() => {
-                            form.setFieldValue(field.name, field.value - step)
+                            let newValue = Number(field.value) - step;
+                            form.setFieldValue(field.name, newValue.toString())
                             if(onChange) onChange()
                         }}
                     />
@@ -62,7 +63,8 @@ const SliderComponent = ({ field, form, stepSize, min, max, step, onChange, disp
                         icon="plus"
                         type="button"
                         onClick={() => {
-                            form.setFieldValue(field.name, field.value + step)
+                            let newValue = Number(field.value) + step;
+                            form.setFieldValue(field.name, newValue.toString())
                             if(onChange) onChange()
                         }}
                     />

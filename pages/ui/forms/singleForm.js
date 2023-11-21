@@ -20,7 +20,8 @@ const SingleForm = () => {
 
     const initialValues = {
         email: "",
-        parameter: 20, 
+        parameter: "20", 
+        agree: false
     };
 
     const validationSchema = Yup.object().shape({
@@ -80,10 +81,16 @@ const SingleForm = () => {
                                     title="Email address"
                                     placeholder="Email address"
                                 />
+
+                                <Field
+                                    name="agree"
+                                    component={BlueprintCheckbox}
+                                    label="Agree"
+                                />
                             </div>
 
                             <Button
-                                type="submit"
+                                // type="submit"
                                 label="Sign up"
                             />
                         </Form>

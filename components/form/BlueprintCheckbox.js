@@ -1,19 +1,18 @@
 import React from 'react';
 import { Checkbox } from "@blueprintjs/core";
 
-const BlueprintCheckboxWrapper = ({ input, meta, label }) => {
-
-  const handleChange = (event) => {
-    // Update the form state
-    input.onChange(event.target.checked);
-  };
-  return (
-    <Checkbox
-      label={label}
-      checked={!!input.value}
-      onChange={handleChange}
-    />
-  );
+const FormikBlueprintCheckbox = ({ field, form, ...props }) => {
+    return (
+        <div style={{ padding: "10px 0" }}>
+          <Checkbox
+              {...props}
+              checked={field.value}
+              onChange={(event) => {
+                  form.setFieldValue(field.name, event.target.checked);
+              }}
+          />
+        </div>
+    );
 };
 
-export default BlueprintCheckboxWrapper;
+export default FormikBlueprintCheckbox;

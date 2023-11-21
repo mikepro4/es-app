@@ -1,0 +1,9 @@
+.bp5-control .bp5-control-indicator {
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2);
+}
+
+.bp5-control input:checked ~ .bp5-control-indicator,
+.bp5-control:hover input:checked ~ .bp5-control-indicator
+{
+    background-color: $purple;
+}
