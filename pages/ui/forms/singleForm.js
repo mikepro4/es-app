@@ -17,12 +17,9 @@ const SingleForm = () => {
     const router = useRouter()
     const dispatch = useDispatch();
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [agree, setAgree] = useState(false);
-
-    const onSubmit = (values) => {
-        console.log(values)
+    const initialValues = {
+        name: "",
+        parameter: 20, 
     };
 
     const validateEmail = value => {
@@ -39,47 +36,52 @@ const SingleForm = () => {
     }
 
     const handleFormChange = (values) => {
-        console.log(values); 
-    };
-
-    const initialValues = {
-        parameter: 20, // Assuming you want the initial value of the slider to be 50
-        // Add initial values for other fields as needed
+        console.log(values);
     };
 
     const handleSubmit = (values) => {
         console.log(values); // Process form submission
     };
 
-
     return (
         <div className="form-container">
 
             <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-                {({ values, handleChange, handleSubmit })  => (
-                    <Form
-                    >
-                        <div className="form-fields">
-                            <Field 
-                                name="parameter" 
-                                displayName="Parameter"
-                                component={Slider} 
-                                min={-100} 
-                                max={100} 
-                                step={0.1}
-                                labelStepSize={50}
-                                onChange={() => handleFormChange(values)}
+                {({ values, handleChange, handleSubmit }) => {
+
+                    useEffect(() => {
+                        handleFormChange(values);
+                    }, [values]);
+
+                    return (
+                        <Form
+                        >
+                            <div className="form-fields">
+                                <Field
+                                    name="parameter"
+                                    displayName="Parameter"
+                                    component={Slider}
+                                    min={-100}
+                                    max={100}
+                                    step={0.1}
+                                    labelStepSize={50}
+                                />
+
+                                <Field
+                                    name="name"
+                                    component={Input}
+                                    title="Name"
+                                    placeholder="Name"
+                                />
+                            </div>
+
+                            <Button
+                                type="submit"
+                                label="Sign up"
                             />
-                        </div>
-                        
-
-
-                        <Button
-                            type="submit"
-                            label="Sign up"
-                        />
-                    </Form>
-                )}
+                        </Form>
+                    )
+                }}
             </Formik>
 
 
