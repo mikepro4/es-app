@@ -10,6 +10,8 @@ import {
   fetchUserInfo 
 } from "../redux";
 
+import Drawer from "../components/drawer";
+
 const App = ({ children }) => {
   const dispatch = useDispatch();
   const app = useSelector((state) => state.app);
@@ -29,6 +31,7 @@ const App = ({ children }) => {
   return (
     <>
       {children}
+      {app.drawerOpen && <Drawer />}
     </>
   )
 }
@@ -80,8 +83,7 @@ export default function MainApp({ Component, pageProps }) {
       <Provider store={store}>
 
         <div className="app">
-          {/* <Drawer /> */}
-          {/* <Closet /> */}
+          
           <App>
             <Component {...pageProps} />
           </App>

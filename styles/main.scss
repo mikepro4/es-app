@@ -23,6 +23,10 @@
 @import "../components/form/Textarea.scss";
 
 @import "../components/button/index.scss";
+@import "../components/drawer/index.scss";
+
+// Pages
+@import "../pages/ui/index.scss";
 
 
 .line-hover {
@@ -148,3 +152,9 @@ a {
   }
 }
 
+
+
+.placeholder {
+  height: 3000px;
+  position: relative
+}

@@ -1,0 +1,93 @@
+.app-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 3001;
+    display: flex;
+    align-items: flex-end;
+
+    @media only screen and (min-width: $mobile) {
+        left: inherit
+    }
+
+    .app-drawer-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 1;
+        background: rgba(#222222, 0.2);
+
+        @media only screen and (min-width: $mobile) {
+            background: none;
+        }
+
+
+        @extend .animation-fadeIn;
+
+        &.hide {
+            @extend .animation-fadeOut;
+        }
+
+    }
+
+    .app-drawer-content {
+        position: relative;
+        overflow-y: auto;
+        background: rgba(15, 15, 15, 0.6);
+
+
+        // @media only screen and (max-width: $mobile) {
+        -webkit-backdrop-filter: blur(30px);
+        backdrop-filter: blur(30px);
+        // }
+
+        // @media only screen and (min-width: $mobile) {
+        
+        // }
+
+        color: $white;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        z-index: 2;
+        width: 100%;
+        @extend .animation-slideDrawer;
+        animation-delay: 0s;
+
+        &.hide {
+            @extend .animation-hideDrawer;
+        }
+
+        &.full {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            // background: #0A0A0A;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+    }
+
+}
+
+.standard-drawer {
+    padding: 20px;
+    max-height: 500px;
+    overflow-y: auto;
+    min-height: 500px;
+    margin: 0 auto;
+
+    @media only screen and (min-width: $mobile) {
+        min-width: 600px;
+    }
+}
+
+
+.details-container {
+    margin: 0 auto;
+}

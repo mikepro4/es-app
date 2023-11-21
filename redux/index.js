@@ -47,5 +47,6 @@ export * from "./thunks/userThunk";
 
 
 // ACTIONS
+export * from "./slices/appSlice";
 export * from "./slices/userSlice";
 

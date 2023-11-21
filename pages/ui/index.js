@@ -1,23 +1,30 @@
 
-import React from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { useRouter } from 'next/router'
 import Button from "../../components/button";
 
+
 const TestView = () => {
   const router = useRouter()
+  const dispatch = useDispatch();
+
 
   return (
-    <div>
-      <h1>Welcome to the Test View!</h1>
-      <p>This is a basic React view.</p>
-      <Button
-        label="Login"
-        small={true}
-        minimal={true}
-        onClick={() => {
-          router.push("/auth/login")
-        }}
-      />
+    <div className="ui-screen">
+      <div className="back-button">
+        <Button
+            small={true}
+            label="Buttons"
+            wrap={true}
+            minimal={true}
+            iconRight="chevron-right"
+            onClick={() => {
+              router.push("/ui/buttons")
+            }}
+        />
+      </div>
+    
     </div>
   );
 };
