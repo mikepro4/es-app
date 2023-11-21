@@ -59,8 +59,10 @@ const Button = (props) => {
 
     if(props.colorHsb) {
       color = hsbToRgba(props.colorHsb)
-    } else {
+    } else if(props.colorHex) {
       color= hexToRgba(props.colorHex)
+    } else if(props.colorRgba) {
+      color= props.colorRgba
     }
     return (
       <div
@@ -96,10 +98,10 @@ const Button = (props) => {
         onClick={() => props.onClick && !props.disabled && props.onClick()}
         className={classNames({
           "only-icon": !props.chevron && !props.label,
-          "only-color": (props.colorHsb || props.colorHex) && !props.label && true
+          "only-color": (props.colorHsb || props.colorHex || props.colorRgba) && !props.label && true
         })}
       >
-        {(props.colorHsb || props.colorHex) && renderColor()}
+        {(props.colorHsb || props.colorHex || props.colorRgba) && renderColor()}
         {props.icon && renderIconLeft()}
         {props.label && (
           <div className="button-label">

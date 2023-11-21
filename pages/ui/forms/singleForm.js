@@ -10,6 +10,7 @@ import Input from "../../../components/form/BladeInput";
 import BlueprintCheckbox from "../../../components/form/BlueprintCheckbox";
 import Slider from "../../../components/form/Slider";
 import TabSwitcher from "../../../components/form/TabSwitcher";
+import ColorPicker from "../../../components/form/ColorPicker";
 
 import Button from "../../../components/button";
 
@@ -23,7 +24,8 @@ const SingleForm = () => {
         email: "",
         parameter: 20, 
         agree: false,
-        math: 'sin'
+        math: 'sin',
+        color: 'rgba(255,0,0,1)',
     };
 
     const validationSchema = Yup.object().shape({
@@ -113,6 +115,12 @@ const SingleForm = () => {
                                     title="Math"
                                     component={TabSwitcher}
                                     options={tabOptions}
+                                />
+
+                                <Field
+                                    name="color"
+                                    title="Color"
+                                    component={ColorPicker}
                                 />
                             </div>
 
