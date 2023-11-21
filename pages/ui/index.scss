@@ -13,6 +13,8 @@
 
 .ui-screen {
     padding: 0 15px;
+    opacity: 0;
+    @extend .animation-fadeIn;
 
     .back-button {
         margin: 20px 0;
@@ -22,4 +24,8 @@
         font-weight: 550;
         font-size: 45px;
     }
+}
+
+.form-fields {
+    margin-bottom: 30px;
 }

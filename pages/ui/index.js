@@ -12,19 +12,43 @@ const TestView = () => {
 
   return (
     <div className="ui-screen">
-      <div className="back-button">
-        <Button
-            small={true}
-            label="Buttons"
-            wrap={true}
-            minimal={true}
-            iconRight="chevron-right"
-            onClick={() => {
-              router.push("/ui/buttons")
-            }}
-        />
+
+      <div className="page-container">
+
+        <h1>UI System</h1>
+        <div className="button-group">
+          <li>
+            <Button
+              small={true}
+              label="Buttons"
+              wrap={true}
+              minimal={true}
+              iconRight="chevron-right"
+              onClick={() => {
+                router.push("/ui/buttons")
+              }}
+            />
+          </li>
+
+          <li>
+            <Button
+              small={true}
+              label="Forms"
+              wrap={true}
+              minimal={true}
+              iconRight="chevron-right"
+              onClick={() => {
+                router.push("/ui/forms")
+              }}
+            />
+          </li>
+
+
+        </div>
+
       </div>
-    
+
+
     </div>
   );
 };

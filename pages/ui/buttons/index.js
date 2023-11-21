@@ -13,6 +13,9 @@ const TestView = () => {
 
   return (
     <div className="ui-screen">
+      
+      <div className="page-container">
+        
       <div className="back-button">
         <Button
             small={true}
@@ -25,8 +28,6 @@ const TestView = () => {
             }}
         />
       </div>
-
-      <div className="page-container">
 
 
       <h1>Buttons</h1>
