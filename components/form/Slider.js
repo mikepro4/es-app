@@ -23,7 +23,7 @@ const SliderComponent = ({ field, form, stepSize, min, max, step, onChange, disp
                         max={max}
                         stepSize={step || 0.5}
                         labelStepSize={labelStepSize}
-                        value={field.value}
+                        value={Number(field.value)}
                         onChange={(value) => { 
                             form.setFieldValue(field.name, value)
                             if(onChange) onChange()

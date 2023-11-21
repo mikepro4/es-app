@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { useRouter } from 'next/router'
+import * as Yup from 'yup';
 
 import { Formik, Form, Field } from 'formik';
 
@@ -18,22 +19,16 @@ const SingleForm = () => {
     const dispatch = useDispatch();
 
     const initialValues = {
-        name: "",
+        email: "",
         parameter: 20, 
     };
 
-    const validateEmail = value => {
-        if (!value) return "Email is required";
-
-        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-        if (!emailRegex.test(value)) {
-            return "Please enter a valid email address";
-        }
-    };
-
-    const validatePassword = value => {
-        if (!value) return "Password is required";
-    }
+    const validationSchema = Yup.object().shape({
+        parameter: Yup.number(),
+        email: Yup.string()
+                  .email("Invalid email address") // Validates that the value is a valid email
+                  .required("Email is required"), // Ensures that the field is not empty
+    });
 
     const handleFormChange = (values) => {
         console.log(values);
@@ -46,7 +41,11 @@ const SingleForm = () => {
     return (
         <div className="form-container">
 
-            <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+            <Formik 
+                initialValues={initialValues} 
+                onSubmit={handleSubmit}
+                validationSchema={validationSchema}
+            >
                 {({ values, handleChange, handleSubmit }) => {
 
                     useEffect(() => {
@@ -68,10 +67,18 @@ const SingleForm = () => {
                                 />
 
                                 <Field
-                                    name="name"
+                                    name="parameter"
                                     component={Input}
-                                    title="Name"
-                                    placeholder="Name"
+                                    title="Parameter value"
+                                    placeholder="Parameter value"
+                                />
+
+
+                                <Field
+                                    name="email"
+                                    component={Input}
+                                    title="Email address"
+                                    placeholder="Email address"
                                 />
                             </div>
 

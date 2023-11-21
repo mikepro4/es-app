@@ -53,7 +53,7 @@ function Input({ field, form: { touched, errors, setFieldValue }, onChange, ...p
         type={props.type || "text"}
         onFocus={onFocus}
         onChange={(event) => {
-          field.onChange(event);
+          setFieldValue(field.name, event.target.value)
         }}
         onBlur={onBlur}
         autoComplete="new-password"
