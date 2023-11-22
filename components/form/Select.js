@@ -12,7 +12,7 @@ const SelectField = ({ options, ...props }) => {
 				options={options}
 				name={field.name}
 				value={options ? options.find(option => option.value === field.value) : ''}
-				onChange={(option) => setFieldValue(field.name, option.value)}
+				onChange={(option) =>  setFieldValue(field.name, option.value)}
 				onBlur={field.onBlur}
 				className="react-select-container"
   				classNamePrefix="react-select"
