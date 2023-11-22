@@ -1,0 +1,118 @@
+.loader-wrapper {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+
+    .loader-container {
+        width: 21px;
+        height: 21px;
+        position: relative;
+        opacity: 0;
+        animation: fadeIn 0.4s linear forwards;
+
+        path,
+        circle {
+            stroke: $white;
+        }
+
+        .ellipse-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+
+
+            path {
+                stroke-dasharray: 32;
+                animation: dash 10s linear both infinite;
+            }
+        }
+
+        .ellipse-right {
+            position: absolute;
+            top: 0;
+            left: 0;
+
+
+            path {
+                stroke-dasharray: 32;
+                animation: dash 10s .1s linear both infinite;
+            }
+        }
+
+        .ellipse-center {
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -1px;
+            margin-left: -1px;
+
+            animation: pulse 2s .1s linear both infinite;
+        }
+    }
+
+    // &.big {
+    //     .loader-container {
+    //         width: 40px;
+    //         height: 40px;
+    //     }
+
+    //     .ellipse-left,
+    //     .ellipse-right {
+    //         svg {
+    //             width: 40px;
+    //             height: 40px;
+    //             stroke-width: 0.5px;
+    //         }
+    //     }
+
+    // }
+
+    &.big {
+        .loader-container {
+            width: 60px;
+            height: 60px;
+        }
+
+        .ellipse-left,
+        .ellipse-right {
+            svg {
+                width: 60px;
+                height: 60px;
+                stroke-width: 0.4px;
+            }
+        }
+
+    }
+}
+
+
+
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: 1020;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(0.7);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+}

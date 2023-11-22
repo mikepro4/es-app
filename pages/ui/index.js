@@ -56,6 +56,19 @@ const TestView = () => {
             />
           </li>
 
+          <li>
+            <Button
+              small={true}
+              label="Loader"
+              wrap={true}
+              minimal={true}
+              iconRight="chevron-right"
+              onClick={() => {
+                router.push("/ui/loader")
+              }}
+            />
+          </li>
+
 
         </div>
 
