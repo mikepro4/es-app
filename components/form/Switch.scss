@@ -1,3 +1,15 @@
 .switch-container {
     margin: 30px 0;
 }
+
+.bp5-control.bp5-switch input:checked ~ .bp5-control-indicator {
+    background: $purple !important;
+}
+
+.bp5-control.bp5-switch:hover input:checked ~ .bp5-control-indicator {
+    background: $purple !important;
+}
+
+.bp5-control.bp5-switch:active input:checked ~ .bp5-control-indicator {
+    background: $purple !important;
+}

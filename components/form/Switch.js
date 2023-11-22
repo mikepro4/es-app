@@ -20,6 +20,7 @@ const FormikSwitch = ({ name, field, ...props }) => {
                 label={props.label}
                 checked={field.value}
                 onChange={handleChange}
+                large={true}
             />
 
         </div>
