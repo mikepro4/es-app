@@ -10,12 +10,23 @@ const TestView = () => {
     const router = useRouter()
     const dispatch = useDispatch();
 
-    const [value, setValue] = useState(0);
+    const [loading, setLoading] = useState(true);
 
     const handleChange = useCallback((value) => {
         console.log(value);
         setValue(value), []
     });
+
+    useEffect(() => {
+        if(loading)  {
+            setLoading(true)
+
+            setTimeout(() => {
+                setLoading(false)
+            }, 2000);
+        }
+       
+    }, [loading]);
 
 
 
@@ -44,6 +55,92 @@ const TestView = () => {
                 <ul className="loader-group">
 
                     <li>
+
+                        <Button
+                            minimal={true}
+                            small={true}
+                            label="Show loader"
+                            wrap={true} 
+                            loading={loading}
+                            onClick={() => {
+                                setLoading(true)
+                            }}
+                        />
+                        
+                    </li>
+
+                    <li>
+
+                        <Button
+                            small={true}
+                            label="Show loader"
+                            wrap={true} 
+                            loading={loading}
+                            onClick={() => {
+                                setLoading(true)
+                            }}
+                        />
+                        
+                    </li>
+
+                    <li>
+
+                        <Button
+                            small={true}
+                            label="Show loader"
+                            wrap={true} 
+                            primary={true}
+                            loading={loading}
+                            onClick={() => {
+                                setLoading(true)
+                            }}
+                        />
+                        
+                    </li>
+
+                    <li>
+
+                        <Button
+                            minimal={true}
+                            label="Show loader"
+                            wrap={true} 
+                            loading={loading}
+                            onClick={() => {
+                                setLoading(true)
+                            }}
+                        />
+                        
+                    </li>
+
+                    <li>
+
+                        <Button
+                            label="Show loader"
+                            wrap={true} 
+                            loading={loading}
+                            onClick={() => {
+                                setLoading(true)
+                            }}
+                        />
+                        
+                    </li>
+
+                    <li>
+
+                        <Button
+                            label="Show loader"
+                            wrap={true} 
+                            primary={true}
+                            loading={loading}
+                            onClick={() => {
+                                setLoading(true)
+                            }}
+                        />
+                        
+                    </li>
+
+
+                    <li>
                         <div className="loader-example-container">
                             <Loader/>
                         </div>
@@ -56,6 +153,88 @@ const TestView = () => {
                             />
                         </div>
                     </li>
+
+                    {/* NEW */}
+
+                    <li>
+
+                        <Button
+                            minimal={true}
+                            icon="edit"
+                            small={true}
+                            loading={loading}
+                            onClick={() => {
+                                setLoading(true)
+                            }}
+                        />
+                        
+                    </li>
+
+                    <li>
+
+                        <Button
+                            small={true}
+                            icon="edit"
+                            loading={loading}
+                            onClick={() => {
+                                setLoading(true)
+                            }}
+                        />
+                        
+                    </li>
+
+                    <li>
+
+                        <Button
+                            small={true}
+                            icon="edit"
+                            primary={true}
+                            loading={loading}
+                            onClick={() => {
+                                setLoading(true)
+                            }}
+                        />
+                        
+                    </li>
+
+                    <li>
+
+                        <Button
+                            minimal={true}
+                            icon="edit"
+                            loading={loading}
+                            onClick={() => {
+                                setLoading(true)
+                            }}
+                        />
+                        
+                    </li>
+
+                    <li>
+
+                        <Button
+                            icon="edit"
+                            loading={loading}
+                            onClick={() => {
+                                setLoading(true)
+                            }}
+                        />
+                        
+                    </li>
+
+                    <li>
+
+                        <Button
+                            primary={true}
+                            icon="edit"
+                            loading={loading}
+                            onClick={() => {
+                                setLoading(true)
+                            }}
+                        />
+                        
+                    </li>
+
 
                 </ul>
 

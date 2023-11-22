@@ -4,5 +4,11 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     position: relative;
     border-radius: 20px;
-    margin-bottom: 20px;
+}
+
+.loader-group {
+    
+    li {
+        margin-bottom: 20px;
+    }
 }

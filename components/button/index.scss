@@ -25,6 +25,41 @@
         color: $black;
         transition: all 0.5s;
         font-size: 14px;
+        position: relative;
+
+        .button-content {
+            display: flex;
+            flex-grow: 1;
+            flex-shrink: 1;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+
+            &.loading {
+                opacity: 0;
+            }
+        }
+
+        .button-loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            @extend .animation-fadeIn;
+
+            .loader-container {
+                transform: scale(0.85);
+                svg {
+                    path {
+                        stroke: #000
+                    }
+                }
+            }
+
+   
+        }
 
         
 
@@ -101,6 +136,30 @@
 
     }
 
+    &.primary {
+        button {
+            background: $purple;
+            color: white;
+
+
+            .loader-container {
+                svg {
+                    path {
+                        stroke: #fff
+                    }
+                }
+            }
+
+            .icon-left, .icon-right {
+                svg {
+                    path {
+                        fill: white
+                    }
+                }
+            }
+        }
+    }
+
     &.small {
         button {
             // font-size: 16px;
@@ -121,29 +180,6 @@
             height: 12px;
         }
 
-        &.primary {
-            button {
-                background: $purple;
-                color: #fff;
-
-                svg {
-                    path {
-                        fill: white
-                    }
-                }
-            }
-
-            &.disabled {
-                button {
-                    background: #222222;
-                    color: rgba(255,255,255, 0.4);
-
-                    svg {
-                        opacity: 0.3;
-                    }
-                }
-            }
-        }
     }
 
     &.minimal {
@@ -156,13 +192,24 @@
             border: none;
             box-shadow: none;
             color: $white;
-        }
 
-        svg {
-            path {
-                fill: white
+            .loader-container {
+                svg {
+                    path {
+                        stroke: #fff
+                    }
+                }
             }
         }
+
+        .icon-left, .icon-right {
+            svg {
+                path {
+                    fill: white
+                }
+            }
+        }
+
 
         &:hover {
             button {
@@ -173,13 +220,6 @@
         &:active {
             button {
                 background: rgba(255,255,255, 0.222);
-            }
-        }
-
-        &.primary {
-            button {
-                background: $purple;
-                color: white
             }
         }
 
@@ -209,7 +249,7 @@
 
         .button-label {
             position: relative;
-            top: -1px;
+            // top: -1px;
             width: 100%;
             display: flex;
             justify-content: space-between;
@@ -239,6 +279,16 @@
         &.icon-only {
             max-width: 34px;
             min-width: 34px;
+        }
+
+        .button-loader {
+            @extend .animation-fadeIn;
+
+            .loader-container {
+                transform: scale(0.7);
+            }
+
+   
         }
     }
 

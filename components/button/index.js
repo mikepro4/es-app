@@ -7,6 +7,8 @@ import { Icon } from "@blueprintjs/core";
 import { hsbToRgba } from "@/utils/hsbToRgba";
 import { hexToRgba } from "@/utils/hexToRgba";
 
+import Loader from "../loader";
+
 const Button = (props) => {
   // Hooks for Redux state and dispatch can be used if needed
   // const dispatch = useDispatch();
@@ -101,15 +103,27 @@ const Button = (props) => {
           "only-color": (props.colorHsb || props.colorHex || props.colorRgba) && !props.label && true
         })}
       >
-        {(props.colorHsb || props.colorHex || props.colorRgba) && renderColor()}
-        {props.icon && renderIconLeft()}
-        {props.label && (
-          <div className="button-label">
-            {props.label}
-            {props.iconRight && renderIconRight()}
-          </div>
-        )}
-        {props.chevron && renderChevron()}
+        <div 
+          className={classNames({
+            "button-content": true,
+            "loading": props.loading,
+          })}
+        >
+          
+          {(props.colorHsb || props.colorHex || props.colorRgba) && renderColor()}
+          {props.icon && renderIconLeft()}
+          {props.label && (
+            <div className="button-label">
+              {props.label}
+              {props.iconRight && renderIconRight()}
+            </div>
+          )}
+          {props.chevron && renderChevron()}
+
+        </div>
+        {props.loading && <div className="button-loader">
+          <Loader />
+        </div> }
       </button>
     </div>
   );

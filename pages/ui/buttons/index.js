@@ -89,7 +89,6 @@ const TestView = () => {
         <li>
           <Button
             label="Show drawer"
-            minimal={true}
             primary={true}
             onClick={() => {
               dispatch(
