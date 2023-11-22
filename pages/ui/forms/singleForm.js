@@ -13,6 +13,7 @@ import TabSwitcher from "../../../components/form/TabSwitcher";
 import ColorPicker from "../../../components/form/ColorPicker";
 import Select from "../../../components/form/Select";
 import Switch from "../../../components/form/Switch";
+import Textarea from "../../../components/form/Textarea";
 
 import Button from "../../../components/button";
 
@@ -218,6 +219,13 @@ const SingleForm = () => {
                                     name="switch"
                                     label="Switch"
                                     component={Switch}
+                                />
+
+                                <Field
+                                    name="text"
+                                    label="Text input"
+                                    component={Textarea}
+                                    placeholder="Write some text here..."
                                 />
 
                                 

@@ -51,21 +51,6 @@ const TestView = () => {
           <SingleForm/>
         </li>
 
-        {/* <li style={{
-          padding: "20px 10px"
-        }} >
-          <Slider
-            min={-100}
-            max={100}
-            initialValue={0}
-            stepSize={0.1}
-            labelStepSize={50}
-            value={value}
-            onChange={handleChange}
-            showTrackFill={value !== 0}
-          />
-        </li> */}
-
       </ul>
 
       </div>
