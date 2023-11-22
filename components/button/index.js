@@ -86,6 +86,8 @@ const Button = (props) => {
         "chxt-button": true,
         "minimal": props.minimal,
         "primary": props.primary,
+        "green": props.green,
+        "purple": props.purple,
         "small": props.small,
         "chevron-only": !props.icon && !props.label && props.chevron,
         "action-list-item": props.actionList,

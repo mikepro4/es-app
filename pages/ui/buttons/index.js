@@ -58,6 +58,125 @@ const TestView = () => {
           />
         </li>
 
+        {/* GREEN */}
+        
+        <li>
+          <Button
+            label="Activate"
+            wrap={true}
+            small={true}
+            minimal={true}
+            green={true}
+            icon="plus"
+            onClick={() => {
+            }}
+          />
+        </li>
+
+        <li>
+          <Button
+            label="Activate"
+            wrap={true}
+            minimal={true}
+            green={true}
+            icon="plus"
+            onClick={() => {
+            }}
+          />
+        </li>
+
+        <li>
+          <Button
+            label="Activate"
+            minimal={true}
+            green={true}
+            icon="plus"
+            onClick={() => {
+            }}
+          />
+        </li>
+
+        <li>
+          <Button
+            minimal={true}
+            green={true}
+            icon="plus"
+            onClick={() => {
+            }}
+          />
+        </li>
+
+        <li>
+          <Button
+            small={true}
+            minimal={true}
+            green={true}
+            icon="plus"
+            onClick={() => {
+            }}
+          />
+        </li>
+
+        {/* PURPLE */}
+        
+        <li>
+          <Button
+            label="Activate"
+            wrap={true}
+            small={true}
+            minimal={true}
+            purple={true}
+            icon="plus"
+            onClick={() => {
+            }}
+          />
+        </li>
+
+        <li>
+          <Button
+            label="Activate"
+            wrap={true}
+            minimal={true}
+            purple={true}
+            icon="plus"
+            onClick={() => {
+            }}
+          />
+        </li>
+
+        <li>
+          <Button
+            label="Activate"
+            minimal={true}
+            purple={true}
+            icon="plus"
+            onClick={() => {
+            }}
+          />
+        </li>
+
+        <li>
+          <Button
+            minimal={true}
+            purple={true}
+            icon="plus"
+            onClick={() => {
+            }}
+          />
+        </li>
+
+        <li>
+          <Button
+            small={true}
+            minimal={true}
+            purple={true}
+            icon="plus"
+            onClick={() => {
+            }}
+          />
+        </li>
+
+
         <li>
           <Button
             label="Add something"

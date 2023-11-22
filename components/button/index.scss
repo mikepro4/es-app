@@ -229,6 +229,72 @@
                 font-size: 16px;
             }
         }
+
+        &.green {
+            button {
+                background: rgba($green, 0.1);
+                color: $green;
+
+                &:hover {
+                    background: rgba($green, 0.15); 
+                }
+
+                &:active {
+                    background: rgba($green, 0.2); 
+                }
+    
+    
+    
+                .loader-container {
+                    svg {
+                        path {
+                            stroke: $green
+                        }
+                    }
+                }
+    
+                .icon-left, .icon-right {
+                    svg {
+                        path {
+                            fill: $green
+                        }
+                    }
+                }
+            }
+        }
+
+        &.purple {
+            button {
+                background: rgba($purple, 0.15);
+                color: $purple;
+
+                &:hover {
+                    background: rgba($purple, 0.2); 
+                }
+
+                &:active {
+                    background: rgba($purple, 0.25); 
+                }
+    
+    
+    
+                .loader-container {
+                    svg {
+                        path {
+                            stroke: $purple
+                        }
+                    }
+                }
+    
+                .icon-left, .icon-right {
+                    svg {
+                        path {
+                            fill: $purple
+                        }
+                    }
+                }
+            }
+        }
        
     }
 
