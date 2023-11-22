@@ -66,6 +66,8 @@ const TestView = () => {
                                 },
                                 {
                                     type: "divider",
+                                    values: [
+                                    ],
                                 },
                                 {
                                     type: "links",

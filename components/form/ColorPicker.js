@@ -19,6 +19,7 @@ const TabSwitcher = ({ field, ...props }) => {
 
 
     const menuRef = React.useRef(null);
+    const colorButtonRef = React.useRef(null);
 
 
     const [color, setColor] = React.useState({
@@ -82,19 +83,24 @@ const TabSwitcher = ({ field, ...props }) => {
 
     }
     const handleClickOutside = (event) => {
+
+        
         if (menuRef.current && !menuRef.current.contains(event.target)) {
-          setMenuOpen(false);
+            if (colorButtonRef.current && !colorButtonRef.current.contains(event.target)) {
+                setMenuOpen(false);
+            }
+            // setMenuOpen(false);
         }
-      };
+    };
 
     React.useEffect(() => {
         // Bind the event listener
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
-          // Unbind the event listener on clean up
-          document.removeEventListener("mousedown", handleClickOutside);
+            // Unbind the event listener on clean up
+            document.removeEventListener("mousedown", handleClickOutside);
         };
-      }, []);
+    }, []);
 
     const handleFocus = (event) => event.target.select();
 
@@ -103,13 +109,13 @@ const TabSwitcher = ({ field, ...props }) => {
         if (value == "hex") {
             return (
                 <div className="color-value-container">
-                     <input
+                    <input
                         className="color-value-input"
                         value={hex}
                         onFocus={handleFocus}
                         onChange={(e) => {
 
-                            let finalValue 
+                            let finalValue
 
                             if (e.target.value.charAt(0) === '#') {
                                 finalValue = e.target.value
@@ -117,7 +123,7 @@ const TabSwitcher = ({ field, ...props }) => {
                                 finalValue = `#${e.target.value}`
                             }
 
-            
+
                             field.onChange({ target: { name: field.name, value: hexToRgba(finalValue) } })
                             setColor(getRgbaObject(hexToRgba(finalValue)))
 
@@ -125,7 +131,7 @@ const TabSwitcher = ({ field, ...props }) => {
                             setHsb(hsbValues)
 
                             setHex(finalValue)
-                            
+
                         }
                         }
                     />
@@ -145,7 +151,7 @@ const TabSwitcher = ({ field, ...props }) => {
                             let finalValue
 
                             if (e.target.value) {
-                                if(value == "a" && e.target.value > 1) {
+                                if (value == "a" && e.target.value > 1) {
                                     finalValue = e.target.value / 10
                                 } else {
                                     finalValue = e.target.value
@@ -217,7 +223,10 @@ const TabSwitcher = ({ field, ...props }) => {
                 {props.title}
             </div>
 
-            <div className="color-picker-button">
+            <div
+                ref={colorButtonRef}
+
+                className="color-picker-button" >
 
 
                 <Menu
@@ -228,7 +237,7 @@ const TabSwitcher = ({ field, ...props }) => {
                                 field.onChange({ target: { name: field.name, value: `rgba(${value.r},${value.g},${value.b}, ${value.a})` } })
                                 let hsbValues = rgbaToHsb(value.r, value.g, value.b)
                                 setHsb(hsbValues)
-                                
+
                                 let hexValue = rgbaToHex(value.r, value.g, value.b, 1)
                                 setHex(hexValue)
                             }} />
@@ -260,7 +269,7 @@ const TabSwitcher = ({ field, ...props }) => {
                                     {renderValue("brightness")}
                                     {renderValue("a")}
                                 </div>
-                                
+
                             </div>
 
                             <div className="color-value-row">

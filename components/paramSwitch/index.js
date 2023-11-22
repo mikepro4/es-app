@@ -15,8 +15,12 @@ const ParamSwitch = (props) => {
 
 
     const getValue = (searchValue) => {
-        const found = props.params.flatMap(item => item.values || []).find(val => val.value === searchValue);
+        const flattenedValues = props.params.flatMap(item => item.values || []);
+        console.log(flattenedValues); // Add this to check the flattened array
+
+        const found = flattenedValues.find(val => val.value === searchValue);
         return found || null; // Return the found object or null if not found
+
     }
 
     const handleClickOutside = (event) => {
@@ -50,10 +54,10 @@ const ParamSwitch = (props) => {
                         <div className="menu-section-list">
                             {props.params.map((item, index) => {
                                 return (
-                                    <div key={index} 
+                                    <div key={index}
                                         className={classNames({
                                             "menu-section": true,
-                                            "section-divider": item.type==="divider"
+                                            "section-divider": item.type === "divider"
                                         })}
                                     >
                                         {item.title && <div className="menu-section-title">
@@ -101,7 +105,7 @@ const ParamSwitch = (props) => {
                     </div>}
 
                     {props.value && <div className="param-switch-value">
-                        {getValue(props.value).label}
+                        {getValue(props.value) && getValue(props.value).label}
                     </div>}
 
                     <div className="param-switch-caret">
