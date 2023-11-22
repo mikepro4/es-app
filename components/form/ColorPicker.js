@@ -18,6 +18,9 @@ const TabSwitcher = ({ field, ...props }) => {
     const [hex, setHex] = React.useState("#ffffff");
 
 
+    const menuRef = React.useRef(null);
+
+
     const [color, setColor] = React.useState({
         r: 0,
         g: 0,
@@ -78,6 +81,20 @@ const TabSwitcher = ({ field, ...props }) => {
         }
 
     }
+    const handleClickOutside = (event) => {
+        if (menuRef.current && !menuRef.current.contains(event.target)) {
+          setMenuOpen(false);
+        }
+      };
+
+    React.useEffect(() => {
+        // Bind the event listener
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+          // Unbind the event listener on clean up
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }, []);
 
     const handleFocus = (event) => event.target.select();
 
@@ -205,7 +222,7 @@ const TabSwitcher = ({ field, ...props }) => {
 
                 <Menu
                     content={
-                        <div className="menu-container">
+                        <div ref={menuRef} className="menu-container" >
                             <RgbaColorPicker color={color} onChange={(value) => {
                                 console.log(value)
                                 field.onChange({ target: { name: field.name, value: `rgba(${value.r},${value.g},${value.b}, ${value.a})` } })
