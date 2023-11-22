@@ -5,6 +5,8 @@ import { useRouter } from 'next/router'
 import Button from "../../../components/button";
 import ParamSwitch from "../../../components/paramSwitch";
 
+import { toggleModal } from '@/redux';
+
 
 const TestView = () => {
     const router = useRouter()
@@ -34,90 +36,108 @@ const TestView = () => {
 
                 <h1>Popups</h1>
 
-                <ul className="loader-group">
+                <ul className="params-group">
 
                     <li>
-                        <ParamSwitch
-                            label="Sort by:"
-                            value={param1}
-                            position="bottom left"
-                            params={[
-                                {
-                                    type: "links",
-                                    title: "Section",
-                                    priority: "primary",
-                                    values: [
-                                        {
-                                            label: "Latest",
-                                            value: "latest",
-                                            icon: "time"
-                                        },
-                                        {
-                                            label: "Oldest",
-                                            value: "oldest",
-                                            icon: "build"
-                                        },
-                                        {
-                                            label: "Popular",
-                                            value: "popular",
-                                            icon: "clean"
-                                        }
-                                    ],
-                                },
-                                {
-                                    type: "divider",
-                                    values: [
-                                    ],
-                                },
-                                {
-                                    type: "links",
-                                    priority: "secondary",
-                                    values: [
-                                        {
-                                            label: "Other",
-                                            value: "other",
-                                            icon: "comment"
-                                        },
-                                    ],
-                                },
-                            ]}
-                            onChange={(value) => {
-                                setParam1(value);
-                            }}
-                        />
+                        <div className="params-row">
+                            <ParamSwitch
+                                label="Sort by:"
+                                value={param1}
+                                position="bottom left"
+                                params={[
+                                    {
+                                        type: "links",
+                                        title: "Section",
+                                        priority: "primary",
+                                        values: [
+                                            {
+                                                label: "Latest",
+                                                value: "latest",
+                                                icon: "time"
+                                            },
+                                            {
+                                                label: "Oldest",
+                                                value: "oldest",
+                                                icon: "build"
+                                            },
+                                            {
+                                                label: "Popular",
+                                                value: "popular",
+                                                icon: "clean"
+                                            }
+                                        ],
+                                    },
+                                    {
+                                        type: "divider",
+                                        values: [
+                                        ],
+                                    },
+                                    {
+                                        type: "links",
+                                        priority: "secondary",
+                                        values: [
+                                            {
+                                                label: "Other",
+                                                value: "other",
+                                                icon: "comment"
+                                            },
+                                        ],
+                                    },
+                                ]}
+                                onChange={(value) => {
+                                    setParam1(value);
+                                }}
+                            />
+
+                            <ParamSwitch
+                                label="Something else:"
+                                value={param1}
+                                position="bottom left"
+                                params={[
+                                    {
+                                        type: "links",
+                                        values: [
+                                            {
+                                                label: "Latest",
+                                                value: "latest",
+                                                icon: "time"
+                                            },
+                                            {
+                                                label: "Oldest",
+                                                value: "oldest",
+                                                icon: "build"
+                                            },
+                                            {
+                                                label: "Popular",
+                                                value: "popular",
+                                                icon: "clean"
+                                            }
+                                        ],
+                                    }
+                                ]}
+                                onChange={(value) => {
+                                    setParam1(value);
+                                }}
+                            />
+                        </div>
+
                     </li>
 
                     <li>
-                        <ParamSwitch
-                            label="Sort by:"
-                            value={param1}
-                            position="bottom left"
-                            params={[
-                                {
-                                    type: "links",
-                                    values: [
-                                        {
-                                            label: "Latest",
-                                            value: "latest",
-                                            icon: "time"
-                                        },
-                                        {
-                                            label: "Oldest",
-                                            value: "oldest",
-                                            icon: "build"
-                                        },
-                                        {
-                                            label: "Popular",
-                                            value: "popular",
-                                            icon: "clean"
-                                        }
-                                    ],
-                                }
-                            ]}
-                            onChange={(value) => {
-                                setParam1(value);
+
+                        <Button
+                            label="Show modal"
+                            minimal={true}
+                            onClick={() => {
+                                // router.push("/ui/")
+                                dispatch(toggleModal({
+                                    modalOpen: true,
+                                    modalType: "app-settings",
+                                    modalData: null,
+                                }));
                             }}
                         />
+
                     </li>
 
 

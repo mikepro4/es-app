@@ -181,3 +181,49 @@ $animation_easing2: cubic-bezier(0.12, 0.77, 0.28, 0.86);
   .animation-hideDrawer {
     animation: hideDrawer 0.3s cubic-bezier(.13,.9,.38,1) forwards;
   }
+
+
+@keyframes slideModal {
+    0% {
+      transform: translateY(150%) ;
+    }
+  
+    100% {
+      transform: translateY(0);
+    }
+  }
+  
+  .animation-slideModal {
+    animation: slideModal 0.3s cubic-bezier(.13,.9,.38,1) forwards;
+  }
+  
+  @keyframes hideModal {
+    0% {
+      transform: translateY(0) ;
+    }
+  
+    100% {
+      transform: translateY(150%);
+    }
+  }
+  
+  .animation-hideModal {
+    animation: hideModal 0.3s cubic-bezier(.13,.9,.38,1) forwards;
+  }
+
+    // --------------------------------------------------
+
+@keyframes modal {
+  from {
+      transform: scale(0.95, 0.95);
+  }
+
+  to {
+      transform: scale(1, 1);
+  }
+}
+
+.animation-modal {
+  opacity: 0;
+  animation: fadeIn 0.2s linear forwards;
+}

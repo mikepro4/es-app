@@ -14,7 +14,10 @@ const initialState = {
   alertMessage: null,
   alertIntent: null,
   alertDuration: null,
-  alertIcon: null
+  alertIcon: null,
+  modalOpen: false,
+  modalType: null,
+  modalData: null,
 };
 
 const appSlice = createSlice({
@@ -41,13 +44,19 @@ const appSlice = createSlice({
       state.alertDuration = action.payload.alertDuration;
       state.alertIcon = action.payload.alertIcon;
     },
+    toggleModal: (state, action) => {
+      state.modalOpen = action.payload.modalOpen;
+      state.modalType = action.payload.modalType;
+      state.modalData = action.payload.modalData;
+    },
   }
 });
 
 export const { 
     toggleDrawer, 
     toggleNotification,
-    toggleAlert
+    toggleAlert,
+    toggleModal
 } = appSlice.actions;
 
 export const appReducer = appSlice.reducer;
