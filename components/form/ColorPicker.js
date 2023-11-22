@@ -18,21 +18,85 @@ const TabSwitcher = ({ field, ...props }) => {
         a: 1,
     });
 
-    React.useEffect(() => {
-        const rgbaString = field.value;
+    const getRgbaObject = (value) => {
+        const rgbaString = value;
         const rgbaArray = rgbaString
-        .match(/\d+(\.\d+)?/g)
-        .map(Number);
-    
+            .match(/\d+(\.\d+)?/g)
+            .map(Number);
+
         const rgbaObject = {
-        r: rgbaArray[0],
-        g: rgbaArray[1],
-        b: rgbaArray[2],
-        a: rgbaArray[3],
+            r: rgbaArray[0],
+            g: rgbaArray[1],
+            b: rgbaArray[2],
+            a: rgbaArray[3],
         };
-    
-        setColor(rgbaObject)
+
+        return rgbaObject;
+    }
+
+    React.useEffect(() => {
+        setColor(getRgbaObject(field.value))
     }, [menuOpen])
+
+    const getRgbaChange = (value, position) => {
+        if(position == "r") {
+            return `rgba(${value ? value : 0},${color.g},${color.b}, ${color.a})`
+        }
+
+        if(position == "g") {
+            return `rgba(${color.r},${value ? value : 0},${color.b}, ${color.a})`
+        }
+
+        if(position == "b") {
+            return `rgba(${color.r},${color.g},${value ? value : 0}, ${color.a})`
+        }
+
+        if(position == "a") {
+            return `rgba(${color.r},${color.g},${color.b}, ${value ? value : 0})`
+        }
+       
+    }
+
+    const handleFocus = (event) => event.target.select();
+
+    const renderValue = (value) => {
+
+
+        if(value == "hex") {
+            <div className="color-value-container">
+                hex
+            </div>
+        }
+
+        return (
+            <div className="color-value-container">
+                <input
+					className="color-value-input"
+                    value={getRgbaObject(field.value)[value]}
+                    onFocus={handleFocus}
+					onChange={(e) => {
+                        
+                        let finalValue
+
+                        if(e.target.value) {
+                            finalValue = e.target.value
+                        } else {
+                            finalValue = 0
+                        }
+                            let updatedRgba = getRgbaChange(finalValue, value) 
+                            if(e.target.value) {
+                                
+                            }
+                            field.onChange({ target: { name: field.name, value: updatedRgba } })
+                                setColor(getRgbaObject(updatedRgba))
+                            }
+                        }
+				/>
+            </div>
+        )
+    }
+
+
 
     return (
         <div className="color-picker-container">
@@ -47,10 +111,51 @@ const TabSwitcher = ({ field, ...props }) => {
                 <Menu
                     content={
                         <div className="menu-container">
-                           <RgbaColorPicker color={color}  onChange={(value) => {
+                            <RgbaColorPicker color={color} onChange={(value) => {
                                 console.log(value)
                                 field.onChange({ target: { name: field.name, value: `rgba(${value.r},${value.g},${value.b}, ${value.a})` } })
-                           }} />
+                            }} />
+
+                            <div className="color-value-row">
+
+                                <div className="value-row-title">
+                                    RGBA
+                                </div>
+
+                                <div className="value-row-content">
+                                    {renderValue("r")}
+                                    {renderValue("g")}
+                                    {renderValue("b")}
+                                    {renderValue("a")}
+                                </div>
+                                
+                            </div>
+
+                            {/* <div className="color-value-row">
+
+                                <div className="value-row-title">
+                                    HSBA
+                                </div>
+
+                                <div className="value-row-content">
+                                    {renderValue("h")}
+                                    {renderValue("s")}
+                                    {renderValue("b")}
+                                    {renderValue("a")}
+                                </div>
+                                
+                            </div> */}
+
+                            <div className="color-value-row">
+
+                            <div className="value-row-title">
+                                HEX
+                            </div>
+
+                            {renderValue("hex")}
+
+                            </div>
+
                         </div>
                     }
                     menuOpen={menuOpen}
