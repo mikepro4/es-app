@@ -52,7 +52,8 @@
       font-size: 11px;
       transition: all 0.2s $animation-easing;
       z-index:100;
-      color: rgba($white, 1);
+      color: rgba($white, 0.3);
+
 
 
       &.input-placeholder-small-visible {
@@ -99,7 +100,11 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    color: $white
+    color: $white;
+
+    &::placeholder {
+      color: rgba($white, 0.3);
+    }
   }
 
   .input-error {

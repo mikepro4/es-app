@@ -7,6 +7,7 @@ const FormikBlueprintCheckbox = ({ field, form, ...props }) => {
           <Checkbox
               {...props}
               checked={field.value}
+              large={true}
               onChange={(event) => {
                   form.setFieldValue(field.name, event.target.checked);
               }}
