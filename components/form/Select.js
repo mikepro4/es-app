@@ -1,7 +1,9 @@
 import React from 'react';
 import Select, { components } from 'react-select';
+import AsyncSelect from 'react-select/async';
 import { useField, useFormikContext } from 'formik';
 import { Icon } from "@blueprintjs/core";
+import axios from 'axios';
 
 const IconOption = (props) => {
 	console.log(props)
@@ -33,19 +35,20 @@ const CustomSingleValue = ({ children, ...props }) => {
 
 const CustomMultiValue = (props) => {
 	return (
-	  <components.MultiValue {...props}>
-		<div className="multi-option-container">
-			<span className="multi-option-icon-wrapper">
-			{props.data.icon && <Icon icon={props.data.icon} />} {/* Render the icon */}
-			</span>
-			<components.MultiValueLabel {...props} />
-		</div>
-		
-	  </components.MultiValue>
-	);
-  };
+		<components.MultiValue {...props}>
+			<div className="multi-option-container">
+				<span className="multi-option-icon-wrapper">
+					{props.data.icon && <Icon icon={props.data.icon} />} {/* Render the icon */}
+				</span>
+				<components.MultiValueLabel {...props} />
+			</div>
 
-const SelectField = ({ options, field, ...props }) => {
+		</components.MultiValue>
+	);
+};
+
+
+const SelectField = ({ options, field, useAsync, apiUrl, ...props }) => {
 	const { setFieldValue } = useFormikContext();
 
 	// Function to handle value change
@@ -72,10 +75,39 @@ const SelectField = ({ options, field, ...props }) => {
 		}
 	};
 
+	const loadOptions = async (inputValue) => {
+		// Define the payload for the POST request
+		const payload = {
+		  criteria: {
+		  },
+		  sortProperty: "createdAt",
+		  offset: 0,
+		  limit: 20,
+		  order: 1
+		};
+	  
+		try {
+		  // Make the POST request
+		  const response = await axios.post(apiUrl, payload);
+	  
+		  // Transform the response data to the format { value: '', label: '' }
+		  return response.data.all.map(item => ({
+			value: item._id, // Adjust according to your data structure
+			label: item.nft.name, // Adjust according to your data structure
+			// icon: 'some-icon' // You can add icon logic here if needed
+		  }));
+		} catch (error) {
+		  console.error("Error fetching data:", error);
+		  return []; // Return an empty array in case of an error
+		}
+	  };
+
+	const SelectComponent = useAsync ? AsyncSelect : Select;
+
 	return (
 		<div className="select-container">
 			<div className="select-title">{props.title}</div>
-			<Select
+			<SelectComponent
 				options={options}
 				name={field.name}
 				value={getValue()}
@@ -83,6 +115,8 @@ const SelectField = ({ options, field, ...props }) => {
 				onBlur={field.onBlur}
 				className="react-select-container"
 				classNamePrefix="react-select"
+				loadOptions={useAsync ? loadOptions : undefined}
+				defaultOptions={useAsync ? true : undefined}
 				components={{ Option: IconOption, SingleValue: CustomSingleValue, MultiValue: CustomMultiValue }}
 				isMulti={props.isMulti}
 				theme={(theme) => ({

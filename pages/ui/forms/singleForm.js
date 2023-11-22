@@ -104,6 +104,15 @@ const SingleForm = () => {
                                 />
 
                                 <Field
+                                    name="asyncelements"
+                                    title="Async elements"
+                                    apiUrl="https://mikhailcoapi.herokuapp.com/NFTs/search"
+                                    useAsync={true}
+                                    options={selectOptions}
+                                    component={Select}
+                                />
+
+                                <Field
                                     name="parameter"
                                     displayName="Parameter"
                                     component={Slider}
