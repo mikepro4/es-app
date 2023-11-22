@@ -1,0 +1,45 @@
+.param-switch-container {
+    display: flex;
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+
+    .param-switch-content {
+        display: flex;
+
+        .param-switch-label {
+            opacity: 0.3;
+            margin-right: 8px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .param-switch-value {
+            font-weight: 500;
+        }
+    
+        .param-switch-caret {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 0 0 6px;
+            opacity: 0.5;
+            transition: all 0.2s ease-in-out;
+    
+            svg {
+                width: 10px;
+                height: 10px;
+    
+                path {
+                    stroke-width: 2px;
+                }
+            }
+        }
+    }
+    
+
+    &:hover {
+        .param-switch-caret {
+            opacity: 1;
+        }
+    }
+}
