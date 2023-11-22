@@ -64,9 +64,9 @@ const SingleForm = () => {
     }];
 
     const selectOptions = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' }
+        { value: 'chocolate', label: 'Chocolate', icon: 'circle' },
+        { value: 'strawberry', label: 'Strawberry', icon: 'home'  },
+        { value: 'vanilla', label: 'Vanilla', icon: 'globe'  }
       ];
 
     return (
