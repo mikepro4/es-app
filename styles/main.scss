@@ -32,6 +32,7 @@
 
 // Pages
 @import "../pages/ui/index.scss";
+@import "../pages/ui/icons/index.scss";
 
 
 .line-hover {
@@ -94,7 +95,6 @@
 
 html {
   touch-action: manipulation;
-  user-select: none;
 }
 
 body {

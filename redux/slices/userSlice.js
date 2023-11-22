@@ -3,8 +3,7 @@ import {
   signup,
   signin,
   signout,
-  fetchUserInfo,
-  assignUserName
+  fetchUserInfo
 } from "../thunks/userThunk";
 
 

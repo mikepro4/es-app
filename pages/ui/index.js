@@ -43,6 +43,19 @@ const TestView = () => {
             />
           </li>
 
+          <li>
+            <Button
+              small={true}
+              label="Custom icons"
+              wrap={true}
+              minimal={true}
+              iconRight="chevron-right"
+              onClick={() => {
+                router.push("/ui/icons")
+              }}
+            />
+          </li>
+
 
         </div>
 

@@ -1,0 +1,25 @@
+.icon-group {  
+    display: grid;
+    grid-template-columns:1fr 1fr;
+    column-gap: 20px;
+    row-gap: 20px;
+
+    li {
+        grid-column: 0 / 1;
+        position: relative;
+        min-height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+
+        .icon-name {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            font-size: 8px;
+            opacity: 0.3;
+        }
+    }
+}
