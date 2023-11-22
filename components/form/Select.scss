@@ -1,52 +1,69 @@
-select.main-select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    font-size: 14px;
-    line-height: 20px;
-    font-weight: 400;
-    letter-spacing: -0.35px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    color: rgb(33, 33, 33);
-    border: 0px;
-    height: 100%;
-    width: 100%;
-    background-color: unset;
-    text-overflow: ellipsis;
-    cursor: pointer;
-    color: rgba(0,0,0,0.3);
-    transition: all 0.2s $animation_easing;
-    color: #fff;
-}
+.select-container{ 
+    margin-bottom: 20px;
 
-select::-ms-expand {
-    display: none;
-}
+    .react-select__single-value {
+        color: #fff
+    }
 
-.chxt-select {
-    background: #222222;
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    border-radius: 6px;
+    .select-title {
+        font-size: 11px;
+        margin-bottom: 10px;
+    }
 
-}
+    .react-select__control {
+        background-color: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 8px;
+        font-size: 14px;
+        color: #fff;
+        padding: 5px 10px;
+        min-height: 40px;
+        cursor: pointer;
 
-.select-caret {
-    // transform: rotate(90deg);
-    position: relative;
-    top: 0;
-    right: 0;
-
-    svg {
-        width: 16px;
-        height: 16px;
-
-        path {
-            fill: $white;
+        &:hover {
+            border: 1px solid rgba(255,255,255,0.2);
         }
-        
+    }
+
+    .react-select__menu {
+        background-color: #222;
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 8px;
+        font-size: 14px;
+        color: #fff;
+        padding: 5px 10px;
+        min-height: 40px;
+        z-index: 9999;
+ 
+
+        .react-select__menu-list {
+            .react-select__option {
+                background: transparent;
+                border-radius: 10px;
+                cursor: pointer;
+                margin-bottom: 5px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                &:hover {
+                    // background: rgba(255,255,255,0.1);
+                }
+            }
+
+            .react-select__option--is-focused {
+                // background-color: #2684ff; /* This color is just an example */
+                // color: white;
+                background: rgba(255,255,255,0.1);
+              }
+
+              .react-select__option--is-selected {
+                background-color: $purple; /* This color is just an example */
+                color: white;
+              }
+        }
     }
 }
+
+// <div class="react-select__menu css-iouw0n-menu"><div class="react-select__menu-list css-1n6sfyn-MenuList" role="listbox" aria-multiselectable="false" id="react-select-2-listbox"><div class="react-select__option css-10wo9uf-option" aria-disabled="false" id="react-select-2-option-0" tabindex="-1" role="option">Chocolate</div><div class="react-select__option css-10wo9uf-option" aria-disabled="false" id="react-select-2-option-1" tabindex="-1" role="option">Strawberry</div><div class="react-select__option react-select__option--is-focused css-1srbc9c-option" aria-disabled="false" id="react-select-2-option-2" tabindex="-1" role="option">Vanilla</div></div></div>

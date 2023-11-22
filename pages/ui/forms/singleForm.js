@@ -11,6 +11,7 @@ import BlueprintCheckbox from "../../../components/form/BlueprintCheckbox";
 import Slider from "../../../components/form/Slider";
 import TabSwitcher from "../../../components/form/TabSwitcher";
 import ColorPicker from "../../../components/form/ColorPicker";
+import Select from "../../../components/form/Select";
 
 import Button from "../../../components/button";
 
@@ -62,6 +63,12 @@ const SingleForm = () => {
         value: 'log',
     }];
 
+    const selectOptions = [
+        { value: 'chocolate', label: 'Chocolate' },
+        { value: 'strawberry', label: 'Strawberry' },
+        { value: 'vanilla', label: 'Vanilla' }
+      ];
+
     return (
         <div className="form-container">
 
@@ -80,6 +87,14 @@ const SingleForm = () => {
                         <Form
                         >
                             <div className="form-fields">
+
+                                <Field
+                                    name="element"
+                                    title="Element"
+                                    options={selectOptions}
+                                    component={Select}
+                                />
+                                
                                 <Field
                                     name="parameter"
                                     displayName="Parameter"
@@ -180,6 +195,8 @@ const SingleForm = () => {
                                         />
                                     </div>
                                 </div>
+
+                                
                             </div>
 
                             <Button
