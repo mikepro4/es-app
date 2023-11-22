@@ -23,9 +23,9 @@ export const rgbaToHsb = (r, g, b) => {
     }
   
     return {
-        h: Math.round(h),
-        s: Math.round(s * 100),
-        brightness: Math.round((v * 100))
+        h: h,
+        s: s * 100,
+        brightness: v * 100
     };
   }
   

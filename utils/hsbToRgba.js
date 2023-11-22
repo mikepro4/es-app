@@ -1,25 +1,29 @@
-export const hsbToRgba = (hsbArray) => {
-    const [h, s, brightness, a] = hsbArray.map((value, index) => 
-        index < 3 ? value / 100 : value // Dividing first three values by 100, keeping alpha as is
-    );
+export const hsbToRgba = (hsb) => {
+    let [h, s, v, a] = hsb;
+    s /= 100;
+    v /= 100;
 
+    let c = v * s;
+    let x = c * (1 - Math.abs((h / 60) % 2 - 1));
+    let m = v - c;
     let r, g, b;
-    const i = Math.floor(h * 6);
-    const f = h * 6 - i;
-    const p = brightness * (1 - s);
-    const q = brightness * (1 - f * s);
-    const t = brightness * (1 - (1 - f) * s);
 
-    switch (i % 6) {
-        case 0: r = brightness, g = t, b = p; break;
-        case 1: r = q, g = brightness, b = p; break;
-        case 2: r = p, g = brightness, b = t; break;
-        case 3: r = p, g = q, b = brightness; break;
-        case 4: r = t, g = p, b = brightness; break;
-        case 5: r = brightness, g = p, b = q; break;
-        default: break;
+    if (h >= 0 && h < 60) {
+        r = c, g = x, b = 0;
+    } else if (h >= 60 && h < 120) {
+        r = x, g = c, b = 0;
+    } else if (h >= 120 && h < 180) {
+        r = 0, g = c, b = x;
+    } else if (h >= 180 && h < 240) {
+        r = 0, g = x, b = c;
+    } else if (h >= 240 && h < 300) {
+        r = x, g = 0, b = c;
+    } else {
+        r = c, g = 0, b = x;
     }
 
-    const to255 = val => Math.round(val * 255);
-    return `rgba(${to255(r)}, ${to255(g)}, ${to255(b)}, ${a})`;
+    r = Math.round((r + m) * 255);
+    g = Math.round((g + m) * 255);
+    b = Math.round((b + m) * 255);
+    return `rgba(${r}, ${g}, ${b}, ${a})`;
 }
