@@ -7,11 +7,15 @@ import { use } from 'passport';
 
 import { hsbToRgba } from "../../utils/hsbToRgba";
 import { rgbaToHsb } from "../../utils/rgbaToHsb";
+import { rgbaToHex } from "../../utils/rgbaToHex";
+import { hexToRgba } from "../../utils/hexToRgba";
 
 const TabSwitcher = ({ field, ...props }) => {
     const { options } = props; // Options for the tabs
 
     const [menuOpen, setMenuOpen] = React.useState(false);
+
+    const [hex, setHex] = React.useState("#ffffff");
 
 
     const [color, setColor] = React.useState({
@@ -51,6 +55,9 @@ const TabSwitcher = ({ field, ...props }) => {
     React.useEffect(() => {
         let hsbValues = rgbaToHsb(getRgbaObject(field.value).r, getRgbaObject(field.value).g, getRgbaObject(field.value).b)
         setHsb(hsbValues)
+
+        let hexValue = rgbaToHex(getRgbaObject(field.value).r, getRgbaObject(field.value).g, getRgbaObject(field.value).b, 1)
+        setHex(hexValue)
     }, [])
 
     const getRgbaChange = (value, position) => {
@@ -79,7 +86,32 @@ const TabSwitcher = ({ field, ...props }) => {
         if (value == "hex") {
             return (
                 <div className="color-value-container">
-                    hex
+                     <input
+                        className="color-value-input"
+                        value={hex}
+                        onFocus={handleFocus}
+                        onChange={(e) => {
+
+                            let finalValue 
+
+                            if (e.target.value.charAt(0) === '#') {
+                                finalValue = e.target.value
+                            } else {
+                                finalValue = `#${e.target.value}`
+                            }
+
+            
+                            field.onChange({ target: { name: field.name, value: hexToRgba(finalValue) } })
+                            setColor(getRgbaObject(hexToRgba(finalValue)))
+
+                            let hsbValues = rgbaToHsb(getRgbaObject(hexToRgba(finalValue)).r, getRgbaObject(hexToRgba(finalValue)).g, getRgbaObject(hexToRgba(finalValue)).b)
+                            setHsb(hsbValues)
+
+                            setHex(finalValue)
+                            
+                        }
+                        }
+                    />
                 </div>
             )
         }
@@ -113,7 +145,9 @@ const TabSwitcher = ({ field, ...props }) => {
 
                             let hsbValues = rgbaToHsb(getRgbaObject(updatedRgba).r, getRgbaObject(updatedRgba).g, getRgbaObject(updatedRgba).b)
                             setHsb(hsbValues)
-                            
+
+                            let hexValue = rgbaToHex(getRgbaObject(updatedRgba).r, getRgbaObject(updatedRgba).g, getRgbaObject(updatedRgba).b, 1)
+                            setHex(hexValue)
                         }
                         }
                     />
@@ -144,6 +178,9 @@ const TabSwitcher = ({ field, ...props }) => {
                             field.onChange({ target: { name: field.name, value: finalRgba } })
                             setHsb(newHsb)
                             setColor(getRgbaObject(finalRgba))
+
+                            let hexValue = rgbaToHex(getRgbaObject(finalRgba).r, getRgbaObject(finalRgba).g, getRgbaObject(finalRgba).b, 1)
+                            setHex(hexValue)
                         }
                         }
                     />
@@ -174,7 +211,9 @@ const TabSwitcher = ({ field, ...props }) => {
                                 field.onChange({ target: { name: field.name, value: `rgba(${value.r},${value.g},${value.b}, ${value.a})` } })
                                 let hsbValues = rgbaToHsb(value.r, value.g, value.b)
                                 setHsb(hsbValues)
-                                console.log("hsbValues", hsbValues)
+                                
+                                let hexValue = rgbaToHex(value.r, value.g, value.b, 1)
+                                setHex(hexValue)
                             }} />
 
                             <div className="color-value-row">
