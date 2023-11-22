@@ -12,6 +12,7 @@ import Slider from "../../../components/form/Slider";
 import TabSwitcher from "../../../components/form/TabSwitcher";
 import ColorPicker from "../../../components/form/ColorPicker";
 import Select from "../../../components/form/Select";
+import Switch from "../../../components/form/Switch";
 
 import Button from "../../../components/button";
 
@@ -212,6 +213,12 @@ const SingleForm = () => {
                                         />
                                     </div>
                                 </div>
+
+                                <Field
+                                    name="switch"
+                                    label="Switch"
+                                    component={Switch}
+                                />
 
                                 
                             </div>
