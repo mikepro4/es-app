@@ -110,8 +110,10 @@ const TabSwitcher = ({ field, ...props }) => {
                             }
                             field.onChange({ target: { name: field.name, value: updatedRgba } })
                             setColor(getRgbaObject(updatedRgba))
-                            // let hsbValues = rgbaToHsb(getRgbaObject(updatedRgba))
-                            // setHsb(hsbValues)
+
+                            let hsbValues = rgbaToHsb(getRgbaObject(updatedRgba).r, getRgbaObject(updatedRgba).g, getRgbaObject(updatedRgba).b)
+                            setHsb(hsbValues)
+                            
                         }
                         }
                     />
@@ -170,6 +172,9 @@ const TabSwitcher = ({ field, ...props }) => {
                             <RgbaColorPicker color={color} onChange={(value) => {
                                 console.log(value)
                                 field.onChange({ target: { name: field.name, value: `rgba(${value.r},${value.g},${value.b}, ${value.a})` } })
+                                let hsbValues = rgbaToHsb(value.r, value.g, value.b)
+                                setHsb(hsbValues)
+                                console.log("hsbValues", hsbValues)
                             }} />
 
                             <div className="color-value-row">
