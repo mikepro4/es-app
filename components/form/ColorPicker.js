@@ -5,6 +5,8 @@ import Button from "../../components/button";
 import { HexColorPicker, RgbaColorPicker } from "react-colorful";
 import { use } from 'passport';
 
+import { rgbaToHsb } from "../../utils/rgbaToHsb";
+
 const TabSwitcher = ({ field, ...props }) => {
     const { options } = props; // Options for the tabs
 
@@ -102,6 +104,39 @@ const TabSwitcher = ({ field, ...props }) => {
             )
         }
 
+        if (value == "h" || value == "s" || value == "brightness") {
+            return (
+                <div className="color-value-container">
+                    <input
+                        className="color-value-input"
+                        value={rgbaToHsb(getRgbaObject(field.value).r, getRgbaObject(field.value).g, getRgbaObject(field.value).b)[value]}
+                        onFocus={handleFocus}
+                        onChange={(e) => {
+
+                            // let finalValuej768
+
+                            // if (e.target.value) {
+                            //     if(value == "a" && e.target.value > 1) {
+                            //         finalValue = e.target.value / 10
+                            //     } else {
+                            //         finalValue = e.target.value
+                            //     }
+                            // } else {
+                            //     finalValue = 0
+                            // }
+                            // let updatedRgba = getRgbaChange(finalValue, value)
+                            // if (e.target.value) {
+
+                            // }
+                            // field.onChange({ target: { name: field.name, value: updatedRgba } })
+                            // setColor(getRgbaObject(updatedRgba))
+                        }
+                        }
+                    />
+                </div>
+            )
+        }
+
 
     }
 
@@ -140,7 +175,7 @@ const TabSwitcher = ({ field, ...props }) => {
 
                             </div>
 
-                            {/* <div className="color-value-row">
+                            <div className="color-value-row">
 
                                 <div className="value-row-title">
                                     HSBA
@@ -149,11 +184,11 @@ const TabSwitcher = ({ field, ...props }) => {
                                 <div className="value-row-content">
                                     {renderValue("h")}
                                     {renderValue("s")}
-                                    {renderValue("b")}
+                                    {renderValue("brightness")}
                                     {renderValue("a")}
                                 </div>
                                 
-                            </div> */}
+                            </div>
 
                             <div className="color-value-row">
 
