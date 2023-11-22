@@ -17,7 +17,7 @@
         border-radius: 8px;
         font-size: 14px;
         color: #fff;
-        padding: 5px 10px;
+        padding: 5px 5px;
         min-height: 40px;
         cursor: pointer;
 
@@ -68,6 +68,40 @@
 
     .react-select__indicator-separator  {
         display: none;
+    }
+
+    .react-select__multi-value {
+        background-color: $purple;
+        border-radius: 20px;
+        padding: 2px 5px;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        color: $white;
+
+        .react-select__multi-value__label {
+            color: $white;
+            padding-right: 0;
+        }
+
+        .react-select__multi-value__remove {
+            border-radius: 30px;
+            position: relative;
+            right: -2px;
+            opacity: 0.4;
+            transition: all 0.2s ease-in-out;
+            svg {
+                path {
+                    fill: white
+                }
+            }
+
+            &:hover {
+                opacity: 1;
+                background: $purple2;
+
+               
+            }
+        }
     }
 }
 

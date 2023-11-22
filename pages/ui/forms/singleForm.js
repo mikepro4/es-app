@@ -94,7 +94,15 @@ const SingleForm = () => {
                                     options={selectOptions}
                                     component={Select}
                                 />
-                                
+
+                                <Field
+                                    name="elements"
+                                    title="Multiple elements"
+                                    options={selectOptions}
+                                    component={Select}
+                                    isMulti={true}
+                                />
+
                                 <Field
                                     name="parameter"
                                     displayName="Parameter"
