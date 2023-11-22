@@ -39,61 +39,70 @@ const TabSwitcher = ({ field, ...props }) => {
     }, [menuOpen])
 
     const getRgbaChange = (value, position) => {
-        if(position == "r") {
+        if (position == "r") {
             return `rgba(${value ? value : 0},${color.g},${color.b}, ${color.a})`
         }
 
-        if(position == "g") {
+        if (position == "g") {
             return `rgba(${color.r},${value ? value : 0},${color.b}, ${color.a})`
         }
 
-        if(position == "b") {
+        if (position == "b") {
             return `rgba(${color.r},${color.g},${value ? value : 0}, ${color.a})`
         }
 
-        if(position == "a") {
+        if (position == "a") {
             return `rgba(${color.r},${color.g},${color.b}, ${value ? value : 0})`
         }
-       
+
     }
 
     const handleFocus = (event) => event.target.select();
 
     const renderValue = (value) => {
 
-
-        if(value == "hex") {
-            <div className="color-value-container">
-                hex
-            </div>
+        if (value == "hex") {
+            return (
+                <div className="color-value-container">
+                    hex
+                </div>
+            )
         }
 
-        return (
-            <div className="color-value-container">
-                <input
-					className="color-value-input"
-                    value={getRgbaObject(field.value)[value]}
-                    onFocus={handleFocus}
-					onChange={(e) => {
-                        
-                        let finalValue
+        if (value == "r" || value == "g" || value == "b" || value == "a") {
+            return (
+                <div className="color-value-container">
+                    <input
+                        className="color-value-input"
+                        value={getRgbaObject(field.value)[value]}
+                        onFocus={handleFocus}
+                        onChange={(e) => {
 
-                        if(e.target.value) {
-                            finalValue = e.target.value
-                        } else {
-                            finalValue = 0
-                        }
-                            let updatedRgba = getRgbaChange(finalValue, value) 
-                            if(e.target.value) {
-                                
+                            let finalValue
+
+                            if (e.target.value) {
+                                if(value == "a" && e.target.value > 1) {
+                                    finalValue = e.target.value / 10
+                                } else {
+                                    finalValue = e.target.value
+                                }
+                            } else {
+                                finalValue = 0
+                            }
+                            let updatedRgba = getRgbaChange(finalValue, value)
+                            if (e.target.value) {
+
                             }
                             field.onChange({ target: { name: field.name, value: updatedRgba } })
-                                setColor(getRgbaObject(updatedRgba))
-                            }
+                            setColor(getRgbaObject(updatedRgba))
                         }
-				/>
-            </div>
-        )
+                        }
+                    />
+                </div>
+            )
+        }
+
+
     }
 
 
@@ -128,7 +137,7 @@ const TabSwitcher = ({ field, ...props }) => {
                                     {renderValue("b")}
                                     {renderValue("a")}
                                 </div>
-                                
+
                             </div>
 
                             {/* <div className="color-value-row">
@@ -148,11 +157,11 @@ const TabSwitcher = ({ field, ...props }) => {
 
                             <div className="color-value-row">
 
-                            <div className="value-row-title">
-                                HEX
-                            </div>
+                                <div className="value-row-title">
+                                    HEX
+                                </div>
 
-                            {renderValue("hex")}
+                                {renderValue("hex")}
 
                             </div>
 
