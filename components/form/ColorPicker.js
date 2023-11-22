@@ -281,7 +281,7 @@ const TabSwitcher = ({ field, ...props }) => {
                     <Button
                         minimal={true}
                         type="button"
-                        label="Color"
+                        label={field.value}
                         colorRgba={field.value}
                         wrap={true}
                         onClick={() => {

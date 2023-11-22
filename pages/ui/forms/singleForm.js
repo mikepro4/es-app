@@ -4,7 +4,7 @@ import { Provider, useDispatch, useSelector } from "react-redux";
 import { useRouter } from 'next/router'
 import * as Yup from 'yup';
 
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, FieldArray } from 'formik';
 
 import Input from "../../../components/form/BladeInput";
 import BlueprintCheckbox from "../../../components/form/BlueprintCheckbox";
@@ -22,17 +22,18 @@ const SingleForm = () => {
 
     const initialValues = {
         email: "",
-        parameter: 20, 
+        parameter: 20,
         agree: false,
         math: 'sin',
         background: 'rgba(255, 0, 0, 1)',
+        colors: []
     };
 
     const validationSchema = Yup.object().shape({
         parameter: Yup.number(),
         email: Yup.string()
-                  .email("Invalid email address") // Validates that the value is a valid email
-                  .required("Email is required"), // Ensures that the field is not empty
+            .email("Invalid email address") // Validates that the value is a valid email
+            .required("Email is required"), // Ensures that the field is not empty
     });
 
     const handleFormChange = (values) => {
@@ -64,8 +65,8 @@ const SingleForm = () => {
     return (
         <div className="form-container">
 
-            <Formik 
-                initialValues={initialValues} 
+            <Formik
+                initialValues={initialValues}
                 onSubmit={handleSubmit}
                 validationSchema={validationSchema}
             >
@@ -122,6 +123,63 @@ const SingleForm = () => {
                                     title="Background"
                                     component={ColorPicker}
                                 />
+
+                                <div className="field-array-wrapper">
+                                    <div className="field-array-label">Colors</div>
+                                    <div className="field-array-container">
+                                        <FieldArray
+                                            name="colors"
+                                            render={arrayHelpers => (
+                                                <div>
+                                                    {values.colors.map((color, index) => (
+                                                        <div key={index}>
+
+                                                            <div className="field-array-header">
+                                                                <div className="field-array-title">Color {index + 1}</div>
+
+                                                                <Button
+                                                                    type="button"
+                                                                    small={true}
+                                                                    minimal={true}
+                                                                    icon="trash"
+                                                                    onClick={() => arrayHelpers.remove(index)} // remove a color from the list
+                                                                />
+                                                            </div>
+
+                                                            <div className="field-array-content">
+                                                                <Field
+                                                                    name={`colors.${index}.color`}
+                                                                    placeholder="Color"
+                                                                    component={ColorPicker}
+                                                                />
+
+                                                                <Field
+                                                                    name={`colors.${index}.amount`}
+                                                                    displayName="Amount"
+                                                                    component={Slider}
+                                                                    min={0}
+                                                                    max={100}
+                                                                    step={1}
+                                                                    labelStepSize={50}
+                                                                />
+
+                                                            </div>
+
+                                                        </div>
+                                                    ))}
+                                                    <div className="field-array-add-button">
+                                                        <Button
+                                                            type="button"
+                                                            minimal={true}
+                                                            label="Add a Color"
+                                                            onClick={() => arrayHelpers.push({ color: 'rgba(0,0,0,1)', amount: 20, opacity: 100 })}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            )}
+                                        />
+                                    </div>
+                                </div>
                             </div>
 
                             <Button
@@ -132,6 +190,8 @@ const SingleForm = () => {
                     )
                 }}
             </Formik>
+
+            <div className="placeholder"></div>
 
 
         </div>

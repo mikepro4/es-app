@@ -29,3 +29,36 @@
 .form-fields {
     margin-bottom: 30px;
 }
+
+.field-array-label {
+    font-size: 11px;
+    margin: 10px 0 10px 0;
+}
+
+.field-array-container {
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+}
+
+.field-array-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 20px 0px 20px;
+
+}
+
+.field-array-title {
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.field-array-content {
+    padding: 10px 20px 20px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+
+}
+
+.field-array-add-button {
+    padding: 20px;
+}
