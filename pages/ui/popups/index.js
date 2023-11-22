@@ -50,7 +50,7 @@ const TestView = () => {
                                         {
                                             label: "Latest",
                                             value: "latest",
-                                            icon: "clock"
+                                            icon: "time"
                                         },
                                         {
                                             label: "Oldest",
@@ -72,12 +72,45 @@ const TestView = () => {
                                     priority: "secondary",
                                     values: [
                                         {
-                                            label: "Logout",
-                                            value: "signout",
+                                            label: "Other",
+                                            value: "other",
                                             icon: "comment"
                                         },
                                     ],
                                 },
+                            ]}
+                            onChange={(value) => {
+                                setParam1(value);
+                            }}
+                        />
+                    </li>
+
+                    <li>
+                        <ParamSwitch
+                            label="Sort by:"
+                            value={param1}
+                            position="bottom left"
+                            params={[
+                                {
+                                    type: "links",
+                                    values: [
+                                        {
+                                            label: "Latest",
+                                            value: "latest",
+                                            icon: "time"
+                                        },
+                                        {
+                                            label: "Oldest",
+                                            value: "oldest",
+                                            icon: "build"
+                                        },
+                                        {
+                                            label: "Popular",
+                                            value: "popular",
+                                            icon: "clean"
+                                        }
+                                    ],
+                                }
                             ]}
                             onChange={(value) => {
                                 setParam1(value);

@@ -3,7 +3,9 @@ import { connect } from "react-redux";
 import Link from "next/link";
 import { Popup } from 'semantic-ui-react';
 import classNames from "classnames";
-import Icon from "../icon"
+import LocalIcon from "../icon"
+import { Icon } from "@blueprintjs/core";
+
 import Menu from "../menu"
 
 const ParamSwitch = (props) => {
@@ -45,7 +47,47 @@ const ParamSwitch = (props) => {
             <Menu
                 content={
                     <div ref={menuRef} className="menu-container" >
-                        sdfd
+                        <div className="menu-section-list">
+                            {props.params.map((item, index) => {
+                                return (
+                                    <div key={index} 
+                                        className={classNames({
+                                            "menu-section": true,
+                                            "section-divider": item.type==="divider"
+                                        })}
+                                    >
+                                        {item.title && <div className="menu-section-title">
+                                            {item.title}
+                                        </div>}
+
+                                        <div className="menu-section-values">
+                                            {item.values && item.values.length > 0 && item.values.map((val, index) => {
+                                                return (
+                                                    <div
+                                                        key={index}
+                                                        className={classNames({
+                                                            "menu-section-value": true,
+                                                            "active": props.value === val.value
+                                                        })}
+                                                        onClick={() => {
+                                                            setMenuOpen(false);
+                                                            props.onChange(val.value);
+                                                        }}
+                                                    >
+                                                        {val.icon && <div className="menu-section-value-icon">
+                                                            <Icon icon={val.icon} />
+                                                        </div>}
+                                                        <div className="menu-section-value-label">
+                                                            {val.label}
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })}
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
 
                     </div>
                 }
@@ -63,7 +105,7 @@ const ParamSwitch = (props) => {
                     </div>}
 
                     <div className="param-switch-caret">
-                        <Icon name={menuOpen ? "caret-up" : "caret-bottom"} />
+                        <LocalIcon name={menuOpen ? "caret-up" : "caret-bottom"} />
                     </div>
                 </div>
 

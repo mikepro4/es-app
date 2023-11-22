@@ -43,3 +43,92 @@
         }
     }
 }
+
+.menu-section {
+    color: $white;
+
+    .menu-section-title {
+        opacity: 0.3;
+        margin: 5px 0 10px 5px;
+    }
+
+    .menu-section-values {
+        display: flex;
+        flex-direction: column;
+        margin: 0 0 10px 0;
+
+        .menu-section-value {
+            display: flex;
+            align-items: center;
+            margin: 0 0 5px 0px;
+            cursor: pointer;
+            user-select: none;
+            padding: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.2s ease-in-out;
+
+            .menu-section-value-icon {
+                margin-right: 10px;
+                opacity: 0.3;
+            }
+
+            .menu-section-value-label {
+                margin-right: 8px;
+                transition: all 0.2s ease-in-out;
+                font-size: 14px;
+                font-weight: 400;
+            }
+
+            .menu-section-value-value {
+                font-weight: 500;
+            }
+        
+            .menu-section-value-caret {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 0 0 6px;
+                opacity: 0.5;
+                transition: all 0.2s ease-in-out;
+        
+                svg {
+                    width: 10px;
+                    height: 10px;
+        
+                    path {
+                        stroke-width: 2px;
+                    }
+                }
+            }
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            &.active {
+                background-color: $purple;
+
+                .menu-section-value-icon {
+                    opacity: 1;
+                }
+            }
+        }
+
+        .menu-section-value:hover {
+            .menu-section-value-caret {
+                opacity: 1;
+            }
+        }
+    }
+    
+
+    &:last-child {
+        .menu-section-values {
+            margin-bottom: 0;
+        }
+    }
+
+    &.section-divider {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+}
