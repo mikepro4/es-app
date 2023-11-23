@@ -304,14 +304,14 @@ function Header() {
                 type: "spring",
                 damping: 2,
                 stiffness: 10,
-                transition: { duration: 0.4, delay: 0.3 }
+                transition: { duration: 0.4, delay: 0 }
             },
             closed: {
                 height: "0",
                 type: "spring",
                 damping: 2,
                 stiffness: 10,
-                transition: { duration: 0.2, delay: 0.05 }
+                transition: { duration: 0.2, }
             },
         }
 
