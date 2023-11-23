@@ -6,17 +6,30 @@ import classNames from "classnames";
 import ParamSwitch from "@/components/paramSwitch";
 import { toggleDrawer } from "@/redux";
 
-import { updateCollection } from "@/redux"
+import { updateCollection, testListChangeSort } from "@/redux"
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
+    const testList = useSelector((state) => state.testList);
     const router = useRouter();
     const dispatch = useDispatch();
 
-    const [sortValue, setSortValue] = useState(app.drawerData.sortValue);
+    const [sortValue, setSortValue] = useState();
 
     useEffect(() => {
+
+        if(testList.sortProperty == "created" && testList.order == "-1") {
+            setSortValue("recent")
+        }
+
+        if(testList.sortProperty == "created" && testList.order == "1") {
+            setSortValue("oldest")
+        }
+
+        if(testList.sortProperty == "name" && testList.order == "-1") {
+            setSortValue("name")
+        }
 
         return () => {
 
@@ -50,17 +63,8 @@ function AppSettings() {
                     ]}
                     onChange={(value) => {
                         setSortValue(value);
-                        dispatch(
-                            toggleDrawer({
-                                drawerOpen: true,
-                                drawerType: "collection-settings",
-                                drawerData:  {
-                                    ...app.drawerData,
-                                    sortValue: value
-                                },
-                            })
-                        )
-                        dispatch(updateCollection(true))
+                        dispatch(testListChangeSort(value))
+                        // dispatch(updateCollection(true))
 
                     }}
                 />

@@ -108,14 +108,22 @@ function InfiniteList({
         };
     }, []);
 
+    const resetCollection = useCallback(() => {
+        setCollection([]);
+        localOffset.current = 0;
+        searchCollectionFunction(0, true);
+    }, [searchCollectionFunction]);
+
     useEffect(() => {
         if(updateCollectionValue) {
-            setCollection([]);
-            localOffset.current = 0;
-            searchCollectionFunction(0, true);
+            resetCollection()
         }
         
-    }, [updateCollectionValue, order, sortProperty, criteria]);
+    }, [updateCollectionValue]);
+
+    useEffect(() => {
+        resetCollection()
+    }, [sortProperty, order]);
 
     return (
         <div className="infinite-list-container">

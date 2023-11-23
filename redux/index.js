@@ -5,10 +5,12 @@ import { signout } from "./thunks/userThunk";
 // Reducers
 import { appReducer } from "./slices/appSlice";
 import { userReducer } from "./slices/userSlice";
+import { testListReducer } from "./slices/testListSlice";
 
 const rootReducer = combineReducers({
   app: appReducer,
   user: userReducer,
+  testList: testListReducer
 });
 
 const resettableReducer = (state, action) => {
@@ -50,4 +52,5 @@ export * from "./thunks/testThunk";
 // ACTIONS
 export * from "./slices/appSlice";
 export * from "./slices/userSlice";
+export * from "./slices/testListSlice";
 
