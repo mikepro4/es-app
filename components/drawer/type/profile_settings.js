@@ -9,6 +9,7 @@ import { toggleDrawer } from "@/redux";
 function AppSettings() {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
+    const user = useSelector((state) => state.user);
     const router = useRouter();
     const dispatch = useDispatch();
 
@@ -21,11 +22,34 @@ function AppSettings() {
         };
     }, []); 
 
+    const renderProfileContent = () => {
+        return (
+            <div className="profile-placeholder-content">
+                <div className="profile-email">{user.userInfo.email}</div>
+
+                {user.userInfo?._id && <li>
+                        <div className="signout-container">
+                            <Button
+                                minimal={true}
+                                wrap={true}
+                                small={true}
+                                label="Sign out"
+                                onClick={() => {
+                                    router.push("/signout")
+                                    dispatch(toggleDrawer({drawerOpen: false, drawerType: null}))
+                                }}
+                            />
+                        </div>
+                    </li>}
+            </div>
+        )
+    }
+
     return (
         <div className={`app-drawer-content-container standard-drawer`}>
             <div className={"details-container profile-container"}>
                 <div className="profile-placeholder">
-
+                    {user.userInfo?._id && renderProfileContent()}
                 </div>
 
                 <ul className="button-container">
@@ -37,7 +61,7 @@ function AppSettings() {
                         />
                     </li>
 
-                    <li>
+                    {!user.userInfo?._id && <li>
                         <div className="button-container-group">
 
                             <Button
@@ -58,7 +82,9 @@ function AppSettings() {
                                 }}
                             />
                         </div>
-                    </li>
+                    </li>}
+
+
                     
 
                 </ul>

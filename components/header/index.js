@@ -384,7 +384,7 @@ function Header() {
                                 }}
                             />
 
-                            <ul className="button-container">
+                            {/* <ul className="button-container">
                                 <li>
                                     <Button
                                         label="Connect Wallet"
@@ -425,7 +425,7 @@ function Header() {
                                 </li>
                                 
 
-                            </ul>
+                            </ul> */}
 
 
 

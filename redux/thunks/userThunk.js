@@ -27,13 +27,17 @@ const signup = createAsyncThunk(
 
 const signin = createAsyncThunk(
   "user/signin",
-  async ({ email, password }, { rejectWithValue }) => {
+    async ({ email, password, callback }, { rejectWithValue }) => {
     console.log("signing in")
     try {
-      const response = await userApi.post("/signin", { email, password });
+      const response = await userApi.post("/auth/signin", { email, password });
 
       // Set the token in AsyncStorage
       localStorage.setItem('token', response.data.token);
+
+      if (callback) {
+        callback(response.data)
+      }
 
       // Return the token for further processing or usage in reducers
       return response.data;

@@ -31,9 +31,7 @@ const SingleForm = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const initialValues = {
-  };
-
-
+  }
 
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -62,7 +60,7 @@ const SingleForm = () => {
         password: values.password,
         callback: async (data) => {
           dispatch(fetchUserInfo());
-          // router.push("/");
+          router.push("/");
         },
       }))
   };
@@ -82,17 +80,13 @@ const SingleForm = () => {
     }
   }, [user])
 
-  // useEffect(() => {
-  //   if (window) {
-  //     toasterRef.current = OverlayToaster.create({ position: "bottom" });
-  //   }
-  // }, []);
-
   if (loggedIn) {
     return (
       <div className="ui-screen">
 
         <h1>Sign up</h1>
+
+        <p>You're already signed up please sign out if you want to change account.</p>
 
         <Button
           // type="submit"
@@ -106,63 +100,66 @@ const SingleForm = () => {
     )
   }
 
-
   return (
     <div className="ui-screen">
+      <div className="page-container">
 
-      <h1>Sign up</h1>
-      <div className="form-container">
 
-        <Formik
-          initialValues={initialValues}
-          onSubmit={handleSubmit}
-          validationSchema={validationSchema}
-        >
-          {({ values, handleChange, handleSubmit }) => {
+        <h1>Sign up</h1>
+        <div className="form-container">
 
-            useEffect(() => {
-              handleFormChange(values);
-            }, [values]);
+          <Formik
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            validationSchema={validationSchema}
+          >
+            {({ values, handleChange, handleSubmit }) => {
 
-            return (
-              <Form
-              >
-                <div className="form-fields">
+              useEffect(() => {
+                handleFormChange(values);
+              }, [values]);
 
-                  <Field
-                    name="email"
-                    component={Input}
-                    title="Email address"
-                    placeholder="Email address"
+              return (
+                <Form
+                >
+                  <div className="form-fields">
+
+                    <Field
+                      name="email"
+                      component={Input}
+                      title="Email address"
+                      placeholder="Email address"
+                    />
+
+                    <Field
+                      name="password"
+                      component={Input}
+                      title="Password"
+                      type="password"
+                      placeholder="Password"
+                    />
+
+                    <Field
+                      name="confirm_password"
+                      component={Input}
+                      type="password"
+                      title="Confirm password"
+                      placeholder="Confirm password"
+                    />
+
+                  </div>
+
+                  <Button
+                    // type="submit"
+                    label="Sign up"
                   />
+                </Form>
+              )
+            }}
+          </Formik>
+          <OverlayToaster ref={toasterRef} />
+        </div>
 
-                  <Field
-                    name="password"
-                    component={Input}
-                    title="Password"
-                    type="password"
-                    placeholder="Password"
-                  />
-
-                  <Field
-                    name="confirm_password"
-                    component={Input}
-                    type="password"
-                    title="Confirm password"
-                    placeholder="Confirm password"
-                  />
-
-                </div>
-
-                <Button
-                  // type="submit"
-                  label="Sign up"
-                />
-              </Form>
-            )
-          }}
-        </Formik>
-        <OverlayToaster ref={toasterRef} />
       </div>
     </div>
   );
