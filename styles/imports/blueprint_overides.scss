@@ -1,0 +1,13 @@
+.bp5-toast {
+    background: #222;
+    border-radius: 50px;
+    padding-left: 10px;
+
+    .bp5-icon > svg:not([fill]) {
+        fill: #fff;
+    }
+
+    .bp5-button-group.bp5-minimal .bp5-button {
+        border-radius: 50px;
+    }
+}

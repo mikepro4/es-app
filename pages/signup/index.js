@@ -15,17 +15,25 @@ import { toggleAlert, fetchUserInfo } from "@/redux";
 import { signup } from "@/redux";
 
 
+import {
+  OverlayToaster,
+} from "@blueprintjs/core";
+
 
 const SingleForm = () => {
   const router = useRouter()
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+
+  const toasterRef = useRef(null)
+
   const [loggedIn, setLoggedIn] = useState(false);
 
   const initialValues = {
-    email: "",
   };
+
+
 
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -60,25 +68,40 @@ const SingleForm = () => {
   };
 
   useEffect(() => {
-    if(user.userInfo?._id) {
+    if (user.userInfo?._id) {
       setLoggedIn(true);
     }
   }, [user])
 
-  if(loggedIn) {
+  useEffect(() => {
+    if (user.errorMessage) {
+      let toastOptions = {
+        message: user.errorMessage,
+      }
+      toasterRef.current.show({ ...toastOptions });
+    }
+  }, [user])
+
+  // useEffect(() => {
+  //   if (window) {
+  //     toasterRef.current = OverlayToaster.create({ position: "bottom" });
+  //   }
+  // }, []);
+
+  if (loggedIn) {
     return (
       <div className="ui-screen">
 
         <h1>Sign up</h1>
 
         <Button
-            // type="submit"
-            minimal={true}
-            label="Sign out"
-            onClick={() => {
-              router.push("/signout")
-            }}
-          />
+          // type="submit"
+          minimal={true}
+          label="Sign out"
+          onClick={() => {
+            router.push("/signout")
+          }}
+        />
       </div>
     )
   }
@@ -139,6 +162,7 @@ const SingleForm = () => {
             )
           }}
         </Formik>
+        <OverlayToaster ref={toasterRef} />
       </div>
     </div>
   );
