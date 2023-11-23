@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import classNames from "classnames";
 import Anime from 'react-anime';
 import { motion } from "framer-motion"
+import Navlinks from "../nav_links"
 
 import Icon from "../icon"
 
@@ -19,6 +20,45 @@ function Header() {
     const [visible, setVisible] = useState(false);
 
     const [clientHeight, setClientHeight] = useState(0);
+
+    let mainPages = [
+        {
+            url: "/",
+            name: "Home",
+            icon: "mountains"
+        },
+        {
+            url: "/genesis",
+            name: "Genesis",
+            icon: "x"
+        },
+        {
+            url: "/collection",
+            name: "Collection",
+            icon: "shapes"
+        },
+        {
+            url: "/traits",
+            name: "Traits",
+            icon: "properties"
+        },
+        {
+            url: "/music",
+            name: "Music",
+            icon: "music"
+        },
+
+        {
+            url: "/tiers",
+            name: "Tiers",
+            icon: "tier"
+        },
+        {
+            url: "/ui",
+            name: "UI",
+            icon: "x"
+        },
+    ]
 
     useEffect(() => {
         if (window) {
@@ -243,17 +283,18 @@ function Header() {
         }
 
         if (menuOpen) {
-            setMenuOpen(false)
+            hideMenu()
+        }
+    }
+
+    const hideMenu = () => {
+        setMenuOpen(false)
             setMenuClosing(true)
             document.body.classList.remove("no-scroll")
 
             setTimeout(() => {
                 setMenuClosing(false)
             }, 1000)
-        }
-    }
-
-    const hideMenu = () => {
     }
 
     const renderMenu = () => {
@@ -327,9 +368,18 @@ function Header() {
                 >
 
                     {showContent && <div className="menu_content" style={{ height: clientHeight + "px" }}>
-                        
+
                         <div className="main-menu">
-                            
+
+                            <Navlinks
+                                links={mainPages}
+                                onClick={()=> {
+                                    if(menuOpen) {
+                                        hideMenu()
+                                    }
+                                }}
+                            />
+
                         </div>
 
                         {/* {this.renderBottom()} */}
@@ -357,8 +407,13 @@ function Header() {
                 <Icon name="user" />
             </div>
 
-            <div className="header-logo">
-                <Icon name="logo-mobile" />
+            <div className="header-logo" >
+                <Icon name="logo-mobile" onClick={() => {
+                    router.push("/")
+                    if(menuOpen) {
+                        hideMenu()
+                    }
+                }}/>
             </div>
 
             {renderMenu()}

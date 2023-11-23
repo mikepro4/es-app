@@ -30,7 +30,7 @@ import CaretRight from "./icons/caret_right"
 import CaretLeft from "./icons/caret_left"
 import Atom from "./icons/atom"
 
-const Icon = ({name}) => {
+const Icon = ({name, onClick}) => {
 
     const selectIcon = () => {
         switch(name) {
@@ -89,7 +89,7 @@ const Icon = ({name}) => {
     }
 
     return (
-        <div className="icon-container">
+        <div className="icon-container" onClick={()=> onClick && onClick()}>
             {selectIcon()}
         </div>
     );
