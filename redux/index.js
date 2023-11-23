@@ -41,6 +41,7 @@ setupListeners(store.dispatch);
 // THUNKS
 
 export * from "./thunks/userThunk";
+export * from "./thunks/testThunk";
 
 
 // =========================== //

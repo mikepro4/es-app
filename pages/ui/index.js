@@ -82,6 +82,19 @@ const TestView = () => {
             />
           </li>
 
+          <li>
+            <Button
+              small={true}
+              label="Infinite list"
+              wrap={true}
+              minimal={true}
+              iconRight="chevron-right"
+              onClick={() => {
+                router.push("/ui/infinite_list")
+              }}
+            />
+          </li>
+
 
         </div>
 

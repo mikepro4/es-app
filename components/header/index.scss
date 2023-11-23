@@ -31,7 +31,11 @@
         justify-content: center;
         align-items: center;
         z-index: 2;
-        cursor: pointer;
+
+        .icon-container {
+          cursor: pointer;
+
+        }
 
         svg {
             position: relative;
@@ -50,6 +54,7 @@
         align-items: center;
         position: relative;
         z-index: 10;
+        cursor: pointer;
 
         svg {
             width: 24px;
