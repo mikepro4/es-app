@@ -3,23 +3,17 @@ import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { useRouter } from 'next/router'
 import Button from "../../../components/button";
+import InfiniteList from "../../../components/infinite_list";
 
 import { OverlayToaster } from '@blueprintjs/core';
 
-import { testCreate } from "@/redux"
+import { testCreate, testSearch } from "@/redux"
 
 const TestView = () => {
   const router = useRouter()
   const dispatch = useDispatch();
   const toasterRef = useRef(null)
-
   const [value, setValue] = useState(0);
-
-  const handleChange = useCallback((value) => {
-    console.log(value);
-    setValue(value), []
-  });
-
 
 
 
@@ -67,6 +61,20 @@ const TestView = () => {
             />
           </li>
         </ul>
+
+
+        <InfiniteList
+          type="test_list"
+          resultType="test-view-list"
+          sortProperty="created"
+          limit={20}
+          // identifier={this.props.query.folder}
+          searchCollection={testSearch}
+          // loadCollectionItem={this.props.loadArc}
+          handleClick={() => { }}
+        >
+      
+        </InfiniteList>
 
         <OverlayToaster ref={toasterRef} />
 
