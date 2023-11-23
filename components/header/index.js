@@ -308,7 +308,7 @@ function Header() {
                 type: "spring",
                 damping: 2,
                 stiffness: 10,
-                transition: { duration: 0.4, delay: 0 }
+                transition: { duration: 0.4, delay: 0.2 }
             },
             closed: {
                 height: "0",
