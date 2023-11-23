@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import classNames from "classnames";
 import throttle from 'lodash/throttle';
 
+import { updateCollection } from "@/redux"
+
 import TestView from "./views/test_list_view"
 
 function InfiniteList({
@@ -14,20 +16,18 @@ function InfiniteList({
     criteria,
     sortProperty,
     searchCollection,
-    handleClick
+    handleClick,
 }) {
 
     const app = useSelector((state) => state.app);
+    const updateCollectionValue = useSelector(state => state.app.updateCollection);
     const router = useRouter();
     const dispatch = useDispatch()
 
     const anchorRef = useRef(null);
 
-    const [collection, setCollection] = useState([false]);
+    const [collection, setCollection] = useState([]);
     const [loading, setLoading] = useState(false);
-    // const [localOffset, setOffset] = useState(0);
-    // const [count, setCount] = useState(0);
-    const [updateCollection, setUpdateCollection] = useState(null);
 
     const localOffset = useRef(0);
     const count = useRef(0);
@@ -45,12 +45,13 @@ function InfiniteList({
                             sortProperty,
                             offset: offset,
                             limit: limit ? limit : 20,
-                            order: order ? order : "1",
+                            order: order ? order : "-1",
                             callback: (data) => {
                                 setLoading(false);
                                 setCollection(prevCollection => reset ? data.all : [...prevCollection, ...data.all]); // Use functional update
                                 localOffset.current = localOffset.current  + limit
                                 count.current = data.count
+                                dispatch(updateCollection(false))
                             }
                         },)
                 )
@@ -63,16 +64,12 @@ function InfiniteList({
     const renderResultItem = (item, i) => {
         switch (resultType) {
             case "test-view-list":
-                if (!updateCollection) {
-                    return (<TestView
-                        item={item}
-                        key={item._id}
-                        type={type}
-                        handleClick={handleClick}
-                    />)
-                } else {
-                    return (<div key={item._id} ></div>)
-                }
+                return (<TestView
+                    item={item}
+                    key={item._id}
+                    type={type}
+                    handleClick={handleClick}
+                />)
             default:
                 return (
                     <div></div>
@@ -81,14 +78,16 @@ function InfiniteList({
     }
 
     const updatePosition = useCallback(throttle(() => {
-        if (anchorRef.current) {
-            const rect = anchorRef.current.getBoundingClientRect();
-
-            if (rect.top < 1000) {
-                console.log("load")
-                searchCollectionFunction(localOffset.current)
+        if(localOffset.current !== 0) {
+            if (anchorRef.current) {
+                const rect = anchorRef.current.getBoundingClientRect();
+    
+                if (rect.top < 1200) {
+                    searchCollectionFunction(localOffset.current)
+                }
             }
         }
+        
     }, 200), [searchCollectionFunction, loading]);
 
     
@@ -99,20 +98,26 @@ function InfiniteList({
 
         window.addEventListener('scroll', updatePosition);
 
-        // Call updatePosition to set initial position
         updatePosition();
 
         return () => {
             window.removeEventListener('scroll', updatePosition);
-
         };
     }, []);
+
+    useEffect(() => {
+        if(updateCollectionValue) {
+            setCollection([]);
+            localOffset.current = 0;
+            searchCollectionFunction(0, true);
+        }
+        
+    }, [updateCollectionValue]);
 
 
 
     return (
         <div className="infinite-list-container">
-            infinite list / offset: 
             <div>
                 {collection.map((item, i) => renderResultItem(item, i))}
             </div>

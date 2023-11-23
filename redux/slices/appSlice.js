@@ -18,12 +18,16 @@ const initialState = {
   modalOpen: false,
   modalType: null,
   modalData: null,
+  updateCollection: false,
 };
 
 const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    updateCollection: (state, action) => {
+      state.updateCollection = action.payload;
+    },
     toggleDrawer: (state, action) => {
       state.drawerOpen = action.payload.drawerOpen;
       state.drawerType = action.payload.drawerType;
@@ -56,7 +60,8 @@ export const {
     toggleDrawer, 
     toggleNotification,
     toggleAlert,
-    toggleModal
+    toggleModal,
+    updateCollection
 } = appSlice.actions;
 
 export const appReducer = appSlice.reducer;

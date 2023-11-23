@@ -7,7 +7,7 @@ import InfiniteList from "../../../components/infinite_list";
 
 import { OverlayToaster } from '@blueprintjs/core';
 
-import { testCreate, testSearch } from "@/redux"
+import { testCreate, testSearch, updateCollection } from "@/redux"
 
 const TestView = () => {
   const router = useRouter()
@@ -53,6 +53,7 @@ const TestView = () => {
                       name: "New Test",
                       callback: (data) => {
                         toasterRef.current.show({ message: `${data.name} was created` });
+                        dispatch(updateCollection(true))
                       }
                     },)
                 )
