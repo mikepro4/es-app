@@ -115,7 +115,7 @@ function InfiniteList({
             searchCollectionFunction(0, true);
         }
         
-    }, [updateCollectionValue]);
+    }, [updateCollectionValue, order, sortProperty, criteria]);
 
     return (
         <div className="infinite-list-container">

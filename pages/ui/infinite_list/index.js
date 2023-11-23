@@ -7,17 +7,64 @@ import InfiniteList from "../../../components/infinite_list";
 import CollectionInfo from "../../../components/collection_info";
 
 import { OverlayToaster } from '@blueprintjs/core';
+import { v4 as uuidv4 } from 'uuid';
 
 import { testCreate, testSearch, updateCollection } from "@/redux"
 
 const TestView = () => {
+  const drawerOpen = useSelector(state => state.app.drawerOpen);
+  const drawerData = useSelector(state => state.app.drawerData);
+
   const router = useRouter()
   const dispatch = useDispatch();
   const toasterRef = useRef(null)
   const [sortProperty, setSortProperty] = useState("created");
   const [count, setCount] = useState(0);
   const [total, setTotal] = useState(0);
+  const [order, setOrder] = useState("-1");
+  const [uuid, setNewUuid] = useState(uuidv4());
 
+
+
+  useEffect(() => {
+    if (drawerData?.collectionId == uuid) {
+      console.log("GOT HERE: ", drawerData.sortValue)
+
+      if(drawerData.sortValue == "recent") {
+        console.log("UPDATE TO RECENT")
+        setSortProperty("created")
+        setOrder("1")
+        // dispatch(updateCollection(true))
+      }
+
+      if(drawerData.sortValue == "oldest") {
+        console.log("UPDATE TO OLDEST")
+        setSortProperty("created")
+        setOrder("-1")
+        // dispatch(updateCollection(true))
+      }
+
+      if(drawerData.sortValue == "name") {
+        console.log("UPDATE TO NAME")
+        setSortProperty("created")
+        setOrder("-1")
+        // dispatch(updateCollection(true))
+      }
+      // setSortProperty(drawerData.sortValue)
+    }
+  }, [drawerData]);
+
+  const getSortValue = () => {
+    if (sortProperty == "created") {
+      if (order == "-1") {
+        return "recent"
+      } else {
+        return "oldest"
+      }
+    } else {
+      return "name"
+    }
+  }
 
   return (
     <div className="ui-screen page-wrapper">
@@ -71,6 +118,7 @@ const TestView = () => {
           resultType="test-view-list"
           sortProperty={sortProperty}
           limit={20}
+          order={order}
           // identifier={this.props.query.folder}
           searchCollection={testSearch}
           updateCollectionStats={(count, total) => {
@@ -80,13 +128,17 @@ const TestView = () => {
           // loadCollectionItem={this.props.loadArc}
           handleClick={() => { }}
         >
-      
+
         </InfiniteList>
 
-        <CollectionInfo 
+        <CollectionInfo
           count={count}
           total={total}
           sortProperty={sortProperty}
+          collectionId={uuid}
+          data={{
+            sortValue: getSortValue()
+          }}
           onChange={(value) => {
             setSortProperty(value)
           }}

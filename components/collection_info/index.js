@@ -4,20 +4,36 @@ import { useRouter } from 'next/router';
 import classNames from "classnames";
 import Icon from "../icon";
 
+import { toggleDrawer } from "@/redux";
+
 function CollectionInfo({
     count,
     total,
-    sortProperty
+    sortProperty,
+    collectionId,
+    data
 }) {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
-
+    const dispatch = useDispatch();
 
 
     return (
         <div className="collection-info-container">
-            <div className="collection-info-bar">
+            <div 
+                className="collection-info-bar"
+                onClick={() => {
+                    dispatch(toggleDrawer({
+                        drawerOpen: true,
+                        drawerType: "collection-settings",
+                        drawerData: {
+                            ...data,
+                            collectionId: collectionId,
+                        },
+                    }));
+                }}
+            >
                 <div className="collection-properties-button search-button">
                     <Icon name="search"/>
                 </div>

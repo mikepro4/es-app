@@ -13,7 +13,7 @@ const Menu = (props) => {
         fontSize: "11px",
         padding: "8px 10px",
         borderRadius: "10px",
-        zIndex: "100"
+        zIndex: "1000000"
     };
 
     return (
