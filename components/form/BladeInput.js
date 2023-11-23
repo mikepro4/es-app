@@ -7,7 +7,7 @@ function Input({ field, form: { touched, errors, setFieldValue }, onChange, ...p
   const onBlur = () => setInputFocused(false);
   const onFocus = () => setInputFocused(true);
 
-  let characterCount = field.value.toString().length;
+  let characterCount = field.value ? field.value.toString().length : 0
 
   let containerClassName = classnames({
     "input-text": true,

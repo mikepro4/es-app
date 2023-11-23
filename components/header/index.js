@@ -5,13 +5,17 @@ import classNames from "classnames";
 import Anime from 'react-anime';
 import { motion } from "framer-motion"
 import Navlinks from "../nav_links"
+import Button from "../button"
 
 import Icon from "../icon"
+
+import { toggleDrawer } from "@/redux";
 
 function Header() {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
+    const dispatch = useDispatch();
     const [menuOpen, setMenuOpen] = useState(false);
     const [menuClosing, setMenuClosing] = useState(false);
     const [showMenuBars, setShowMenuBars] = useState(false);
@@ -380,6 +384,51 @@ function Header() {
                                 }}
                             />
 
+                            <ul className="button-container">
+                                <li>
+                                    <Button
+                                        label="Connect Wallet"
+                                        onClick={() => {
+                                            if(menuOpen) {
+                                                hideMenu()
+                                            }
+                                        }}
+                                    />
+                                </li>
+
+                                <li>
+                                    <div className="button-container-group">
+
+                                        <Button
+                                            minimal={true}
+                                            label="Login"
+                                            onClick={() => {
+                                                router.push("/login")
+                                                if(menuOpen) {
+                                                    hideMenu()
+                                                }
+                                            }}
+                                        />
+
+                                        <Button
+                                            minimal={true}
+                                            label="Signup"
+                                            onClick={() => {
+                                                router.push("/signup");
+                                                
+                                                if(menuOpen) {
+                                                    hideMenu()
+                                                }
+                                            }}
+                                        />
+                                    </div>
+                                </li>
+                                
+
+                            </ul>
+
+
+
                         </div>
 
                         {/* {this.renderBottom()} */}
@@ -404,7 +453,14 @@ function Header() {
             </div>
 
             <div className="header-right">
-                <Icon name="user" />
+                <div className="header-user-icon" onClick={() => {
+                    dispatch(toggleDrawer(
+                        {
+                            drawerOpen: true,
+                            drawerType: "profile-settings"
+                        }
+                    ))
+                }}><Icon name="user" /></div>
             </div>
 
             <div className="header-logo" >

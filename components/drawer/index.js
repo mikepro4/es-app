@@ -5,6 +5,7 @@ import classNames from "classnames";
 import _ from "lodash";
 import { toggleDrawer } from "../../redux";
 import AppSettings from "./type/app_settings.js";
+import ProfileSettings from "./type/profile_settings.js";
 
 function Drawer() {
     const dispatch = useDispatch();
@@ -15,7 +16,6 @@ function Drawer() {
             drawerOpen: false,
             drawerType: null,
             drawerData: null,
-            drawerHeight: "expanded"
         }));
     };
 
@@ -23,6 +23,8 @@ function Drawer() {
         switch (type) {
             case "app-settings":
                 return <AppSettings hideDrawer={hideDrawer} enablePortal />;
+            case "profile-settings":
+                return <ProfileSettings hideDrawer={hideDrawer} enablePortal />;
             default:
                 return;
         }

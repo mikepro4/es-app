@@ -5,7 +5,7 @@ const signup = createAsyncThunk(
   "user/signup",
   async ({ email, password, callback }, { rejectWithValue }) => {
     try {
-      const response = await userApi.post("/signup", {
+      const response = await userApi.post("/auth/signup", {
         email,
         password,
       });
@@ -54,9 +54,9 @@ const signout = createAsyncThunk(
 
 const fetchUserInfo = createAsyncThunk(
   "user/fetchUserInfo",
-  async ({ userId }) => {
+  async () => {
 
-    const response = await userApi.get(`/user_details`);
+    const response = await userApi.get(`/auth/user_details`);
 
     return response.data;
   }

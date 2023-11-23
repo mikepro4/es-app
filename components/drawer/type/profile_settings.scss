@@ -1,0 +1,25 @@
+.profile-container {
+    .profile-placeholder {
+        height: 300px;
+        background-color: rgba(255, 255, 255, 0.05);
+        display: flex;
+        border-radius: 20px;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+
+
+    }
+
+    .button-container {
+        li {
+            margin-bottom: 20px;
+
+            .button-container-group {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                column-gap: 20px;
+            }
+        }
+    }
+}
