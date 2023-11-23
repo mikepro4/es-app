@@ -17,6 +17,7 @@ function InfiniteList({
     sortProperty,
     searchCollection,
     handleClick,
+    updateCollectionStats
 }) {
 
     const app = useSelector((state) => state.app);
@@ -52,6 +53,7 @@ function InfiniteList({
                                 localOffset.current = localOffset.current  + limit
                                 count.current = data.count
                                 dispatch(updateCollection(false))
+                                updateCollectionStats(data.count, data.total)
                             }
                         },)
                 )
@@ -93,12 +95,13 @@ function InfiniteList({
     
 
     useEffect(() => {
-
-        searchCollectionFunction(localOffset.current)
+        setTimeout(() => { 
+            searchCollectionFunction(localOffset.current)
+        }, 100)
 
         window.addEventListener('scroll', updatePosition);
 
-        updatePosition();
+        // updatePosition();
 
         return () => {
             window.removeEventListener('scroll', updatePosition);
@@ -113,8 +116,6 @@ function InfiniteList({
         }
         
     }, [updateCollectionValue]);
-
-
 
     return (
         <div className="infinite-list-container">

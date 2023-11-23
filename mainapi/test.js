@@ -46,14 +46,19 @@ router.post("/search", requireSignin, async (req, res) => {
         .limit(limit);
 
     return Promise.all(
-        [query, Tests.find(buildQuery(criteria)).countDocuments()]
+        [
+            query, 
+            Tests.find(buildQuery(criteria)).countDocuments(), 
+            Tests.find().countDocuments()
+        ]
     ).then(
         results => {
             return res.json({
                 all: results[0],
                 count: results[1],
                 offset: offset,
-                limit: limit
+                limit: limit,
+                total: results[2]
             });
         }
     );

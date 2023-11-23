@@ -4,6 +4,7 @@ import { Provider, useDispatch, useSelector } from "react-redux";
 import { useRouter } from 'next/router'
 import Button from "../../../components/button";
 import InfiniteList from "../../../components/infinite_list";
+import CollectionInfo from "../../../components/collection_info";
 
 import { OverlayToaster } from '@blueprintjs/core';
 
@@ -13,8 +14,9 @@ const TestView = () => {
   const router = useRouter()
   const dispatch = useDispatch();
   const toasterRef = useRef(null)
-  const [value, setValue] = useState(0);
-
+  const [sortProperty, setSortProperty] = useState("created");
+  const [count, setCount] = useState(0);
+  const [total, setTotal] = useState(0);
 
 
   return (
@@ -67,15 +69,28 @@ const TestView = () => {
         <InfiniteList
           type="test_list"
           resultType="test-view-list"
-          sortProperty="created"
+          sortProperty={sortProperty}
           limit={20}
           // identifier={this.props.query.folder}
           searchCollection={testSearch}
+          updateCollectionStats={(count, total) => {
+            setCount(count)
+            setTotal(total)
+          }}
           // loadCollectionItem={this.props.loadArc}
           handleClick={() => { }}
         >
       
         </InfiniteList>
+
+        <CollectionInfo 
+          count={count}
+          total={total}
+          sortProperty={sortProperty}
+          onChange={(value) => {
+            setSortProperty(value)
+          }}
+        />
 
         <OverlayToaster ref={toasterRef} />
 
