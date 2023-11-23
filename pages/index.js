@@ -3,9 +3,11 @@ import Head from 'next/head'
 export default function Home() {
   return (
     <>
-      <main >
+      <div className="page-wrapper">
         Hello
-      </main>
+
+        <div className="placeholder"></div>
+      </div>
     </>
   )
 }

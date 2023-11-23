@@ -11,7 +11,7 @@ const TestView = () => {
 
 
   return (
-    <div className="ui-screen">
+    <div className="ui-screen page-wrapper">
 
       <div className="page-container">
 

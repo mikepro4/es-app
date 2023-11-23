@@ -17,6 +17,7 @@ FocusStyleManager.onlyShowFocusOnTabs();
 
 import Drawer from "../components/drawer";
 import Modal from "../components/modal";
+import Header from "../components/header";
 
 const App = ({ children }) => {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ const App = ({ children }) => {
 
   return (
     <>
+      <Header />
       {children}
       {app.drawerOpen && <Drawer />}
       {app.modalOpen && <Modal />}
