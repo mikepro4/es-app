@@ -13,6 +13,15 @@
         .label-content-left {
             margin-right: 5px;
         }
+
+        .label-content-right {
+            text-transform: capitalize;
+        }
+
+        .label-icon-right {
+            position: relative;
+            right: -5px
+        }
     }
 
     &.label-container--neutral {

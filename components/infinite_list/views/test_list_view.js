@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import classNames from "classnames";
 
 import ParamSwitch from "@/components/paramSwitch";
+import Label from "@/components/label";
 
 import { testDelete, updateCollectionItem, toggleDrawer } from "@/redux";
 
@@ -50,6 +51,19 @@ function TestListView({
         }
     }
 
+    const selectIntent = (status) => {
+        switch (status) {
+            case "unreviewed":
+                return "neutral";
+            case "approved":
+                return "success";
+            case "rejected":
+                return "danger";
+            default:
+                return "neutral";
+        }
+    }
+
 
     return (
         <div className="test-view-list-container">
@@ -60,6 +74,10 @@ function TestListView({
                 </div>
 
                 <div className="test-view-list-header-left">
+                <Label
+                    intent={selectIntent(item.status)}
+                    label={item.status}
+                />
                     <ParamSwitch
                         type="local-icon"
                         icon="more-vertical"
@@ -103,6 +121,10 @@ function TestListView({
                         }}
                     />
                 </div>
+            </div>
+
+            <div className="test-view-list-content">
+                
             </div>
 
 

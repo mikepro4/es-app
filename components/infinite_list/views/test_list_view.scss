@@ -9,5 +9,15 @@
         justify-content: space-between;
         align-items: center;
         padding: 15px 10px 0 20px;
+
+        .test-view-list-header-left {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .test-view-list-content {
+        padding: 10px 0 10px 20px
     }
 }

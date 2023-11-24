@@ -7,7 +7,8 @@ import { Icon } from "@blueprintjs/core";
 function AppSettings({
     label,
     intent,
-    icon
+    icon,
+    iconRight
 }) {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
@@ -43,6 +44,10 @@ function AppSettings({
                 <div className="label-content-right">
                     {label}
                 </div>
+
+                {iconRight && <div className="label-icon-right">
+                    <Icon icon={iconRight} />
+                </div>}
             </div>
         </div>
     );

@@ -75,6 +75,14 @@ const TestView = () => {
 
         <li>
             <Label
+                intent="success"
+                label="Approved"
+                iconRight={"chevron-down"}
+            />
+        </li>
+
+        <li>
+            <Label
                 intent="danger"
                 label="Rejected"
             />
