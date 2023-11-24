@@ -95,6 +95,19 @@ const TestView = () => {
             />
           </li>
 
+          <li>
+            <Button
+              small={true}
+              label="Labels"
+              wrap={true}
+              minimal={true}
+              iconRight="chevron-right"
+              onClick={() => {
+                router.push("/ui/labels")
+              }}
+            />
+          </li>
+
 
         </div>
 

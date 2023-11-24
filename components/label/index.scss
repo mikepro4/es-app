@@ -1,0 +1,72 @@
+.label-container {
+    font-size: 12px;
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 30px;
+    user-select: none;
+
+    .label-content {
+        display: flex;
+        position: relative;
+        top: -1px;
+
+        .label-content-left {
+            margin-right: 5px;
+        }
+    }
+
+    &.label-container--neutral {
+        color: rgba(255,255,255,0.8);
+        border: 1px solid #222; 
+
+        svg {
+            width: 14px;
+            height: 14px;
+            opacity: 0.5;
+        }
+    }
+
+    &.label-container--success {
+        color: $green;
+        border: 1px solid $green; 
+
+        svg {
+            width: 14px;
+            height: 14px;
+            opacity: 1;
+        }
+    }
+
+    &.label-container--danger {
+        color: $red;
+        border: 1px solid $red; 
+
+        svg {
+            width: 14px;
+            height: 14px;
+            opacity: 1;
+        }
+    }
+
+    &.label-container--warning {
+        color: $orange;
+        border: 1px solid $orange; 
+
+        svg {
+            width: 14px;
+            height: 14px;
+            opacity: 1;
+        }
+    }
+
+    &.label-container--info {
+        color: $purple;
+        border: 1px solid $purple; 
+
+        svg {
+            width: 14px;
+            height: 14px;
+            opacity: 1;
+        }
+    }
+}
