@@ -129,6 +129,25 @@ const testNextItem = createAsyncThunk(
   }
 );
 
+const testPreviousItem = createAsyncThunk(
+  "test/previousItem",
+    async ({ id, sortProperty, order, criteria , callback }, { rejectWithValue }) => {
+    try {
+      const response = await userApi.post("/test/previousItem", {
+        id, sortProperty, order, criteria 
+      });
+
+      if (callback) {
+        callback(response.data)
+      }
+
+      return response.data;
+    } catch (err) {
+      throw new Error("Error");
+    }
+  }
+);
+
 
 
 
@@ -139,5 +158,6 @@ export {
     testItem,
     testUpdateItem,
     testDuplicate,
-    testNextItem
+    testNextItem,
+    testPreviousItem
 };

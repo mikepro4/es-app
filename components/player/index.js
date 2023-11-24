@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 
-import { togglePlayer, testNextItem } from "@/redux";
+import { togglePlayer, testNextItem, testPreviousItem} from "@/redux";
 
 import CollectionGoBack from "../collection_go_back";
 
@@ -46,6 +46,20 @@ function Player() {
                     <li>
                         <CollectionGoBack
                             icon="arrow-back"
+                            onClick={() => {
+                                dispatch(testPreviousItem({
+                                    id: app.playerData._id,
+                                    sortProperty: testList.sortProperty,
+                                    order: testList.order,
+                                    criteria: testList.criteria,
+                                    callback: (data) => {
+                                       dispatch(togglePlayer({
+                                        playerOpen: true,
+                                        playerData: data
+                                    }))
+                                    }
+                                }))
+                            }}
                         />
                     </li>
 

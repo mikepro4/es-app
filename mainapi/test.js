@@ -194,6 +194,48 @@ router.post("/nextItem", async (req, res) => {
     }
 });
 
+// ===========================================================================
+
+router.post("/previousItem", async (req, res) => {
+    try {
+        const { id, sortProperty, order, criteria } = req.body;
+
+        // Build the additional query criteria
+        const additionalQuery = buildQuery(criteria);
+
+        // Find the current item
+        const currentItem = await Tests.findById(id);
+        if (!currentItem) {
+            return res.status(404).send("Item not found");
+        }
+
+        // Determine the sorting order and condition
+        let sortCondition;
+        if(order === "1") {
+            // Ascending order: find the last item that has a lesser sortProperty value
+            sortCondition = { ...additionalQuery, [sortProperty]: { $lt: currentItem[sortProperty] } };
+        } else {
+            // Descending order: find the last item that has a greater sortProperty value
+            sortCondition = { ...additionalQuery, [sortProperty]: { $gt: currentItem[sortProperty] } };
+        }
+
+        // Find the previous item
+        const previousItem = await Tests.findOne(sortCondition)
+            .sort({ [sortProperty]: order === "1" ? -1 : 1 }) // Invert the sorting order
+            .exec();
+
+        if (!previousItem) {
+            return res.status(404).send("Previous item not found");
+        }
+
+        res.json(previousItem);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+});
+
+
 
 // ===========================================================================
 
