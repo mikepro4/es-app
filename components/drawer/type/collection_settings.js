@@ -9,8 +9,11 @@ import Input from "../../../components/form/BladeInput";
 
 import ParamSwitch from "@/components/paramSwitch";
 import { toggleDrawer } from "@/redux";
+import Button from "@/components/button";
 
-import { updateCollection, testListChangeSort, testListChangeCriteria } from "@/redux"
+import { useFormik } from 'formik';
+
+import { updateCollection, testListChangeSort, testListChangeCriteria, testResetCriteria } from "@/redux"
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
@@ -63,6 +66,22 @@ function AppSettings() {
         //         },
         //     }))
     };
+
+    const getInitialValues = () => ({
+        search: testList.criteria?.search || '',
+        status: testList.criteria?.status || '',
+    });
+
+    const formik = useFormik({
+        initialValues: getInitialValues(),
+        onSubmit: handleSubmit,
+        enableReinitialize: true, // This is important to reset form when initialValues change
+    });
+
+    useEffect(() => {
+        // Update Formik's initialValues when testList.criteria changes
+        formik.setValues(getInitialValues());
+    }, [testList.criteria]);
 
     const statusOptions = [{
         name: 'Unreviewed',
@@ -122,6 +141,7 @@ function AppSettings() {
                 <div className="form-container">
 
                     <Formik
+                        enableReinitialize
                         initialValues={initialValues}
                         onSubmit={handleSubmit}
                     >
@@ -148,6 +168,18 @@ function AppSettings() {
                                             title="Status"
                                             component={TabSwitcher}
                                             options={statusOptions}
+                                        />
+
+                                        <Button
+                                            type="button"
+                                            icon="filter-remove"
+                                            small={true}
+                                            minimal={true}
+                                            wrap={true}
+                                            label="Clear filters"
+                                            onClick={() => {
+                                                dispatch(testResetCriteria())
+                                            }}
                                         />
 
                                     </div>

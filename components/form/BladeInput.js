@@ -50,6 +50,7 @@ function Input({ field, form: { touched, errors, setFieldValue }, onChange, ...p
         {...field}
         {...props}
         className={inputClassName}
+        value={field.value ? field.value : ""}
         type={props.type || "text"}
         onFocus={onFocus}
         onChange={(event) => {

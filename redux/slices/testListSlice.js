@@ -42,6 +42,10 @@ const testListSlice = createSlice({
     testListUpdateStats: (state, action) => {
         state.count = action.payload.count;
         state.total = action.payload.total;
+    },
+
+    testResetCriteria: (state, action) => {
+      state.criteria = {}
     }
   }
 });
@@ -49,7 +53,8 @@ const testListSlice = createSlice({
 export const { 
     testListChangeSort,
     testListChangeCriteria,
-    testListUpdateStats
+    testListUpdateStats,
+    testResetCriteria
 } = testListSlice.actions;
 
 export const testListReducer = testListSlice.reducer;
