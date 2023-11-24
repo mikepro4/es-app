@@ -9,6 +9,8 @@
     opacity: 0;
     animation: fadeIn .4s .2s linear forwards;
 
+    
+
     a {
         display: flex;
         cursor: pointer;
@@ -64,6 +66,8 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0);
         margin-bottom: 5px;
         opacity: 0.4;
+        margin: 0 25px;
+        
         // transition: all 0.2s;
 
         .nav-link-label {
@@ -76,12 +80,23 @@
             flex-grow: 1 1;
             margin-bottom: 0;
             transition: all cubic-bezier(.19,1,.22,1) .2s;
+
+            @media only screen and (min-width: $mobile) {
+                font-size: 14px;
+            }
         }
 
         .icon-container {
             svg {
                 width: 24px;
                 height: 24px;
+            }
+
+            @media only screen and (min-width: $mobile) {
+                svg {
+                    width: 20px;
+                    height: 20px;
+                }
             }
         }
 
@@ -91,6 +106,10 @@
 
             .icon-container {
                 margin-right: 20px;
+
+                @media only screen and (min-width: $mobile) {
+                    margin-right: 10px;
+                }
             }
         }
 
@@ -102,7 +121,7 @@
         &:hover {
             opacity: 1;
             path {
-                stroke: $green;
+                stroke: $white;
             }
 
             a {
@@ -193,6 +212,10 @@
         left: 18px;
         top: 94px;
         bottom: 0;
+    }
+
+    @media only screen and (min-width: $mobile) {
+        display: flex;
     }
 }
 

@@ -16,6 +16,11 @@
         top: 80px;
         right: 10px;
 
+        @media only screen and (min-width: $mobile) {
+            top: 100px;
+            right: 30px;
+        }
+
 
     }
 
@@ -33,6 +38,11 @@
         .collection-info-bar-container-left {
             margin-left: 20px;
             opacity: 0;
+
+            @media only screen and (min-width: $mobile) {
+                margin-left: 30px;
+            }
+    
         
             @extend .animation-fadeInSlide;
            
@@ -42,6 +52,10 @@
         .collection-info-bar-container-right {
             display: flex;
             margin-right: 20px;
+
+            @media only screen and (min-width: $mobile) {
+                margin-right: 30px;
+            }
             
 
             li {

@@ -16,6 +16,10 @@
     opacity: 0;
     @extend .animation-fadeIn;
 
+    @media only screen and (min-width: $mobile) {
+       padding-top: 100px;
+      }
+
     .back-button {
         margin: 20px 0;
     }

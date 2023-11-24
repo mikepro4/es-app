@@ -20,6 +20,7 @@ FocusStyleManager.onlyShowFocusOnTabs();
 import Drawer from "../components/drawer";
 import Modal from "../components/modal";
 import Header from "../components/header";
+import HeaderDesktop from "../components/header_desktop";
 import MainPlayer from "../components/player";
 
 
@@ -58,6 +59,7 @@ const App = ({ children }) => {
 
   return (
     <>
+      <HeaderDesktop />
       <Header />
       {children}
       {app.playerOpen && <MainPlayer />}

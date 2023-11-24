@@ -14,15 +14,45 @@ function Player() {
     const app = useSelector((state) => state.app);
     const updateCollectionItemValue = useSelector((state) => state.app.updateCollectionItem);
     const router = useRouter();
+    const query = router.query;
     const dispatch = useDispatch();
     const testList = useSelector((state) => state.testList);
+
+    const [prevPathname, setPrevPathname] = useState(null);
+
+    useEffect(() => {
+        const handleRouteChange = (url) => {
+            // Check if previous pathname is not equal to the new pathname
+            if (!router.query.shapeId) {
+                console.log('Pathname changed from', prevPathname, 'to', router.query);
+
+                dispatch(togglePlayer({
+                    playerOpen: false,
+                    playerData: null
+                })
+                )
+                // Update the previous pathname
+                setPrevPathname(router.query);
+            }
+        };
+
+        router.events.on('routeChangeComplete', handleRouteChange);
+
+        // Initialize the previous pathname
+        setPrevPathname(router.query);
+
+        // Cleanup
+        return () => {
+            router.events.off('routeChangeComplete', handleRouteChange);
+        };
+    }, [router, prevPathname]);
 
 
 
     useEffect(() => {
         document.body.classList.add("no-scroll")
         return () => {
-            document.body.classList.remove("no-scroll")
+            document.body.classList.remove("no-scroll");
         };
     }, []);
 
@@ -66,7 +96,7 @@ function Player() {
                                 playerData: data
                             }))
 
-                            
+
                         }}
                     />
                 </div>
@@ -86,12 +116,12 @@ function Player() {
                                 playerData: null
                             }))
 
-                            if(router.pathname == "/shape") {
+                            if (router.pathname == "/shape") {
                                 router.push("/ui/infinite_list")
                             } else {
                                 router.push({
                                     pathname: router.pathname,
-                                    query: { }
+                                    query: {}
                                 }, undefined, { shallow: true });
                             }
                         }}
