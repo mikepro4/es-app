@@ -85,8 +85,9 @@ const TestView = () => {
         <InfiniteList
           type="test_list"
           resultType="test-view-list"
-          sortProperty={testList.sortProperty}
           limit={20}
+          listReducer="testList"
+          sortProperty={testList.sortProperty}
           order={testList.order}
           // identifier={this.props.query.folder}
           searchCollection={testSearch}

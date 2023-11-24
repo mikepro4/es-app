@@ -34,30 +34,27 @@ function InfiniteList({
     const localOffset = useRef(0);
     const count = useRef(0);
 
-    const sortPropertyRef = useRef(sortProperty);
-    const orderRef = useRef(order);
-
-    const searchCollectionFunction = useCallback((offset, reset ) => {
+    const searchCollectionFunction = useCallback((offset, reset, sortPropertyValue, orderValue) => {
         if (!loading && anchorRef.current) {
 
             if (offset == 0 || offset <= count.current) {
                 setLoading(true)
                 console.log({
                     criteria,
-                            sortProperty: sortPropertyRef.current,
+                            sortProperty: sortPropertyValue,
                             offset: offset,
                             limit: limit ? limit : 20,
-                            order: orderRef.current,
+                            order: orderValue,
                 })
 
                 dispatch(
                     searchCollection(
                         {
                             criteria,
-                            sortProperty: sortPropertyRef.current,
+                            sortProperty: sortPropertyValue,
                             offset: offset,
                             limit: limit ? limit : 20,
-                            order: orderRef.current,
+                            order: orderValue,
                             callback: (data) => {
                                 setLoading(false);
                                 setCollection(prevCollection => reset ? data.all : [...prevCollection, ...data.all]); // Use functional update
@@ -71,7 +68,7 @@ function InfiniteList({
             }
 
         }
-    },  [loading, count.current, criteria,  sortPropertyRef.current, localOffset.current, limit, orderRef.current, dispatch, searchCollection, collection]);
+    },  [loading, count.current, criteria, sortProperty, localOffset.current, limit, order, dispatch, searchCollection]);
 
 
     const renderResultItem = (item, i) => {
@@ -96,16 +93,18 @@ function InfiniteList({
                 const rect = anchorRef.current.getBoundingClientRect();
     
                 if (rect.top < 1200) {
-                    searchCollectionFunction(localOffset.current)
+                    searchCollectionFunction(localOffset.current, sortProperty, order)
                 }
             }
         }
         
-    }, 200), []);
+    }, 200), [searchCollectionFunction, loading, sortProperty, order]);
+
+    
 
     useEffect(() => {
         setTimeout(() => { 
-            searchCollectionFunction(localOffset.current, true)
+            searchCollectionFunction(localOffset.current, true, sortProperty, order)
         }, 100)
 
         window.addEventListener('scroll', updatePosition);
@@ -115,12 +114,12 @@ function InfiniteList({
         return () => {
             window.removeEventListener('scroll', updatePosition);
         };
-    }, []);
+    }, [sortProperty, order, searchCollectionFunction]);
 
     const resetCollection = useCallback(() => {
         setCollection([]);
         localOffset.current = 0;
-        searchCollectionFunction(0, true);
+        searchCollectionFunction(0, true, sortProperty, order);
     }, []);
 
     useEffect(() => {
@@ -130,22 +129,9 @@ function InfiniteList({
         
     }, [updateCollectionValue]);
 
-    useEffect(() => {
-        resetCollection()
-    }, []);
-
-    useEffect(() => {
-
-        if(sortPropertyRef.current !== sortProperty) {
-            sortPropertyRef.current = sortProperty;
-            resetCollection()
-        }
-
-        if(orderRef.current !== order) {
-            orderRef.current = order;
-            resetCollection()
-        }
-    }, [sortProperty, order]);
+    // useEffect(() => {
+    //     resetCollection()
+    // }, []);
 
     return (
         <div className="infinite-list-container">
