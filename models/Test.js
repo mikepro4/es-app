@@ -8,7 +8,7 @@ const TestSchema = new Schema({
     author: { type: Schema.Types.ObjectId, ref: "User" },
     status: {
         type: String,
-        enum: ["unreviewed", "approved", "rejected"],
+        enum: ["unreviewed", "approved", "rejected", "potential"],
         default: "unreviewed"
     },
 });

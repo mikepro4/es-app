@@ -90,8 +90,8 @@ function AppSettings() {
         name: 'Approved',
         value: 'approved',
     }, {
-        name: 'Rejected',
-        value: 'rejected',
+        name: 'Potential',
+        value: 'potential',
     }]
 
     return (

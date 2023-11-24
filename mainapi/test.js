@@ -47,8 +47,8 @@ router.post("/search", requireSignin, async (req, res) => {
 
     return Promise.all(
         [
-            query, 
-            Tests.find(buildQuery(criteria)).countDocuments(), 
+            query,
+            Tests.find(buildQuery(criteria)).countDocuments(),
             Tests.find().countDocuments()
         ]
     ).then(
@@ -84,11 +84,41 @@ router.post("/delete", async (req, res) => {
 
 router.post("/item", async (req, res) => {
     const query = await Tests.findOne({ _id: req.body.testId })
-      .populate("author")
-  
+        .populate("author")
+
     res.json(query);
-  });
-  
+});
+
+// ===========================================================================
+
+
+router.post("/duplicateItem", async (req, res) => {
+    try {
+        // Retrieve the original item by ID
+        const originalItem = await Tests.findOne({ _id: req.body.testId })
+
+        if (!originalItem) {
+            return res.status(404).send("Item not found");
+        }
+
+        // Clone the original item and modify its name
+        const duplicatedItem = new Tests({
+            ...originalItem.toObject(),  // Convert the Mongoose document to a plain object
+            _id: undefined,  // Remove the original _id so MongoDB assigns a new one
+            name: `${originalItem.name} Copy`,  // Append "Copy" to the name
+            created: new Date()
+        });
+
+        // Save the duplicated item
+        const savedItem = await duplicatedItem.save();
+
+        // Return the saved duplicated item
+        res.json(savedItem);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+});
 
 
 // ===========================================================================
@@ -142,7 +172,7 @@ const buildQuery = criteria => {
         _.assign(query, {
             "status": {
                 $eq: criteria.status,
-              }
+            }
         });
     }
     return query

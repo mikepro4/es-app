@@ -6,7 +6,7 @@ import classNames from "classnames";
 import ParamSwitch from "@/components/paramSwitch";
 import Label from "@/components/label";
 
-import { testDelete, testUpdateItem, updateCollectionItem, toggleDrawer } from "@/redux";
+import { testDelete, testUpdateItem, updateCollectionItem, toggleDrawer, testDuplicate, updateCollection } from "@/redux";
 
 function TestListView({
     item,
@@ -45,6 +45,17 @@ function TestListView({
                 // dispatch(deleteItem(item.id)).then(() => {
                 //     setLoading(false);
                 // });
+            case "duplicate":
+                console.log("duplicate")
+                dispatch(
+                    testDuplicate(
+                        {
+                            testId: item._id,
+                            callback: (data) => {
+                                dispatch(updateCollection(true))
+                            }
+                        },)
+                )
                 break;
             default:
                 break;
@@ -59,6 +70,8 @@ function TestListView({
                 return "success";
             case "rejected":
                 return "danger";
+            case "potential":
+                return "info";
             default:
                 return "neutral";
         }
@@ -104,6 +117,11 @@ function TestListView({
                                         value: "unreviewed",
                                         icon: "eye-off"
                                     },
+                                    {
+                                        label: "Potential",
+                                        value: "potential",
+                                        icon: "star"
+                                    },
                                 ],
                             }
                         ]}
@@ -140,7 +158,7 @@ function TestListView({
                                     },
                                     {
                                         label: "Duplicate",
-                                        value: "edit",
+                                        value: "duplicate",
                                         icon: "duplicate"
                                     },
                                 ],

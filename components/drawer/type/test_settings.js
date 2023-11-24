@@ -46,16 +46,16 @@ function AppSettings() {
         };
     }, []);
 
-    const statusOptions = [{
-        name: 'Unreviewed',
-        value: 'unreviewed',
-    }, {
+    const statusOptions = [, {
         name: 'Approved',
         value: 'approved',
     }, {
-        name: 'Rejected',
-        value: 'rejected',
-    }]
+            name: 'Rejected',
+            value: 'rejected',
+        }, {
+            name: 'Potential',
+            value: 'potential',
+        }]
 
     return (
         <div className={`app-drawer-content-container standard-drawer`}>

@@ -90,6 +90,26 @@ const testUpdateItem = createAsyncThunk(
   }
 );
 
+const testDuplicate = createAsyncThunk(
+  "test/duplicateItem",
+    async ({ testId, callback }, { rejectWithValue }) => {
+    try {
+      const response = await userApi.post("/test/duplicateItem", {
+        testId
+      });
+
+      if (callback) {
+        callback(response.data)
+      }
+
+      return response.data;
+    } catch (err) {
+      throw new Error("Error");
+    }
+  }
+);
+
+
 
 
 export { 
@@ -97,5 +117,6 @@ export {
     testSearch,
     testDelete,
     testItem,
-    testUpdateItem
+    testUpdateItem,
+    testDuplicate
 };
