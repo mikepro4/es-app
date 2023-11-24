@@ -109,9 +109,17 @@ const ParamSwitch = (props) => {
                         {getValue(props.value) && getValue(props.value).label}
                     </div>}
 
-                    <div className="param-switch-caret">
+                    {props.type !== "icon" && props.type !== "local-icon" && <div className="param-switch-caret">
                         <LocalIcon name={menuOpen ? "caret-up" : "caret-bottom"} />
-                    </div>
+                    </div>}
+
+                    {props.type == "icon" && <div className="param-switch-icon">
+                        <Icon icon={props.icon} />
+                    </div>}
+
+                    {props.type == "local-icon" && <div className="param-switch-icon">
+                        <LocalIcon name={props.icon} />
+                    </div>}
                 </div>
 
             </Menu>

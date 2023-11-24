@@ -132,9 +132,7 @@ function InfiniteList({
         
     }, [updateCollectionValue]);
 
-    useEffect(() => {
-        resetCollection()
-    }, []);
+   
 
     useEffect(() => {
 

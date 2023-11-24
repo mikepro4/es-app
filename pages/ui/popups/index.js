@@ -119,8 +119,53 @@ const TestView = () => {
                                     setParam1(value);
                                 }}
                             />
+
+
                         </div>
 
+                    </li>
+
+                    <li>
+                        <ParamSwitch
+                            type="local-icon"
+                            icon="more-vertical"
+                            value={param1}
+                            position="bottom left"
+                            params={[
+                                {
+                                    type: "links",
+                                    values: [
+                                        {
+                                            label: "Edit",
+                                            value: "edit",
+                                            icon: "edit"
+                                        },
+                                        {
+                                            label: "Duplicate",
+                                            value: "edit",
+                                            icon: "duplicate"
+                                        },
+                                    ],
+                                },
+                                {
+                                    type: "divider",
+
+                                },
+                                {
+                                    type: "links",
+                                    values: [
+                                        {
+                                            label: "Delete",
+                                            value: "delete",
+                                            icon: "trash"
+                                        },
+                                    ],
+                                }
+                            ]}
+                            onChange={(value) => {
+                                // alert(value)
+                            }}
+                        />
                     </li>
 
                     <li>

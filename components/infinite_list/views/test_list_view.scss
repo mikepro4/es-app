@@ -1,7 +1,13 @@
 .test-view-list-container {
     height: 222px;
     background: rgba(255, 255, 255, 0.04);
-    padding: 20px;
     border-radius: 20px;
     margin-bottom: 20px;
+
+    .test-view-list-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 10px 0 20px;
+    }
 }
