@@ -5,7 +5,7 @@ import classNames from "classnames";
 
 import ParamSwitch from "@/components/paramSwitch";
 
-import { testDelete, updateCollectionItem } from "@/redux";
+import { testDelete, updateCollectionItem, toggleDrawer } from "@/redux";
 
 function TestListView({
     item,
@@ -22,6 +22,11 @@ function TestListView({
         switch (value) {
             case "edit":
                 console.log("edit")
+                dispatch(toggleDrawer({
+                    drawerOpen: open,
+                    drawerType: "test-settings",
+                    drawerData: item,
+                }));
                 // router.push(`/ui/item/${item.id}`);
                 break;
             case "delete":

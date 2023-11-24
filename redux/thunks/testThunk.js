@@ -73,9 +73,29 @@ const testItem = createAsyncThunk(
 );
 
 
+const testUpdateItem = createAsyncThunk(
+  "test/updateItem",
+    async ({ data, callback }, { rejectWithValue }) => {
+    try {
+      const response = await userApi.post("/test/updateItem", data);
+
+      if (callback) {
+        callback(response.data)
+      }
+
+      return response.data;
+    } catch (err) {
+      throw new Error("Error");
+    }
+  }
+);
+
+
+
 export { 
     testCreate,
     testSearch,
     testDelete,
-    testItem
+    testItem,
+    testUpdateItem
 };

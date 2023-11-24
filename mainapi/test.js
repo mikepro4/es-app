@@ -93,6 +93,38 @@ router.post("/item", async (req, res) => {
 
 // ===========================================================================
 
+router.post("/updateItem", async (req, res) => {
+    try {
+        const testId = req.body._id;  // Extract the ID from the request body
+        const updateData = req.body;  // Entire Test object received in the request body
+
+        // Ensure that updateData has an _id property
+        if (!testId) {
+            return res.status(400).send("No ID provided");
+        }
+
+        // Update the Test object in the database
+        const updatedTest = await Tests.findByIdAndUpdate(
+            testId,
+            updateData,
+            { new: true }  // Return the updated object
+        ).populate("author");
+
+        // If the Test object is not found
+        if (!updatedTest) {
+            return res.status(404).send("Test not found");
+        }
+
+        // Send back the updated Test object
+        res.json(updatedTest);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+});
+
+// ===========================================================================
+
 
 const buildQuery = criteria => {
     const query = {};

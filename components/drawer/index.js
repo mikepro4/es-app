@@ -7,6 +7,7 @@ import { toggleDrawer } from "../../redux";
 import AppSettings from "./type/app_settings.js";
 import ProfileSettings from "./type/profile_settings.js";
 import CollectionSettings from "./type/collection_settings.js";
+import TestSettings from "./type/test_settings.js";
 
 function Drawer() {
     const dispatch = useDispatch();
@@ -28,6 +29,8 @@ function Drawer() {
                 return <ProfileSettings hideDrawer={hideDrawer} enablePortal />;
             case "collection-settings":
                 return <CollectionSettings hideDrawer={hideDrawer} enablePortal />;
+            case "test-settings":
+                return <TestSettings hideDrawer={hideDrawer} enablePortal />;
             default:
                 return;
         }
