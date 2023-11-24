@@ -18,23 +18,9 @@ const TestView = () => {
   const router = useRouter()
   const dispatch = useDispatch();
   const toasterRef = useRef(null)
-  // const [sortProperty, setSortProperty] = useState("created");
   const [count, setCount] = useState(0);
   const [total, setTotal] = useState(0);
-  const [order, setOrder] = useState("-1");
   const [uuid, setNewUuid] = useState(uuidv4());
-
-  const getSortValue = () => {
-    if (sortProperty == "created") {
-      if (order == "-1") {
-        return "recent"
-      } else {
-        return "oldest"
-      }
-    } else {
-      return "name"
-    }
-  }
 
   return (
     <div className="ui-screen page-wrapper">
@@ -83,12 +69,11 @@ const TestView = () => {
 
 
         <InfiniteList
-          type="test_list"
           resultType="test-view-list"
           limit={20}
-          listReducer="testList"
           sortProperty={testList.sortProperty}
           order={testList.order}
+          criteria={testList.criteria}
           // identifier={this.props.query.folder}
           searchCollection={testSearch}
           updateCollectionStats={(count, total) => {
@@ -97,9 +82,8 @@ const TestView = () => {
           }}
           // loadCollectionItem={this.props.loadArc}
           handleClick={() => { }}
-        >
+        />
 
-        </InfiniteList>
 
         <CollectionInfo
           count={count}

@@ -1,3 +1,23 @@
 .collection-settings-container {
     min-height: 222px;
+
+    .collection-settings-header {
+        display: flex;
+        justify-content: space-between;
+
+        .collection-count-number {
+            font-weight: 500;
+            
+        }
+
+        .collection-count-total {
+            margin-left: 5px;
+            font-weight: 300;
+            opacity: 0.4;
+        }
+    }
+
+    .form-container {
+        margin-top: 10px;
+    }
 }

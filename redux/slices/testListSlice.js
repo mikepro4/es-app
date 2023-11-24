@@ -2,7 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     sortProperty: "created",
-    order: "-1"
+    order: "-1",
+    criteria: {
+
+    },
+    count: 0,
+    total: 0
 };
 
 const testListSlice = createSlice({
@@ -26,11 +31,25 @@ const testListSlice = createSlice({
         state.order = "-1"
       }
     },
+
+    testListChangeCriteria: (state, action) => {
+        state.criteria = {
+            ...state.criteria,
+            ...action.payload
+        }
+    },
+
+    testListUpdateStats: (state, action) => {
+        state.count = action.payload.count;
+        state.total = action.payload.total;
+    }
   }
 });
 
 export const { 
-    testListChangeSort
+    testListChangeSort,
+    testListChangeCriteria,
+    testListUpdateStats
 } = testListSlice.actions;
 
 export const testListReducer = testListSlice.reducer;

@@ -28,7 +28,7 @@ const Menu = (props) => {
                 className="popover"
                 style={style}
                 on="hover"
-                offset={[-10, -2]}
+                offset={props.offset ? props.offset : [-10, -2]}
                 trigger={props.children}
                 open={props.menuOpen}
             />}
@@ -39,7 +39,7 @@ const Menu = (props) => {
                 className="popover"
                 style={style}
                 on="hover"
-                offset={[10, -2]}
+                offset={props.offset ? props.offset : [-10, -2]}
                 trigger={props.children}
                 pinned
             />}

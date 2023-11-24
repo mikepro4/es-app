@@ -4,7 +4,9 @@ import { useRouter } from 'next/router';
 import classNames from "classnames";
 import throttle from 'lodash/throttle';
 
-import { updateCollection } from "@/redux"
+import _ from 'lodash';
+
+import { updateCollection, testListUpdateStats } from "@/redux"
 
 import TestView from "./views/test_list_view"
 
@@ -16,13 +18,12 @@ function InfiniteList({
     searchCollection,
     handleClick,
     updateCollectionStats,
-    listReducer
+    order,
+    sortProperty
 }) {
 
     const app = useSelector((state) => state.app);
     const updateCollectionValue = useSelector(state => state.app.updateCollection);
-    const order = useSelector(state => state[listReducer].order);
-    const sortProperty = useSelector(state => state[listReducer].sortProperty);
     const router = useRouter();
     const dispatch = useDispatch()
 
@@ -36,6 +37,7 @@ function InfiniteList({
 
     const sortPropertyRef = useRef(sortProperty);
     const orderRef = useRef(order);
+    const criteriaRef = useRef(criteria);
 
     const searchCollectionFunction = useCallback((offset, reset ) => {
         if (!loading && anchorRef.current) {
@@ -43,7 +45,7 @@ function InfiniteList({
             if (offset == 0 || offset <= count.current) {
                 setLoading(true)
                 console.log({
-                    criteria,
+                            criteria: criteriaRef.current,
                             sortProperty: sortPropertyRef.current,
                             offset: offset,
                             limit: limit ? limit : 20,
@@ -53,7 +55,7 @@ function InfiniteList({
                 dispatch(
                     searchCollection(
                         {
-                            criteria,
+                            criteria: criteriaRef.current,
                             sortProperty: sortPropertyRef.current,
                             offset: offset,
                             limit: limit ? limit : 20,
@@ -65,6 +67,7 @@ function InfiniteList({
                                 count.current = data.count
                                 dispatch(updateCollection(false))
                                 updateCollectionStats(data.count, data.total)
+                                dispatch(testListUpdateStats({count: data.count, total: data.total}) )   
                             }
                         },)
                 )
@@ -80,7 +83,6 @@ function InfiniteList({
                 return (<TestView
                     item={item}
                     key={item._id}
-                    type={type}
                     handleClick={handleClick}
                 />)
             default:
@@ -146,6 +148,17 @@ function InfiniteList({
             resetCollection()
         }
     }, [sortProperty, order]);
+
+    useEffect(() => {
+
+        const areObjectsEqual = _.isEqual(criteriaRef.current, criteria);
+
+        if(!areObjectsEqual) {
+            criteriaRef.current = criteria;
+            resetCollection()
+        }
+     
+    }, [criteria]);
 
     return (
         <div className="infinite-list-container">

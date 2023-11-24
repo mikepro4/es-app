@@ -97,6 +97,7 @@ const ParamSwitch = (props) => {
                 }
                 position={props.position}
                 menuOpen={menuOpen}
+                offset={props.offset}
             >
 
                 <div className="param-switch-content" ref={switchRef} onClick={() => setMenuOpen(!menuOpen)}>

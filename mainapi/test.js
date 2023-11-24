@@ -71,10 +71,10 @@ router.post("/search", requireSignin, async (req, res) => {
 const buildQuery = criteria => {
     const query = {};
 
-    if (criteria && criteria.name) {
+    if (criteria && criteria.search) {
         _.assign(query, {
             name: {
-                $regex: criteria.name,
+                $regex: criteria.search,
                 $options: 'i'
             }
         });
