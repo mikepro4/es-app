@@ -40,6 +40,7 @@ function AppSettings() {
     }, []);
 
     const initialValues = {
+        search: testList.criteria?.search
     }
 
     const handleFormChange = (values) => {
