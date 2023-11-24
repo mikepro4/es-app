@@ -7,7 +7,7 @@ import Input from "../../../components/form/BladeInput";
 import Button from "../../../components/button";
 import TabSwitcher from "../../../components/form/TabSwitcher";
 
-import { testUpdateItem, updateCollectionItem, toggleDrawer } from "@/redux";
+import { testUpdateItem, updateCollectionItem, toggleDrawer, togglePlayer } from "@/redux";
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);

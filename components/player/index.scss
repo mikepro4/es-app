@@ -10,6 +10,15 @@
     align-items: center;
     justify-content: center;
 
+    .main-player-header {
+
+        position: fixed;
+        top: 80px;
+        right: 10px;
+
+
+    }
+
     .collection-info-bar-container {
         position: fixed;
         left: 0;
