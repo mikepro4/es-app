@@ -137,6 +137,14 @@ const buildQuery = criteria => {
             }
         });
     }
+
+    if (criteria && criteria.status) {
+        _.assign(query, {
+            "status": {
+                $eq: criteria.status,
+              }
+        });
+    }
     return query
 };
 

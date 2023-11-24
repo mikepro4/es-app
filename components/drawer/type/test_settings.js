@@ -35,9 +35,6 @@ function AppSettings() {
                 }))
             }
         }))
-
-
-
     };
 
     let initialValues = app.drawerData

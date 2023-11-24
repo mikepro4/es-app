@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
+import TabSwitcher from "../../../components/form/TabSwitcher";
 
 import { Formik, Form, Field, FieldArray } from 'formik';
 import Input from "../../../components/form/BladeInput";
@@ -40,7 +41,8 @@ function AppSettings() {
     }, []);
 
     const initialValues = {
-        search: testList.criteria?.search
+        search: testList.criteria?.search,
+        status: testList.criteria?.status,
     }
 
     const handleFormChange = (values) => {
@@ -61,6 +63,17 @@ function AppSettings() {
         //         },
         //     }))
     };
+
+    const statusOptions = [{
+        name: 'Unreviewed',
+        value: 'unreviewed',
+    }, {
+        name: 'Approved',
+        value: 'approved',
+    }, {
+        name: 'Rejected',
+        value: 'rejected',
+    }]
 
     return (
         <div className={`app-drawer-content-container standard-drawer`}>
@@ -128,6 +141,13 @@ function AppSettings() {
                                             component={Input}
                                             title="Search"
                                             placeholder="Search"
+                                        />
+
+                                        <Field
+                                            name="status"
+                                            title="Status"
+                                            component={TabSwitcher}
+                                            options={statusOptions}
                                         />
 
                                     </div>
