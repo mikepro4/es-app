@@ -1,0 +1,50 @@
+.main-player {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: black;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .collection-info-bar-container {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 1000;
+
+        .collection-info-bar-container-left {
+            margin-left: 20px;
+            opacity: 0;
+        
+            @extend .animation-fadeInSlide;
+           
+            animation-delay: 0.2s;
+        }
+
+        .collection-info-bar-container-right {
+            display: flex;
+            margin-right: 20px;
+            
+
+            li {
+                opacity: 0;
+                @extend .animation-fadeInSlide;
+                margin-left: 10px;
+                animation-delay: 0.25s;
+
+                &:last-child {
+                    animation-delay: 0.3s;
+                }
+            }
+        }
+    }
+}

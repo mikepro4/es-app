@@ -1,5 +1,4 @@
-.collection-info-container {
-    position: fixed;
+.collection-goback-container {
     left: 0;
     bottom: 0;
     right: 0;
@@ -11,22 +10,17 @@
 
 
     .collection-info-bar {
-        padding: 0 20px ;
+        padding: 0 15px ;
         display: flex;
         align-items: center;
-        width: 222px;
         height: 45px;
         background: #222;
         border-radius: 50px;
         margin-bottom: 50px;
         cursor: pointer;
-        opacity: 0;
         transition: all 1s;
         user-select: none;
-        
-        @extend .animation-fadeInSlide;
        
-        animation-delay: 0.5s;
 
         @media only screen and (max-width: $mobile) {
             background: rgba(15, 15, 15, 0.6);
@@ -50,6 +44,7 @@
             flex-grow: 1;
             flex-shrink: 1;
             font-size: 12px;
+            opacity: 0.6;
 
             .collection-count-number {
                 font-weight: 500;
@@ -74,7 +69,15 @@
             &.search-button {
                 
                 margin-right: 10px;
+
+                &:last-child {
+                    margin-right: 0;
+                }
             }
+        }
+
+        .right-icon {
+            margin-left: 10px;
         }
 
     }

@@ -20,6 +20,8 @@ const initialState = {
   modalData: null,
   updateCollection: false,
   updateCollectionItem: false,
+  playerOpen: false,
+  playerData: null
 };
 
 const appSlice = createSlice({
@@ -57,6 +59,10 @@ const appSlice = createSlice({
       state.modalType = action.payload.modalType;
       state.modalData = action.payload.modalData;
     },
+    togglePlayer: (state, action) => {
+      state.playerOpen = action.payload.playerOpen;
+      state.playerData = action.payload.playerData;
+    }
   }
 });
 
@@ -66,7 +72,8 @@ export const {
     toggleAlert,
     toggleModal,
     updateCollection,
-    updateCollectionItem
+    updateCollectionItem,
+    togglePlayer
 } = appSlice.actions;
 
 export const appReducer = appSlice.reducer;

@@ -155,6 +155,48 @@ router.post("/updateItem", async (req, res) => {
 
 // ===========================================================================
 
+router.post("/nextItem", async (req, res) => {
+    try {
+        const { id, sortProperty, order, criteria } = req.body;
+
+        // Build the additional query criteria
+        const additionalQuery = buildQuery(criteria);
+
+        // Find the current item
+        const currentItem = await Tests.findById(id);
+        if (!currentItem) {
+            return res.status(404).send("Item not found");
+        }
+
+        // Determine the sorting order and condition
+        let sortCondition;
+        if(order === "1") {
+            // Ascending order: find the first item that has a greater sortProperty value
+            sortCondition = { ...additionalQuery, [sortProperty]: { $gt: currentItem[sortProperty] } };
+        } else {
+            // Descending order: find the first item that has a lesser sortProperty value
+            sortCondition = { ...additionalQuery, [sortProperty]: { $lt: currentItem[sortProperty] } };
+        }
+
+        // Find the next item
+        const nextItem = await Tests.findOne(sortCondition)
+            .sort({ [sortProperty]: order })
+            .exec();
+
+        if (!nextItem) {
+            return res.status(404).send("Next item not found");
+        }
+
+        res.json(nextItem);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+});
+
+
+// ===========================================================================
+
 
 const buildQuery = criteria => {
     const query = {};

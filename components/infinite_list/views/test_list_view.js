@@ -6,7 +6,7 @@ import classNames from "classnames";
 import ParamSwitch from "@/components/paramSwitch";
 import Label from "@/components/label";
 
-import { testDelete, testUpdateItem, updateCollectionItem, toggleDrawer, testDuplicate, updateCollection } from "@/redux";
+import { testDelete, testUpdateItem, updateCollectionItem, toggleDrawer, testDuplicate, updateCollection, togglePlayer } from "@/redux";
 
 function TestListView({
     item,
@@ -82,7 +82,12 @@ function TestListView({
         <div className="test-view-list-container">
 
             <div className="test-view-list-header">
-                <div className="test-view-list-header-left">
+                <div className="test-view-list-header-left" onClick={() => {
+                    dispatch(togglePlayer({
+                        playerOpen: true,
+                        playerData: item,
+                    }));
+                }}>
                     {item.name}
                 </div>
 
