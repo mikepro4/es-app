@@ -5,6 +5,8 @@ import classNames from "classnames";
 
 import ParamSwitch from "@/components/paramSwitch";
 
+import { testDelete, updateCollectionItem } from "@/redux";
+
 function TestListView({
     item,
     key,
@@ -14,6 +16,7 @@ function TestListView({
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
+    const dispatch = useDispatch();
 
     let switchAction = (value) => {
         switch (value) {
@@ -23,6 +26,15 @@ function TestListView({
                 break;
             case "delete":
                 console.log("delete")
+                dispatch(
+                    testDelete(
+                      {
+                        testId: item._id,
+                        callback: (data) => {
+                          dispatch(updateCollectionItem(item._id))
+                        }
+                      },)
+                  )
                 // setLoading(true);
                 // dispatch(deleteItem(item.id)).then(() => {
                 //     setLoading(false);

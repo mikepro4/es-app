@@ -19,12 +19,16 @@ const initialState = {
   modalType: null,
   modalData: null,
   updateCollection: false,
+  updateCollectionItem: false,
 };
 
 const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    updateCollectionItem: (state, action) => {
+      state.updateCollectionItem = action.payload;
+    },
     updateCollection: (state, action) => {
       state.updateCollection = action.payload;
     },
@@ -61,7 +65,8 @@ export const {
     toggleNotification,
     toggleAlert,
     toggleModal,
-    updateCollection
+    updateCollection,
+    updateCollectionItem
 } = appSlice.actions;
 
 export const appReducer = appSlice.reducer;

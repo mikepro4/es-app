@@ -9,7 +9,7 @@ import CollectionInfo from "../../../components/collection_info";
 import { OverlayToaster } from '@blueprintjs/core';
 import { v4 as uuidv4 } from 'uuid';
 
-import { testCreate, testSearch, updateCollection } from "@/redux"
+import { testCreate, testSearch, updateCollection, testItem } from "@/redux"
 
 const TestView = () => {
   const drawerOpen = useSelector(state => state.app.drawerOpen);
@@ -80,7 +80,7 @@ const TestView = () => {
             setCount(count)
             setTotal(total)
           }}
-          // loadCollectionItem={this.props.loadArc}
+          loadCollectionItem={testItem}
           handleClick={() => { }}
         />
 

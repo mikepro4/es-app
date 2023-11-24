@@ -38,7 +38,44 @@ const testSearch = createAsyncThunk(
     }
 );
 
+const testDelete = createAsyncThunk(
+  "test/delete",
+    async ({ testId, callback }, { rejectWithValue }) => {
+    try {
+      const response = await userApi.post("/test/delete", { testId });
+
+      if (callback) {
+        callback(response.data)
+      }
+
+      return response.data;
+    } catch (err) {
+      throw new Error("Error");
+    }
+  }
+);
+
+const testItem = createAsyncThunk(
+  "test/item",
+    async ({ testId, callback }, { rejectWithValue }) => {
+    try {
+      const response = await userApi.post("/test/item", { testId });
+
+      if (callback) {
+        callback(response.data)
+      }
+
+      return response.data;
+    } catch (err) {
+      throw new Error("Error");
+    }
+  }
+);
+
+
 export { 
     testCreate,
-    testSearch
+    testSearch,
+    testDelete,
+    testItem
 };

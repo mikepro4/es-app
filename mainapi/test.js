@@ -68,6 +68,32 @@ router.post("/search", requireSignin, async (req, res) => {
 // ===========================================================================
 
 
+router.post("/delete", async (req, res) => {
+    Tests.remove({ _id: req.body.testId })
+        .then(info => {
+            res.json({ success: "true", info: info });
+        })
+        .catch(err => {
+            res.status(400).send({ error: "true", error: err });
+        });
+});
+
+
+// ===========================================================================
+
+
+router.post("/item", async (req, res) => {
+    const query = await Tests.findOne({ _id: req.body.testId })
+      .populate("author")
+  
+    res.json(query);
+  });
+  
+
+
+// ===========================================================================
+
+
 const buildQuery = criteria => {
     const query = {};
 
