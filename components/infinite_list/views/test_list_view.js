@@ -6,7 +6,7 @@ import classNames from "classnames";
 import ParamSwitch from "@/components/paramSwitch";
 import Label from "@/components/label";
 
-import { testDelete, updateCollectionItem, toggleDrawer } from "@/redux";
+import { testDelete, testUpdateItem, updateCollectionItem, toggleDrawer } from "@/redux";
 
 function TestListView({
     item,
@@ -34,13 +34,13 @@ function TestListView({
                 console.log("delete")
                 dispatch(
                     testDelete(
-                      {
-                        testId: item._id,
-                        callback: (data) => {
-                          dispatch(updateCollectionItem(item._id))
-                        }
-                      },)
-                  )
+                        {
+                            testId: item._id,
+                            callback: (data) => {
+                                dispatch(updateCollectionItem(item._id))
+                            }
+                        },)
+                )
                 // setLoading(true);
                 // dispatch(deleteItem(item.id)).then(() => {
                 //     setLoading(false);
@@ -74,15 +74,60 @@ function TestListView({
                 </div>
 
                 <div className="test-view-list-header-left">
-                <Label
+                    {/* <Label
                     intent={selectIntent(item.status)}
                     label={item.status}
-                />
+                /> */}
+
+                    <ParamSwitch
+                        display="label"
+                        intent={selectIntent(item.status)}
+                        value={item.status}
+                        offset={[20, 0]}
+                        position="bottom left"
+                        params={[
+                            {
+                                type: "links",
+                                values: [
+                                    {
+                                        label: "Approved",
+                                        value: "approved",
+                                        icon: "tick"
+                                    },
+                                    {
+                                        label: "Rejected",
+                                        value: "rejected",
+                                        icon: "cross"
+                                    },
+                                    {
+                                        label: "Unreviewed",
+                                        value: "unreviewed",
+                                        icon: "eye-off"
+                                    },
+                                ],
+                            }
+                        ]}
+                        onChange={(value) => {
+                            switchAction(value)
+                            dispatch(
+                                testUpdateItem({
+                                    data: {
+                                        ...item,
+                                        status: value
+                                    },
+                                    callback: (data) => {
+                                        dispatch(updateCollectionItem(data._id))
+                                    }
+                                }))
+                            // alert(value)
+                        }}
+                    />
+
                     <ParamSwitch
                         type="local-icon"
                         icon="more-vertical"
                         value=""
-                        offset={[20,0]}
+                        offset={[20, 0]}
                         position="bottom left"
                         params={[
                             {
@@ -124,7 +169,7 @@ function TestListView({
             </div>
 
             <div className="test-view-list-content">
-                
+
             </div>
 
 

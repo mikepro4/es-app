@@ -7,6 +7,7 @@ import LocalIcon from "../icon"
 import { Icon } from "@blueprintjs/core";
 
 import Menu from "../menu"
+import Label from "../label"
 
 const ParamSwitch = (props) => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -105,11 +106,11 @@ const ParamSwitch = (props) => {
                         {props.label}
                     </div>}
 
-                    {props.value && <div className="param-switch-value">
+                    {props.value && props.display !== "label" && <div className="param-switch-value">
                         {getValue(props.value) && getValue(props.value).label}
                     </div>}
 
-                    {props.type !== "icon" && props.type !== "local-icon" && <div className="param-switch-caret">
+                    {props.type !== "icon" && props.type !== "local-icon" && props.display !== "label"  && <div className="param-switch-caret">
                         <LocalIcon name={menuOpen ? "caret-up" : "caret-bottom"} />
                     </div>}
 
@@ -119,6 +120,14 @@ const ParamSwitch = (props) => {
 
                     {props.type == "local-icon" && <div className="param-switch-icon">
                         <LocalIcon name={props.icon} />
+                    </div>}
+
+                    {props.display == "label" && <div className="param-switch-label-display">
+                        <Label
+                            intent={props.intent}
+                            label={props.value}
+                            iconRight={"chevron-down"}
+                            />
                     </div>}
                 </div>
 
