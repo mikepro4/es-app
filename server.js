@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const fs = require("fs");
 const path = require("path");
+const { readFileSync } = require('fs');
 
 // from M
 const passport = require('passport');
@@ -14,12 +15,17 @@ const STATIC_DIR = "static";
 const timeout = require('connect-timeout')
 
 // LATEST VERSION Socket io @4.4.1
-const { createServer } = require("http");
+const { createServer } = require("https");
 const { Server } = require("socket.io");
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   /* options */
 });
+
+const httpsOptions = {
+  key: readFileSync('./config/key.pem'),
+  cert: readFileSync('./config/certificate.pem')
+};
 
 const keys = require("./config/keys");
 
@@ -88,9 +94,14 @@ nextApp.prepare().then(() => {
 
     app.all("*", (req, res) => handle(req, res));
   
-    httpServer.listen(PORT, err => {
+
+    app.all('*', (req, res) => {
+      return handle(req, res);
+    });
+  
+    createServer(httpsOptions, app).listen(PORT, err => {
       if (err) throw err;
-      console.log("Express server running");
+      console.log(`> Ready on https://localhost:${PORT}`);
     });
 });
 

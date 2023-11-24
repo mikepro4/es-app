@@ -1,10 +1,12 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import { useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 import Icon from "../icon";
 import Button from "../button";
 import Navlinks from "../nav_links"
+import { ConnectWallet } from "@thirdweb-dev/react";
+
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
@@ -16,9 +18,9 @@ function AppSettings() {
     useEffect(() => {
 
         return () => {
-            
+
         };
-    }, []); 
+    }, []);
 
     let mainPages = [
         {
@@ -65,27 +67,35 @@ function AppSettings() {
             <div className="header-desktop-container-left" onClick={() => {
                 router.push('/ui')
             }}>
-                <Icon name="logo-mobile"/>
+                <Icon name="logo-mobile" />
             </div>
 
             <div className="header-desktop-container-center">
                 <div className="header-desktop-container-menu">
                     <Navlinks
                         links={mainPages}
-                        onClick={()=> {
-                            
+                        onClick={() => {
+
                         }}
                     />
                 </div>
             </div>
 
             <div className="header-desktop-container-right">
-                <Button
+                {/* <Button
                     wrap={true}
                     label="Connect wallet"
+                /> */}
+
+                <ConnectWallet
+                    theme={"dark"}
+                    modalSize={"compact"}
+                    welcomeScreen={{}}
                 />
+
+
             </div>
-           
+
         </div>
     );
 }

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 import Button from "../../button"
+import { ConnectWallet } from "@thirdweb-dev/react";
 
 import { toggleDrawer } from "@/redux";
 
@@ -52,10 +53,10 @@ function AppSettings() {
 
                 <ul className="button-container">
                     <li>
-                        <Button
-                            label="Connect Wallet"
-                            onClick={() => {
-                            }}
+                        <ConnectWallet
+                            theme={"dark"}
+                            modalSize={"compact"}
+                            welcomeScreen={{}}
                         />
                     </li>
 

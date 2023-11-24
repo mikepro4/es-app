@@ -8,13 +8,25 @@ import Head from "next/head";
 import Script from 'next/script';
 import { useRouter } from 'next/router';
 
-import { 
-  store, 
+import {
+  store,
   fetchUserInfo,
   toggleNoRedirect
 } from "../redux";
 
 FocusStyleManager.onlyShowFocusOnTabs();
+
+import {
+  ThirdwebProvider,
+  ConnectWallet,
+  metamaskWallet,
+  coinbaseWallet,
+  walletConnect,
+  trustWallet,
+  rainbowWallet,
+  embeddedWallet,
+} from "@thirdweb-dev/react";
+
 
 
 import Drawer from "../components/drawer";
@@ -30,7 +42,7 @@ const App = ({ children }) => {
   const router = useRouter();
   const query = router.query;
 
-  
+
 
   const fetchUserDetails = async () => {
     const userIdFromStorage = localStorage.getItem("token");
@@ -42,17 +54,17 @@ const App = ({ children }) => {
 
   useEffect(() => {
     fetchUserDetails();
-    
+
   }, []);
 
 
   useEffect(() => {
     // Update the URL with the item ID as a query parameter
     if (query.shapeId && !app.noRedirect) {
-        router.push({
-            pathname: '/shape',
-            query: { shapeId: query.shapeId }
-        }, undefined, { shallow: true });
+      router.push({
+        pathname: '/shape',
+        query: { shapeId: query.shapeId }
+      }, undefined, { shallow: true });
       dispatch(toggleNoRedirect(true))
     }
   }, [router]);
@@ -96,32 +108,44 @@ export default function MainApp({ Component, pageProps }) {
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
 
-      <Script src="/MochiKit/Base.js" strategy="beforeInteractive"/>
-      <Script src="/MochiKit/Iter.js" strategy="beforeInteractive"/>
-      <Script src="/MochiKit/Logging.js" strategy="beforeInteractive"/>
-      <Script src="/MochiKit/DateTime.js" strategy="beforeInteractive"/>
-      <Script src="/MochiKit/Format.js" strategy="beforeInteractive"/>
-      <Script src="/MochiKit/Async.js" strategy="beforeInteractive"/>
-      <Script src="/MochiKit/DOM.js" strategy="beforeInteractive"/>
-      <Script src="/MochiKit/Style.js" strategy="beforeInteractive"/>
-      <Script src="/MochiKit/LoggingPane.js" strategy="beforeInteractive"/>
-      <Script src="/MochiKit/Color.js" strategy="beforeInteractive"/>
-      <Script src="/MochiKit/Signal.js" strategy="beforeInteractive"/>
-      <Script src="/MochiKit/Style.js" strategy="beforeInteractive"/>
-      <Script src="/MochiKit/Position.js" strategy="beforeInteractive"/>
-      <Script src="/MochiKit/Visual.js" strategy="beforeInteractive"/>
-      <Script src="/SVGKit.js" strategy="beforeInteractive"/>
-      <Script src="/SVGCanvas.js" strategy="beforeInteractive"/>
+      <Script src="/MochiKit/Base.js" strategy="beforeInteractive" />
+      <Script src="/MochiKit/Iter.js" strategy="beforeInteractive" />
+      <Script src="/MochiKit/Logging.js" strategy="beforeInteractive" />
+      <Script src="/MochiKit/DateTime.js" strategy="beforeInteractive" />
+      <Script src="/MochiKit/Format.js" strategy="beforeInteractive" />
+      <Script src="/MochiKit/Async.js" strategy="beforeInteractive" />
+      <Script src="/MochiKit/DOM.js" strategy="beforeInteractive" />
+      <Script src="/MochiKit/Style.js" strategy="beforeInteractive" />
+      <Script src="/MochiKit/LoggingPane.js" strategy="beforeInteractive" />
+      <Script src="/MochiKit/Color.js" strategy="beforeInteractive" />
+      <Script src="/MochiKit/Signal.js" strategy="beforeInteractive" />
+      <Script src="/MochiKit/Style.js" strategy="beforeInteractive" />
+      <Script src="/MochiKit/Position.js" strategy="beforeInteractive" />
+      <Script src="/MochiKit/Visual.js" strategy="beforeInteractive" />
+      <Script src="/SVGKit.js" strategy="beforeInteractive" />
+      <Script src="/SVGCanvas.js" strategy="beforeInteractive" />
 
       <Provider store={store}>
+        <ThirdwebProvider
+          activeChain="mumbai"
+          clientId="b13389a0d034f848e45b482f5f3749fc"
+          supportedWallets={[
+            metamaskWallet({ recommended: true }),
+            coinbaseWallet(),
+            walletConnect(),
+            trustWallet({ recommended: true }),
+            rainbowWallet(),
+            embeddedWallet()
+          ]}
+        >
+          <div className="app">
 
-        <div className="app">
-          
-          <App>
-            <Component {...pageProps} />
-          </App>
+            <App>
+              <Component {...pageProps} />
+            </App>
 
-        </div>
+          </div>
+        </ThirdwebProvider>
       </Provider>
     </>
   )
