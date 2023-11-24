@@ -108,6 +108,32 @@ const TestView = () => {
             />
           </li>
 
+          <li>
+            <Button
+              small={true}
+              label="Login"
+              wrap={true}
+              minimal={true}
+              iconRight="chevron-right"
+              onClick={() => {
+                router.push("/login")
+              }}
+            />
+          </li>
+
+          <li>
+            <Button
+              small={true}
+              label="Signup"
+              wrap={true}
+              minimal={true}
+              iconRight="chevron-right"
+              onClick={() => {
+                router.push("/signup")
+              }}
+            />
+          </li>
+
 
         </div>
 
