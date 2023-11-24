@@ -10,6 +10,7 @@ import Input from "../../../components/form/BladeInput";
 import ParamSwitch from "@/components/paramSwitch";
 import { toggleDrawer } from "@/redux";
 import Button from "@/components/button";
+import _ from 'lodash';
 
 import { useFormik } from 'formik';
 
@@ -21,6 +22,8 @@ function AppSettings() {
     const testList = useSelector((state) => state.testList);
     const router = useRouter();
     const dispatch = useDispatch();
+    const [formLoaded, setFormLoaded] = useState(false);
+
 
     const [sortValue, setSortValue] = useState();
 
@@ -38,6 +41,10 @@ function AppSettings() {
             setSortValue("name")
         }
 
+        setTimeout(() => {
+            setFormLoaded(true)
+        }, 500);
+
         return () => {
 
         };
@@ -48,9 +55,10 @@ function AppSettings() {
         status: testList.criteria?.status,
     }
 
-    const handleFormChange = (values) => {
-        // console.log(values);
-        dispatch(testListChangeCriteria(values))
+    const handleFormChange = (values, data) => {
+        if(formLoaded) {
+            dispatch(testListChangeCriteria(values))
+        }
     };
 
     const handleSubmit = (values) => {
