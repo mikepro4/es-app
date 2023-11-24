@@ -9,7 +9,7 @@ import Button from "../button"
 
 import Icon from "../icon"
 
-import { toggleDrawer } from "@/redux";
+import { toggleDrawer, togglePlayer } from "@/redux";
 
 function Header() {
     const [loading, setLoading] = useState(false);
@@ -469,6 +469,13 @@ function Header() {
                     if(menuOpen) {
                         hideMenu()
                     }
+
+                    dispatch(
+                        togglePlayer({
+                            playerOpen: false,
+                            playerData: null
+                        })
+                    )
                 }}/>
             </div>
 

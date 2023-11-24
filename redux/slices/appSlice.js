@@ -21,7 +21,8 @@ const initialState = {
   updateCollection: false,
   updateCollectionItem: false,
   playerOpen: false,
-  playerData: null
+  playerData: null,
+  noRedirect: false
 };
 
 const appSlice = createSlice({
@@ -62,6 +63,9 @@ const appSlice = createSlice({
     togglePlayer: (state, action) => {
       state.playerOpen = action.payload.playerOpen;
       state.playerData = action.payload.playerData;
+    },
+    toggleNoRedirect: (state, action) => {
+      state.noRedirect = action.payload;
     }
   }
 });
@@ -73,7 +77,8 @@ export const {
     toggleModal,
     updateCollection,
     updateCollectionItem,
-    togglePlayer
+    togglePlayer,
+    toggleNoRedirect
 } = appSlice.actions;
 
 export const appReducer = appSlice.reducer;

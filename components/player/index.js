@@ -39,6 +39,18 @@ function Player() {
         }
     }, [updateCollectionItemValue]);
 
+    useEffect(() => {
+        // Update the URL with the item ID as a query parameter
+        if (app.playerData._id) {
+            console.log(router.pathname)
+            router.push({
+                pathname: router.pathname,
+                query: { ...router.query, shapeId: app.playerData._id }
+            }, undefined, { shallow: true });
+        }
+    }, [app.playerData._id]);
+
+
     return (
         <div className="main-player">
             <div className="main-player-header">
@@ -53,6 +65,8 @@ function Player() {
                                 playerOpen: true,
                                 playerData: data
                             }))
+
+                            
                         }}
                     />
                 </div>
@@ -64,13 +78,22 @@ function Player() {
 
                 <div className="collection-info-bar-container-left">
                     <CollectionGoBack
-                        label="Go Back"
+                        label={router.pathname == "/shape" ? "Go to collection" : "Go back"}
                         icon="x"
                         onClick={() => {
                             dispatch(togglePlayer({
                                 playerOpen: false,
                                 playerData: null
                             }))
+
+                            if(router.pathname == "/shape") {
+                                router.push("/ui/infinite_list")
+                            } else {
+                                router.push({
+                                    pathname: router.pathname,
+                                    query: { }
+                                }, undefined, { shallow: true });
+                            }
                         }}
                     />
                 </div>

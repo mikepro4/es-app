@@ -6,10 +6,12 @@ import '../styles/main.scss';
 
 import Head from "next/head";
 import Script from 'next/script';
+import { useRouter } from 'next/router';
 
 import { 
   store, 
-  fetchUserInfo 
+  fetchUserInfo,
+  toggleNoRedirect
 } from "../redux";
 
 FocusStyleManager.onlyShowFocusOnTabs();
@@ -20,9 +22,14 @@ import Modal from "../components/modal";
 import Header from "../components/header";
 import MainPlayer from "../components/player";
 
+
 const App = ({ children }) => {
   const dispatch = useDispatch();
   const app = useSelector((state) => state.app);
+  const router = useRouter();
+  const query = router.query;
+
+  
 
   const fetchUserDetails = async () => {
     const userIdFromStorage = localStorage.getItem("token");
@@ -34,7 +41,20 @@ const App = ({ children }) => {
 
   useEffect(() => {
     fetchUserDetails();
+    
   }, []);
+
+
+  useEffect(() => {
+    // Update the URL with the item ID as a query parameter
+    if (query.shapeId && !app.noRedirect) {
+        router.push({
+            pathname: '/shape',
+            query: { shapeId: query.shapeId }
+        }, undefined, { shallow: true });
+      dispatch(toggleNoRedirect(true))
+    }
+  }, [router]);
 
   return (
     <>

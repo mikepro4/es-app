@@ -6,7 +6,7 @@ import classNames from "classnames";
 import ParamSwitch from "@/components/paramSwitch";
 import Label from "@/components/label";
 
-import { togglePlayer } from "@/redux";
+import { togglePlayer, toggleNoRedirect } from "@/redux";
 
 import TestActionsView from "../../testActions";
 
@@ -24,6 +24,7 @@ function TestListView({
 
             <div className="test-view-list-header">
                 <div className="test-view-list-header-left" onClick={() => {
+                    dispatch(toggleNoRedirect(true))
                     dispatch(togglePlayer({
                         playerOpen: true,
                         playerData: item,
