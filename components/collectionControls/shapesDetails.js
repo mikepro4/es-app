@@ -6,6 +6,8 @@ import Button from "@/components/button";
 import ParamSwitch from "@/components/paramSwitch";
 import { shapeCreate, updateCollection } from "@/redux"
 
+import ShapeChangeSort from "@/components/collection_actions/shapeChangeSort"
+
 import { OverlayToaster } from '@blueprintjs/core';
 
 function AppSettings() {
@@ -93,6 +95,12 @@ function AppSettings() {
                             }}
                         />
                     </li>
+
+                    <li>
+                        <ShapeChangeSort />
+                    </li>
+
+                    
 
                     <OverlayToaster ref={toasterRef} />
 

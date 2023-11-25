@@ -7,48 +7,24 @@ import TabSwitcher from "../../../components/form/TabSwitcher";
 import { Formik, Form, Field, FieldArray } from 'formik';
 import Input from "../../../components/form/BladeInput";
 
-import ParamSwitch from "@/components/paramSwitch";
 import { toggleDrawer } from "@/redux";
 import Button from "@/components/button";
 import _ from 'lodash';
 
 import { useFormik } from 'formik';
 
-import { updateCollection, shapeListChangeSort, shapeListChangeCriteria, shapeResetCriteria } from "@/redux"
+import { updateCollection, shapeListChangeCriteria, shapeResetCriteria } from "@/redux"
+
+import ShapeChangeSort from "@/components/collection_actions/shapeChangeSort"
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
-    const shapeList = useSelector((state) => state.shapeList);
     const router = useRouter();
     const dispatch = useDispatch();
+    const shapeList = useSelector((state) => state.shapeList);
     const [formLoaded, setFormLoaded] = useState(false);
 
-
-    const [sortValue, setSortValue] = useState();
-
-    useEffect(() => {
-
-        if (shapeList.sortProperty == "created" && shapeList.order == "-1") {
-            setSortValue("recent")
-        }
-
-        if (shapeList.sortProperty == "created" && shapeList.order == "1") {
-            setSortValue("oldest")
-        }
-
-        if (shapeList.sortProperty == "name" && shapeList.order == "-1") {
-            setSortValue("name")
-        }
-
-        setTimeout(() => {
-            setFormLoaded(true)
-        }, 500);
-
-        return () => {
-
-        };
-    }, []);
 
     const initialValues = {
         search: shapeList.criteria?.search,
@@ -113,35 +89,7 @@ function AppSettings() {
                     </div>
 
                     <div className="collection-settings-header-right">
-                        <ParamSwitch
-                            label="Sort by:"
-                            value={sortValue}
-                            position="bottom left"
-                            offset={[20, 0]}
-                            params={[
-                                {
-                                    values: [
-                                        {
-                                            label: "Recent",
-                                            value: "recent",
-                                        },
-                                        {
-                                            label: "Oldest",
-                                            value: "oldest",
-                                        },
-                                        {
-                                            label: "Name",
-                                            value: "name",
-                                        }
-                                    ],
-                                }
-                            ]}
-                            onChange={(value) => {
-                                setSortValue(value);
-                                dispatch(shapeListChangeSort(value))
-
-                            }}
-                        />
+                        <ShapeChangeSort/>
                     </div>
 
                 </div>
