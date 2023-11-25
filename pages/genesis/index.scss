@@ -46,6 +46,21 @@
 
         @media only screen and (min-width: $mobile) {
             overflow-y: scroll;
+            
+        }
+
+        .infinite-list-items {
+            @media only screen and (min-width: $mobile) {
+                overflow-y: scroll;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                column-gap: 70px;
+                row-gap: 50px;
+                padding: 70px 30px;
+
+                max-width: 1100px;
+                margin: 0 auto;
+            }
         }
 
     }

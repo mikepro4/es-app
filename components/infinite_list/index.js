@@ -120,6 +120,8 @@ function InfiniteList({
     }, 200), []);
 
     useEffect(() => {
+        console.log("criteria", criteria)
+        criteriaRef.current = criteria;
         setTimeout(() => {
             searchCollectionFunction(localOffset.current, true)
         }, 100)
@@ -219,7 +221,7 @@ function InfiniteList({
 
     return (
         <div className="infinite-list-container">
-            <div>
+            <div className="infinite-list-items">
                 {collection.map((item, i) => renderResultItem(item, i))}
             </div>
 

@@ -4,7 +4,7 @@ const initialState = {
     sortProperty: "created",
     order: "-1",
     criteria: {
-
+      // status: "approved"
     },
     count: 0,
     total: 0

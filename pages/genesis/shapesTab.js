@@ -12,10 +12,11 @@ function ShapesTab() {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
+    const dispatch = useDispatch()
 
     const [screenWidth, setScreenWidth] = useState(0);
 
-    const shapeList = useSelector(state => state.testList);
+    const shapeList = useSelector(state => state.shapeList);
     const [count, setCount] = useState(0);
     const [total, setTotal] = useState(0);
     const [scroll, setScroll] = useState(0);
@@ -84,7 +85,7 @@ function ShapesTab() {
             <CollectionInfo
                 count={count}
                 total={total}
-                drawerType="collection-settings"
+                drawerType="shape-collection-settings"
             />
 
         </div>

@@ -56,4 +56,5 @@ export * from "./thunks/shapeThunk";
 export * from "./slices/appSlice";
 export * from "./slices/userSlice";
 export * from "./slices/testListSlice";
+export * from "./slices/shapeListSlice";
 
