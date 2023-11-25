@@ -51,6 +51,12 @@ function AppSettings() {
         //     }))
     };
 
+    useEffect(() => {
+        setTimeout(() => {
+            setFormLoaded(true)
+        }, 500)
+    }, []);
+
     const getInitialValues = () => ({
         search: shapeList.criteria?.search || '',
         status: shapeList.criteria?.status || '',

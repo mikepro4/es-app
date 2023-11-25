@@ -144,8 +144,8 @@ function ShapeActionsView({
                     type="local-icon"
                     icon="more-vertical"
                     value=""
-                    offset={[20, 0]}
-                    position="bottom left"
+                    position="bottom right"
+                    offset={[10,0]}
                     params={[
                         {
                             type: "links",

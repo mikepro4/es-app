@@ -13,6 +13,7 @@ import { OverlayToaster } from '@blueprintjs/core';
 function AppSettings() {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
+    const shapeList = useSelector((state) => state.shapeList);
     const router = useRouter();
     const dispatch = useDispatch();
     const toasterRef = useRef(null)
@@ -28,8 +29,8 @@ function AppSettings() {
     return (
         <div className="collection-details">
             <div className="collection-details-left">
-                <span className="collection-count-number">9</span>
-                <span className="collection-count-total">of 10 items</span>
+                <span className="collection-count-number">{shapeList.count}</span>
+                <span className="collection-count-total">of {shapeList.total} items</span>
                 
             </div>
 
@@ -62,7 +63,8 @@ function AppSettings() {
                             type="local-icon"
                             icon="more-vertical"
                             value=""
-                            position="bottom left"
+                            position="bottom right"
+                            offset={[10,0]}
                             params={[
                                 {
                                     type: "links",

@@ -22,28 +22,17 @@ function ShapeListView({
     return (
         <div className="shape-view-list-container">
 
-            <div className="shape-view-list-header">
-                <div className="shape-view-list-header-left" onClick={() => {
-                    // dispatch(toggleNoRedirect(true))
-                    // dispatch(togglePlayer({
-                    //     playerOpen: true,
-                    //     playerData: item,
-                    // }));
-                }}>
-                    {item.name}
-                </div>
-
-                <div className="shape-view-list-header-left">
-                   
-                    <ShapeActionsView 
-                        item={item}
-                    />
-                </div>
+            <div className="shape-view-list-shape-container">
+                <div className="shape-placeholder"></div>
             </div>
+        
 
-            <div className="shape-view-list-content">
-
+            <div className="shape-view-actions">
+                <ShapeActionsView 
+                    item={item}
+                />
             </div>
+            
 
 
 
