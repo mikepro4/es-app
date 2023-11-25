@@ -6,7 +6,7 @@ import throttle from 'lodash/throttle';
 
 import _ from 'lodash';
 
-import { updateCollection, testListUpdateStats, testItem, updateCollectionItem } from "@/redux"
+import { updateCollection, updateCollectionItem } from "@/redux"
 
 import TestView from "./views/test_list_view"
 
@@ -19,7 +19,10 @@ function InfiniteList({
     handleClick,
     updateCollectionStats,
     order,
-    sortProperty
+    sortProperty,
+    contained,
+    scrollValue,
+    loadCollectionItem
 }) {
 
     const app = useSelector((state) => state.app);
@@ -41,6 +44,7 @@ function InfiniteList({
     const criteriaRef = useRef(criteria);
 
     const searchCollectionFunction = useCallback((offset, reset) => {
+
         if (!loading && anchorRef.current) {
 
             if (offset == 0 || offset <= count.current) {
@@ -52,6 +56,8 @@ function InfiniteList({
                     limit: limit ? limit : 20,
                     order: orderRef.current,
                 })
+
+
 
                 dispatch(
                     searchCollection(
@@ -68,7 +74,6 @@ function InfiniteList({
                                 count.current = data.count
                                 dispatch(updateCollection(false))
                                 updateCollectionStats(data.count, data.total)
-                                dispatch(testListUpdateStats({ count: data.count, total: data.total }))
                             }
                         },)
                 )
@@ -98,6 +103,7 @@ function InfiniteList({
             if (anchorRef.current) {
                 const rect = anchorRef.current.getBoundingClientRect();
 
+
                 if (rect.top < 1200) {
                     searchCollectionFunction(localOffset.current)
                 }
@@ -111,14 +117,31 @@ function InfiniteList({
             searchCollectionFunction(localOffset.current, true)
         }, 100)
 
-        window.addEventListener('scroll', updatePosition);
+        // window.addEventListener('scroll', updatePosition);
 
-        // updatePosition();
+        // // updatePosition();
+
+        // return () => {
+        //     window.removeEventListener('scroll', updatePosition);
+        // };
+    }, []);
+
+    useEffect(() => {
+        if (!contained) {
+            window.addEventListener('scroll', updatePosition);
+
+        }
 
         return () => {
-            window.removeEventListener('scroll', updatePosition);
+            if (!contained) {
+                window.removeEventListener('scroll', updatePosition);
+            }
         };
-    }, []);
+    }, [contained]);
+
+    useEffect(() => {
+        updatePosition()
+    }, [scrollValue]);
 
     const resetCollection = useCallback(() => {
         setCollection([]);
@@ -163,7 +186,7 @@ function InfiniteList({
         if (updateCollectionItemValue) {
             // Dispatch the testItem action with a callback
             dispatch(
-                testItem({
+                loadCollectionItem({
                     testId: updateCollectionItemValue,
                     callback: (data) => {
                         if (data == null) {
