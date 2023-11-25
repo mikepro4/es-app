@@ -1,0 +1,23 @@
+.shape-view-list-container {
+    height: 222px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 20px;
+    margin-bottom: 20px;
+
+    .shape-view-list-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 10px 0 20px;
+
+        .shape-view-list-header-left {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .shape-view-list-content {
+        padding: 10px 0 10px 20px
+    }
+}

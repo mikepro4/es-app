@@ -36,7 +36,7 @@
 @import "../components/header_desktop/index.scss";
 @import "../components/nav_links/index.scss";
 @import "../components/infinite_list/index.scss";
-@import "../components/infinite_list/views/test_list_view.scss";
+
 @import "../components/collection_info/index.scss";
 @import "../components/collection_go_back/index.scss";
 @import "../components/label/index.scss";
@@ -44,10 +44,14 @@
 @import "../components/sidebar/index.scss";
 @import "../components/tab/index.scss";
 @import "../components/collectionControls/index.scss";
-
+@import "../components/collection_actions/index.scss";
 
 // Collection reelated components
 @import "../components/testActions/index.scss";
+
+// List views
+@import "../components/infinite_list/views/test_list_view.scss";
+@import "../components/infinite_list/views/shape_list_view.scss";
 
 
 // Pages

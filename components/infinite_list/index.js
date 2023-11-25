@@ -9,6 +9,7 @@ import _ from 'lodash';
 import { updateCollection, updateCollectionItem } from "@/redux"
 
 import TestView from "./views/test_list_view"
+import ShapeView from "./views/shape_list_view"
 
 function InfiniteList({
     type,
@@ -87,6 +88,12 @@ function InfiniteList({
         switch (resultType) {
             case "test-view-list":
                 return (<TestView
+                    item={item}
+                    key={item._id}
+                    handleClick={handleClick}
+                />)
+            case "shape-view-list":
+                return (<ShapeView
                     item={item}
                     key={item._id}
                     handleClick={handleClick}
@@ -187,7 +194,7 @@ function InfiniteList({
             // Dispatch the testItem action with a callback
             dispatch(
                 loadCollectionItem({
-                    testId: updateCollectionItemValue,
+                    shapeId: updateCollectionItemValue,
                     callback: (data) => {
                         if (data == null) {
                             // Filter out the item from the collection

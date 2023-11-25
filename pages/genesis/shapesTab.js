@@ -49,19 +49,17 @@ function ShapesTab() {
     }, []);
 
 
-    
-
 
     return (
         <div className="tab-content">
             <div className="tab-content-details">
-                <ShapesDetails /> {scroll}
+                <ShapesDetails />
             </div>
 
             <div className="tab-content-results" ref={scrollContainerRef}>
 
                 <InfiniteList
-                    resultType="test-view-list"
+                    resultType="shape-view-list"
                     limit={20}
                     contained={screenWidth > 500 ? true : false}
                     scrollValue={scroll}

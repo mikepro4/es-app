@@ -8,6 +8,7 @@ import AppSettings from "./type/app_settings.js";
 import ProfileSettings from "./type/profile_settings.js";
 import CollectionSettings from "./type/collection_settings.js";
 import TestSettings from "./type/test_settings.js";
+import ShapeSettings from "./type/shape_settings.js";
 
 function Drawer() {
     const dispatch = useDispatch();
@@ -31,6 +32,8 @@ function Drawer() {
                 return <CollectionSettings hideDrawer={hideDrawer} enablePortal />;
             case "test-settings":
                 return <TestSettings hideDrawer={hideDrawer} enablePortal />;
+            case "shape-settings":
+                return <ShapeSettings hideDrawer={hideDrawer} enablePortal />;
             default:
                 return;
         }
