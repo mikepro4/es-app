@@ -25,4 +25,17 @@
             opacity: 0.4;
         }
     }
+
+    .action-buttons {
+        display: flex;
+        align-items: center;
+        
+        li {
+            margin-left: 10px;
+
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }
 }

@@ -69,7 +69,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 7px;
 
             svg {
                 width: 18px;
@@ -78,6 +77,8 @@
             }
 
             &.small {
+                margin-right: 5px;
+
                 svg {
                     width: 14px;
                     height: 14px;

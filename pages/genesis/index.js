@@ -1,12 +1,15 @@
 import Head from 'next/head'
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from 'next/router';
-import TabBar from '../../components/tab'
+
+import TabBar from '@/components/tab'
+
 
 import ShapesTab from "./shapesTab"
 
 export default function Genesis() {
   const router = useRouter();
+ 
 
   const [selectedTabId, setSelectedTabId] = useState(1);
   let tabs = [
