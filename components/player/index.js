@@ -3,11 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 
-import { togglePlayer, testNextItem, testPreviousItem, testItem } from "@/redux";
+import { togglePlayer, shapeNextItem, shapePreviousItem, shapeItem } from "@/redux";
 
 import CollectionGoBack from "../collection_go_back";
 
-import TestActionsView from "../testActions";
+import TestActionsView from "../collection_actions/shapeActions";
 
 function Player() {
     const [loading, setLoading] = useState(false);
@@ -16,7 +16,7 @@ function Player() {
     const router = useRouter();
     const query = router.query;
     const dispatch = useDispatch();
-    const testList = useSelector((state) => state.testList);
+    const shapeList = useSelector((state) => state.shapeList);
 
     const [prevPathname, setPrevPathname] = useState(null);
 
@@ -58,8 +58,8 @@ function Player() {
 
     useEffect(() => {
         if (updateCollectionItemValue) {
-            dispatch(testItem({
-                testId: app.playerData._id, callback: (data) => {
+            dispatch(shapeItem({
+                shapeId: app.playerData._id, callback: (data) => {
                     dispatch(togglePlayer({
                         playerOpen: true,
                         playerData: data
@@ -71,18 +71,18 @@ function Player() {
 
     useEffect(() => {
         // Update the URL with the item ID as a query parameter
-        if (app.playerData._id) {
+        if (app.playerData?._id) {
             console.log(router.pathname)
             router.push({
                 pathname: router.pathname,
                 query: { ...router.query, shapeId: app.playerData._id }
             }, undefined, { shallow: true });
         }
-    }, [app.playerData._id]);
+    }, [app.playerData?._id]);
 
 
     return (
-        <div className="main-player">
+        <div className="main-player" >
             <div className="main-player-header">
                 <div className="main-player-left">
                 </div>
@@ -102,7 +102,7 @@ function Player() {
                 </div>
 
             </div>
-            {app.playerData.name}
+            {app.playerData?.name}
 
             <div className="collection-info-bar-container">
 
@@ -117,7 +117,7 @@ function Player() {
                             }))
 
                             if (router.pathname == "/shape") {
-                                router.push("/ui/infinite_list")
+                                router.push("/genesis")
                             } else {
                                 router.push({
                                     pathname: router.pathname,
@@ -133,11 +133,11 @@ function Player() {
                         <CollectionGoBack
                             icon="arrow-back"
                             onClick={() => {
-                                dispatch(testPreviousItem({
+                                dispatch(shapePreviousItem({
                                     id: app.playerData._id,
-                                    sortProperty: testList.sortProperty,
-                                    order: testList.order,
-                                    criteria: testList.criteria,
+                                    sortProperty: shapeList.sortProperty,
+                                    order: shapeList.order,
+                                    criteria: shapeList.criteria,
                                     callback: (data) => {
                                         dispatch(togglePlayer({
                                             playerOpen: true,
@@ -154,11 +154,11 @@ function Player() {
                             label="Next"
                             iconRight="arrow-forward"
                             onClick={() => {
-                                dispatch(testNextItem({
+                                dispatch(shapeNextItem({
                                     id: app.playerData._id,
-                                    sortProperty: testList.sortProperty,
-                                    order: testList.order,
-                                    criteria: testList.criteria,
+                                    sortProperty: shapeList.sortProperty,
+                                    order: shapeList.order,
+                                    criteria: shapeList.criteria,
                                     callback: (data) => {
                                         dispatch(togglePlayer({
                                             playerOpen: true,

@@ -3,7 +3,7 @@ import { useSelector, useDispatch} from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 
-import { togglePlayer, testItem  } from "@/redux";
+import { togglePlayer, shapeItem  } from "@/redux";
 
 function Shape() {
     const [loading, setLoading] = useState(false);
@@ -14,8 +14,8 @@ function Shape() {
 
     const fetchShape = () => {
         dispatch(
-            testItem({
-                testId: query.shapeId,
+            shapeItem({
+                shapeId: query.shapeId,
                 callback: (data) => {
                     console.log("loaded shape", data)
                     dispatch(

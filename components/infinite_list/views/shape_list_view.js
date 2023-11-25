@@ -22,7 +22,14 @@ function ShapeListView({
     return (
         <div className="shape-view-list-container">
 
-            <div className="shape-view-list-shape-container">
+            <div className="shape-view-list-shape-container"
+                onClick={() => {
+                    dispatch(togglePlayer({
+                        playerOpen: true,
+                        playerData: item
+                    }))
+                }}
+            >
                 <div className="shape-placeholder"></div>
             </div>
         

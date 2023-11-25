@@ -90,8 +90,8 @@ function ShapeActionsView({
 
                 <ParamSwitch
                     display="label"
-                    intent={selectIntent(item.status)}
-                    value={item.status}
+                    intent={selectIntent(item?.status)}
+                    value={item?.status}
                     offset={[20, 0]}
                     position="bottom left"
                     params={[
