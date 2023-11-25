@@ -88,6 +88,7 @@ const TestView = () => {
         <CollectionInfo
           count={count}
           total={total}
+          drawerType="collection-settings"
         />
 
         {/* <div className='placeholder'></div> */}

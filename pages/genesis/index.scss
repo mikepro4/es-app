@@ -1,0 +1,44 @@
+.tab-content {
+    display: block;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    @media only screen and (min-width: $mobile) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow-y: scroll;
+        display: flex;
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-direction: column;
+    }
+
+    
+    @media only screen and (max-width: $mobile) {
+        margin-top: 20px;
+    }
+
+    .tab-content-details{
+        @media only screen and (min-width: $mobile) {
+            display: flex;
+            flex-grow: 0;
+            flex-shrink: 0;
+            height: 55px;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1); 
+            padding: 0 30px;
+        }
+
+        @media only screen and (max-width: $mobile) {
+            // display: none;
+            display: flex;
+            flex: 1;
+            padding-right: 15px;
+            margin-bottom: 30px;
+        }
+    }
+}

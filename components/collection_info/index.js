@@ -11,7 +11,8 @@ function CollectionInfo({
     total,
     sortProperty,
     collectionId,
-    data
+    data,
+    drawerType
 }) {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
@@ -26,7 +27,7 @@ function CollectionInfo({
                 onClick={() => {
                     dispatch(toggleDrawer({
                         drawerOpen: true,
-                        drawerType: "collection-settings",
+                        drawerType: drawerType,
                         drawerData: {
                             ...data,
                             collectionId: collectionId,

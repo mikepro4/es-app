@@ -1,0 +1,28 @@
+.collection-details {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+
+    .collection-details-left {
+        flex-grow: 1;
+        flex-shrink: 1;
+        font-size: 12px;
+
+        @media only screen and (max-width: $mobile) {
+            display: none;
+        }
+
+        .collection-count-number {
+            font-weight: 500;
+            opacity: 0.6;
+            
+        }
+
+        .collection-count-total {
+            margin-left: 5px;
+            font-weight: 300;
+            opacity: 0.4;
+        }
+    }
+}

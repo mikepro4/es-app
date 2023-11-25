@@ -1,9 +1,36 @@
 .tab-container {
+
+	
+
+
 	ul.tab-list {
 		display: flex;
 		width: 100%;
 		padding: 0 25px 0 0;
 		margin-bottom: 10px;
+		position: relative;
+
+		@media only screen and (max-width: $mobile) {
+			left: -15px;
+			right: -15px;
+			padding: 0 15px;
+			overflow-x: auto;
+			overflow-y: hidden;
+			padding-bottom: 1px;
+			width: calc(100% + 15px)
+		}
+
+		&:before {
+			@media only screen and (max-width: $mobile) {
+				content: "";
+				height: 1px;
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				right: 0;
+				background: rgba(255,255,255,0.1); 
+			}
+		}
 
 		li.tab-link-container {
 			margin: 0 25px 0 0;
