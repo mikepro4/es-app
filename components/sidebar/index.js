@@ -60,7 +60,7 @@ function AppSettings() {
         },
         {
             url: "/mint",
-            name: "Mint",
+            name: "Claim NFT",
             icon: "plus"
         },
         {

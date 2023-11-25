@@ -122,10 +122,18 @@
         }
 
         .page-header {
-            font-size: 26px;
+            font-size: 30px;
 
             @media only screen and (min-width: $mobile)  {
-                margin: 20px 0 0 30px;
+                margin: 26px 0 0 30px;
+
+                
+            }
+
+            .page-header-tab-container {
+                @media only screen and (min-width: $mobile)  {
+                    padding-top: 8px;
+                }
             }
         }
     }
