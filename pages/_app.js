@@ -34,6 +34,7 @@ import Modal from "../components/modal";
 import Header from "../components/header";
 import HeaderDesktop from "../components/header_desktop";
 import MainPlayer from "../components/player";
+import Sidebar from "../components/sidebar";
 
 
 const App = ({ children }) => {
@@ -73,6 +74,7 @@ const App = ({ children }) => {
     <>
       <HeaderDesktop />
       <Header />
+      <Sidebar />
       {children}
       {app.playerOpen && <MainPlayer />}
       {app.drawerOpen && <Drawer />}

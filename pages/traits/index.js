@@ -3,8 +3,8 @@ import Head from 'next/head'
 export default function Genesis() {
   return (
     <>
-      <div className="ui-screen">
-        Genesis
+      <div className="full-screen-container">
+        Traits
 
         <div className="placeholder"></div>
       </div>

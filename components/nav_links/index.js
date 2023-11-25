@@ -22,13 +22,13 @@ const NavLinks = ({ links, onClick }) => {
         switch (link.url) {
             case "divider":
                 return (
-                    <span
+                    <li
                         key={i}
                         className={classNames("nav-link-container", {
                             "divider": true,
                             "bold": link.url == "divider"
                         })}
-                    >{link.name}</span>
+                    >{link.name}</li>
                 )
             case "line":
                 return (

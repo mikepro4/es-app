@@ -1,0 +1,64 @@
+.sidebar-desktop-container {
+    position: fixed;
+    top: 120px;
+    left: 0;
+    // height: 100px;
+    z-index: 20;
+    display: flex;
+    flex-direction: columns;
+    align-items: center;
+    display: none;
+
+    @media only screen and (min-width: $mobile) {
+        display: flex;
+    }
+
+    .nav-links {
+        flex-direction: column;
+    }
+
+    .nav-links-container .nav-link-container {
+        &.divider {
+            display: block;
+            margin: 15px 0 0px 0;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+            left: -10px;
+            width: 210px
+        }
+    }
+
+    .nav-links-container .nav-link-container{
+        transition: all 0.3s ease-in-out;
+        margin: 0 4px;
+
+        a {
+            &:before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -45px;
+                width: 4px;
+                height: 100%;
+                background: $white;
+                border-radius: 0 5px 5px 0;
+                transition: all 0.1s ease-in-out;
+            }
+        }
+    }
+
+
+    .nav-links-container .nav-link-container.nav-link-active a {
+        color: $white;
+        position: relative;
+
+        &:before {
+            left: -22px;
+        }
+    }
+
+    .nav-links-container .nav-link-container.nav-link-active a path {
+        stroke: $white;
+        transition: all 0.3s ease-in-out;
+    }
+}

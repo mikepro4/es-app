@@ -53,48 +53,43 @@ function AppSettings() {
             url: "/tiers",
             name: "Tiers",
             icon: "tier"
+        }
+        ,
+        {
+            url: "divider",
+        },
+        {
+            url: "/mint",
+            name: "Mint",
+            icon: "plus"
+        },
+        {
+            url: "/profile",
+            name: "My profile",
+            icon: "user"
         },
         {
             url: "/ui",
             name: "UI",
             icon: "x"
-        }
+        },
     ]
 
     return (
-        <div className="header-desktop-container">
+        <div className="sidebar-desktop-container">
 
-            <div className="header-desktop-container-left" onClick={() => {
-                router.push('/ui')
-            }}>
-                <Icon name="logo-mobile" />
-            </div>
+            <Navlinks
+                links={mainPages}
+                onClick={() => {
 
-            {/* <div className="header-desktop-container-center">
-                <div className="header-desktop-container-menu">
-                    <Navlinks
-                        links={mainPages}
-                        onClick={() => {
-
-                        }}
-                    />
-                </div>
-            </div> */}
-
-            <div className="header-desktop-container-right">
-                {/* <Button
-                    wrap={true}
-                    label="Connect wallet"
-                /> */}
-
-                <ConnectWallet
-                    theme={"dark"}
-                    modalSize={"compact"}
-                    welcomeScreen={{}}
-                />
-
-
-            </div>
+                }}
+            />
+               
+            {/* <ConnectWallet
+                theme={"dark"}
+                modalSize={"compact"}
+                welcomeScreen={{}}
+            /> */}
 
         </div>
     );
