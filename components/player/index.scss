@@ -11,9 +11,9 @@
     justify-content: center;
 
     .main-player-header {
-
+        
         position: fixed;
-        top: 80px;
+        top: 70px;
         right: 10px;
 
         @media only screen and (min-width: $mobile) {
@@ -24,12 +24,38 @@
 
     }
 
+    .go-back-button-desktop {
+        @media only screen and (max-width: $mobile) {
+            display: none;
+        }
+    }
+
+    .go-back-button-mobile {
+        @media only screen and (min-width: $mobile) {
+            display: none;
+        }
+    }
+
+    .main-player-left-header {
+        position: absolute;
+        top: 50px;
+        left: 222px;
+        opacity: 0;
+        @extend .animation-fadeIn;
+
+        @media only screen and (max-width: $mobile) {
+            top: 90px;
+            left: 15px;
+        }
+
+    }
+
     .collection-info-bar-container {
         position: fixed;
         left: 0;
         bottom: 0;
         right: 0;
-        height: 70px;
+        height: 60px;
         display: flex;
         align-items: center;
         justify-content: space-between;

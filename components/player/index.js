@@ -80,26 +80,56 @@ function Player() {
         }
     }, [app.playerData?._id]);
 
+    const renderCollectionButton = () => {
+        return (
+            <CollectionGoBack
+                label={router.pathname == "/shape" ? "Go to collection" : "Go back"}
+                icon="arrow-back"
+                onClick={() => {
+                    dispatch(togglePlayer({
+                        playerOpen: false,
+                        playerData: null
+                    }))
+
+                    if (router.pathname == "/shape") {
+                        router.push("/genesis")
+                    } else {
+                        router.push({
+                            pathname: router.pathname,
+                            query: {}
+                        }, undefined, { shallow: true });
+                    }
+                }}
+            />
+        )
+    }
+
 
     return (
         <div className="main-player" >
+
+            <div className="main-player-left-header">
+
+                <div className="go-back-button-desktop">
+                    {renderCollectionButton()}
+                </div>
+            </div>
             <div className="main-player-header">
-                <div className="main-player-left">
-                </div>
-                <div className="main-player-right">
-
-                    <TestActionsView
-                        item={app.playerData}
-                        onChange={(data) => {
-                            dispatch(togglePlayer({
-                                playerOpen: true,
-                                playerData: data
-                            }))
 
 
-                        }}
-                    />
-                </div>
+                <TestActionsView
+                    item={app.playerData}
+                    onChange={(data) => {
+                        dispatch(togglePlayer({
+                            playerOpen: true,
+                            playerData: data
+                        }))
+
+
+                    }}
+                />
+
+
 
             </div>
             {app.playerData?.name}
@@ -107,25 +137,9 @@ function Player() {
             <div className="collection-info-bar-container">
 
                 <div className="collection-info-bar-container-left">
-                    <CollectionGoBack
-                        label={router.pathname == "/shape" ? "Go to collection" : "Go back"}
-                        icon="x"
-                        onClick={() => {
-                            dispatch(togglePlayer({
-                                playerOpen: false,
-                                playerData: null
-                            }))
-
-                            if (router.pathname == "/shape") {
-                                router.push("/genesis")
-                            } else {
-                                router.push({
-                                    pathname: router.pathname,
-                                    query: {}
-                                }, undefined, { shallow: true });
-                            }
-                        }}
-                    />
+                    <div className="go-back-button-mobile">
+                        {renderCollectionButton()}
+                    </div>
                 </div>
 
                 <ul className="collection-info-bar-container-right">
