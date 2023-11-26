@@ -11,6 +11,8 @@ import TestSettings from "./type/test_settings.js";
 import ShapeSettings from "./type/shape_settings.js";
 import ShapeCollectionSettings from "./type/shape_collection_settings.js";
 import VizSettings from "./type/viz_settings.js";
+import AlgoSettings from "./type/algo_settings.js";
+import AlgoCollectionSettings from "./type/algo_collection_settings.js"
 
 function Drawer() {
     const dispatch = useDispatch();
@@ -40,6 +42,10 @@ function Drawer() {
                 return <ShapeCollectionSettings hideDrawer={hideDrawer} enablePortal />;
             case "viz-settings":
                 return <VizSettings hideDrawer={hideDrawer} enablePortal />;
+            case "algo-settings":
+                return <AlgoSettings hideDrawer={hideDrawer} enablePortal />;
+            case "algo-collection-settings":
+                return <AlgoCollectionSettings hideDrawer={hideDrawer} enablePortal />;
             default:
                 return;
         }

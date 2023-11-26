@@ -7,12 +7,14 @@ import { appReducer } from "./slices/appSlice";
 import { userReducer } from "./slices/userSlice";
 import { testListReducer } from "./slices/testListSlice";
 import { shapeListReducer } from "./slices/shapeListSlice";
+import { algoListReducer } from "./slices/algoListSlice";
 
 const rootReducer = combineReducers({
   app: appReducer,
   user: userReducer,
   testList: testListReducer,
-  shapeList: shapeListReducer
+  shapeList: shapeListReducer,
+  algoList: algoListReducer
 });
 
 const resettableReducer = (state, action) => {
@@ -47,6 +49,7 @@ setupListeners(store.dispatch);
 export * from "./thunks/userThunk";
 export * from "./thunks/testThunk";
 export * from "./thunks/shapeThunk";
+export * from "./thunks/algoThunk";
 
 
 // =========================== //
@@ -57,4 +60,5 @@ export * from "./slices/appSlice";
 export * from "./slices/userSlice";
 export * from "./slices/testListSlice";
 export * from "./slices/shapeListSlice";
+export * from "./slices/algoListSlice";
 
