@@ -33,13 +33,18 @@
         z-index: 1;
 
         .shape-placeholder{
-            width: 222px;
-            height: 222px;
+            width: 180px;
+            height: 180px;
             background: $white;
             border-radius: 222px;
             opacity: 0.2;
-
-          
         }
+    }
+
+    .shape-view-info {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        z-index: 2;
     }
 }

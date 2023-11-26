@@ -10,7 +10,7 @@ import { shapeDelete, shapeUpdateItem, updateCollectionItem, toggleDrawer, shape
 
 function ShapeActionsView({
     item,
-    onChange
+    onChange,
 }) {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);

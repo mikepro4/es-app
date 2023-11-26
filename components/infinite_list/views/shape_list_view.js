@@ -9,6 +9,7 @@ import Label from "@/components/label";
 import { togglePlayer, toggleNoRedirect } from "@/redux";
 
 import ShapeActionsView from "@/components/collection_actions/shapeActions";
+import ShapeMainInfo from "@/components/shape_main_info";
 
 function ShapeListView({
     item,
@@ -36,6 +37,12 @@ function ShapeListView({
 
             <div className="shape-view-actions">
                 <ShapeActionsView 
+                    item={item}
+                />
+            </div>
+
+            <div className="shape-view-info">
+                <ShapeMainInfo 
                     item={item}
                 />
             </div>

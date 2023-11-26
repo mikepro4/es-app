@@ -7,7 +7,8 @@ import { togglePlayer, shapeNextItem, shapePreviousItem, shapeItem } from "@/red
 
 import CollectionGoBack from "../collection_go_back";
 
-import TestActionsView from "../collection_actions/shapeActions";
+import ShapeActionsView from "../collection_actions/shapeActions";
+import ShapeMainInfo from "../shape_main_info";
 
 function Player() {
     const [loading, setLoading] = useState(false);
@@ -23,7 +24,7 @@ function Player() {
     useEffect(() => {
         const handleRouteChange = (url) => {
             // Check if previous pathname is not equal to the new pathname
-            if (!router.query.shapeId) {
+            if (!router.query.shapeId && prevPathname !== router.query) {
                 console.log('Pathname changed from', prevPathname, 'to', router.query);
 
                 dispatch(togglePlayer({
@@ -116,8 +117,7 @@ function Player() {
             </div>
             <div className="main-player-header">
 
-
-                <TestActionsView
+                <ShapeActionsView
                     item={app.playerData}
                     onChange={(data) => {
                         dispatch(togglePlayer({
@@ -129,10 +129,18 @@ function Player() {
                     }}
                 />
 
-
-
             </div>
-            {app.playerData?.name}
+            {/* {app.playerData?.name} */}
+
+            <div className="player-viz-container">
+                <div className="shape-placeholder"></div>
+            </div>
+
+            <div className="player-main-info">
+                <ShapeMainInfo
+                    item={app.playerData}
+                />
+            </div>
 
             <div className="collection-info-bar-container">
 
