@@ -94,7 +94,7 @@ function convertCriteriaToUpdateData(criteria) {
   const updateData = { $set: {} };
 
   for (const key in criteria) {
-      if (criteria.hasOwnProperty(key)) {
+    if (criteria.hasOwnProperty(key) && key !== "_id") {
           updateData.$set[`${key}`] = criteria[key];
       }
   }

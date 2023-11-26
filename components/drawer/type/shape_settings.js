@@ -37,10 +37,7 @@ function AppSettings() {
         }))
     };
 
-    let initialValues = {
-        name: app.drawerData?.name,
-        status: app.drawerData?.status,
-    }
+    let initialValues = app.drawerData
 
     useEffect(() => {
 
