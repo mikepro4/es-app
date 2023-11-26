@@ -68,12 +68,19 @@ function AppSettings() {
     const statusOptions = [{
         label: 'Unreviewed',
         value: 'unreviewed',
+        icon: 'eye-off',
     }, {
         label: 'Approved',
         value: 'approved',
+        icon: 'tick',
     }, {
         label: 'Potential',
         value: 'potential',
+        icon: 'star',
+    }, {
+        label: 'Rejected',
+        value: 'rejected',
+        icon: 'cross',
     }]
 
     return (
