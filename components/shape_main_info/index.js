@@ -48,7 +48,7 @@ function ShapeMainInfo({
                 }}
             >
                 <div className="shape-main-name">
-                    {item.name}
+                    {item?.name}
                 </div>
                 <div className="shape-from-name-container">
                     23.3% rarity

@@ -76,6 +76,13 @@ function AppSettings() {
                                 <div className="form-fields">
 
                                     <Field
+                                        name="_id"
+                                        component={Input}
+                                        title="Shape ID"
+                                        placeholder="Name"
+                                    />
+
+                                    <Field
                                         name="name"
                                         component={Input}
                                         title="Name"
@@ -96,7 +103,7 @@ function AppSettings() {
                                     label="Save"
                                 />
 
-                                <div className="form-divider"></div>
+                                {/* <div className="form-divider"></div>
 
                                 <Button
                                     type="button"
@@ -109,7 +116,7 @@ function AppSettings() {
                                             modalData: values,
                                         }))
                                     }}
-                                />
+                                /> */}
 
                             </Form>
                         )

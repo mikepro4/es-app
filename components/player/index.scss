@@ -10,6 +10,43 @@
     align-items: center;
     justify-content: center;
 
+    .player-tabs {
+        position: fixed;
+        top: 65px;
+        left: 0;
+        right: 0;
+        height: 70px;
+        z-index: 2;
+        opacity: 0;
+        @extend .animation-fadeIn;
+        animation-delay: 0.5s;
+
+        @media only screen and (min-width: $mobile) {
+            top: 30px;
+        }
+
+        .tab-list {
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            left: 15px;
+        }
+
+        ul.tab-list {
+            &:before {
+                display: none;
+            }
+        }
+
+        .tab-container ul.tab-list li.tab-link-container .tab-link-wrapper {
+            padding-bottom: 0px;
+        }
+
+        
+    }
+
     .main-player-header {
         position: fixed;
         top: 70px;
@@ -127,6 +164,11 @@
             background: $white;
             border-radius: 500px;
             opacity: 0.2;
+
+            @media only screen and (max-width: $mobile) {
+                top: -20px;
+                position: relative;
+            }
 
             @media only screen and (min-width: $mobile) {
                 width: 500px;

@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 
+import TabBar from '@/components/tab'
+
 import { togglePlayer, shapeNextItem, shapePreviousItem, shapeItem, toggleDrawer } from "@/redux";
 
 import CollectionGoBack from "../collection_go_back";
@@ -10,7 +12,9 @@ import CollectionGoBack from "../collection_go_back";
 import ShapeActionsView from "../collection_actions/shapeActions";
 import ShapeMainInfo from "../shape_main_info";
 
-import Icon from "../icon"; 
+import NftDetails from "../nft_details";
+
+import Icon from "../icon";
 
 function Player() {
     const [loading, setLoading] = useState(false);
@@ -20,6 +24,7 @@ function Player() {
     const query = router.query;
     const dispatch = useDispatch();
     const shapeList = useSelector((state) => state.shapeList);
+    const [selectedTabId, setSelectedTabId] = useState(1);
 
     const [prevPathname, setPrevPathname] = useState(null);
 
@@ -107,9 +112,43 @@ function Player() {
         )
     }
 
+    let tabs = [
+        "Animation",
+        "NFT Details"
+    ]
+
+    const selectTab = (tab) => {
+        setSelectedTabId(tab)
+        // router.push({
+        //   pathname: router.pathname,
+        //   query: { ...router.query, tab: tab }
+        // }, undefined, { shallow: true });
+    }
+
+    const renderTab = () => {
+        switch (selectedTabId) {
+            case 1:
+                return (<div className="player-viz-container">
+                    <div className="shape-placeholder"></div>
+                </div>)
+            case 2:
+                return (<NftDetails/>)
+            default:
+                return;
+        }
+    }
+
 
     return (
         <div className="main-player" >
+
+            <div className="player-tabs">
+                <TabBar
+                    tabs={tabs}
+                    activeTab={selectedTabId}
+                    onTabChange={(tab) => selectTab(tab)}
+                />
+            </div>
 
             <div className="main-player-left-header">
 
@@ -174,9 +213,7 @@ function Player() {
             </div> */}
             {/* {app.playerData?.name} */}
 
-            <div className="player-viz-container">
-                <div className="shape-placeholder"></div>
-            </div>
+            {renderTab()}
 
             <div className="player-main-info">
                 <ShapeMainInfo

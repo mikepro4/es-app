@@ -28,8 +28,8 @@
     button.tw-connected-wallet {
         border: none;
         position: relative;
-        top: -10px;
-        right: -20px;
+        // top: -10px;
+        // right: -20px;
     
         & > div {
             gap: 3px !important
@@ -48,9 +48,14 @@
     }
 
     .header-desktop-container-right {
-        top: 65px;
+        top: 55px;
         position: relative;
         z-index: 2;
+        height: 60px;
+        right: -20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .header-desktop-container-center {
