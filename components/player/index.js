@@ -3,12 +3,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 
-import { togglePlayer, shapeNextItem, shapePreviousItem, shapeItem } from "@/redux";
+import { togglePlayer, shapeNextItem, shapePreviousItem, shapeItem, toggleDrawer } from "@/redux";
 
 import CollectionGoBack from "../collection_go_back";
 
 import ShapeActionsView from "../collection_actions/shapeActions";
 import ShapeMainInfo from "../shape_main_info";
+
+import Icon from "../icon"; 
 
 function Player() {
     const [loading, setLoading] = useState(false);
@@ -181,6 +183,27 @@ function Player() {
                     item={app.playerData}
                 />
             </div>
+
+            <ul className="play-main-actions">
+
+                <li className="player-main-action">
+                    <Icon name="heart" />
+                </li>
+
+                <li className="player-main-action">
+                    <Icon name="mic" />
+                </li>
+
+                <li className="player-main-action" onClick={() => {
+                    dispatch(toggleDrawer({
+                        drawerOpen: true,
+                        drawerType: "viz-settings",
+                        drawerData: app.playerData,
+                    }));
+                }}>
+                    <Icon name="properties" />
+                </li>
+            </ul>
 
             <div className="collection-info-bar-container">
 

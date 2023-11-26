@@ -10,6 +10,7 @@ import CollectionSettings from "./type/collection_settings.js";
 import TestSettings from "./type/test_settings.js";
 import ShapeSettings from "./type/shape_settings.js";
 import ShapeCollectionSettings from "./type/shape_collection_settings.js";
+import VizSettings from "./type/viz_settings.js";
 
 function Drawer() {
     const dispatch = useDispatch();
@@ -37,6 +38,8 @@ function Drawer() {
                 return <ShapeSettings hideDrawer={hideDrawer} enablePortal />;
             case "shape-collection-settings":
                 return <ShapeCollectionSettings hideDrawer={hideDrawer} enablePortal />;
+            case "viz-settings":
+                return <VizSettings hideDrawer={hideDrawer} enablePortal />;
             default:
                 return;
         }

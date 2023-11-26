@@ -149,4 +149,42 @@
             left: 40px;
         }
     }
+
+    .play-main-actions {
+        position: absolute;
+        bottom: 95px;
+        z-index: 2;
+        right: 20px;
+        display: flex;
+        align-items: center;
+        @extend .animation-fadeIn;
+        animation-delay: 0.4s;
+
+       
+
+        li {
+            padding: 5px;
+            margin-left: 10px;
+
+            @media only screen and (min-width: $mobile) {
+                padding: 10px;
+                margin-left: 20px;
+            }
+        }
+
+        svg {
+            width: 20px;
+            height: 20px;
+
+            @media only screen and (min-width: $mobile) {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media only screen and (min-width: $mobile) {
+            bottom: 70px;
+            right: 40px;
+        }
+    }
 }
