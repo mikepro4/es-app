@@ -47,9 +47,14 @@ function ShapeMainInfo({
                     }));
                 }}
             >
-                <span className="shape-main-name">
+                <div className="shape-main-name">
                     {item.name}
-                </span>
+                </div>
+                <div className="shape-from-name-container">
+                    From 
+                    
+                    <span className="shape-from-name">Dystopia</span>
+                </div>
             </div>
 
 
