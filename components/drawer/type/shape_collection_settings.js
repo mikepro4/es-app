@@ -13,7 +13,7 @@ import _ from 'lodash';
 
 import { useFormik } from 'formik';
 
-import { updateCollection, shapeListChangeCriteria, shapeResetCriteria } from "@/redux"
+import { updateCollection, shapeListChangeCriteria, shapeResetCriteria, shapeCreate } from "@/redux"
 
 import ShapeChangeSort from "@/components/collection_actions/shapeChangeSort"
 
@@ -32,7 +32,7 @@ function AppSettings() {
     }
 
     const handleFormChange = (values, data) => {
-        if(formLoaded) {
+        if (formLoaded) {
             dispatch(shapeListChangeCriteria(values))
         }
     };
@@ -95,7 +95,7 @@ function AppSettings() {
                     </div>
 
                     <div className="collection-settings-header-right">
-                        <ShapeChangeSort/>
+                        <ShapeChangeSort />
                     </div>
 
                 </div>
@@ -132,17 +132,48 @@ function AppSettings() {
                                             options={statusOptions}
                                         />
 
-                                        <Button
-                                            type="button"
-                                            icon="filter-remove"
-                                            small={true}
-                                            minimal={true}
-                                            wrap={true}
-                                            label="Clear filters"
-                                            onClick={() => {
-                                                dispatch(shapeResetCriteria())
-                                            }}
-                                        />
+                                        <ul className="action-buttons">
+                                            <li>
+                                                <Button
+                                                    type="button"
+                                                    icon="filter-remove"
+                                                    small={true}
+                                                    minimal={true}
+                                                    wrap={true}
+                                                    label="Clear filters"
+                                                    onClick={() => {
+                                                        dispatch(shapeResetCriteria())
+                                                    }}
+                                                />
+                                            </li>
+
+                                            <li>
+                                                <Button
+                                                    type="button"
+                                                    minimal={true}
+                                                    small={true}
+                                                    wrap={true}
+                                                    icon="plus"
+                                                    label="Add shape"
+                                                    onClick={() => {
+                                                        dispatch(
+                                                            shapeCreate(
+                                                                {
+                                                                    name: "New Shape",
+                                                                    callback: (data) => {
+                                                                        dispatch(updateCollection(true))
+                                                                    }
+                                                                },)
+                                                        )
+                                                    }}
+                                                />
+                                            </li>
+
+                                        </ul>
+
+
+
+
 
                                     </div>
 
