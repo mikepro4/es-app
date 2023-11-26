@@ -11,6 +11,8 @@ import { togglePlayer, toggleNoRedirect } from "@/redux";
 import ShapeActionsView from "@/components/collection_actions/shapeActions";
 import ShapeMainInfo from "@/components/shape_main_info";
 
+import Icon from "@/components/icon";
+
 function ShapeListView({
     item,
 }) {
@@ -46,6 +48,15 @@ function ShapeListView({
                     item={item}
                     small={true}
                 />
+            </div>
+
+            <div className="shape-view-arrow" onClick={() => {
+                    dispatch(togglePlayer({
+                        playerOpen: true,
+                        playerData: item
+                    }))
+                }}>
+                <Icon name="arrow-forward"/>
             </div>
             
 
