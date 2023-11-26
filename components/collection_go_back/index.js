@@ -20,7 +20,10 @@ function CollectionGoBack({
     return (
         <div className="collection-goback-container">
             <div 
-                className="collection-info-bar"
+                className={classNames({
+                    "collection-info-bar": true,
+                    "icon-only": !label
+                })}
                 onClick={() => onClick && onClick()}
             >
                 {icon && <div className="collection-properties-button search-button">

@@ -84,8 +84,8 @@ function Player() {
     const renderCollectionButton = () => {
         return (
             <CollectionGoBack
-                label={router.pathname == "/shape" ? "Go to collection" : "Go back"}
-                icon="arrow-back"
+                label={router.pathname == "/shape" ? "Go to collection" : "Close"}
+                icon="x"
                 onClick={() => {
                     dispatch(togglePlayer({
                         playerOpen: false,
@@ -111,9 +111,49 @@ function Player() {
 
             <div className="main-player-left-header">
 
-                <div className="go-back-button-desktop">
-                    {renderCollectionButton()}
-                </div>
+                <ul className="go-back-button-desktop">
+                    <li>{renderCollectionButton()}</li>
+
+                    <li>
+                        <CollectionGoBack
+                            icon="arrow-back"
+                            onClick={() => {
+                                dispatch(shapePreviousItem({
+                                    id: app.playerData._id,
+                                    sortProperty: shapeList.sortProperty,
+                                    order: shapeList.order,
+                                    criteria: shapeList.criteria,
+                                    callback: (data) => {
+                                        dispatch(togglePlayer({
+                                            playerOpen: true,
+                                            playerData: data
+                                        }))
+                                    }
+                                }))
+                            }}
+                        />
+                    </li>
+
+                    <li>
+                        <CollectionGoBack
+                            icon="arrow-forward"
+                            onClick={() => {
+                                dispatch(shapeNextItem({
+                                    id: app.playerData._id,
+                                    sortProperty: shapeList.sortProperty,
+                                    order: shapeList.order,
+                                    criteria: shapeList.criteria,
+                                    callback: (data) => {
+                                        dispatch(togglePlayer({
+                                            playerOpen: true,
+                                            playerData: data
+                                        }))
+                                    }
+                                }))
+                            }}
+                        />
+                    </li>
+                </ul>
             </div>
             <div className="main-player-header">
 

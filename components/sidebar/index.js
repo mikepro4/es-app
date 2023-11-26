@@ -7,11 +7,13 @@ import Button from "../button";
 import Navlinks from "../nav_links"
 import { ConnectWallet } from "@thirdweb-dev/react";
 
+import { togglePlayer } from "@/redux";
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
+    const dispatch = useDispatch();
 
 
 
@@ -81,7 +83,10 @@ function AppSettings() {
             <Navlinks
                 links={mainPages}
                 onClick={() => {
-
+                    dispatch(togglePlayer({
+                        playerOpen: false,
+                        playerData: null
+                    }))
                 }}
             />
                
