@@ -53,9 +53,9 @@ function ShapesTab() {
 
     return (
         <div className="tab-content">
-            <div className="tab-content-details">
+            {/* <div className="tab-content-details">
                 <ShapesDetails />
-            </div>
+            </div> */}
 
             <div className="tab-content-results" ref={scrollContainerRef}>
 

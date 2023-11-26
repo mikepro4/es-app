@@ -34,6 +34,10 @@ function AppSettings() {
                 
             </div>
 
+            <div className="change-sort-container">
+                    <ShapeChangeSort />
+                </div>
+
             <div className="collection-details-right">
                 <ul className="action-buttons">
                     <li>
@@ -98,9 +102,8 @@ function AppSettings() {
                         />
                     </li>
 
-                    <li>
-                        <ShapeChangeSort />
-                    </li>
+
+
 
                     
 
@@ -108,6 +111,10 @@ function AppSettings() {
 
                     
                 </ul>
+
+                
+
+
                 
             </div>
         </div>

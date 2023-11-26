@@ -108,6 +108,7 @@ const SelectField = ({ options, field, useAsync, apiUrl, ...props }) => {
 		<div className="select-container">
 			<div className="select-title">{props.title}</div>
 			<SelectComponent
+				key={getValue()}
 				options={options}
 				name={field.name}
 				value={getValue()}

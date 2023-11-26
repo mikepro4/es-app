@@ -3,6 +3,7 @@ import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from 'next/router';
 
 import TabBar from '@/components/tab'
+import ShapeSidebar from '@/components/collection_sidebar/shapeSidebar'
 
 
 import ShapesTab from "./shapesTab"
@@ -78,6 +79,7 @@ export default function Genesis() {
           </div>
 
           <div className="full-screen-filters-area">
+            <ShapeSidebar/>
           </div>
         </div>
 
