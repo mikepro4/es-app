@@ -78,11 +78,15 @@
             opacity: 0.5;
             margin-top: 1px;
 
+            .shape-from-name-divider {
+                margin: 0 5px;
+                opacity: 0.5;
+            }
+
         }
 
         .shape-from-name {
             font-weight: 500;
-            margin-left: 3px;
         }
 
         &.small {

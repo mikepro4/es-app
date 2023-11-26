@@ -188,10 +188,12 @@ function Player() {
 
                 <li className="player-main-action">
                     <Icon name="heart" />
+                    <div className="player-main-action-label">0</div>
                 </li>
 
                 <li className="player-main-action">
-                    <Icon name="mic" />
+                    <Icon name="share" />
+                    <div className="player-main-action-label">Share</div>
                 </li>
 
                 <li className="player-main-action" onClick={() => {
