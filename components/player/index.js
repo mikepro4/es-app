@@ -67,7 +67,7 @@ function Player() {
     useEffect(() => {
         if (updateCollectionItemValue) {
             dispatch(shapeItem({
-                shapeId: app.playerData._id, callback: (data) => {
+                id: app.playerData._id, callback: (data) => {
                     dispatch(togglePlayer({
                         playerOpen: true,
                         playerData: data
