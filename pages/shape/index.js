@@ -15,7 +15,7 @@ function Shape() {
     const fetchShape = () => {
         dispatch(
             shapeItem({
-                shapeId: query.shapeId,
+                id: query.shapeId,
                 callback: (data) => {
                     console.log("loaded shape", data)
                     dispatch(

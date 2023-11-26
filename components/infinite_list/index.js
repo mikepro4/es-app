@@ -203,7 +203,7 @@ function InfiniteList({
             // Dispatch the testItem action with a callback
             dispatch(
                 loadCollectionItem({
-                    shapeId: updateCollectionItemValue,
+                    id: updateCollectionItemValue,
                     callback: (data) => {
                         if (data == null) {
                             // Filter out the item from the collection

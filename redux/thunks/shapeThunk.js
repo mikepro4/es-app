@@ -57,9 +57,9 @@ const shapeDelete = createAsyncThunk(
 
 const shapeItem = createAsyncThunk(
   "shape/item",
-    async ({ shapeId, callback }, { rejectWithValue }) => {
+    async ({ id, callback }, { rejectWithValue }) => {
     try {
-      const response = await userApi.post("/shape/item", { shapeId });
+      const response = await userApi.post("/shape/item", { id });
 
       if (callback) {
         callback(response.data)

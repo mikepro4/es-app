@@ -57,9 +57,9 @@ const algoDelete = createAsyncThunk(
 
 const algoItem = createAsyncThunk(
   "algo/item",
-    async ({ algoId, callback }, { rejectWithValue }) => {
+    async ({ id, callback }, { rejectWithValue }) => {
     try {
-      const response = await userApi.post("/algo/item", { algoId });
+      const response = await userApi.post("/algo/item", { id });
 
       if (callback) {
         callback(response.data)

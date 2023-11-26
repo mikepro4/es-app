@@ -83,7 +83,7 @@ router.post("/delete", async (req, res) => {
 
 
 router.post("/item", async (req, res) => {
-    const query = await Algos.findOne({ _id: req.body.algoId })
+    const query = await Algos.findOne({ _id: req.body.id })
         .populate("author")
 
     res.json(query);

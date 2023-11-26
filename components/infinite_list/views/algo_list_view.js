@@ -8,14 +8,13 @@ import Label from "@/components/label";
 
 import { togglePlayer, toggleNoRedirect } from "@/redux";
 
-import ShapeActionsView from "@/components/collection_actions/shapeActions";
-import ShapeMainInfo from "@/components/shape_main_info";
+import AlgoActionsView from "@/components/collection_actions/algoActions";
 
 import Button from "@/components/button";
 
 import Icon from "@/components/icon";
 
-function ShapeListView({
+function AlgoListView({
     item,
 }) {
     const [loading, setLoading] = useState(false);
@@ -26,16 +25,25 @@ function ShapeListView({
 
     return (
         <div className="algo-view-list-container">
-            <Button
+            <div className="algo-view-list-left">
+                {item.name}
+            </div>
+            <div className="algo-view-list-right">
+                <AlgoActionsView
+                    item={item}
+                />
+            </div>
+
+            {/* <Button
                 minimal={true}
                 label={item.name}
                 actionList={true}
                 iconRight="arrow-right"
-            />
+            /> */}
 
 
         </div>
     );
 }
 
-export default ShapeListView;
+export default AlgoListView;

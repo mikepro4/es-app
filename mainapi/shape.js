@@ -83,7 +83,7 @@ router.post("/delete", async (req, res) => {
 
 
 router.post("/item", async (req, res) => {
-    const query = await Shapes.findOne({ _id: req.body.shapeId })
+    const query = await Shapes.findOne({ _id: req.body.id })
         .populate("author")
 
     res.json(query);
