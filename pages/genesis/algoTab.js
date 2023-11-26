@@ -57,7 +57,7 @@ function AlgosTab() {
                 <AlgosDetails />
             </div> */}
 
-            <div className="tab-content-results" ref={scrollContainerRef}>
+            <div className="tab-content-algo" ref={scrollContainerRef}>
 
                 <InfiniteList
                     resultType="algo-view-list"

@@ -11,6 +11,8 @@ import { togglePlayer, toggleNoRedirect } from "@/redux";
 import ShapeActionsView from "@/components/collection_actions/shapeActions";
 import ShapeMainInfo from "@/components/shape_main_info";
 
+import Button from "@/components/button";
+
 import Icon from "@/components/icon";
 
 function ShapeListView({
@@ -24,9 +26,12 @@ function ShapeListView({
 
     return (
         <div className="algo-view-list-container">
-
-           {item.name}
-
+            <Button
+                minimal={true}
+                label={item.name}
+                actionList={true}
+                iconRight="arrow-right"
+            />
 
 
         </div>
