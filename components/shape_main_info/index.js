@@ -51,7 +51,7 @@ function ShapeMainInfo({
                     {item.name}
                 </div>
                 <div className="shape-from-name-container">
-                    23.3% rarity score 
+                    23.3% rarity
 
                     <span className="shape-from-name-divider">|</span>
                     

@@ -157,7 +157,7 @@ function Player() {
                     </li>
                 </ul>
             </div>
-            <div className="main-player-header">
+            {/* <div className="main-player-header">
 
                 <ShapeActionsView
                     item={app.playerData}
@@ -171,7 +171,7 @@ function Player() {
                     }}
                 />
 
-            </div>
+            </div> */}
             {/* {app.playerData?.name} */}
 
             <div className="player-viz-container">

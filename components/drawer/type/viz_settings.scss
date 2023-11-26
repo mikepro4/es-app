@@ -1,0 +1,24 @@
+.viz-container {
+    .viz-settings-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    
+
+        .viz-settings-header-left  {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+
+        .viz-settings-header-right  {
+            position: relative;
+            right: -10px;
+            
+            li {
+                margin-left: 5px;
+            }
+        }
+
+    }
+}
