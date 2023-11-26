@@ -11,10 +11,10 @@
     justify-content: center;
 
     .main-player-header {
-        
         position: fixed;
         top: 70px;
         right: 10px;
+        z-index: 3;
 
         opacity: 0;
         @extend .animation-fadeIn;
@@ -130,7 +130,7 @@
 
     .player-main-info {
         position: absolute;
-        bottom: 100px;
+        bottom: 90px;
         z-index: 2;
         left: 20px;
         opacity: 0;

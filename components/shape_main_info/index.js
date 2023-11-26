@@ -2,13 +2,18 @@ import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useSelector, useDispatch} from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
+import { Icon } from "@blueprintjs/core";
+
+import { toggleDrawer } from "@/redux";
 
 function ShapeMainInfo({
-    item
+    item,
+    small
 }) {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
+    const dispatch = useDispatch();
 
 
     useEffect(() => {
@@ -18,8 +23,37 @@ function ShapeMainInfo({
     }, []); 
 
     return (
-        <div>
-            {item.name}
+        <div className="shape-main-info-container">
+            <div 
+                className={classNames({
+                    "shape-play-button-container": true,
+                    "small": small,
+                })}
+            >
+                <Icon icon="play" />
+            </div>
+
+            <div 
+                className={classNames({
+                    "shape-name-container": true,
+                    "small": small,
+                })}
+
+                onClick={() => {
+                    dispatch(toggleDrawer({
+                        drawerOpen: true,
+                        drawerType: "shape-settings",
+                        drawerData: item,
+                    }));
+                }}
+            >
+                <span className="shape-main-name">
+                    {item.name}
+                </span>
+            </div>
+
+
+
         </div>
     );
 }

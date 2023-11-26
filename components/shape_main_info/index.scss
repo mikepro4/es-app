@@ -1,0 +1,79 @@
+.shape-main-info-container {
+    display: flex;
+    align-items: center;
+
+    .shape-play-button-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        margin-right: 12px;
+
+        svg {
+            width: 24px;
+            height: 24px;
+            position: relative;
+            left:2px;
+
+            path {
+                fill: #000;
+            }
+        }
+
+        @media only screen and (min-width: $mobile) {
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+
+            svg {
+                width: 55px;
+                height: 55px;
+                left: 4px;
+            }
+        }
+
+        &.small {
+            width: 40px;
+            height: 40px;
+
+
+            &.small {
+                margin-right: 10px;
+            }
+
+            svg {
+                width: 20px;
+                height: 20px;
+                left: 1.5px;
+            }
+        }
+
+        
+    }
+
+    .shape-main-name {
+        font-size: 22px;
+        font-weight: 500;
+
+        @media only screen and (min-width: $mobile) {
+            width: 100px;
+            height: 100px;
+            font-size: 50px;
+        }
+
+        
+    }
+
+    .shape-name-container {
+        &.small {
+            .shape-main-name {
+                font-size: 18px;
+            }
+        }
+    }
+}

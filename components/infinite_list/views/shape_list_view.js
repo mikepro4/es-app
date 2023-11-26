@@ -44,6 +44,7 @@ function ShapeListView({
             <div className="shape-view-info">
                 <ShapeMainInfo 
                     item={item}
+                    small={true}
                 />
             </div>
             
