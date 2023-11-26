@@ -82,6 +82,9 @@ function AppSettings() {
     }, {
         name: 'Potential',
         value: 'potential',
+    }, {
+        name: 'Rejected',
+        value: 'rejected',
     }]
 
     return (

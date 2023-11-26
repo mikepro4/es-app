@@ -235,6 +235,25 @@ router.post("/previousItem", async (req, res) => {
     }
 });
 
+router.post("/updateMany", requireSignin, async (req, res) => {
+    const { criteria, updateData } = req.body;
+
+    try {
+        // Build the query based on criteria
+        const query = buildQuery(criteria);
+
+        // Update multiple documents that match the query
+        const result = await Shapes.updateMany(query, updateData);
+
+        res.json({
+            success: true,
+            modifiedCount: result.nModified
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+});
 
 
 // ===========================================================================

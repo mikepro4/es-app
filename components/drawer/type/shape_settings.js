@@ -7,7 +7,7 @@ import Input from "../../../components/form/BladeInput";
 import Button from "../../../components/button";
 import TabSwitcher from "../../../components/form/TabSwitcher";
 
-import { shapeUpdateItem, updateCollectionItem, toggleDrawer, togglePlayer } from "@/redux";
+import { shapeUpdateItem, updateCollectionItem, toggleDrawer, togglePlayer, toggleModal } from "@/redux";
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
@@ -37,7 +37,10 @@ function AppSettings() {
         }))
     };
 
-    let initialValues = app.drawerData
+    let initialValues = {
+        name: app.drawerData?.name,
+        status: app.drawerData?.status,
+    }
 
     useEffect(() => {
 
@@ -94,6 +97,21 @@ function AppSettings() {
                                 <Button
                                     type="submit"
                                     label="Save"
+                                />
+
+                                <div className="form-divider"></div>
+
+                                <Button
+                                    type="button"
+                                    minimal={true}
+                                    label="Update all"
+                                    onClick={() => {
+                                        dispatch(toggleModal({
+                                            modalOpen: true,
+                                            modalType: "update-all",
+                                            modalData: values,
+                                        }))
+                                    }}
                                 />
 
                             </Form>

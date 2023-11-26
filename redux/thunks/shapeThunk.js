@@ -90,6 +90,40 @@ const shapeUpdateItem = createAsyncThunk(
   }
 );
 
+function convertCriteriaToUpdateData(criteria) {
+  const updateData = { $set: {} };
+
+  for (const key in criteria) {
+      if (criteria.hasOwnProperty(key)) {
+          updateData.$set[`${key}`] = criteria[key];
+      }
+  }
+
+  return updateData;
+}
+
+const shapeUpdateManyItems = createAsyncThunk(
+  "shape/updateMany",
+    async ({ initialCriteria, newCriteria, callback }, { rejectWithValue }) => {
+    try {
+      const updateData = convertCriteriaToUpdateData(newCriteria);
+
+      const response = await userApi.post("/shape/updateMany", {
+        criteria: initialCriteria,
+        updateData
+      });
+
+      if (callback) {
+        callback(response.data)
+      }
+
+      return response.data;
+    } catch (err) {
+      throw new Error("Error");
+    }
+  }
+);
+
 const shapeDuplicate = createAsyncThunk(
   "shape/duplicateItem",
     async ({ shapeId, callback }, { rejectWithValue }) => {
@@ -159,5 +193,6 @@ export {
     shapeUpdateItem,
     shapeDuplicate,
     shapeNextItem,
-    shapePreviousItem
+    shapePreviousItem,
+    shapeUpdateManyItems
 };

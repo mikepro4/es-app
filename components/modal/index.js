@@ -5,6 +5,7 @@ import classNames from "classnames";
 import _ from "lodash";
 import { toggleModal } from "../../redux";
 import AppSettings from "./type/app_settings.js";
+import UpdateAll from "./type/update_all.js";
 
 function Modal() {
     const dispatch = useDispatch();
@@ -22,6 +23,8 @@ function Modal() {
         switch (type) {
             case "app-settings":
                 return <AppSettings hideModal={hideModal} enablePortal />;
+            case "update-all":
+                return <UpdateAll hideModal={hideModal} enablePortal />;
             default:
                 return;
         }
