@@ -24,8 +24,17 @@ function AlgoListView({
 
 
     return (
-        <div className="algo-view-list-container">
-            <div className="algo-view-list-left">
+        <div className="algo-view-list-container" 
+            >
+            <div 
+                className="algo-view-list-left"
+                onClick={() => {
+                    router.push({
+                        pathname: '/genesis',
+                        query: { ...router.query, algoId: item._id },
+                    }, undefined, { shallow: true })
+                }}
+            >
                 {item.name}
             </div>
             <div className="algo-view-list-right">

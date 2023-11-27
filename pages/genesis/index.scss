@@ -163,4 +163,34 @@
         }
 
     }
+
+    // /////////////////////////////
+    
+}
+
+.algo-page-container {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 1;
+
+    @media only screen and (min-width: $mobile) {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        overflow-y: auto;
+    }
+
+    .algo-page-content {
+        max-width: 800px;
+        // display: flex;
+        flex-grow: 1;
+        // flex-shrink: 1;
+        margin: 0 auto;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 20px 0 0 0;
+
+    }
 }

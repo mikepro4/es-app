@@ -44,6 +44,7 @@ function AlgoActionsView({
                             }
                         },)
                 )
+                break
             case "duplicate":
                 console.log("duplicate")
                 dispatch(

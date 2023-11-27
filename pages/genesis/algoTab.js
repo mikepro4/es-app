@@ -76,7 +76,6 @@ function AlgosTab() {
 
                     }}
                     loadCollectionItem={algoItem}
-                    handleClick={() => { }}
                 />
 
 

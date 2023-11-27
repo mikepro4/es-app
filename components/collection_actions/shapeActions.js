@@ -44,6 +44,7 @@ function ShapeActionsView({
                             }
                         },)
                 )
+                break;
             case "duplicate":
                 console.log("duplicate")
                 dispatch(

@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 
-const TabBar = ({ tabs, activeTab, onTabChange }) => {
+const TabBar = ({ tabs, activeTab, onTabChange, onClick }) => {
     const tabClasses = classNames({
         'tab-container': true,
     });
@@ -23,6 +23,9 @@ const TabBar = ({ tabs, activeTab, onTabChange }) => {
                                 if ((i + 1) !== activeTab) {
                                     onTabChange(i + 1);
                                 }
+
+                                if(onClick) onClick(i+1)
+
                             }}
                         >
                             <span>{tab}</span>

@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import TabBar from '@/components/tab'
 import ShapeSidebar from '@/components/collection_sidebar/shapeSidebar'
 import AlgoSidebar from '@/components/collection_sidebar/algoSidebar'
+import AlgoPage from './algoPage'
 
 
 import ShapesTab from "./shapesTab"
@@ -12,6 +13,7 @@ import AlgoTab from "./algoTab"
 
 export default function Genesis() {
   const router = useRouter();
+  const query = router.query;
 
 
   const [selectedTabId, setSelectedTabId] = useState(1);
@@ -38,18 +40,30 @@ export default function Genesis() {
             </div>
           </div>)
       case 2:
-        return (
-          <div className="full-screen-content-container">
+        if (router.query.algoId) {
+          return (
+            <div className="full-screen-content-container">
 
-            <div className="full-screen-content-area">
-              <AlgoTab/>
-            </div>
+              <div className="full-screen-content-area">
+                <AlgoPage />
+              </div>
+            </div>)
+        } else {
 
-            <div className="full-screen-filters-area">
-              <AlgoSidebar/>
+          return (
+            <div className="full-screen-content-container">
+
+              <div className="full-screen-content-area">
+                <AlgoTab />
+              </div>
+
+              <div className="full-screen-filters-area">
+                <AlgoSidebar />
+              </div>
             </div>
-          </div>
-        )
+          )
+        }
+
       case 3:
         return (<div>Add shape</div>)
       case 4:
@@ -70,10 +84,12 @@ export default function Genesis() {
 
   const selectTab = (tab) => {
     setSelectedTabId(tab)
+   
     router.push({
       pathname: router.pathname,
       query: { ...router.query, tab: tab }
     }, undefined, { shallow: true });
+    
   }
 
   return (
@@ -89,6 +105,15 @@ export default function Genesis() {
                 tabs={tabs}
                 activeTab={selectedTabId}
                 onTabChange={(tab) => selectTab(tab)}
+                onClick={(tab) => {
+                  if(tab == selectedTabId && router.query.algoId){
+                    router.push({
+                      pathname: router.pathname,
+                      query: { ...router.query, algoId: null }
+                    }, undefined, { shallow: true });
+                  } 
+                }
+              }
               />
             </div>
 
