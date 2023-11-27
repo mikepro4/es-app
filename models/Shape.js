@@ -11,6 +11,7 @@ const ShapeSchema = new Schema({
         enum: ["unreviewed", "approved", "rejected", "potential"],
         default: "unreviewed"
     },
+    algo: { type: Schema.Types.ObjectId, ref: "Algo" }
 });
 
-module.exports = mongoose.model("shape", ShapeSchema);
+module.exports = mongoose.model("Shape", ShapeSchema);

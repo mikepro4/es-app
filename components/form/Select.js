@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Select, { components } from 'react-select';
 import AsyncSelect from 'react-select/async';
 import { useField, useFormikContext } from 'formik';
 import { Icon } from "@blueprintjs/core";
 import axios from 'axios';
+import api from "@/redux/api"
+import * as _ from 'lodash'
 
 const IconOption = (props) => {
 	console.log(props)
@@ -50,6 +52,7 @@ const CustomMultiValue = (props) => {
 
 const SelectField = ({ options, field, useAsync, apiUrl, ...props }) => {
 	const { setFieldValue } = useFormikContext();
+	const [localOptions, setLocalOptions] = React.useState(options);
 
 	// Function to handle value change
 	const handleChange = (selectedOption) => {
@@ -72,6 +75,7 @@ const SelectField = ({ options, field, useAsync, apiUrl, ...props }) => {
 		} else {
 			// For single select, find the option that matches the field value
 			return options.find(option => option.value === field.value);
+			
 		}
 	};
 
@@ -80,20 +84,20 @@ const SelectField = ({ options, field, useAsync, apiUrl, ...props }) => {
 		const payload = {
 		  criteria: {
 		  },
-		  sortProperty: "createdAt",
+		  sortProperty: "created",
 		  offset: 0,
-		  limit: 20,
+		  limit: 1000,
 		  order: 1
 		};
 	  
 		try {
 		  // Make the POST request
-		  const response = await axios.post(apiUrl, payload);
+		  const response = await api.post(apiUrl, payload);
 	  
 		  // Transform the response data to the format { value: '', label: '' }
 		  return response.data.all.map(item => ({
 			value: item._id, // Adjust according to your data structure
-			label: item.nft.name, // Adjust according to your data structure
+			label: item.name, // Adjust according to your data structure
 			// icon: 'some-icon' // You can add icon logic here if needed
 		  }));
 		} catch (error) {
@@ -103,6 +107,10 @@ const SelectField = ({ options, field, useAsync, apiUrl, ...props }) => {
 	  };
 
 	const SelectComponent = useAsync ? AsyncSelect : Select;
+
+	// useEffect(() => {
+	// 	loadOptions()
+	// }, [field.value]);
 
 	return (
 		<div className="select-container">
@@ -116,7 +124,7 @@ const SelectField = ({ options, field, useAsync, apiUrl, ...props }) => {
 				onBlur={field.onBlur}
 				className="react-select-container"
 				classNamePrefix="react-select"
-				loadOptions={useAsync ? loadOptions : undefined}
+				loadOptions={useAsync ? _.throttle(loadOptions, 500) : undefined}
 				defaultOptions={useAsync ? true : undefined}
 				components={{ Option: IconOption, SingleValue: CustomSingleValue, MultiValue: CustomMultiValue }}
 				isMulti={props.isMulti}

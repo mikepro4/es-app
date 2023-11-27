@@ -5,15 +5,17 @@ import classNames from "classnames";
 import { Formik, Form, Field, FieldArray } from 'formik';
 import Input from "../../../components/form/BladeInput";
 import Button from "../../../components/button";
+import Select from "../../../components/form/Select";
 import TabSwitcher from "../../../components/form/TabSwitcher";
 
-import { shapeUpdateItem, updateCollectionItem, toggleDrawer, togglePlayer, toggleModal } from "@/redux";
+import { shapeUpdateItem, algoSearch, updateCollectionItem, toggleDrawer, togglePlayer, toggleModal } from "@/redux";
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
     const dispatch = useDispatch();
+    const [localOptions, setLocalOptions] = useState([]);
 
     const handleFormChange = (values) => {
         console.log(values);
@@ -39,10 +41,16 @@ function AppSettings() {
 
     let initialValues = app.drawerData
 
+    // let initialValues = {
+    //     _id: app.drawerData._id,
+    //     name: app.drawerData.name,
+    //     algo: {value: "65639da4ca12be4343efa738", label: "Ethereal"}
+    // }
+
     useEffect(() => {
+        loadInitialOptions()
 
         return () => {
-
         };
     }, []);
 
@@ -56,6 +64,27 @@ function AppSettings() {
             name: 'Potential',
             value: 'potential',
         }]
+
+    const loadInitialOptions = () => {
+        dispatch(algoSearch({
+            criteria: {},
+            sortProperty: "created",
+            offset: 0,
+            limit: 10000,
+            order: 1,
+
+            callback: (data) => {
+                let finalOptinos =  data.all.map(option => {
+                    return {
+                        value: option._id,
+                        label: option.name,
+                    }
+                });
+                setLocalOptions(finalOptinos)
+            }
+        }))
+    }
+
 
     return (
         <div className={`app-drawer-content-container standard-drawer`}>
@@ -87,6 +116,15 @@ function AppSettings() {
                                         component={Input}
                                         title="Name"
                                         placeholder="Name"
+                                    />
+
+                                    <Field
+                                        name="algo"
+                                        title="Algorithm"
+                                        apiUrl="/algo/search"
+                                        useAsync={true}
+                                        component={Select}
+                                        options={localOptions}
                                     />
 
                                     <Field
