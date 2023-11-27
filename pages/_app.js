@@ -61,13 +61,18 @@ const App = ({ children }) => {
 
   useEffect(() => {
     // Update the URL with the item ID as a query parameter
-    if (query.shapeId && !app.noRedirect) {
-      router.push({
-        pathname: '/shape',
-        query: { shapeId: query.shapeId }
-      }, undefined, { shallow: true });
-      dispatch(toggleNoRedirect(true))
-    }
+    setTimeout(() => {
+      if (query.shapeId && !app.noRedirect) {
+
+        router.push({
+          pathname: '/shape',
+          query: { shapeId: query.shapeId }
+        }, undefined, { shallow: true });
+        dispatch(toggleNoRedirect(true))
+      }
+
+    }, 100)
+
   }, [router]);
 
   return (
@@ -130,7 +135,7 @@ export default function MainApp({ Component, pageProps }) {
       <Provider store={store}>
         <ThirdwebProvider
           activeChain="mumbai"
-          clientId="b13389a0d034f848e45b482f5f3749fc"
+          clientId="a0815e45c470abdad32bb79a489e88d2"
           supportedWallets={[
             metamaskWallet({ recommended: true }),
             coinbaseWallet(),

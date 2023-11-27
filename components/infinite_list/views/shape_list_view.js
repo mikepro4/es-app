@@ -51,6 +51,7 @@ function ShapeListView({
             </div>
 
             <div className="shape-view-arrow" onClick={() => {
+                    dispatch(toggleNoRedirect(true))
                     dispatch(togglePlayer({
                         playerOpen: true,
                         playerData: item
