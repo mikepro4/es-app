@@ -119,7 +119,7 @@ function AppSettings() {
                                     />
 
                                     <Field
-                                        name="algo"
+                                        name="algo._id"
                                         title="Algorithm"
                                         apiUrl="/algo/search"
                                         useAsync={true}
