@@ -9,11 +9,12 @@ import Button from "@/components/button";
 
 import AlgoActionsView from "@/components/collection_actions/algoActions";
 
-import { algoUpdateItem, updateCollectionItem, algoItem } from "@/redux";
+import { algoUpdateItem, updateCollectionItem, algoItem, algoUpdateManyItems } from "@/redux";
 
 import {
+    Switch,
     OverlayToaster,
-  } from "@blueprintjs/core";
+} from "@blueprintjs/core";
 
 function AlgoPageContainer({
     item
@@ -82,6 +83,7 @@ function AlgoPageContainer({
     const handleFormChange = (values) => {
         console.log(values);
         // dispatch(testListChangeCriteria(values))
+
     };
 
     const handleSubmit = (values) => {
@@ -108,6 +110,33 @@ function AlgoPageContainer({
         slug: algo?.slug
     }
 
+    const handleDefaultChange = (event) => {
+        let value = event.target.checked
+
+        dispatch(algoUpdateManyItems({
+            newCriteria: {
+                default: false
+            },
+            callback: (data) => {
+
+                    dispatch(algoUpdateItem({
+                        data: {
+                            ...algo,
+                            default: value
+                        },
+                        callback: (data) => {
+                            toasterRef.current.show({ message: "Algo updated" });
+                            dispatch(updateCollectionItem(algo._id))
+                        }
+                    })
+    
+                    )
+
+                
+            }
+        }))
+    }
+
     return (
         <div className="algo-page-container">
 
@@ -131,6 +160,14 @@ function AlgoPageContainer({
 
 
                 <div className="algo-preview"></div>
+
+                <div className="switch-container">
+                    <Switch
+                        checked={algo.default}
+                        onChange={handleDefaultChange}
+                    />
+                    <span>Default algo</span>
+                </div>
 
                 <div className="algo-form">
                     {algo && algo._id && <Formik

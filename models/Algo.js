@@ -12,6 +12,7 @@ const AlgoSchema = new Schema({
         default: "inactive"
     },
     slug: { type: String },
+    default: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model("Algo", AlgoSchema);

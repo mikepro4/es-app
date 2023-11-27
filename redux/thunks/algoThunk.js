@@ -104,7 +104,7 @@ function convertCriteriaToUpdateData(criteria) {
 
 const algoUpdateManyItems = createAsyncThunk(
   "algo/updateMany",
-    async ({ initialCriteria, newCriteria, callback }, { rejectWithValue }) => {
+    async ({ initialCriteria = {}, newCriteria, callback }, { rejectWithValue }) => {
     try {
       const updateData = convertCriteriaToUpdateData(newCriteria);
 
