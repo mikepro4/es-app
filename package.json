@@ -47,6 +47,7 @@
     "passport-local": "^1.0.0",
     "react": "^18",
     "react-anime": "2.1.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-colorful": "^5.6.1",
     "react-dom": "^18",
     "react-final-form": "^6.5.9",
