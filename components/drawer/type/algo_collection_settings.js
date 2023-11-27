@@ -74,16 +74,16 @@ function AppSettings() {
     }, [algoList.criteria]);
 
     const statusOptions = [{
-        name: 'Unreviewed',
+        label: 'Unreviewed',
         value: 'unreviewed',
     }, {
-        name: 'Approved',
+        label: 'Approved',
         value: 'approved',
     }, {
-        name: 'Potential',
+        label: 'Potential',
         value: 'potential',
     }, {
-        name: 'Rejected',
+        label: 'Rejected',
         value: 'rejected',
     }]
 

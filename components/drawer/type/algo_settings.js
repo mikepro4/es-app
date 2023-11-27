@@ -47,14 +47,11 @@ function AppSettings() {
     }, []);
 
     const statusOptions = [, {
-        name: 'Approved',
-        value: 'approved',
+        label: 'Active',
+        value: 'active',
     }, {
-        name: 'Rejected',
-        value: 'rejected',
-    }, {
-        name: 'Potential',
-        value: 'potential',
+        label: 'Inactive',
+        value: 'inactive',
     }]
 
     return (

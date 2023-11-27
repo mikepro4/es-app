@@ -92,13 +92,13 @@ function AppSettings() {
     }, [testList.criteria]);
 
     const statusOptions = [{
-        name: 'Unreviewed',
+        label: 'Unreviewed',
         value: 'unreviewed',
     }, {
-        name: 'Approved',
+        label: 'Approved',
         value: 'approved',
     }, {
-        name: 'Potential',
+        label: 'Potential',
         value: 'potential',
     }]
 

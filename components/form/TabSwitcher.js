@@ -21,7 +21,7 @@ const TabSwitcher = ({ field, ...props }) => {
                         })}
                         onClick={() => field.onChange({ target: { name: field.name, value: option.value } })}
                     >
-                        <span className="tab-label">{option.name}</span>
+                        <span className="tab-label">{option.label}</span>
                     </div>
                 ))}
             </div>

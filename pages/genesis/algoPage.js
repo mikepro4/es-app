@@ -74,7 +74,7 @@ function AlgoPageContainer({
 
                     <div className="algo-page-header-right">
                         <AlgoActionsView
-                            param={algo}
+                            item={algo}
                         />
                     </div>
 
