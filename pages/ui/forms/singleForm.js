@@ -49,19 +49,19 @@ const SingleForm = () => {
 
     // const tabOptions = ['Tab1', 'Tab2', 'Tab3'];
     const tabOptions = [{
-        name: 'Sin',
+        label: 'Sin',
         value: 'sin',
     }, {
-        name: 'Cos',
+        label: 'Cos',
         value: 'cos',
     }, {
-        name: 'Tan',
+        label: 'Tan',
         value: 'tan',
     }, {
-        name: 'Atan',
+        label: 'Atan',
         value: 'atan',
     }, {
-        name: 'Log',
+        label: 'Log',
         value: 'log',
     }];
 

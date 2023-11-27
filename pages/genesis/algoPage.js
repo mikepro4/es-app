@@ -6,10 +6,11 @@ import classNames from "classnames";
 import { Formik, Form, Field, FieldArray } from 'formik';
 import Input from "@/components/form/BladeInput";
 import Button from "@/components/button";
+import { v4 as uuidv4 } from 'uuid';
 
 import AlgoActionsView from "@/components/collection_actions/algoActions";
 
-import { algoUpdateItem, updateCollectionItem, algoItem, algoUpdateManyParams } from "@/redux";
+import { algoUpdateItem, updateCollectionItem, algoItem, algoUpdateManyItems } from "@/redux";
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
@@ -41,6 +42,8 @@ function AlgoPageContainer({
         }))
     }
 
+    
+
 
 
     useEffect(() => {
@@ -52,14 +55,14 @@ function AlgoPageContainer({
     }, []);
 
     useEffect(() => {
-        if (app.updateCollectionItem == algo?._id) {
+        if (app.updateCollectionItem  && app.updateCollectionItem == algo?._id) {
             fetchAlgo()
         }
 
     }, [app.updateCollectionItem]);
 
     useEffect(() => {
-        if (router.query.algoId !== algo?.id) {
+        if (router.query.algoId && algo?.id && router.query.algoId !== algo?.id) {
             fetchAlgo()
         }
     }, [router]);
@@ -117,7 +120,7 @@ function AlgoPageContainer({
     const handleDefaultChange = (event) => {
         let value = event.target.checked
 
-        dispatch(algoUpdateManyParams({
+        dispatch(algoUpdateManyItems({
             newCriteria: {
                 default: false
             },
@@ -145,7 +148,8 @@ function AlgoPageContainer({
         // Create a new parameter object
         const newParameter = {
             value: `param-${values.params.length + 1}`,
-            label: `Parameter ${values.params.length + 1}`
+            label: `Parameter ${values.params.length + 1}`,
+            id: uuidv4()
         };
 
         // Copy the current params and add the new parameter to the specified param
@@ -269,7 +273,7 @@ function AlgoPageContainer({
                                                                     </div>
 
                                                                     {values.params.map((param, index) => (
-                                                                        <Draggable key={index} draggableId={index} index={index}>
+                                                                        <Draggable key={param.id} draggableId={param.id} index={index}>
                                                                             {(provided) => (
                                                                                 <div
                                                                                     ref={provided.innerRef}
@@ -299,16 +303,16 @@ function AlgoPageContainer({
                                                                                     <Field
                                                                                         name={`params[${index}].value`}
                                                                                         component={Input}
-                                                                                        title={`Parameter id ${index + 1}`}
-                                                                                        placeholder={`Parameter id ${index + 1}`}
+                                                                                        title={`Value`}
+                                                                                        placeholder={`Value`}
                                                                                     />
 
 
                                                                                     <Field
                                                                                         name={`params[${index}].label`}
                                                                                         component={Input}
-                                                                                        title={`Parameter name ${index + 1}`}
-                                                                                        placeholder={`Parameter name ${index + 1}`}
+                                                                                        title={`Label`}
+                                                                                        placeholder={`Label`}
                                                                                     />
 
                                                                                 </div>
@@ -337,8 +341,8 @@ function AlgoPageContainer({
 
                                                 <Button
                                                     type="submit"
+                                                    small={true}
                                                     label="Save"
-                                                    minimal={true}
                                                     wrap={true}
                                                 />
 
