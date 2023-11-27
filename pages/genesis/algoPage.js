@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import { useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 
@@ -9,7 +9,11 @@ import Button from "@/components/button";
 
 import AlgoActionsView from "@/components/collection_actions/algoActions";
 
-import { algoUpdateItem, updateCollectionItem, algoItem} from "@/redux";
+import { algoUpdateItem, updateCollectionItem, algoItem } from "@/redux";
+
+import {
+    OverlayToaster,
+  } from "@blueprintjs/core";
 
 function AlgoPageContainer({
     item
@@ -18,6 +22,7 @@ function AlgoPageContainer({
     const app = useSelector((state) => state.app);
     const router = useRouter();
     const dispatch = useDispatch();
+    const toasterRef = useRef(null)
 
     const [algo, setAlgo] = useState(false);
 
@@ -38,19 +43,25 @@ function AlgoPageContainer({
         fetchItem()
 
         return () => {
-            
+
         };
-    }, []); 
+    }, []);
 
     useEffect(() => {
-        if(app.updateCollectionItem == algo?._id)  {
+        if (app.updateCollectionItem == algo?._id) {
             fetchItem()
         }
-  
-    }, [app.updateCollectionItem]); 
+
+    }, [app.updateCollectionItem]);
+
+    useEffect(() => {
+        if (router.query.algoId !== algo?.id) {
+            fetchItem()
+        }
+    }, [router]);
 
     const renderAlgo = () => {
-        if(algo && algo._id) {
+        if (algo && algo._id) {
             return (
                 <div className="algo-page-header">
                     <div className="algo-page-header-left">
@@ -62,10 +73,39 @@ function AlgoPageContainer({
                             item={algo}
                         />
                     </div>
-                    
+
                 </div>
             )
         }
+    }
+
+    const handleFormChange = (values) => {
+        console.log(values);
+        // dispatch(testListChangeCriteria(values))
+    };
+
+    const handleSubmit = (values) => {
+
+        dispatch(algoUpdateItem({
+            data: {
+                ...algo,
+                ...values
+            },
+            callback: (data) => {
+                dispatch(updateCollectionItem(data._id))
+                toasterRef.current.show({ message: "Algo updated" });
+
+                dispatch(toggleDrawer({
+                    drawerOpen: false,
+                    drawerType: null,
+                    drawerData: null,
+                }))
+            }
+        }))
+    };
+
+    let initialValues = {
+        slug: algo?.slug
     }
 
     return (
@@ -88,9 +128,66 @@ function AlgoPageContainer({
                 />
 
                 {renderAlgo()}
-                
-                    
+
+
                 <div className="algo-preview"></div>
+
+                <div className="algo-form">
+                    {algo && algo._id && <Formik
+                        enableReinitialize={true}
+                        initialValues={initialValues}
+                        onSubmit={handleSubmit}
+                    >
+                        {({ values, handleChange, handleSubmit }) => {
+
+                            useEffect(() => {
+                                handleFormChange(values);
+                            }, [values]);
+
+                            return (
+                                <Form
+                                >
+                                    <div className="form-fields">
+
+                                        <Field
+                                            name="slug"
+                                            component={Input}
+                                            title="Slug"
+                                            placeholder="Slug"
+                                        />
+
+
+                                    </div>
+
+                                    <Button
+                                        type="submit"
+                                        label="Save"
+                                        minimal={true}
+                                        wrap={true}
+                                    />
+
+                                    {/* <div className="form-divider"></div>
+
+                                    <Button
+                                        type="button"
+                                        minimal={true}
+                                        label="Update all"
+                                        onClick={() => {
+                                            dispatch(toggleModal({
+                                                modalOpen: true,
+                                                modalType: "update-all",
+                                                modalData: values,
+                                            }))
+                                        }}
+                                    /> */}
+
+                                </Form>
+                            )
+                        }}
+                    </Formik>}
+
+                    <OverlayToaster ref={toasterRef} />
+                </div>
 
 
 

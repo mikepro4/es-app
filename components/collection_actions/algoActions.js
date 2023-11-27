@@ -36,10 +36,11 @@ function AlgoActionsView({
                             algoId: item._id,
                             callback: (data) => {
                                 dispatch(updateCollectionItem(item._id))
-                                dispatch(togglePlayer({
-                                    playerOpen: false,
-                                    playerData: null
-                                }))
+
+                                router.push({
+                                    pathname: router.pathname,
+                                    query: { ...router.query, tab: 2, algoId: null }
+                                }, undefined, { shallow: true });
                                 
                             }
                         },)
@@ -53,12 +54,11 @@ function AlgoActionsView({
                             algoId: item._id,
                             callback: (data) => {
                                 dispatch(updateCollection(true))
-                                if(app.playerOpen) {
-                                    dispatch(togglePlayer({
-                                        playerOpen: true,
-                                        playerData: data
-                                    }))
-                                }
+                                
+                                router.push({
+                                    pathname: router.pathname,
+                                    query: { ...router.query, tab: 2, algoId: data._id }
+                                }, undefined, { shallow: true });
                             }
                         },)
                 )

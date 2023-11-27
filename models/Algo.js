@@ -10,7 +10,8 @@ const AlgoSchema = new Schema({
         type: String,
         enum: ["active", "inactive"],
         default: "inactive"
-    }
+    },
+    slug: { type: String },
 });
 
 module.exports = mongoose.model("Algo", AlgoSchema);
