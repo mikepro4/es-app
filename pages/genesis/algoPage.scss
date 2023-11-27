@@ -1,0 +1,44 @@
+
+.algo-page-container {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 1;
+    opacity: 0;
+    @extend .animation-fadeIn;
+
+    @media only screen and (min-width: $mobile) {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        overflow-y: auto;
+    }
+
+    .algo-page-content {
+        max-width: 800px;
+        // display: flex;
+        flex-grow: 1;
+        // flex-shrink: 1;
+        margin: 0 auto;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 20px 0 0 0;
+
+        .algo-preview {
+            width: 222px;
+            height: 222px;
+            margin: 20px 0 0 0;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .algo-page-header {
+            font-size: 32px;
+            font-weight: 500;
+            margin: 20px 0 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+}
