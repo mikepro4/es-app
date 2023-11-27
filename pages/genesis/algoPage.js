@@ -119,20 +119,20 @@ function AlgoPageContainer({
             },
             callback: (data) => {
 
-                    dispatch(algoUpdateItem({
-                        data: {
-                            ...algo,
-                            default: value
-                        },
-                        callback: (data) => {
-                            toasterRef.current.show({ message: "Algo updated" });
-                            dispatch(updateCollectionItem(algo._id))
-                        }
-                    })
-    
-                    )
+                dispatch(algoUpdateItem({
+                    data: {
+                        ...algo,
+                        default: value
+                    },
+                    callback: (data) => {
+                        toasterRef.current.show({ message: "Algo updated" });
+                        dispatch(updateCollectionItem(algo._id))
+                    }
+                })
 
-                
+                )
+
+
             }
         }))
     }

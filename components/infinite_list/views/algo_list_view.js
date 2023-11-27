@@ -35,9 +35,19 @@ function AlgoListView({
                     }, undefined, { shallow: true })
                 }}
             >
-                {item.name}
+                <div className="algo-name">
+                    {item.name}
+                </div>
+
+                <div className="algo-slug">
+                    {item.slug}
+                </div>
             </div>
             <div className="algo-view-list-right">
+                {item.default && <Label
+                    label="Default"
+                    intent="neutral"
+                />}
                 <AlgoActionsView
                     item={item}
                 />
