@@ -70,14 +70,10 @@ function AlgoActionsView({
 
     const selectIntent = (status) => {
         switch (status) {
-            case "unreviewed":
+            case "inactive":
                 return "neutral";
-            case "approved":
+            case "active":
                 return "success";
-            case "rejected":
-                return "danger";
-            case "potential":
-                return "info";
             default:
                 return "neutral";
         }
@@ -87,7 +83,7 @@ function AlgoActionsView({
     return (
 
         <ul className="collection-view-actions">
-            {/* <li>
+            <li>
 
                 <ParamSwitch
                     display="label"
@@ -100,25 +96,15 @@ function AlgoActionsView({
                             type: "links",
                             values: [
                                 {
-                                    label: "Approved",
-                                    value: "approved",
+                                    label: "Active",
+                                    value: "active",
                                     icon: "tick"
                                 },
                                 {
-                                    label: "Rejected",
-                                    value: "rejected",
+                                    label: "Inactive",
+                                    value: "inactive",
                                     icon: "cross"
-                                },
-                                {
-                                    label: "Unreviewed",
-                                    value: "unreviewed",
-                                    icon: "eye-off"
-                                },
-                                {
-                                    label: "Potential",
-                                    value: "potential",
-                                    icon: "star"
-                                },
+                                }
                             ],
                         }
                     ]}
@@ -138,7 +124,7 @@ function AlgoActionsView({
                         // alert(value)
                     }}
                 />
-            </li> */}
+            </li>
 
             <li>
                 <ParamSwitch
