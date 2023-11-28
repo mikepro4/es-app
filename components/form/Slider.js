@@ -22,6 +22,8 @@ const SliderComponent = ({ field, form, stepSize, min, max, step, onChange, disp
                         min={min}
                         max={max}
                         stepSize={step || 0.5}
+                        labelPrecision={1}
+                        labelRenderer={(data) => <span>{data.toFixed(1)}</span>}
                         labelStepSize={labelStepSize}
                         value={Number(field.value)}
                         onChange={(value) => { 
