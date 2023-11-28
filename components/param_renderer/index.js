@@ -30,7 +30,7 @@ function ParamRenderer({
         switch (param.type) {
             case 'string':
                 // Render Input component
-                return <Field component={Select} name={`params[${index}].value`} title={param.label}  options={values?.params[index].enumParameters} /* ...other props */ />;
+                return <Field component={Select} name={`params[${index}].defaultValue`} title={param.label}  options={values?.params[index].enumParameters} /* ...other props */ />;
             case 'number':
                 // Render Input component for number
                 // return <Field component={Input} name={`params[${index}].defaultValue` }title={param.label} placeholder={param.label}  />;

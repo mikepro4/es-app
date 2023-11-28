@@ -595,6 +595,14 @@ function AlgoPageContainer({
                                                                         options={tabOptions}
                                                                     />}
 
+                                                                    {values.params[index].type === 'string' && <Field
+                                                                        name={`params[${index}].defaultValue`}
+                                                                        title="Default Value"
+                                                                        options={values.params[index].enumParameters}
+                                                                        component={Select}
+                                                                        searchable={false}
+                                                                    />}
+
                                                                     {values.params[index].type === 'number' && renderField(
                                                                         values.params[index].type,
                                                                         `params[${index}].defaultValue`,
