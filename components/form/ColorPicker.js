@@ -40,11 +40,12 @@ const TabSwitcher = ({ field, ...props }) => {
         console.log("value", value)
         let rgbaString
 
-        if( value && value !== "" && value !== false) {
+        if( value && value !== "" && value !== false && value !== true) {
             rgbaString = value;
         } else {
             rgbaString = "rgba(255,255,255,1)"
         }
+        console.log("rgbaString", rgbaString)
 
         const rgbaArray = rgbaString
             .match(/\d+(\.\d+)?/g)

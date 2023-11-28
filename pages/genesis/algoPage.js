@@ -257,19 +257,39 @@ function AlgoPageContainer({
         return (
             <div className="param-type-array-container">
 
-                
+                <div className="param-type-array-container-header">
+                    Array parameters
+                </div>
 
                 <FieldArray
                     name={`params[${index}].arrayParameters`}
                     render={arrayHelpers => (
-                        <div>
+                        <div className="array-params-container">
                             {param.arrayParameters && param.arrayParameters.length > 0 && (
                                 param.arrayParameters.map((arrayParam, arrayIndex) => (
                                     <div
                                         key={arrayParam.id}
                                         className="array-single-parameter"
                                     >
-                                       
+
+                                        <div className="array-single-parameter-header">
+                                            <div className="array-single-parameter-header-right">
+                                                Array parameter {arrayIndex + 1}
+                                            </div>
+
+                                            <div className="array-single-parameter-header-left">
+                                                <Button
+                                                    type="button"
+                                                    icon="trash"
+                                                    small={true}
+                                                    minimal={true}
+                                                    onClick={() => arrayHelpers.remove(arrayIndex)}
+                                                >
+                                                    Remove
+                                                </Button>
+                                            </div>
+                                        </div>
+
 
                                         <Field
                                             name={`params[${index}].arrayParameters[${arrayIndex}].valueType`}
@@ -279,18 +299,14 @@ function AlgoPageContainer({
                                             searchable={false}
                                         />
 
-                                        {renderField(
-                                            values.params[index].arrayParameters[arrayIndex].valueType,
-                                            `params[${index}].arrayParameters[${arrayIndex}].value`,
-                                            `Array parameter value`
-                                        )}
 
-                                        {/* <Field
+
+                                        <Field
                                             name={`params[${index}].arrayParameters[${arrayIndex}].value`}
                                             component={Input}
                                             title={`Array parameter value`}
                                             placeholder={`Array parameter value`}
-                                        /> */}
+                                        />
 
                                         <Field
                                             name={`params[${index}].arrayParameters[${arrayIndex}].label`}
@@ -299,23 +315,24 @@ function AlgoPageContainer({
                                             placeholder={`Array parameter label`}
                                         />
 
-                                        <Button
-                                            type="button"
-                                            icon="trash"
-                                            onClick={() => arrayHelpers.remove(arrayIndex)}
-                                        >
-                                            Remove
-                                        </Button>
+                                        {renderField(
+                                            values.params[index].arrayParameters[arrayIndex].valueType,
+                                            `params[${index}].arrayParameters[${arrayIndex}].defaultValue`,
+                                            `Default value`
+                                        )}
+
+
                                     </div>
                                 ))
                             )}
                             <Button
                                 type="button"
                                 icon="plus"
+                                label="Add array value"
+                                small={true}
+                                minimal={true}
                                 onClick={() => addArrayValueToParam(index, arrayHelpers.push, values)}
-                            >
-                                Add Array Value
-                            </Button>
+                            />
                         </div>
                     )}
                 />
@@ -482,6 +499,30 @@ function AlgoPageContainer({
 
 
                                                                                     {values.params[index].type === 'array' && renderArrayParameters(param, index, values)}
+
+                                                                                    {values.params[index].type === 'string' && renderField(
+                                                                                        values.params[index].type,
+                                                                                        `params[${index}].defaultValue`,
+                                                                                        `Default value`
+                                                                                    )}
+
+                                                                                    {values.params[index].type === 'number' && renderField(
+                                                                                        values.params[index].type,
+                                                                                        `params[${index}].defaultValue`,
+                                                                                        `Default value`
+                                                                                    )}
+
+                                                                                    {values.params[index].type === 'color' && renderField(
+                                                                                        values.params[index].type,
+                                                                                        `params[${index}].defaultValue`,
+                                                                                        `Default value`
+                                                                                    )}
+
+                                                                                    {values.params[index].type === 'boolean' && renderField(
+                                                                                        values.params[index].type,
+                                                                                        `params[${index}].defaultValue`,
+                                                                                        `Default value`
+                                                                                    )}
 
                                                                                 </div>
                                                                             )}

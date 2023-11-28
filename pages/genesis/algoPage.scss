@@ -125,5 +125,23 @@
 
     .algo-form {
         margin: 20px 0 0 0;
+
+        .param-type-array-container-header {
+            margin: 10px 0 10px 0;
+        }
+
+        .array-single-parameter {
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+
+            .array-single-parameter-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+        }
     }
 }
