@@ -29,7 +29,7 @@ function ParamRenderer({
 
     const getLabelStepSize = (min, max) => {
         const stepSize = (Math.abs(min) + Math.abs(max)) / 4;
-        console.log("stepSize", stepSize)
+        // console.log("stepSize", stepSize)
         return stepSize;
     }
 
@@ -67,7 +67,7 @@ function ParamRenderer({
             case 'slider':
                 return (<Field
                     component={Slider}
-                    name={`params[${index}].defaultValue`}
+                    name={name}
                     min={Number(param.minValue)}
                     max={Number(param.maxValue)}
                     step={Number(param.stepValue)}
@@ -80,21 +80,95 @@ function ParamRenderer({
     }
 
     const renderArrayParameters = (param, index, values, setFieldValue) => {
+
         return (
             <>
-                {param.arrayParameters?.map((arrayParam, i) => {
+                {param.label}
+
+                <FieldArray
+                    name={`params[${index}].values`}
+                    render={arrayHelpers => (
+                        <div>
+                            {values.params[index].values?.map((color, i) => (
+                                <div key={i}>
+
+                                    <div className="field-array-header">
+                                        <div className="field-array-title">Color {i + 1}</div>
+
+                                        <Button
+                                            type="button"
+                                            small={true}
+                                            minimal={true}
+                                            icon="trash"
+                                            onClick={() => arrayHelpers.remove(i)} // remove a color from the list
+                                        />
+                                    </div>
+
+                                    <div className="field-array-content">
+
+                                        {values.params[index].arrayParameters?.map((arrayParam, arrayIndex) => (
+                                            <div key={arrayIndex}>
+                                                {renderParameterField(
+                                                    arrayParam,
+                                                    index,
+                                                    setFieldValue,
+                                                    values,
+                                                    `params[${index}].values[${i}][${param.arrayParameters[arrayIndex].value}]`,
+                                                    values.params[index].arrayParameters[arrayIndex].enumParameters
+                                                )}
+                                            </div>
+                                        ))}
+                                        {/* <Field
+                                            name={`params[${index}].values[${i}][${param.arrayParameters[0].value}]`}
+                                            placeholder="Color"
+                                            component={ColorPicker}
+                                        />
+
+                                        <Field
+                                            name={`params[${index}].values[${i}][${param.arrayParameters[1].value}]`}
+                                            displayName="Amount"
+                                            component={Slider}
+                                            min={0}
+                                            max={100}
+                                            step={1}
+                                            labelStepSize={50}
+                                        /> */}
+
+                                    </div>
+
+                                </div>
+                            ))}
+                            <div className="field-array-add-button">
+                                <Button
+                                    type="button"
+                                    minimal={true}
+                                    label="Add a Color"
+                                    onClick={() => {
+
+                                        arrayHelpers.push({
+                                            [param.arrayParameters[0].value]: param.arrayParameters[0].defaultValue,
+                                            [param.arrayParameters[1].value]: param.arrayParameters[1].defaultValue
+                                        })
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    )}
+                />
+                {/* {param.arrayParameters?.map((arrayParam, i) => {
                     console.log("arrayParam", arrayParam, i)
                     return (
                         <div key={i} className="array-item">
                             {renderParameterField(arrayParam, i, setFieldValue, values, `params[${index}].arrayParameters[${i}].defaultValue`, values?.params[index].arrayParameters[i].enumParameters)}
                         </div>
                     )
-                })}
+                })} */}
             </>
         )
     };
 
     const renderParameterField = (param, index, setFieldValue, values, name, options) => {
+        // console.log(param, index, setFieldValue, values, name, options)
         switch (param.type) {
             case 'string':
                 // Render Input component
@@ -105,13 +179,13 @@ function ParamRenderer({
                 return renderNumber(param, index, values, name);
             case 'boolean':
                 // Render SwitchField component
-                return <Field component={SwitchField} label={param.label} name={`params[${index}].defaultValue`} /* ...other props */ />;
+                return <Field component={SwitchField} label={param.label} name={name} /* ...other props */ />;
             case 'array':
                 // Render a custom component to handle array values
                 return renderArrayParameters(param, index, values, setFieldValue);
             case 'color':
                 // Render ColorPicker component
-                return <Field component={ColorPicker} name={`params[${index}].defaultValue`} /* ...other props */ />;
+                return <Field component={ColorPicker} name={name} /* ...other props */ />;
             // Add more cases for other types if needed
             default:
                 return null;
@@ -155,7 +229,7 @@ function ParamRenderer({
                         >
                             <div className="form-fields">
                                 {values.params.map((param, index) => (
-                                    <div key={param.id}>
+                                    <div key={index}>
                                         {renderParameterField(param, index, setFieldValue, values, `params[${index}].defaultValue`)}
                                         {/* Add your add/remove buttons here */}
                                     </div>
