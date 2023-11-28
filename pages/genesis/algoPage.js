@@ -78,7 +78,7 @@ function AlgoPageContainer({
     }, [app.updateCollectionItem]);
 
     useEffect(() => {
-        if (router.query.algoId && algo?.id && router.query.algoId !== algo?.id) {
+        if (router.query.algoId && algo?._id && router.query.algoId !== algo?._id) {
             fetchAlgo()
         }
     }, [router]);
