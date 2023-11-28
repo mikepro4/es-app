@@ -69,42 +69,44 @@ const SelectField = ({ options, field, useAsync, apiUrl, ...props }) => {
 
 	// Function to get the value for the select
 	const getValue = () => {
-		if (props.isMulti && field.value) {
-			// For multi-select, find all options that match the field values
-			return options.filter(option => field.value.includes(option.value));
-		} else {
-			// For single select, find the option that matches the field value
-			return options.find(option => option.value === field.value);
-			
+		if (options && options.length > 0) {
+			if (props.isMulti && field.value) {
+				// For multi-select, find all options that match the field values
+				return options.filter(option => field.value.includes(option.value));
+			} else {
+				// For single select, find the option that matches the field value
+				return options.find(option => option.value === field.value);
+
+			}
 		}
 	};
 
 	const loadOptions = async (inputValue) => {
 		// Define the payload for the POST request
 		const payload = {
-		  criteria: {
-		  },
-		  sortProperty: "created",
-		  offset: 0,
-		  limit: 1000,
-		  order: 1
+			criteria: {
+			},
+			sortProperty: "created",
+			offset: 0,
+			limit: 1000,
+			order: 1
 		};
-	  
+
 		try {
-		  // Make the POST request
-		  const response = await api.post(apiUrl, payload);
-	  
-		  // Transform the response data to the format { value: '', label: '' }
-		  return response.data.all.map(item => ({
-			value: item._id, // Adjust according to your data structure
-			label: item.name, // Adjust according to your data structure
-			// icon: 'some-icon' // You can add icon logic here if needed
-		  }));
+			// Make the POST request
+			const response = await api.post(apiUrl, payload);
+
+			// Transform the response data to the format { value: '', label: '' }
+			return response.data.all.map(item => ({
+				value: item._id, // Adjust according to your data structure
+				label: item.name, // Adjust according to your data structure
+				// icon: 'some-icon' // You can add icon logic here if needed
+			}));
 		} catch (error) {
-		  console.error("Error fetching data:", error);
-		  return []; // Return an empty array in case of an error
+			console.error("Error fetching data:", error);
+			return []; // Return an empty array in case of an error
 		}
-	  };
+	};
 
 	const SelectComponent = useAsync ? AsyncSelect : Select;
 
