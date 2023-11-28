@@ -35,12 +35,17 @@ const TabSwitcher = ({ field, ...props }) => {
         brightness: 0,
     });
 
+    const isValidRgba =(rgbaString) => {
+        const rgbaRegex = /^rgba\((\d{1,3}),(\d{1,3}),(\d{1,3}),(\d(\.\d+)?|\.\d+)\)$/;
+        return rgbaRegex.test(rgbaString);
+    }
+
 
     const getRgbaObject = (value) => {
         console.log("value", value)
         let rgbaString
 
-        if( value && value !== "" && value !== false && value !== true) {
+        if( value && value !== "" && value !== false && value !== true && isValidRgba(value)) {
             rgbaString = value;
         } else {
             rgbaString = "rgba(255,255,255,1)"

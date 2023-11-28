@@ -333,6 +333,24 @@ function AlgoPageContainer({
                                             `Default value`
                                         )}
 
+                                        {values.params[index].arrayParameters[arrayIndex].valueType == "number" && renderField(
+                                            values.params[index].arrayParameters[arrayIndex].valueType,
+                                            `params[${index}].arrayParameters[${arrayIndex}].minValue`,
+                                            `Min value`
+                                        )}
+
+                                        {values.params[index].arrayParameters[arrayIndex].valueType == "number" && renderField(
+                                            values.params[index].arrayParameters[arrayIndex].valueType,
+                                            `params[${index}].arrayParameters[${arrayIndex}].maxValue`,
+                                            `Max value`
+                                        )}
+
+                                        {values.params[index].arrayParameters[arrayIndex].valueType == "number" && renderField(
+                                            values.params[index].arrayParameters[arrayIndex].valueType,
+                                            `params[${index}].arrayParameters[${arrayIndex}].stepValue`,
+                                            `Step value`
+                                        )}
+
 
                                     </div>
                                 ))
@@ -352,6 +370,211 @@ function AlgoPageContainer({
         )
     }
 
+    const renderForm = () => {
+        return (
+            <div className="algo-form">
+                {algo && algo._id && <Formik
+                    enableReinitialize={true}
+                    initialValues={initialValues}
+                    onSubmit={handleSubmit}
+                >
+                    {({ values, handleChange, handleSubmit, setFieldValue }) => {
+
+                        useEffect(() => {
+                            handleFormChange(values);
+                        }, [values]);
+
+                        return (
+                            <Form
+                            >
+                                <div className="form-fields">
+
+                                    <Field
+                                        name="slug"
+                                        component={Input}
+                                        title="Slug"
+                                        placeholder="Slug"
+                                    />
+
+                                    <DragDropContext
+                                        onDragEnd={result => {
+                                            const { source, destination } = result;
+
+                                            // Check if param is dropped outside the list
+                                            if (!destination) {
+                                                return;
+                                            }
+
+                                            const newParams = Array.from(values.params);
+                                            const [removed] = newParams.splice(source.index, 1);
+                                            newParams.splice(destination.index, 0, removed);
+
+                                            setFieldValue('params', newParams);
+                                        }}
+                                    >
+                                        <Droppable droppableId="droppable">
+                                            {(provided) => (
+                                                <div
+                                                    {...provided.droppableProps}
+                                                    ref={provided.innerRef}
+                                                    className="params-container"
+                                                >
+                                                    <div className="params-container-header">
+                                                        Params
+                                                    </div>
+
+                                                    {values.params.map((param, index) => (
+                                                        <Draggable key={param.id} draggableId={param.id} index={index}>
+                                                            {(provided) => (
+                                                                <div
+                                                                    ref={provided.innerRef}
+                                                                    {...provided.draggableProps}
+
+                                                                    className="form-fields-draggable"
+                                                                >
+
+                                                                    <div
+                                                                        className="draggable-field-header"
+                                                                        {...provided.dragHandleProps}
+                                                                    >
+                                                                        <div className="draggable-field-header-left">
+                                                                            Param {index + 1}
+                                                                        </div>
+
+
+                                                                        <div className="draggable-field-header-left">
+                                                                            <Button
+                                                                                type="button"
+                                                                                icon="trash"
+                                                                                small={true}
+                                                                                minimal={true}
+                                                                                onClick={() => removeParameterFromParam(index, setFieldValue, values)}
+                                                                            >
+                                                                            </Button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <Field
+                                                                        name={`params[${index}].value`}
+                                                                        component={Input}
+                                                                        title={`Value`}
+                                                                        placeholder={`Value`}
+                                                                    />
+
+
+                                                                    <Field
+                                                                        name={`params[${index}].label`}
+                                                                        component={Input}
+                                                                        title={`Label`}
+                                                                        placeholder={`Label`}
+                                                                    />
+
+                                                                    <Field
+                                                                        name={`params[${index}].type`}
+                                                                        title="Type"
+                                                                        options={typeOptions}
+                                                                        component={Select}
+                                                                        searchable={false}
+                                                                    />
+
+
+                                                                    {values.params[index].type === 'array' && renderArrayParameters(param, index, values)}
+
+                                                                    {values.params[index].type === 'string' && renderField(
+                                                                        values.params[index].type,
+                                                                        `params[${index}].defaultValue`,
+                                                                        `Default value`
+                                                                    )}
+
+                                                                    {values.params[index].type === 'number' && renderField(
+                                                                        values.params[index].type,
+                                                                        `params[${index}].defaultValue`,
+                                                                        `Default value`
+                                                                    )}
+
+                                                                    {values.params[index].type === 'number' && renderField(
+                                                                        values.params[index].type,
+                                                                        `params[${index}].minValue`,
+                                                                        `Min value`
+                                                                    )}
+
+                                                                    {values.params[index].type === 'number' && renderField(
+                                                                        values.params[index].type,
+                                                                        `params[${index}].maxValue`,
+                                                                        `Max value`
+                                                                    )}
+
+                                                                    {values.params[index].type === 'number' && renderField(
+                                                                        values.params[index].type,
+                                                                        `params[${index}].stepValue`,
+                                                                        `Step value`
+                                                                    )}
+
+                                                                    {values.params[index].type === 'color' && renderField(
+                                                                        values.params[index].type,
+                                                                        `params[${index}].defaultValue`,
+                                                                        `Default value`
+                                                                    )}
+
+                                                                    {values.params[index].type === 'boolean' && renderField(
+                                                                        values.params[index].type,
+                                                                        `params[${index}].defaultValue`,
+                                                                        `Default value`
+                                                                    )}
+
+                                                                </div>
+                                                            )}
+                                                        </Draggable>
+                                                    ))}
+                                                    {provided.placeholder}
+
+                                                    <Button
+                                                        type="button"
+                                                        label="Add parameter"
+                                                        minimal={true}
+                                                        icon="plus"
+                                                        wrap={true}
+                                                        small={true}
+                                                        onClick={() => addParameterToParam(setFieldValue, values)}
+                                                    >
+                                                        Add Parameter
+                                                    </Button>
+                                                </div>
+                                            )}
+                                        </Droppable>
+                                    </DragDropContext>
+
+                                </div>
+
+                                <Button
+                                    type="submit"
+                                    small={true}
+                                    label="Save"
+                                    wrap={true}
+                                />
+
+                            </Form>
+                        )
+                    }}
+                </Formik>}
+
+                <OverlayToaster ref={toasterRef} />
+            </div>
+        )
+    }
+
+    const renderContent = () => {
+        switch (selectedTabId) {
+            case 1:
+                return (<>{renderForm()}</>)
+            case 2:
+                return (
+                    <div>Test</div>
+                )
+            default:
+                return;
+        }
+    }
 
     return (
         <div className="algo-page-container">
@@ -374,7 +597,6 @@ function AlgoPageContainer({
 
                 {renderAlgo()}
 
-
                 <div className="algo-page-content-container">
                     <div className="algo-page-content-left">
 
@@ -389,10 +611,7 @@ function AlgoPageContainer({
                             <span>Default algo</span>
                         </div>
 
-
-
                     </div>
-
 
                     <div className="algo-page-content-right">
                         <div className="algo-properties-container">
@@ -408,183 +627,14 @@ function AlgoPageContainer({
 
                                 </div>
                             </div>
-                            <div className="algo-form">
-                                {algo && algo._id && <Formik
-                                    enableReinitialize={true}
-                                    initialValues={initialValues}
-                                    onSubmit={handleSubmit}
-                                >
-                                    {({ values, handleChange, handleSubmit, setFieldValue }) => {
 
-                                        useEffect(() => {
-                                            handleFormChange(values);
-                                        }, [values]);
+                            {renderContent()}
 
-                                        return (
-                                            <Form
-                                            >
-                                                <div className="form-fields">
-
-                                                    <Field
-                                                        name="slug"
-                                                        component={Input}
-                                                        title="Slug"
-                                                        placeholder="Slug"
-                                                    />
-
-                                                    <DragDropContext
-                                                        onDragEnd={result => {
-                                                            const { source, destination } = result;
-
-                                                            // Check if param is dropped outside the list
-                                                            if (!destination) {
-                                                                return;
-                                                            }
-
-                                                            const newParams = Array.from(values.params);
-                                                            const [removed] = newParams.splice(source.index, 1);
-                                                            newParams.splice(destination.index, 0, removed);
-
-                                                            setFieldValue('params', newParams);
-                                                        }}
-                                                    >
-                                                        <Droppable droppableId="droppable">
-                                                            {(provided) => (
-                                                                <div
-                                                                    {...provided.droppableProps}
-                                                                    ref={provided.innerRef}
-                                                                    className="params-container"
-                                                                >
-                                                                    <div className="params-container-header">
-                                                                        Params
-                                                                    </div>
-
-                                                                    {values.params.map((param, index) => (
-                                                                        <Draggable key={param.id} draggableId={param.id} index={index}>
-                                                                            {(provided) => (
-                                                                                <div
-                                                                                    ref={provided.innerRef}
-                                                                                    {...provided.draggableProps}
-
-                                                                                    className="form-fields-draggable"
-                                                                                >
-
-                                                                                    <div
-                                                                                        className="draggable-field-header"
-                                                                                        {...provided.dragHandleProps}
-                                                                                    >
-                                                                                        <div className="draggable-field-header-left">
-                                                                                            Param {index + 1}
-                                                                                        </div>
-
-
-                                                                                        <div className="draggable-field-header-left">
-                                                                                            <Button
-                                                                                                type="button"
-                                                                                                icon="trash"
-                                                                                                small={true}
-                                                                                                minimal={true}
-                                                                                                onClick={() => removeParameterFromParam(index, setFieldValue, values)}
-                                                                                            >
-                                                                                            </Button>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <Field
-                                                                                        name={`params[${index}].value`}
-                                                                                        component={Input}
-                                                                                        title={`Value`}
-                                                                                        placeholder={`Value`}
-                                                                                    />
-
-
-                                                                                    <Field
-                                                                                        name={`params[${index}].label`}
-                                                                                        component={Input}
-                                                                                        title={`Label`}
-                                                                                        placeholder={`Label`}
-                                                                                    />
-
-                                                                                    <Field
-                                                                                        name={`params[${index}].type`}
-                                                                                        title="Type"
-                                                                                        options={typeOptions}
-                                                                                        component={Select}
-                                                                                        searchable={false}
-                                                                                    />
-
-
-                                                                                    {values.params[index].type === 'array' && renderArrayParameters(param, index, values)}
-
-                                                                                    {values.params[index].type === 'string' && renderField(
-                                                                                        values.params[index].type,
-                                                                                        `params[${index}].defaultValue`,
-                                                                                        `Default value`
-                                                                                    )}
-
-                                                                                    {values.params[index].type === 'number' && renderField(
-                                                                                        values.params[index].type,
-                                                                                        `params[${index}].defaultValue`,
-                                                                                        `Default value`
-                                                                                    )}
-
-                                                                                    {values.params[index].type === 'color' && renderField(
-                                                                                        values.params[index].type,
-                                                                                        `params[${index}].defaultValue`,
-                                                                                        `Default value`
-                                                                                    )}
-
-                                                                                    {values.params[index].type === 'boolean' && renderField(
-                                                                                        values.params[index].type,
-                                                                                        `params[${index}].defaultValue`,
-                                                                                        `Default value`
-                                                                                    )}
-
-                                                                                </div>
-                                                                            )}
-                                                                        </Draggable>
-                                                                    ))}
-                                                                    {provided.placeholder}
-
-                                                                    <Button
-                                                                        type="button"
-                                                                        label="Add parameter"
-                                                                        minimal={true}
-                                                                        icon="plus"
-                                                                        wrap={true}
-                                                                        small={true}
-                                                                        onClick={() => addParameterToParam(setFieldValue, values)}
-                                                                    >
-                                                                        Add Parameter
-                                                                    </Button>
-                                                                </div>
-                                                            )}
-                                                        </Droppable>
-                                                    </DragDropContext>
-
-                                                </div>
-
-                                                <Button
-                                                    type="submit"
-                                                    small={true}
-                                                    label="Save"
-                                                    wrap={true}
-                                                />
-
-                                            </Form>
-                                        )
-                                    }}
-                                </Formik>}
-
-                                <OverlayToaster ref={toasterRef} />
-                            </div>
                         </div>
-
 
                     </div>
 
                 </div>
-
 
             </div>
         </div>
