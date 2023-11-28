@@ -237,8 +237,8 @@ function AlgoPageContainer({
     };
 
     const addEnumValueToParam = (index, setFieldValue, values, type, originalArrayIndex) => {
-        if(type == "main") {
-        // Generate a new ID for the array item
+        if (type == "main") {
+            // Generate a new ID for the array item
             const newItemId = uuidv4();
 
             // Create a new array item object
@@ -392,12 +392,6 @@ function AlgoPageContainer({
                                             `Step value`
                                         )}
 
-                                        {values.params[index].arrayParameters[arrayIndex].type == "string" && renderField(
-                                            values.params[index].arrayParameters[arrayIndex].type,
-                                            `params[${index}].arrayParameters[${arrayIndex}].defaultValue`,
-                                            `Default value`
-                                        )}
-
                                         {values.params[index].arrayParameters[arrayIndex].type == "string" && renderEnumParameters(param, index, values, "secondary", arrayIndex)}
 
                                         {values.params[index].arrayParameters[arrayIndex].type == 'string' && <Field
@@ -405,6 +399,14 @@ function AlgoPageContainer({
                                             title="View type"
                                             component={TabSwitcher}
                                             options={tabOptions}
+                                        />}
+
+                                        {values.params[index].arrayParameters[arrayIndex].type === 'string' && <Field
+                                            name={`params[${index}].arrayParameters[${arrayIndex}].defaultValue`}
+                                            title="Default Value"
+                                            options={values.params[index].arrayParameters[arrayIndex].enumParameters}
+                                            component={Select}
+                                            searchable={false}
                                         />}
 
 

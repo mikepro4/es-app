@@ -33,21 +33,21 @@ function ParamRenderer({
         return stepSize;
     }
 
-    const renderString = (param, index, values, name) => {
+    const renderString = (param, index, values, name, options) => {
         switch (param.view) {
             case 'tab':
                 return (<Field
                     name={name}
                     title="View type"
                     component={TabSwitcher}
-                    options={values?.params[index].enumParameters}
+                    options={options ? options : values?.params[index].enumParameters}
                 />)
             case 'dropdown':
                 return (<Field
                     component={Select}
                     name={name}
                     title={param.label}
-                    options={values?.params[index].enumParameters}
+                    options={options ? options : values?.params[index].enumParameters}
                 />)
             default:
                 return null;
@@ -86,7 +86,7 @@ function ParamRenderer({
                     console.log("arrayParam", arrayParam, i)
                     return (
                         <div key={i} className="array-item">
-                            {renderParameterField(arrayParam, i, setFieldValue, values, `params[${i}].arrayParameters[${i}].defaultValue`)}
+                            {renderParameterField(arrayParam, i, setFieldValue, values, `params[${index}].arrayParameters[${i}].defaultValue`, values?.params[index].arrayParameters[i].enumParameters)}
                         </div>
                     )
                 })}
@@ -94,15 +94,15 @@ function ParamRenderer({
         )
     };
 
-    const renderParameterField = (param, index, setFieldValue, values) => {
+    const renderParameterField = (param, index, setFieldValue, values, name, options) => {
         switch (param.type) {
             case 'string':
                 // Render Input component
-                return renderString(param, index, values, `params[${index}].defaultValue`)
+                return renderString(param, index, values, name, options)
             case 'number':
                 // Render Input component for number
                 // return <Field component={Input} name={`params[${index}].defaultValue` }title={param.label} placeholder={param.label}  />;
-                return renderNumber(param, index, values, `params[${index}].defaultValue`);
+                return renderNumber(param, index, values, name);
             case 'boolean':
                 // Render SwitchField component
                 return <Field component={SwitchField} label={param.label} name={`params[${index}].defaultValue`} /* ...other props */ />;
@@ -156,7 +156,7 @@ function ParamRenderer({
                             <div className="form-fields">
                                 {values.params.map((param, index) => (
                                     <div key={param.id}>
-                                        {renderParameterField(param, index, setFieldValue, values)}
+                                        {renderParameterField(param, index, setFieldValue, values, `params[${index}].defaultValue`)}
                                         {/* Add your add/remove buttons here */}
                                     </div>
                                 ))}
