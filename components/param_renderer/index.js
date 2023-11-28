@@ -83,7 +83,7 @@ function ParamRenderer({
 
         return (
             <>
-                {param.label}
+                <div className="array-group-header">{param.label}</div>
 
                 <FieldArray
                     name={`params[${index}].values`}
@@ -246,7 +246,6 @@ function ParamRenderer({
     if (!item) return null;
 
     return (
-        <div className="param-list-container">
             <Formik
                 enableReinitialize
                 initialValues={item}
@@ -276,10 +275,6 @@ function ParamRenderer({
                     )
                 }}
             </Formik>
-
-
-            <div className="placeholder"></div>
-        </div>
     );
 }
 

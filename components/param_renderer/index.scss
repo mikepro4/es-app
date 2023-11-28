@@ -1,8 +1,20 @@
 .param-list-container {
-    padding: 20px;
+    width: 100%;
 
-    .field-array-container {
-        margin-top: 20px;
+    @media only screen and (min-width: $mobile) {
+        padding: 20px;
     }
-    
+
+  
+
+   
+}
+
+.field-array-container {
+    margin-top: 10px;
+}
+
+
+.array-group-header {
+    margin: 0 0 10px;
 }

@@ -91,7 +91,7 @@
             }
 
             .algo-properties-container {
-                border: 1px solid rgba(255, 255, 255, 0.1);
+                // border: 1px solid rgba(255, 255, 255, 0.1);
                 border-radius: 8px;
                 display: block;
                 flex-grow: 1;
@@ -101,8 +101,11 @@
 
                 .algo-properties-container-header {
                     // padding: 20px;
-                    padding: 10px 20px 0 20px;
-                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                    @media only screen and (min-width: $mobile) {
+                        display: none;
+                    }
+                    // padding: 10px 0px 0 20px;
+                    // border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
                     .tab-container ul.tab-list li.tab-link-container {
                         margin-right: 20px;
@@ -114,6 +117,8 @@
 
                     .tab-container {
                         margin: 0px 0;
+
+                       
                     }
 
                     .tab-link-wrapper {
@@ -126,7 +131,7 @@
                 display: block;
                 flex-grow: 1;
                 flex-shrink: 1;
-                padding: 0px 20px 20px 20px;
+                padding: 0px 0px 20px 0px;
 
                 .form-fields-draggable {
                     padding: 20px;
@@ -201,6 +206,10 @@
 
     .params-container {
         padding: 20px;
+
+        @media only screen and (max-width: $mobile) {
+            padding: 0
+        }
     }
 
     .algo-page-content-algo-preview{
@@ -209,7 +218,6 @@
         display: flex;
         flex-grow: 0;
         flex-shrink: 0;
-        margin-right: 20px;
         width: 400px;
 
         @media only screen and (max-width: $mobile) {
