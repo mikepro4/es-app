@@ -22,7 +22,8 @@ const initialState = {
   updateCollectionItem: false,
   playerOpen: false,
   playerData: null,
-  noRedirect: false
+  noRedirect: false,
+  paramsData: null,
 };
 
 const appSlice = createSlice({
@@ -66,7 +67,10 @@ const appSlice = createSlice({
     },
     toggleNoRedirect: (state, action) => {
       state.noRedirect = action.payload;
-    }
+    },
+    toggleParamsData: (state, action) => {
+      state.paramsData = action.payload;
+    },
   }
 });
 
@@ -78,7 +82,8 @@ export const {
     updateCollection,
     updateCollectionItem,
     togglePlayer,
-    toggleNoRedirect
+    toggleNoRedirect,
+    toggleParamsData
 } = appSlice.actions;
 
 export const appReducer = appSlice.reducer;

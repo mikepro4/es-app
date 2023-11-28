@@ -78,6 +78,8 @@ const SelectField = ({ options, field, useAsync, apiUrl, ...props }) => {
 				return options.find(option => option.value === field.value);
 
 			}
+		} else {
+			return []
 		}
 	};
 

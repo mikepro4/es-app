@@ -19,8 +19,8 @@ const SliderComponent = ({ field, form, stepSize, min, max, step, onChange, disp
             <div className="slider-wrapper">
                 <div className="slider-ui" style={{  padding: "0 20px"}}>
                     <Slider
-                        min={min}
-                        max={max}
+                        min={min || 0}
+                        max={max || 10}
                         stepSize={step || 0.5}
                         labelPrecision={1}
                         labelRenderer={(data) => <span>{data.toFixed(1)}</span>}

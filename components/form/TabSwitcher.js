@@ -12,7 +12,7 @@ const TabSwitcher = ({ field, ...props }) => {
             </div>
 
             <div className="tab-switcher ">
-                {options.map((option, index) => (
+                {options?.map((option, index) => (
                     <div
                         key={index}
                         className={classnames({

@@ -17,7 +17,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import AlgoActionsView from "@/components/collection_actions/algoActions";
 
-import { algoUpdateItem, updateCollectionItem, algoItem, algoUpdateManyItems } from "@/redux";
+import { algoUpdateItem, updateCollectionItem, algoItem, algoUpdateManyItems, toggleParamsData } from "@/redux";
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
@@ -57,6 +57,7 @@ function AlgoPageContainer({
                 console.log(data);
                 setAlgo(data)
                 dispatch(updateCollectionItem(null))
+                dispatch(toggleParamsData(data))
             }
         }))
     }
@@ -136,6 +137,7 @@ function AlgoPageContainer({
     const handleFormChange = (values) => {
         console.log(values);
         // dispatch(testListChangeCriteria(values))
+        dispatch(toggleParamsData(values))
 
     };
 
@@ -254,7 +256,6 @@ function AlgoPageContainer({
 
 
     const renderField = (type, name, title) => {
-        console.log("type", type)
         switch (type) {
             case "string":
                 return (
