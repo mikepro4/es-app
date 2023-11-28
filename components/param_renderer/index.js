@@ -79,6 +79,21 @@ function ParamRenderer({
         }
     }
 
+    const renderArrayParameters = (param, index, values, setFieldValue) => {
+        return (
+            <>
+                {param.arrayParameters?.map((arrayParam, i) => {
+                    console.log("arrayParam", arrayParam, i)
+                    return (
+                        <div key={i} className="array-item">
+                            {renderParameterField(arrayParam, i, setFieldValue, values, `params[${i}].arrayParameters[${i}].defaultValue`)}
+                        </div>
+                    )
+                })}
+            </>
+        )
+    };
+
     const renderParameterField = (param, index, setFieldValue, values) => {
         switch (param.type) {
             case 'string':
@@ -90,13 +105,13 @@ function ParamRenderer({
                 return renderNumber(param, index, values, `params[${index}].defaultValue`);
             case 'boolean':
                 // Render SwitchField component
-                return <Field component={SwitchField} label={param.label} name={`params[${index}].value`} /* ...other props */ />;
+                return <Field component={SwitchField} label={param.label} name={`params[${index}].defaultValue`} /* ...other props */ />;
             case 'array':
                 // Render a custom component to handle array values
                 return renderArrayParameters(param, index, values, setFieldValue);
             case 'color':
                 // Render ColorPicker component
-                return <Field component={ColorPicker} name={`params[${index}].value`} /* ...other props */ />;
+                return <Field component={ColorPicker} name={`params[${index}].defaultValue`} /* ...other props */ />;
             // Add more cases for other types if needed
             default:
                 return null;
@@ -110,9 +125,7 @@ function ParamRenderer({
     };
 
 
-    const renderArrayParameters = (param, index, values, setFieldValue) => {
-        // Logic to render array parameters and add/remove buttons
-    };
+
 
     let initialValues = item
 

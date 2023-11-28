@@ -236,22 +236,24 @@ function AlgoPageContainer({
         setFieldValue(`params[${index}].arrayParameters`, newArrayParameters);
     };
 
-    const addEnumValueToParam = (index, setFieldValue, values) => {
+    const addEnumValueToParam = (index, setFieldValue, values, type, originalArrayIndex) => {
+        if(type == "main") {
         // Generate a new ID for the array item
-        const newItemId = uuidv4();
+            const newItemId = uuidv4();
 
-        // Create a new array item object
-        const newArrayItem = {
-            id: newItemId,
-            value: "",
-            label: ""
-        };
+            // Create a new array item object
+            const newArrayItem = {
+                id: newItemId,
+                value: "",
+                label: ""
+            };
 
-        // Copy the current arrayParameters and add the new item
-        const newArrayParameters = [...(values.params[index].arrayParameters || []), newArrayItem];
+            // Copy the current arrayParameters and add the new item
+            const newArrayParameters = [...(values.params[index].arrayParameters || []), newArrayItem];
 
-        // Update Formik values for arrayParameters
-        setFieldValue(`params[${index}].enumParameters`, newArrayParameters);
+            // Update Formik values for arrayParameters
+            setFieldValue(`params[${index}].enumParameters`, newArrayParameters);
+        }
     };
 
 
@@ -342,7 +344,7 @@ function AlgoPageContainer({
 
 
                                         <Field
-                                            name={`params[${index}].arrayParameters[${arrayIndex}].valueType`}
+                                            name={`params[${index}].arrayParameters[${arrayIndex}].type`}
                                             title="Array parameter value type"
                                             options={arrayValueOptions}
                                             component={Select}
@@ -365,47 +367,65 @@ function AlgoPageContainer({
                                             placeholder={`Array parameter label`}
                                         />
 
-                                        {values.params[index].arrayParameters[arrayIndex].valueType == "number" && renderField(
-                                            values.params[index].arrayParameters[arrayIndex].valueType,
+
+                                        {values.params[index].arrayParameters[arrayIndex].type == "number" && renderField(
+                                            values.params[index].arrayParameters[arrayIndex].type,
                                             `params[${index}].arrayParameters[${arrayIndex}].defaultValue`,
                                             `Default value`
                                         )}
 
-                                        {values.params[index].arrayParameters[arrayIndex].valueType == "number" && renderField(
-                                            values.params[index].arrayParameters[arrayIndex].valueType,
+                                        {values.params[index].arrayParameters[arrayIndex].type == "number" && renderField(
+                                            values.params[index].arrayParameters[arrayIndex].type,
                                             `params[${index}].arrayParameters[${arrayIndex}].minValue`,
                                             `Min value`
                                         )}
 
-                                        {values.params[index].arrayParameters[arrayIndex].valueType == "number" && renderField(
-                                            values.params[index].arrayParameters[arrayIndex].valueType,
+                                        {values.params[index].arrayParameters[arrayIndex].type == "number" && renderField(
+                                            values.params[index].arrayParameters[arrayIndex].type,
                                             `params[${index}].arrayParameters[${arrayIndex}].maxValue`,
                                             `Max value`
                                         )}
 
-                                        {values.params[index].arrayParameters[arrayIndex].valueType == "number" && renderField(
-                                            values.params[index].arrayParameters[arrayIndex].valueType,
+                                        {values.params[index].arrayParameters[arrayIndex].type == "number" && renderField(
+                                            values.params[index].arrayParameters[arrayIndex].type,
                                             `params[${index}].arrayParameters[${arrayIndex}].stepValue`,
                                             `Step value`
                                         )}
 
-                                        {values.params[index].arrayParameters[arrayIndex].valueType == "string" && renderField(
-                                            values.params[index].arrayParameters[arrayIndex].valueType,
+                                        {values.params[index].arrayParameters[arrayIndex].type == "string" && renderField(
+                                            values.params[index].arrayParameters[arrayIndex].type,
                                             `params[${index}].arrayParameters[${arrayIndex}].defaultValue`,
                                             `Default value`
                                         )}
 
-                                        {values.params[index].arrayParameters[arrayIndex].valueType == "color" && renderField(
-                                            values.params[index].arrayParameters[arrayIndex].valueType,
+                                        {values.params[index].arrayParameters[arrayIndex].type == "string" && renderEnumParameters(param, index, values, "secondary", arrayIndex)}
+
+                                        {values.params[index].arrayParameters[arrayIndex].type == 'string' && <Field
+                                            name={`params[${index}].arrayParameters[${arrayIndex}].view`}
+                                            title="View type"
+                                            component={TabSwitcher}
+                                            options={tabOptions}
+                                        />}
+
+
+                                        {values.params[index].arrayParameters[arrayIndex].type == "color" && renderField(
+                                            values.params[index].arrayParameters[arrayIndex].type,
                                             `params[${index}].arrayParameters[${arrayIndex}].defaultValue`,
                                             `Default value`
                                         )}
 
-                                        {values.params[index].arrayParameters[arrayIndex].valueType == "boolean" && renderField(
-                                            values.params[index].arrayParameters[arrayIndex].valueType,
+                                        {values.params[index].arrayParameters[arrayIndex].type == "boolean" && renderField(
+                                            values.params[index].arrayParameters[arrayIndex].type,
                                             `params[${index}].arrayParameters[${arrayIndex}].defaultValue`,
                                             `Default value`
                                         )}
+
+                                        {values.params[index].arrayParameters[arrayIndex].type == 'number' && <Field
+                                            name={`params[${index}].arrayParameters[${arrayIndex}].view`}
+                                            title="View type"
+                                            component={TabSwitcher}
+                                            options={tabNumberOptions}
+                                        />}
 
                                     </div>
                                 ))
@@ -425,7 +445,37 @@ function AlgoPageContainer({
         )
     }
 
-    const renderEnumParameters = (param, index, values) => {
+    const renderEnumParameters = (param, index, values, type, originalArrayIndex) => {
+
+        const getValueName = (index, arrayIndex) => {
+            let valueName
+
+            if (type == "main") {
+                valueName = `params[${index}].enumParameters[${arrayIndex}].value`
+            }
+
+            if (type == "secondary") {
+                valueName = `params[${index}].arrayParameters[${originalArrayIndex}].enumParameters[${arrayIndex}].value`
+            }
+
+            return valueName
+        }
+
+        const getLabelName = (index, arrayIndex) => {
+            let labelName
+
+            if (type == "main") {
+                labelName = `params[${index}].enumParameters[${arrayIndex}].label`
+            }
+
+            if (type == "secondary") {
+                labelName = `params[${index}].arrayParameters[${originalArrayIndex}].enumParameters[${arrayIndex}].label`
+            }
+
+
+            return labelName
+        }
+
         return (
             <div className="param-type-array-container">
 
@@ -464,14 +514,14 @@ function AlgoPageContainer({
 
 
                                         <Field
-                                            name={`params[${index}].enumParameters[${arrayIndex}].value`}
+                                            name={getValueName(index, arrayIndex)}
                                             component={Input}
                                             title={`Value`}
                                             placeholder={`Value`}
                                         />
 
                                         <Field
-                                            name={`params[${index}].enumParameters[${arrayIndex}].label`}
+                                            name={getLabelName(index, arrayIndex)}
                                             component={Input}
                                             title={`Label`}
                                             placeholder={`Label`}
@@ -486,7 +536,7 @@ function AlgoPageContainer({
                                 label="Add enum value"
                                 small={true}
                                 minimal={true}
-                                onClick={() => addEnumValueToParam(index, arrayHelpers.push, values)}
+                                onClick={() => addEnumValueToParam(index, arrayHelpers.push, values, "main", originalArrayIndex)}
                             />
                         </div>
                     )}
@@ -605,7 +655,7 @@ function AlgoPageContainer({
 
                                                                     {values.params[index].type === 'array' && renderArrayParameters(param, index, values)}
 
-                                                                    {values.params[index].type === 'string' && renderEnumParameters(param, index, values)}
+                                                                    {values.params[index].type === 'string' && renderEnumParameters(param, index, values, "main", null)}
                                                                     {values.params[index].type === 'string' && <Field
                                                                         name={`params[${index}].view`}
                                                                         title="View type"
