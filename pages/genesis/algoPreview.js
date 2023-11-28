@@ -2,8 +2,9 @@ import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useSelector, useDispatch} from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
+import ParamRenderer from "@/components/param_renderer";
 
-function ParamRenderer({
+function AlgoPreview({
     item
 }) {
     const [loading, setLoading] = useState(false);
@@ -21,9 +22,11 @@ function ParamRenderer({
 
     return (
         <div>
-            Param renderer
+            <ParamRenderer
+                item={item}
+            />
         </div>
     );
 }
 
-export default ParamRenderer;
+export default AlgoPreview;

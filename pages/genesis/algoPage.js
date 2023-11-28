@@ -10,7 +10,7 @@ import SwitchField from "@/components/form/Switch";
 import ColorPicker from "@/components/form/ColorPicker";
 import TabSwitcher from "@/components/form/TabSwitcher";
 import Button from "@/components/button";
-import ParamRenderer from "@/components/param_renderer";
+import AlgoPreview from "./algoPreview";
 
 import TabBar from '@/components/tab'
 import { v4 as uuidv4 } from 'uuid';
@@ -103,6 +103,14 @@ function AlgoPageContainer({
     }, {
         label: 'Dropdown',
         value: 'dropdown',
+    }];
+
+    const tabNumberOptions = [{
+        label: 'Text input',
+        value: 'input',
+    }, {
+        label: 'Slider',
+        value: 'slider',
     }];
 
 
@@ -611,6 +619,13 @@ function AlgoPageContainer({
                                                                         `Step value`
                                                                     )}
 
+                                                                    {values.params[index].type === 'number' && <Field
+                                                                        name={`params[${index}].view`}
+                                                                        title="View type"
+                                                                        component={TabSwitcher}
+                                                                        options={tabNumberOptions}
+                                                                    />}
+
                                                                     {values.params[index].type === 'color' && renderField(
                                                                         values.params[index].type,
                                                                         `params[${index}].defaultValue`,
@@ -671,8 +686,8 @@ function AlgoPageContainer({
             case 2:
                 return (
                     <div className="params-container">
-                        <ParamRenderer
-                            algo={algo}
+                        <AlgoPreview
+                            item={algo}
                         />
                     </div>
                 )
@@ -685,38 +700,28 @@ function AlgoPageContainer({
         <div className="algo-page-container">
 
             <div className="algo-page-content">
+                <div className="algo-page-content-header">
+                    <Button
+                        label="Back"
+                        icon="arrow-left"
+                        minimal={true}
+                        small={true}
+                        wrap={true}
+                        onClick={() => {
+                            router.push({
+                                pathname: '/genesis',
+                                query: { ...router.query, algoId: null },
+                            }, undefined, { shallow: true })
+                        }}
+                    />
 
-                <Button
-                    label="Back"
-                    icon="arrow-left"
-                    minimal={true}
-                    small={true}
-                    wrap={true}
-                    onClick={() => {
-                        router.push({
-                            pathname: '/genesis',
-                            query: { ...router.query, algoId: null },
-                        }, undefined, { shallow: true })
-                    }}
-                />
+                    {renderAlgo()}
+                </div>
 
-                {renderAlgo()}
+
 
                 <div className="algo-page-content-container">
-                    <div className="algo-page-content-left">
 
-
-                        <div className="algo-preview"></div>
-
-                        <div className="switch-container">
-                            <Switch
-                                checked={algo?.default}
-                                onChange={handleDefaultChange}
-                            />
-                            <span>Default algo</span>
-                        </div>
-
-                    </div>
 
                     <div className="algo-page-content-right">
                         <div className="algo-properties-container">
@@ -740,6 +745,26 @@ function AlgoPageContainer({
                     </div>
 
                 </div>
+
+            </div>
+
+            <div className="algo-page-content-algo-preview">
+
+                <AlgoPreview
+                    item={algo}
+                />
+
+                {/* <div className="algo-preview"></div> */}
+
+                {/* <div className="switch-container">
+    <Switch
+        checked={algo?.default}
+        onChange={handleDefaultChange}
+    />
+    <span>Default algo</span>
+</div> */}
+
+
 
             </div>
         </div>
