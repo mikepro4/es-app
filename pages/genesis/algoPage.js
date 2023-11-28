@@ -9,6 +9,7 @@ import Select from "@/components/form/Select";
 import SwitchField from "@/components/form/Switch";
 import ColorPicker from "@/components/form/ColorPicker";
 import Button from "@/components/button";
+import ParamRenderer from "@/components/param_renderer";
 
 import TabBar from '@/components/tab'
 import { v4 as uuidv4 } from 'uuid';
@@ -216,6 +217,25 @@ function AlgoPageContainer({
         setFieldValue(`params[${index}].arrayParameters`, newArrayParameters);
     };
 
+    const addEnumValueToParam = (index, setFieldValue, values) => {
+        // Generate a new ID for the array item
+        const newItemId = uuidv4();
+
+        // Create a new array item object
+        const newArrayItem = {
+            id: newItemId,
+            value: "",
+            label: ""
+        };
+
+        // Copy the current arrayParameters and add the new item
+        const newArrayParameters = [...(values.params[index].arrayParameters || []), newArrayItem];
+
+        // Update Formik values for arrayParameters
+        setFieldValue(`params[${index}].enumParameters`, newArrayParameters);
+    };
+
+
     const renderField = (type, name, title) => {
         console.log("type", type)
         switch (type) {
@@ -327,7 +347,7 @@ function AlgoPageContainer({
                                             placeholder={`Array parameter label`}
                                         />
 
-                                        {renderField(
+                                        {values.params[index].arrayParameters[arrayIndex].valueType == "number" && renderField(
                                             values.params[index].arrayParameters[arrayIndex].valueType,
                                             `params[${index}].arrayParameters[${arrayIndex}].defaultValue`,
                                             `Default value`
@@ -362,6 +382,76 @@ function AlgoPageContainer({
                                 small={true}
                                 minimal={true}
                                 onClick={() => addArrayValueToParam(index, arrayHelpers.push, values)}
+                            />
+                        </div>
+                    )}
+                />
+            </div>
+        )
+    }
+
+    const renderEnumParameters = (param, index, values) => {
+        return (
+            <div className="param-type-array-container">
+
+                <div className="param-type-array-container-header">
+                    Enum parameters
+                </div>
+
+                <FieldArray
+                    name={`params[${index}].enumParameters`}
+                    render={arrayHelpers => (
+                        <div className="array-params-container">
+                            {param.enumParameters && param.enumParameters.length > 0 && (
+                                param.enumParameters.map((arrayParam, arrayIndex) => (
+                                    <div
+                                        key={arrayParam.id}
+                                        className="array-single-parameter"
+                                    >
+
+                                        <div className="array-single-parameter-header">
+                                            <div className="array-single-parameter-header-right">
+                                                Enum parameter {arrayIndex + 1}
+                                            </div>
+
+                                            <div className="array-single-parameter-header-left">
+                                                <Button
+                                                    type="button"
+                                                    icon="trash"
+                                                    small={true}
+                                                    minimal={true}
+                                                    onClick={() => arrayHelpers.remove(arrayIndex)}
+                                                >
+                                                    Remove
+                                                </Button>
+                                            </div>
+                                        </div>
+
+
+                                        <Field
+                                            name={`params[${index}].enumParameters[${arrayIndex}].value`}
+                                            component={Input}
+                                            title={`Value`}
+                                            placeholder={`Value`}
+                                        />
+
+                                        <Field
+                                            name={`params[${index}].enumParameters[${arrayIndex}].label`}
+                                            component={Input}
+                                            title={`Label`}
+                                            placeholder={`Label`}
+                                        />
+
+                                    </div>
+                                ))
+                            )}
+                            <Button
+                                type="button"
+                                icon="plus"
+                                label="Add enum value"
+                                small={true}
+                                minimal={true}
+                                onClick={() => addEnumValueToParam(index, arrayHelpers.push, values)}
                             />
                         </div>
                     )}
@@ -480,11 +570,7 @@ function AlgoPageContainer({
 
                                                                     {values.params[index].type === 'array' && renderArrayParameters(param, index, values)}
 
-                                                                    {values.params[index].type === 'string' && renderField(
-                                                                        values.params[index].type,
-                                                                        `params[${index}].defaultValue`,
-                                                                        `Default value`
-                                                                    )}
+                                                                    {values.params[index].type === 'string' && renderEnumParameters(param, index, values)}
 
                                                                     {values.params[index].type === 'number' && renderField(
                                                                         values.params[index].type,
@@ -569,7 +655,11 @@ function AlgoPageContainer({
                 return (<>{renderForm()}</>)
             case 2:
                 return (
-                    <div>Test</div>
+                    <div className="params-container">
+                        <ParamRenderer
+                            algo={algo}
+                        />
+                    </div>
                 )
             default:
                 return;
