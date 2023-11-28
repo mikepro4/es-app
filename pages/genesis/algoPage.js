@@ -10,6 +10,7 @@ import SwitchField from "@/components/form/Switch";
 import ColorPicker from "@/components/form/ColorPicker";
 import TabSwitcher from "@/components/form/TabSwitcher";
 import Button from "@/components/button";
+import Icon from "@/components/icon";
 import AlgoPreview from "./algoPreview";
 
 import TabBar from '@/components/tab'
@@ -777,53 +778,76 @@ function AlgoPageContainer({
     return (
         <div className="algo-page-container">
 
-            <div className="algo-page-content">
-                <div className="algo-page-content-header">
-                    <Button
-                        label="Back"
-                        icon="arrow-left"
-                        minimal={true}
-                        small={true}
-                        wrap={true}
+            <div className="algo-page-wrapper">
+
+                <div className="algo-page-content-header-desktop">
+                    <div 
+                        className="algo-page-content-header-desktop-arrow-back-container"
                         onClick={() => {
                             router.push({
                                 pathname: '/genesis',
                                 query: { ...router.query, algoId: null },
                             }, undefined, { shallow: true })
                         }}
-                    />
-
+                    >
+                        <Icon name="arrow-back"/>
+                    </div>
                     {renderAlgo()}
                 </div>
 
+                <div className="algo-page-content">
+                    <div className="algo-page-content-header">
+                        <Button
+                            label="Back"
+                            icon="arrow-left"
+                            minimal={true}
+                            small={true}
+                            wrap={true}
+                            onClick={() => {
+                                router.push({
+                                    pathname: '/genesis',
+                                    query: { ...router.query, algoId: null },
+                                }, undefined, { shallow: true })
+                            }}
+                        />
+
+                        {renderAlgo()}
+                    </div>
+                  
+
+                
 
 
-                <div className="algo-page-content-container">
 
+                    <div className="algo-page-content-container">
 
-                    <div className="algo-page-content-right">
-                        <div className="algo-properties-container">
-                            <div className="algo-properties-container-header">
-                                <div className="algo-properties-container-left">
-                                    <TabBar
-                                        tabs={tabs}
-                                        activeTab={selectedTabId}
-                                        onTabChange={(tab) => selectTab(tab)}
-                                    />
+                    
+                        <div className="algo-page-content-right">
+                            <div className="algo-properties-container">
+                                <div className="algo-properties-container-header">
+                                    <div className="algo-properties-container-left">
+                                        <TabBar
+                                            tabs={tabs}
+                                            activeTab={selectedTabId}
+                                            onTabChange={(tab) => selectTab(tab)}
+                                        />
+                                    </div>
+                                    <div className="algo-properties-container-right">
+
+                                    </div>
                                 </div>
-                                <div className="algo-properties-container-right">
 
-                                </div>
+                            
+
+                                {renderContent()}
+
                             </div>
-
-                            {renderContent()}
 
                         </div>
 
                     </div>
 
                 </div>
-
             </div>
 
             <div className="algo-page-content-algo-preview">
