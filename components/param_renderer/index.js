@@ -145,10 +145,14 @@ function ParamRenderer({
                                     label="Add a Color"
                                     onClick={() => {
 
-                                        arrayHelpers.push({
-                                            [param.arrayParameters[0].value]: param.arrayParameters[0].defaultValue,
-                                            [param.arrayParameters[1].value]: param.arrayParameters[1].defaultValue
-                                        })
+
+                                        const paramsToPush = param.arrayParameters.reduce((obj, item) => {
+                                            obj[item.value] = item.defaultValue;
+                                            return obj;
+                                        }, {});
+
+
+                                        arrayHelpers.push(paramsToPush)
                                     }}
                                 />
                             </div>
