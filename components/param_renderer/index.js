@@ -82,7 +82,7 @@ function ParamRenderer({
     const renderArrayParameters = (param, index, values, setFieldValue) => {
 
         return (
-            <>
+            <div className="array-values-container">
                 <div className="array-group-header">{param.label}</div>
 
                 <FieldArray
@@ -169,7 +169,7 @@ function ParamRenderer({
                         </div>
                     )
                 })} */}
-            </>
+            </div>
         )
     };
 
