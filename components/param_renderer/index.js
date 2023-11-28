@@ -26,6 +26,12 @@ function ParamRenderer({
         };
     }, []);
 
+    const getLabelStepSize = (min, max) => {
+        const stepSize = (Math.abs(min) + Math.abs(max))/4;
+        console.log("stepSize", stepSize)
+        return stepSize;
+    }
+
     const renderParameterField = (param, index, setFieldValue, values) => {
         switch (param.type) {
             case 'string':
@@ -40,7 +46,7 @@ function ParamRenderer({
                     min={Number(param.minValue)}
                     max={Number(param.maxValue)}
                     step={Number(param.stepValue)}
-                    labelStepSize={10}
+                    labelStepSize={getLabelStepSize(param.minValue, param.maxValue)}
                     displayName={param.label} 
                 />;
             case 'boolean':

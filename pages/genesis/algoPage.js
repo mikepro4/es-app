@@ -388,6 +388,23 @@ function AlgoPageContainer({
                                             `Step value`
                                         )}
 
+                                        {values.params[index].arrayParameters[arrayIndex].valueType == "string" && renderField(
+                                            values.params[index].arrayParameters[arrayIndex].valueType,
+                                            `params[${index}].arrayParameters[${arrayIndex}].defaultValue`,
+                                            `Default value`
+                                        )}
+
+                                        {values.params[index].arrayParameters[arrayIndex].valueType == "color" && renderField(
+                                            values.params[index].arrayParameters[arrayIndex].valueType,
+                                            `params[${index}].arrayParameters[${arrayIndex}].defaultValue`,
+                                            `Default value`
+                                        )}
+
+                                        {values.params[index].arrayParameters[arrayIndex].valueType == "boolean" && renderField(
+                                            values.params[index].arrayParameters[arrayIndex].valueType,
+                                            `params[${index}].arrayParameters[${arrayIndex}].defaultValue`,
+                                            `Default value`
+                                        )}
 
                                     </div>
                                 ))
