@@ -21,10 +21,18 @@ function AlgoPreview({
     if(!item) return null;
 
     return (
-        <div>
-            <ParamRenderer
-                item={item}
-            />
+        <div className="algo-preview-container">
+
+            <div className="algo-preview-animation">
+                <div className="shape-placeholder"></div>
+            </div>
+
+            <div className="algo-preview-params">
+                <ParamRenderer
+                    item={item}
+                />
+            </div>
+           
         </div>
     );
 }

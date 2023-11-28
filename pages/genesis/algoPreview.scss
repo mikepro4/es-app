@@ -1,0 +1,23 @@
+.algo-preview-container {
+    position: relative;
+//     padding: 30px;
+
+    .algo-preview-animation {
+        display: flex ;
+        align-items: center;
+        justify-content: center;
+        height: 300px;
+        // border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+        .shape-placeholder{
+            width: 180px;
+            height: 180px;
+            background: $white;
+            border-radius: 222px;
+            opacity: 0.2;
+            // left: -10px;
+            position: relative;
+        }
+        
+    }
+}

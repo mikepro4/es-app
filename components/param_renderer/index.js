@@ -20,7 +20,7 @@ function ParamRenderer({
     if(!item) return null;
 
     return (
-        <div>
+        <div className="param-list-container">
             Param renderer
         </div>
     );
