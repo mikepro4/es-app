@@ -8,6 +8,7 @@ import Input from "@/components/form/BladeInput";
 import Select from "@/components/form/Select";
 import SwitchField from "@/components/form/Switch";
 import ColorPicker from "@/components/form/ColorPicker";
+import TabSwitcher from "@/components/form/TabSwitcher";
 import Button from "@/components/button";
 import ParamRenderer from "@/components/param_renderer";
 
@@ -95,6 +96,14 @@ function AlgoPageContainer({
         { label: 'Boolean', value: 'boolean' },
         { label: 'Color', value: 'color' },
     ]
+
+    const tabOptions = [{
+        label: 'Tab',
+        value: 'tab',
+    }, {
+        label: 'Dropdown',
+        value: 'dropdown',
+    }];
 
 
     const renderAlgo = () => {
@@ -571,6 +580,12 @@ function AlgoPageContainer({
                                                                     {values.params[index].type === 'array' && renderArrayParameters(param, index, values)}
 
                                                                     {values.params[index].type === 'string' && renderEnumParameters(param, index, values)}
+                                                                    {values.params[index].type === 'string' && <Field
+                                                                        name={`params[${index}].view`}
+                                                                        title="View type"
+                                                                        component={TabSwitcher}
+                                                                        options={tabOptions}
+                                                                    />}
 
                                                                     {values.params[index].type === 'number' && renderField(
                                                                         values.params[index].type,
