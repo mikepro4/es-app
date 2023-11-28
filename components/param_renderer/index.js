@@ -88,12 +88,12 @@ function ParamRenderer({
                 <FieldArray
                     name={`params[${index}].values`}
                     render={arrayHelpers => (
-                        <div>
+                        <div className="field-array-container">
                             {values.params[index].values?.map((color, i) => (
-                                <div key={i}>
+                                <div key={i} >
 
                                     <div className="field-array-header">
-                                        <div className="field-array-title">Color {i + 1}</div>
+                                        <div className="field-array-title">Option {i + 1}</div>
 
                                         <Button
                                             type="button"
@@ -141,12 +141,14 @@ function ParamRenderer({
                             <div className="field-array-add-button">
                                 <Button
                                     type="button"
+                                    icon="plus"
+                                    small={true}
                                     minimal={true}
-                                    label="Add a Color"
+                                    label="Add option value"
                                     onClick={() => {
 
 
-                                        const paramsToPush = param.arrayParameters.reduce((obj, item) => {
+                                        const paramsToPush = param.arrayParameters?.reduce((obj, item) => {
                                             obj[item.value] = item.defaultValue;
                                             return obj;
                                         }, {});
@@ -199,8 +201,36 @@ function ParamRenderer({
 
     const handleFormChange = (values) => {
         console.log(values);
+        console.log("parseValues", parseValues(values))
+
+        
         // dispatch(testListChangeCriteria(values))
     };
+
+    const parseValues = (values) => {
+        // let newValues = values.map((value, i) => {
+        //     if (value.type === 'array') {
+        //         return {
+        //             [value.labe]: value.values,
+        //         }
+        //     } else {
+        //         return {
+        //             [value.label]: value.defaultValue
+        //         }
+        //     }
+        // })
+
+        const paramsToPush = values.params.reduce((obj, item) => {
+            if (item.type === 'array') {
+                obj[item.value] = item.values;
+            } else {
+                obj[item.value] = item.defaultValue;
+            }
+            return obj;
+        }, {});
+
+        return paramsToPush
+    }
 
 
 
