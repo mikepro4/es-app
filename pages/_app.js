@@ -71,9 +71,9 @@ const App = ({ children }) => {
         dispatch(toggleNoRedirect(true))
       }
 
-    }, 100)
+    }, 1)
 
-  }, [router]);
+  }, [query.shapeId, app.noRedirect]);
 
   return (
     <>
