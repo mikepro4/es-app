@@ -9,6 +9,8 @@ import Select from "@/components/form/Select";
 import SwitchField from "@/components/form/Switch";
 import ColorPicker from "@/components/form/ColorPicker";
 import Button from "@/components/button";
+
+import TabBar from '@/components/tab'
 import { v4 as uuidv4 } from 'uuid';
 
 import AlgoActionsView from "@/components/collection_actions/algoActions";
@@ -31,7 +33,17 @@ function AlgoPageContainer({
     const dispatch = useDispatch();
     const toasterRef = useRef(null)
     const [selectedTypes, setSelectedTypes] = useState({});
+    const [selectedTabId, setSelectedTabId] = useState(1);
 
+    let tabs = [
+        "Properties",
+        "Preview"
+    ]
+
+
+    const selectTab = (tab) => {
+        setSelectedTabId(tab)
+    }
 
 
     const [algo, setAlgo] = useState(false);
@@ -386,7 +398,11 @@ function AlgoPageContainer({
                         <div className="algo-properties-container">
                             <div className="algo-properties-container-header">
                                 <div className="algo-properties-container-left">
-                                    Properties
+                                    <TabBar
+                                        tabs={tabs}
+                                        activeTab={selectedTabId}
+                                        onTabChange={(tab) => selectTab(tab)}
+                                    />
                                 </div>
                                 <div className="algo-properties-container-right">
 
