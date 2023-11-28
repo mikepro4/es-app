@@ -128,6 +128,7 @@ const SelectField = ({ options, field, useAsync, apiUrl, ...props }) => {
 				defaultOptions={useAsync ? true : undefined}
 				components={{ Option: IconOption, SingleValue: CustomSingleValue, MultiValue: CustomMultiValue }}
 				isMulti={props.isMulti}
+				searchable={props.searchable}
 				theme={(theme) => ({
 					...theme,
 					borderRadius: 10,

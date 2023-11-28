@@ -5,6 +5,9 @@ import classNames from "classnames";
 
 import { Formik, Form, Field, FieldArray } from 'formik';
 import Input from "@/components/form/BladeInput";
+import Select from "@/components/form/Select";
+import SwitchField from "@/components/form/Switch";
+import ColorPicker from "@/components/form/ColorPicker";
 import Button from "@/components/button";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -27,6 +30,8 @@ function AlgoPageContainer({
     const router = useRouter();
     const dispatch = useDispatch();
     const toasterRef = useRef(null)
+    const [selectedTypes, setSelectedTypes] = useState({});
+
 
 
     const [algo, setAlgo] = useState(false);
@@ -42,10 +47,6 @@ function AlgoPageContainer({
         }))
     }
 
-    
-
-
-
     useEffect(() => {
         fetchAlgo()
 
@@ -55,7 +56,7 @@ function AlgoPageContainer({
     }, []);
 
     useEffect(() => {
-        if (app.updateCollectionItem  && app.updateCollectionItem == algo?._id) {
+        if (app.updateCollectionItem && app.updateCollectionItem == algo?._id) {
             fetchAlgo()
         }
 
@@ -66,6 +67,22 @@ function AlgoPageContainer({
             fetchAlgo()
         }
     }, [router]);
+
+    const typeOptions = [
+        { label: 'String', value: 'string' },
+        { label: 'Number', value: 'number' },
+        { label: 'Boolean', value: 'boolean' },
+        { label: 'Array', value: 'array' },
+        { label: 'Color', value: 'color' },
+    ]
+
+    const arrayValueOptions = [
+        { label: 'String', value: 'string' },
+        { label: 'Number', value: 'number' },
+        { label: 'Boolean', value: 'boolean' },
+        { label: 'Color', value: 'color' },
+    ]
+
 
     const renderAlgo = () => {
         if (algo && algo._id) {
@@ -168,10 +185,135 @@ function AlgoPageContainer({
         setFieldValue('params', newParams);
     };
 
+
+    const addArrayValueToParam = (index, setFieldValue, values) => {
+        // Generate a new ID for the array item
+        const newItemId = uuidv4();
+
+        // Create a new array item object
+        const newArrayItem = {
+            id: newItemId,
+            value: "",
+            label: ""
+        };
+
+        // Copy the current arrayParameters and add the new item
+        const newArrayParameters = [...(values.params[index].arrayParameters || []), newArrayItem];
+
+        // Update Formik values for arrayParameters
+        setFieldValue(`params[${index}].arrayParameters`, newArrayParameters);
+    };
+
+    const renderField = (type, name, title) => {
+        console.log("type", type)
+        switch (type) {
+            case "string":
+                return (
+                    <Field
+                        name={name}
+                        component={Input}
+                        title={title}
+                        placeholder={title}
+                    />
+                )
+            case "number":
+                return (
+                    <Field
+                        name={name}
+                        component={Input}
+                        title={title}
+                        placeholder={title}
+                    />
+                )
+            case "boolean":
+                return (
+                    <Field
+                        name={name}
+                        component={SwitchField}
+                        label={title}
+                    />
+                )
+            case "boolean":
+                return (
+                    <Field
+                        name={name}
+                        component={SwitchField}
+                        label={title}
+                    />
+                )
+            case "color":
+                return (
+                    <Field
+                        name={name}
+                        component={ColorPicker}
+                    />
+                )
+            default:
+                return;
+        }
+    }
+
+    const renderArrayParameters = (param, index, values) => {
+        return (
+            <div className="param-type-array-container">
+
+                <Field
+                    name={`params[${index}].valueType`}
+                    title="Array parameter value type"
+                    options={arrayValueOptions}
+                    component={Select}
+                    searchable={false}
+                />
+
+                <FieldArray
+                    name={`params[${index}].arrayParameters`}
+                    render={arrayHelpers => (
+                        <div>
+                            {param.arrayParameters && param.arrayParameters.length > 0 && (
+                                param.arrayParameters.map((arrayParam, arrayIndex) => (
+                                    <div
+                                        key={arrayParam.id}
+                                        className="array-single-parameter"
+                                    >
+                                        {renderField(
+                                            values.params[index].valueType,
+                                            `params[${index}].arrayParameters[${arrayIndex}].value`,
+                                            `Array parameter value`
+                                        )}
+
+                                        <Field
+                                            name={`params[${index}].arrayParameters[${arrayIndex}].label`}
+                                            component={Input}
+                                            title={`Array parameter label`}
+                                            placeholder={`Array parameter label`}
+                                        />
+                                        <Button
+                                            type="button"
+                                            icon="trash"
+                                            onClick={() => arrayHelpers.remove(arrayIndex)}
+                                        >
+                                            Remove
+                                        </Button>
+                                    </div>
+                                ))
+                            )}
+                            <Button
+                                type="button"
+                                icon="plus"
+                                onClick={() => addArrayValueToParam(index, arrayHelpers.push, values)}
+                            >
+                                Add Array Value
+                            </Button>
+                        </div>
+                    )}
+                />
+            </div>
+        )
+    }
+
+
     return (
         <div className="algo-page-container">
-
-
 
             <div className="algo-page-content">
 
@@ -263,8 +405,8 @@ function AlgoPageContainer({
                                                     >
                                                         <Droppable droppableId="droppable">
                                                             {(provided) => (
-                                                                <div 
-                                                                    {...provided.droppableProps} 
+                                                                <div
+                                                                    {...provided.droppableProps}
                                                                     ref={provided.innerRef}
                                                                     className="params-container"
                                                                 >
@@ -278,11 +420,14 @@ function AlgoPageContainer({
                                                                                 <div
                                                                                     ref={provided.innerRef}
                                                                                     {...provided.draggableProps}
-                                                                                    {...provided.dragHandleProps}
+
                                                                                     className="form-fields-draggable"
                                                                                 >
 
-                                                                                    <div className="draggable-field-header">
+                                                                                    <div
+                                                                                        className="draggable-field-header"
+                                                                                        {...provided.dragHandleProps}
+                                                                                    >
                                                                                         <div className="draggable-field-header-left">
                                                                                             Param {index + 1}
                                                                                         </div>
@@ -314,6 +459,17 @@ function AlgoPageContainer({
                                                                                         title={`Label`}
                                                                                         placeholder={`Label`}
                                                                                     />
+
+                                                                                    <Field
+                                                                                        name={`params[${index}].type`}
+                                                                                        title="Type"
+                                                                                        options={typeOptions}
+                                                                                        component={Select}
+                                                                                        searchable={false}
+                                                                                    />
+
+
+                                                                                    {values.params[index].type === 'array' && renderArrayParameters(param, index, values)}
 
                                                                                 </div>
                                                                             )}

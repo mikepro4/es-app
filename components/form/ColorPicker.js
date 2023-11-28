@@ -37,7 +37,15 @@ const TabSwitcher = ({ field, ...props }) => {
 
 
     const getRgbaObject = (value) => {
-        const rgbaString = value;
+        console.log("value", value)
+        let rgbaString
+
+        if( value && value !== "" && value !== false) {
+            rgbaString = value;
+        } else {
+            rgbaString = "rgba(255,255,255,1)"
+        }
+
         const rgbaArray = rgbaString
             .match(/\d+(\.\d+)?/g)
             .map(Number);
