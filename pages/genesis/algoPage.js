@@ -257,13 +257,7 @@ function AlgoPageContainer({
         return (
             <div className="param-type-array-container">
 
-                <Field
-                    name={`params[${index}].valueType`}
-                    title="Array parameter value type"
-                    options={arrayValueOptions}
-                    component={Select}
-                    searchable={false}
-                />
+                
 
                 <FieldArray
                     name={`params[${index}].arrayParameters`}
@@ -275,11 +269,28 @@ function AlgoPageContainer({
                                         key={arrayParam.id}
                                         className="array-single-parameter"
                                     >
+                                       
+
+                                        <Field
+                                            name={`params[${index}].arrayParameters[${arrayIndex}].valueType`}
+                                            title="Array parameter value type"
+                                            options={arrayValueOptions}
+                                            component={Select}
+                                            searchable={false}
+                                        />
+
                                         {renderField(
-                                            values.params[index].valueType,
+                                            values.params[index].arrayParameters[arrayIndex].valueType,
                                             `params[${index}].arrayParameters[${arrayIndex}].value`,
                                             `Array parameter value`
                                         )}
+
+                                        {/* <Field
+                                            name={`params[${index}].arrayParameters[${arrayIndex}].value`}
+                                            component={Input}
+                                            title={`Array parameter value`}
+                                            placeholder={`Array parameter value`}
+                                        /> */}
 
                                         <Field
                                             name={`params[${index}].arrayParameters[${arrayIndex}].label`}
@@ -287,6 +298,7 @@ function AlgoPageContainer({
                                             title={`Array parameter label`}
                                             placeholder={`Array parameter label`}
                                         />
+
                                         <Button
                                             type="button"
                                             icon="trash"
