@@ -1,0 +1,57 @@
+.upload-and-mint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+
+  .input-file {
+    margin-bottom: 20px;
+    button {
+      cursor: pointer;
+      padding: 10px 15px;
+      margin-top: 10px;
+      border: none;
+      background-color: #4caf50;
+      color: white;
+      border-radius: 5px;
+      &:hover {
+        background-color: #45a049;
+      }
+    }
+  }
+
+  #image-container {
+    width: 500px;
+    height: 500px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  .upload-button {
+    cursor: pointer;
+    padding: 10px 15px;
+    border: none;
+    background-color: #2196f3;
+    color: white;
+    border-radius: 5px;
+    &:hover {
+      background-color: #0b7dda;
+    }
+  }
+}
+
+.storage {
+  &.btn-margin {
+    margin-bottom: 20px;
+  }
+}

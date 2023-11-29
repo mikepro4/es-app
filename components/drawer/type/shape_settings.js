@@ -1,147 +1,160 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import classNames from "classnames";
-import { Formik, Form, Field, FieldArray } from 'formik';
+import { Formik, Form, Field, FieldArray } from "formik";
 import Input from "../../../components/form/BladeInput";
 import Button from "../../../components/button";
 import Select from "../../../components/form/Select";
 import TabSwitcher from "../../../components/form/TabSwitcher";
 
-import { shapeUpdateItem, algoSearch, updateCollectionItem, toggleDrawer, togglePlayer, toggleModal } from "@/redux";
+import {
+  shapeUpdateItem,
+  algoSearch,
+  updateCollectionItem,
+  toggleDrawer,
+  togglePlayer,
+  toggleModal,
+} from "@/redux";
 
 function AppSettings() {
-    const [loading, setLoading] = useState(false);
-    const app = useSelector((state) => state.app);
-    const router = useRouter();
-    const dispatch = useDispatch();
-    const [localOptions, setLocalOptions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const app = useSelector((state) => state.app);
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const [localOptions, setLocalOptions] = useState([]);
 
-    const handleFormChange = (values) => {
-        console.log(values);
-        // dispatch(testListChangeCriteria(values))
-    };
+  const handleFormChange = (values) => {
+    console.log(values);
+    // dispatch(testListChangeCriteria(values))
+  };
 
-    const handleSubmit = (values) => {
-        console.log(values);
+  const handleSubmit = (values) => {
+    console.log(values);
 
-        dispatch(shapeUpdateItem({
-            data: values,
-            callback: (data) => {
-                dispatch(updateCollectionItem(data._id))
+    dispatch(
+      shapeUpdateItem({
+        data: values,
+        callback: (data) => {
+          dispatch(updateCollectionItem(data._id));
 
-                dispatch(toggleDrawer({
-                    drawerOpen: false,
-                    drawerType: null,
-                    drawerData: null,
-                }))
-            }
-        }))
-    };
+          dispatch(
+            toggleDrawer({
+              drawerOpen: false,
+              drawerType: null,
+              drawerData: null,
+            })
+          );
+        },
+      })
+    );
+  };
 
-    let initialValues = app.drawerData
+  let initialValues = app.drawerData;
 
-    // let initialValues = {
-    //     _id: app.drawerData._id,
-    //     name: app.drawerData.name,
-    //     algo: {value: "65639da4ca12be4343efa738", label: "Ethereal"}
-    // }
+  // let initialValues = {
+  //     _id: app.drawerData._id,
+  //     name: app.drawerData.name,
+  //     algo: {value: "65639da4ca12be4343efa738", label: "Ethereal"}
+  // }
 
-    useEffect(() => {
-        loadInitialOptions()
+  useEffect(() => {
+    loadInitialOptions();
 
-        return () => {
-        };
-    }, []);
+    return () => {};
+  }, []);
 
-    const statusOptions = [, {
-        label: 'Approved',
-        value: 'approved',
-    }, {
-            label: 'Rejected',
-            value: 'rejected',
-        }, {
-            label: 'Potential',
-            value: 'potential',
-        }]
+  const statusOptions = [
+    ,
+    {
+      label: "Approved",
+      value: "approved",
+    },
+    {
+      label: "Rejected",
+      value: "rejected",
+    },
+    {
+      label: "Potential",
+      value: "potential",
+    },
+  ];
 
-    const loadInitialOptions = () => {
-        dispatch(algoSearch({
-            criteria: {},
-            sortProperty: "created",
-            offset: 0,
-            limit: 10000,
-            order: 1,
+  const loadInitialOptions = () => {
+    dispatch(
+      algoSearch({
+        criteria: {},
+        sortProperty: "created",
+        offset: 0,
+        limit: 10000,
+        order: 1,
 
-            callback: (data) => {
-                let finalOptinos =  data.all.map(option => {
-                    return {
-                        value: option._id,
-                        label: option.name,
-                    }
-                });
-                setLocalOptions(finalOptinos)
-            }
-        }))
-    }
+        callback: (data) => {
+          let finalOptinos = data.all.map((option) => {
+            return {
+              value: option._id,
+              label: option.name,
+            };
+          });
+          setLocalOptions(finalOptinos);
+        },
+      })
+    );
+  };
 
+  return (
+    <div className={`app-drawer-content-container standard-drawer`}>
+      <div className={"details-container"}>
+        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+          {({ values, handleChange, handleSubmit }) => {
+            useEffect(() => {
+              handleFormChange(values);
+            }, [values]);
 
-    return (
-        <div className={`app-drawer-content-container standard-drawer`}>
-            <div className={"details-container"}>
-                <Formik
-                    initialValues={initialValues}
-                    onSubmit={handleSubmit}
-                >
-                    {({ values, handleChange, handleSubmit }) => {
+            return (
+              <Form>
+                <div className="form-fields">
+                  <Field
+                    name="_id"
+                    component={Input}
+                    title="Shape ID"
+                    placeholder="Name"
+                  />
 
-                        useEffect(() => {
-                            handleFormChange(values);
-                        }, [values]);
+                  <Field
+                    name="name"
+                    component={Input}
+                    title="Name"
+                    placeholder="Name"
+                  />
 
-                        return (
-                            <Form
-                            >
-                                <div className="form-fields">
+                  <Field
+                    name="algo._id"
+                    title="Algorithm"
+                    apiUrl="/algo/search"
+                    useAsync={true}
+                    component={Select}
+                    options={localOptions}
+                  />
 
-                                    <Field
-                                        name="_id"
-                                        component={Input}
-                                        title="Shape ID"
-                                        placeholder="Name"
-                                    />
+                  <Field
+                    name="imageLink"
+                    component={Input}
+                    title="Image Link"
+                    placeholder="Image Link"
+                  />
 
-                                    <Field
-                                        name="name"
-                                        component={Input}
-                                        title="Name"
-                                        placeholder="Name"
-                                    />
+                  <Field
+                    name="status"
+                    title="Status"
+                    component={TabSwitcher}
+                    options={statusOptions}
+                  />
+                </div>
 
-                                    <Field
-                                        name="algo._id"
-                                        title="Algorithm"
-                                        apiUrl="/algo/search"
-                                        useAsync={true}
-                                        component={Select}
-                                        options={localOptions}
-                                    />
+                <Button type="submit" label="Save" />
 
-                                    <Field
-                                        name="status"
-                                        title="Status"
-                                        component={TabSwitcher}
-                                        options={statusOptions}
-                                    />
-
-                                </div>
-
-                                <Button
-                                    type="submit"
-                                    label="Save"
-                                />
-
-                                {/* <div className="form-divider"></div>
+                {/* <div className="form-divider"></div>
 
                                 <Button
                                     type="button"
@@ -155,15 +168,13 @@ function AppSettings() {
                                         }))
                                     }}
                                 /> */}
-
-                            </Form>
-                        )
-                    }}
-                </Formik>
-
-            </div>
-        </div>
-    );
+              </Form>
+            );
+          }}
+        </Formik>
+      </div>
+    </div>
+  );
 }
 
 export default AppSettings;

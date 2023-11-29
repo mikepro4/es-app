@@ -62,7 +62,6 @@
 @import "../components/infinite_list/views/hardware_list_view.scss";
 @import "../components/infinite_list/views/tier_list_view.scss";
 
-
 // Pages
 @import "../pages/ui/index.scss";
 @import "../pages/ui/icons/index.scss";
@@ -70,6 +69,9 @@
 @import "../pages/ui/popups/index.scss";
 @import "../pages/index.scss";
 @import "../pages/ui/infinite_list/index.scss";
+@import "../pages/ui/infinite_list";
+@import "../pages/mint/";
+@import "../pages/collection/";
 
 @import "../pages/genesis/index.scss";
 @import "../pages/genesis/algoPage.scss";
@@ -79,15 +81,14 @@
 
 @import "../pages/tiers/index.scss";
 
-
 // Drawers
 @import "../components/drawer/type/profile_settings.scss";
 @import "../components/drawer/type/collection_settings.scss";
 @import "../components/drawer/type/viz_settings.scss";
 
+//Components
 
-
-
+@import "../components/storage_upload/";
 
 .line-hover {
   position: relative;
@@ -96,11 +97,11 @@
   white-space: nowrap;
 
   span {
-    transition: all 2s cubic-bezier(0.19, 1, .22, 1);
+    transition: all 2s cubic-bezier(0.19, 1, 0.22, 1);
   }
 
   &:after {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     top: 100%;
@@ -110,14 +111,14 @@
     margin-top: -1px;
     background-color: $white;
     transform: translateX(-108%);
-    transition: transform 1s cubic-bezier(.26, .9, .21, .94);
-    transition-delay: .1s;
+    transition: transform 1s cubic-bezier(0.26, 0.9, 0.21, 0.94);
+    transition-delay: 0.1s;
     z-index: 1;
     opacity: 0;
   }
 
   &:before {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     top: 100%;
@@ -127,8 +128,8 @@
     margin-top: -1px;
     background-color: $white;
     transform: translateX(-108%);
-    transition: transform 1s cubic-bezier(.26, .9, .21, .94);
-    transition-delay: .1s;
+    transition: transform 1s cubic-bezier(0.26, 0.9, 0.21, 0.94);
+    transition-delay: 0.1s;
     z-index: 2;
     opacity: 0;
   }
@@ -140,12 +141,10 @@
     }
 
     &:before {
-
       opacity: 1;
     }
   }
 }
-
 
 html {
   touch-action: manipulation;
@@ -171,7 +170,6 @@ body {
   overflow-x: hidden;
   opacity: 1;
   transition: opacity 1s;
-
 
   &.no-scroll {
     overflow: hidden;
@@ -207,13 +205,11 @@ a {
 
   &:hover,
   &:active {
-    color: $white
+    color: $white;
   }
 }
 
-
-
 .placeholder {
   height: 3000px;
-  position: relative
+  position: relative;
 }
