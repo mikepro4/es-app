@@ -83,7 +83,7 @@ function AlgoActionsView({
     return (
 
         <ul className="collection-view-actions">
-            <li>
+            {/* <li>
 
                 <ParamSwitch
                     display="label"
@@ -124,7 +124,7 @@ function AlgoActionsView({
                         // alert(value)
                     }}
                 />
-            </li>
+            </li> */}
 
             <li>
                 <ParamSwitch

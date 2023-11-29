@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 
+import Editor, { DiffEditor, useMonaco, loader } from '@monaco-editor/react';
+
 import { Formik, Form, Field, FieldArray } from 'formik';
 import Input from "@/components/form/BladeInput";
 import Select from "@/components/form/Select";
@@ -12,6 +14,8 @@ import TabSwitcher from "@/components/form/TabSwitcher";
 import Button from "@/components/button";
 import Icon from "@/components/icon";
 import AlgoPreview from "./algoPreview";
+
+
 
 import TabBar from '@/components/tab'
 import { v4 as uuidv4 } from 'uuid';
@@ -36,17 +40,54 @@ function AlgoPageContainer({
     const dispatch = useDispatch();
     const toasterRef = useRef(null)
     const [selectedTypes, setSelectedTypes] = useState({});
-    const [selectedTabId, setSelectedTabId] = useState(1);
+    const [selectedTabId, setSelectedTabId] = useState(2);
+
+    const formikRef = useRef(null);
+
+    const monaco = useMonaco();
 
     let tabs = [
         "Properties",
-        "Preview"
+        "Code",
+        "Preview",
     ]
+
+    let tabsAlgo = [
+        "Properties",
+        "Code"
+    ]
+
+    const submitFormFromOutside = () => {
+        if (formikRef.current) {
+            formikRef.current.submitForm();
+        }
+    };
 
 
     const selectTab = (tab) => {
         setSelectedTabId(tab)
+
+        if (tab == 2) {
+            fetch('/theme.json') // You need to have the theme JSON
+                .then(data => data.json())
+                .then(theme => {
+                    monaco.editor.defineTheme('vs-dark', theme);
+                    monaco.editor.setTheme('vs-dark');
+                });
+        }
     }
+
+    useEffect(() => {
+        if (monaco) {
+            fetch('/theme.json') // You need to have the theme JSON
+                .then(data => data.json())
+                .then(theme => {
+                    monaco.editor.defineTheme('vs-dark', theme);
+                    monaco.editor.setTheme('vs-dark');
+                });
+        }
+
+    }, [monaco]);
 
 
     const [algo, setAlgo] = useState(false);
@@ -125,8 +166,42 @@ function AlgoPageContainer({
                     </div>
 
                     <div className="algo-page-header-right">
+                        <ul className="algo-save-button">
+                            <li>
+                                <Button
+                                    label="Compile"
+                                    icon="play"
+                                    small={true}
+                                    wrap={true}
+                                    minimal={true}
+                                    onClick={() => {
+
+                                    }}
+                                />
+                            </li>
+
+                            <li>
+                                <Button
+                                    label="Save"
+                                    icon="floppy-disk"
+                                    small={true}
+                                    wrap={true}
+                                    minimal={true}
+                                    onClick={submitFormFromOutside}
+                                />
+                            </li>
+                        </ul>
+
                         <AlgoActionsView
                             item={algo}
+                        />
+                    </div>
+
+                    <div className="algo-page-content-header-desktop-tab">
+                        <TabBar
+                            tabs={tabsAlgo}
+                            activeTab={selectedTabId}
+                            onTabChange={(tab) => selectTab(tab)}
                         />
                     </div>
 
@@ -552,6 +627,7 @@ function AlgoPageContainer({
         return (
             <div className="algo-form">
                 {algo && algo._id && <Formik
+                    innerRef={formikRef}
                     enableReinitialize={true}
                     initialValues={initialValues}
                     onSubmit={handleSubmit}
@@ -762,7 +838,7 @@ function AlgoPageContainer({
         switch (selectedTabId) {
             case 1:
                 return (<>{renderForm()}</>)
-            case 2:
+            case 3:
                 return (
                     <div className="params-container">
                         <AlgoPreview
@@ -781,7 +857,7 @@ function AlgoPageContainer({
             <div className="algo-page-wrapper">
 
                 <div className="algo-page-content-header-desktop">
-                    <div 
+                    <div
                         className="algo-page-content-header-desktop-arrow-back-container"
                         onClick={() => {
                             router.push({
@@ -790,10 +866,21 @@ function AlgoPageContainer({
                             }, undefined, { shallow: true })
                         }}
                     >
-                        <Icon name="arrow-back"/>
+                        <Icon name="arrow-back" />
                     </div>
                     {renderAlgo()}
+
+
                 </div>
+
+                {selectedTabId == 2 && <div className="algo-page-code">
+                    <Editor
+                        height="90vh"
+                        defaultLanguage="wgsl"
+                        defaultValue="// some comment"
+                        theme="space-dark"
+                    />
+                </div>}
 
                 <div className="algo-page-content">
                     <div className="algo-page-content-header">
@@ -813,15 +900,15 @@ function AlgoPageContainer({
 
                         {renderAlgo()}
                     </div>
-                  
 
-                
+
+
 
 
 
                     <div className="algo-page-content-container">
 
-                    
+
                         <div className="algo-page-content-right">
                             <div className="algo-properties-container">
                                 <div className="algo-properties-container-header">
@@ -837,7 +924,6 @@ function AlgoPageContainer({
                                     </div>
                                 </div>
 
-                            
 
                                 {renderContent()}
 

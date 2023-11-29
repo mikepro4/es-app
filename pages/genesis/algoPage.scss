@@ -281,11 +281,12 @@
         // background: red;
         flex-grow: 0;
         flex-shrink: 0;
-        height: 60px;
+        height: 70px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         display: flex;
         justify-content: space-between;
         flex-direction: row;
+        position: relative;
 
         .algo-page-header {
             width: 100%;
@@ -293,9 +294,12 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 10px 0 20px;
+            position: relative;
+            z-index: 2;
 
             h1 {
                 font-size: 20px;
+                font-weight: 500;
             }
         }
 
@@ -311,12 +315,113 @@
             cursor: pointer;
             opacity: 0.5;
             transition: all 0.2s;
+            position: relative;
+            z-index: 3;
 
             &:hover {
                 opacity: 1;
             }
         }
 
+        
+
+        .algo-page-header-left {
+            position: relative;
+            z-index: 2;
+        }
+
+        .algo-page-header-right {
+            position: relative;
+            z-index: 2;
+            display: flex;
+
+            .algo-save-button {
+                display: flex;
+
+                @media only screen and (max-width: $mobile) {
+                    display: none ;
+                }
+
+                li {
+                    margin-left: 10px;
+
+                    
+                }
+            }
+        }
+
     }
 
+}
+
+.algo-save-button {
+
+    @media only screen and (max-width: $mobile) {
+        display: none ;
+    }
+}
+
+.algo-page-content-header-desktop-tab {
+    position: absolute;
+    top: 0;
+    left: -44px;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media only screen and (max-width: $mobile) {
+        display: none;
+    }
+
+    .tab-container ul.tab-list li.tab-link-container {
+        position: relative;
+        top: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        margin: 0 5px;
+        width: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+            .tab-link-wrapper {
+                color: $white;;
+            }
+        }
+
+        .tab-link-wrapper {
+            padding: 10px 20px;
+            margin-bottom: 0;
+        }
+
+
+
+        &.tab-link-active {
+            background: $white;
+
+            .tab-link-wrapper {
+                color: $black;
+            }
+
+            &::after {
+                display: none;
+            }
+
+        }
+
+    }
+}
+
+.algo-page-code {
+    opacity: 0;
+    @extend .animation-fadeIn;
+
+    @media only screen and (max-width: $mobile) {
+        display: none;
+    }
+
+    
 }
