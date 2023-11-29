@@ -29,6 +29,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import {
     OverlayToaster,
 } from "@blueprintjs/core";
+import { set } from "lodash";
 
 function AlgoPageContainer({
 }) {
@@ -42,6 +43,31 @@ function AlgoPageContainer({
 
     const [code, setCode] = useState(null);
     const [params, setParams] = useState(null);
+
+    const [codeItems, setCodeItems] = useState({
+        main: {
+            fragment: "Main fragment",
+            vertex: "Main vertex"
+        },
+        bufferA: {
+            fragment: "Buffer A Fragment",
+            vertex: "Buffer A Vertex"
+        },
+        bufferB: {
+            fragment: "Buffer B Fragment",
+            vertex: "Buffer B Vertex"
+        },
+        common: {
+            fragment: "Common F",
+            vertex: "Common V"
+        }
+    });
+
+    const [selectedSection, setSelectedSection] = useState("main");
+    const [selectedShader, setSelectedShader] = useState("fragment");
+
+    // const [mainFragCode, setMainFragCode] = useState(null);
+
 
     const formikRef = useRef(null);
 
@@ -101,7 +127,7 @@ function AlgoPageContainer({
                 setAlgo(data)
                 dispatch(updateCollectionItem(null))
                 dispatch(toggleParamsData(data))
-                setCode(data.code)
+                setCodeItems(data.code)
             }
         }))
     }
@@ -132,7 +158,7 @@ function AlgoPageContainer({
             data: {
                 ...algo,
                 ...params,
-                code
+                code: codeItems
             },
             callback: (data) => {
                 console.log(data);
@@ -844,6 +870,29 @@ function AlgoPageContainer({
         }
     }
 
+    const getCodeValue = () => {
+        if (selectedShader == "fragment") {
+            return codeItems[selectedSection].fragment
+        }
+
+        if (selectedShader == "vertex") {
+            return codeItems[selectedSection].vertex
+        }
+    }
+
+    const updateCodeItems = (newCode) => {
+        let newItem = {
+            ...codeItems,
+            [selectedSection]: {
+                ...codeItems[selectedSection],
+                [selectedShader]: newCode
+            }
+        }
+
+        setCodeItems(newItem)
+        
+    }
+
     return (
         <div className="algo-page-container">
 
@@ -870,10 +919,10 @@ function AlgoPageContainer({
                     <Editor
                         height="90vh"
                         defaultLanguage="wgsl"
-                        defaultValue={code}
+                        defaultValue={getCodeValue()}
                         theme="space-dark"
-                        value={code} 
-                        onChange={(newCode) => setCode(newCode)} 
+                        value={getCodeValue()} 
+                        onChange={(newCode) => updateCodeItems(newCode)} 
                     />
                 </div>}
 
