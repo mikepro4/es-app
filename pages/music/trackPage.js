@@ -26,7 +26,7 @@ function TrackPageContainer({
                 setTrack(data)
                 dispatch(updateCollectionItem(null))
                 dispatch(toggleParamsData(data))
-                if(data.code) {
+                if (data.code) {
                     setCodeItems(data.code)
                 }
             }
@@ -54,7 +54,7 @@ function TrackPageContainer({
         }
     }, [router]);
 
-     
+
 
     return (
         <div className="music-page-container track-page-container">
@@ -74,13 +74,13 @@ function TrackPageContainer({
                                 query: { ...router.query, trackId: null },
                             }, undefined, { shallow: true })
                         }
-                    }
+                        }
                     />
 
                 </div>
 
                 <div className="music-page-container-header-right">
-                <TrackActionsView
+                    <TrackActionsView
                         item={track}
                     />
                 </div>
@@ -88,7 +88,7 @@ function TrackPageContainer({
 
             <h1>{track && track.name} </h1>
 
-            <Button
+            {track && track.album?._id && <Button
                 label="Go to album"
                 icon="arrow-Right"
                 minimal={true}
@@ -100,12 +100,12 @@ function TrackPageContainer({
                         query: { ...router.query, tab: 2, albumId: track.album._id },
                     }, undefined, { shallow: true })
                 }
-            }
-            />
+                }
+            />}
 
-            
-            
-           
+
+
+
         </div>
     );
 }
