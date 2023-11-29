@@ -13,6 +13,8 @@ import ShapeCollectionSettings from "./type/shape_collection_settings.js";
 import VizSettings from "./type/viz_settings.js";
 import AlgoSettings from "./type/algo_settings.js";
 import AlgoCollectionSettings from "./type/algo_collection_settings.js"
+import TrackSettings from "./type/track_settings.js";
+import TrackCollectionSettings from "./type/track_collection_settings.js"
 
 function Drawer() {
     const dispatch = useDispatch();
@@ -46,6 +48,10 @@ function Drawer() {
                 return <AlgoSettings hideDrawer={hideDrawer} enablePortal />;
             case "algo-collection-settings":
                 return <AlgoCollectionSettings hideDrawer={hideDrawer} enablePortal />;
+            case "track-settings":
+                return <TrackSettings hideDrawer={hideDrawer} enablePortal />;
+            case "track-collection-settings":
+                return <TrackCollectionSettings hideDrawer={hideDrawer} enablePortal />;
             default:
                 return;
         }

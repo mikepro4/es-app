@@ -8,13 +8,19 @@ import { userReducer } from "./slices/userSlice";
 import { testListReducer } from "./slices/testListSlice";
 import { shapeListReducer } from "./slices/shapeListSlice";
 import { algoListReducer } from "./slices/algoListSlice";
+import { trackListReducer } from "./slices/trackListSlice";
+import { albumListReducer } from "./slices/albumListSlice";
+import { hardwareListReducer } from "./slices/hardwareListSlice";
 
 const rootReducer = combineReducers({
   app: appReducer,
   user: userReducer,
   testList: testListReducer,
   shapeList: shapeListReducer,
-  algoList: algoListReducer
+  algoList: algoListReducer,
+  trackList: trackListReducer,
+  albumList: albumListReducer,
+  hardwareList: hardwareListReducer
 });
 
 const resettableReducer = (state, action) => {
@@ -50,6 +56,9 @@ export * from "./thunks/userThunk";
 export * from "./thunks/testThunk";
 export * from "./thunks/shapeThunk";
 export * from "./thunks/algoThunk";
+export * from "./thunks/albumThunk";
+export * from "./thunks/trackThunk";
+export * from "./thunks/hardwareThunk";
 
 
 // =========================== //
@@ -61,4 +70,7 @@ export * from "./slices/userSlice";
 export * from "./slices/testListSlice";
 export * from "./slices/shapeListSlice";
 export * from "./slices/algoListSlice";
+export * from "./slices/trackListSlice";
+export * from "./slices/albumListSlice";
+export * from "./slices/hardwareListSlice";
 

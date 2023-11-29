@@ -11,6 +11,7 @@ import { updateCollection, updateCollectionItem } from "@/redux"
 import TestView from "./views/test_list_view"
 import ShapeView from "./views/shape_list_view"
 import AlgoView from "./views/algo_list_view"
+import TrackView from "./views/track_list_view"
 
 function InfiniteList({
     type,
@@ -101,6 +102,12 @@ function InfiniteList({
                 />)
             case "algo-view-list":
                 return (<AlgoView
+                    item={item}
+                    key={item._id}
+                    handleClick={handleClick}
+                />)
+            case "track-view-list":
+                return (<TrackView
                     item={item}
                     key={item._id}
                     handleClick={handleClick}
