@@ -19,11 +19,11 @@ router.post("/create", requireSignin, async (req, res) => {
         const Shape = await new Shapes({
             name: shapeName,
             author: req.user._id,
+            params: req.body.params,
             created: new Date()
         }).save();
         if (Shape) {
             let query = await Shapes.findOne({ _id: Shape._id })
-                .populate("author")
                 .populate("algo")
 
             res.json(query);
@@ -86,7 +86,6 @@ router.post("/delete", async (req, res) => {
 
 router.post("/item", async (req, res) => {
     const query = await Shapes.findOne({ _id: req.body.id })
-        .populate("author")
         .populate("algo")
 
     res.json(query);
@@ -141,7 +140,7 @@ router.post("/updateItem", async (req, res) => {
             shapeId,
             updateData,
             { new: true }  // Return the updated object
-        ).populate("author").populate("algo");
+        ).populate("algo");
 
         // If the Shape object is not found
         if (!updatedShape) {

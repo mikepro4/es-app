@@ -13,15 +13,32 @@ function AppSettings(
     const paramsRef = useRef()
     const canvasRef = useRef()
     const containerRef = useRef()
-    const [shape, setShape] = useState(null)
+    const [shape, setShape] = useState();
+
+    const exampleParams = {
+        "math": "sin",
+        "frequency": "0.6764000000000139",
+        "step": "9.424240000000319",
+        "rotateSpeed": "0.005000000000000013",
+        "boldRate": "0.12",
+        "friction": "0.01",
+        "pointRotateSpeed": "0.01",
+        "pointSize": "1.3",
+        "pointCount": "2048",
+        "pointOpacity": "1",
+        "backgroundColor": "rgba(255,153,153, 1)",
+        "overlayBlur": "0",
+        "overlayOpacity": "0",
+        "overlayColor": "rgba(0,0,0, 1)"
+    }
 
     useEffect(() => {
 
         if (item) {
-            setShape(item)
             paramsRef.current = item
-        } else {
-        }
+        
+            if(!shape) setShape(item)
+        } 
 
     }, [item]);
 
@@ -36,21 +53,13 @@ function AppSettings(
 
     useEffect(() => {
         updateDimensions();
-        // paramsRef.current = shape
 
         window.addEventListener("resize", updateDimensions);
 
-        // Cleanup function to remove the event listener
         return () => {
             window.removeEventListener("resize", updateDimensions);
         };
-
-    }, [shape]);
-
-    // useEffect(() => {
-    //     paramsRef.current = app.paramsValues
-    //     setShape(app.paramsValues)
-    // }, [paramsValues]);
+    }, []);
 
 
     const renderOverlay = () => {
@@ -58,7 +67,7 @@ function AppSettings(
     }
 
 
-    if (!shape) return null;
+    if (!item) return null;
 
     return (
         <div
@@ -67,7 +76,7 @@ function AppSettings(
                 "viz-container": true,
             })}
             style={{
-                backgroundColor: paramsRef.current.backgroundColor,
+                backgroundColor: paramsRef.current?.backgroundColor,
             }}
         >
             <canvas
@@ -81,7 +90,7 @@ function AppSettings(
             <div 
                 className="placeholder-shape"
             >
-                {paramsRef.current.frequency}
+                {paramsRef.current?.frequency}
             </div>
 
         </div>

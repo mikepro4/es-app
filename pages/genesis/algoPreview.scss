@@ -15,6 +15,13 @@
         position: relative;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
+        .shape-create-button {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          z-index: 100;
+        }
+
         @media only screen and (max-width: $mobile) {
             border: none
         }

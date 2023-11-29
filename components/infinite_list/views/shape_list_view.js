@@ -35,7 +35,7 @@ function ShapeListView({
                     }))
                 }}
             >
-                <Viz/>
+                <Viz item={item.params}/>
             </div>
         
 

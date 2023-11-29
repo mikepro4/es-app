@@ -4,9 +4,9 @@ import userApi from "../api";
 
 const shapeCreate = createAsyncThunk(
     "shape/create",
-      async ({ name, callback }, { rejectWithValue }) => {
+      async ({ name, params, callback }, { rejectWithValue }) => {
       try {
-        const response = await userApi.post("/shape/create", { name });
+        const response = await userApi.post("/shape/create", { name, params });
   
         if (callback) {
           callback(response.data)
