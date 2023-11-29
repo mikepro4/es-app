@@ -5,25 +5,25 @@ import classNames from "classnames";
 import Button from "@/components/button";
 import Icon from "@/components/icon";
 
-import TrackActionsView from "@/components/collection_actions/trackActions";
+import AlbumActionsView from "@/components/collection_actions/albumActions";
 
-import { trackUpdateItem, updateCollectionItem, trackItem, trackUpdateManyItems } from "@/redux";
+import { albumUpdateItem, updateCollectionItem, albumItem, albumUpdateManyItems } from "@/redux";
 
 
-function TrackPageContainer({
+function AlbumPageContainer({
 }) {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
     const dispatch = useDispatch();
-    const [track, setTrack] = useState(false);
+    const [album, setAlbum] = useState(false);
 
-    const fetchTrack = () => {
-        dispatch(trackItem({
-            id: router.query.trackId,
+    const fetchAlbum = () => {
+        dispatch(albumItem({
+            id: router.query.albumId,
             callback: (data) => {
                 console.log(data);
-                setTrack(data)
+                setAlbum(data)
                 dispatch(updateCollectionItem(null))
                 dispatch(toggleParamsData(data))
                 if(data.code) {
@@ -34,7 +34,7 @@ function TrackPageContainer({
     }
 
     useEffect(() => {
-        fetchTrack()
+        fetchAlbum()
 
         return () => {
 
@@ -42,22 +42,22 @@ function TrackPageContainer({
     }, []);
 
     useEffect(() => {
-        if (app.updateCollectionItem && app.updateCollectionItem == track?._id) {
-            fetchTrack()
+        if (app.updateCollectionItem && app.updateCollectionItem == album?._id) {
+            fetchAlbum()
         }
 
     }, [app.updateCollectionItem]);
 
     useEffect(() => {
-        if (router.query.trackId && track?._id && router.query.trackId !== track?._id) {
-            fetchTrack()
+        if (router.query.albumId && album?._id && router.query.albumId !== album?._id) {
+            fetchAlbum()
         }
     }, [router]);
 
      
 
     return (
-        <div className="music-page-container track-page-container">
+        <div className="music-page-container album-page-container">
 
             <div className="music-page-container-header">
 
@@ -71,7 +71,7 @@ function TrackPageContainer({
                         onClick={() => {
                             router.push({
                                 pathname: '/music',
-                                query: { ...router.query, trackId: null },
+                                query: { ...router.query, albumId: null },
                             }, undefined, { shallow: true })
                         }
                     }
@@ -80,13 +80,13 @@ function TrackPageContainer({
                 </div>
 
                 <div className="music-page-container-header-right">
-                <TrackActionsView
-                        item={track}
+                <AlbumActionsView
+                        item={album}
                     />
                 </div>
             </div>
 
-            <h1>{track && track.name} </h1>
+            <h1>{album && album.name} </h1>
 
             
             
@@ -95,4 +95,4 @@ function TrackPageContainer({
     );
 }
 
-export default TrackPageContainer;
+export default AlbumPageContainer;

@@ -13,12 +13,13 @@ import HardwareTab from "./hardwareTab"
 
 
 import TrackPage from "./trackPage"
+import AlbumPage from "./albumPage"
+
 
 
 export default function Music() {
   const router = useRouter();
   const query = router.query;
-
 
 
   const [selectedTabId, setSelectedTabId] = useState(1);
@@ -53,18 +54,29 @@ export default function Music() {
             </div>)
         }
       case 2:
-        return (
-          <div className="full-screen-content-container">
+        if (router.query.albumId) {
+          return (
+            <div className="full-screen-content-container">
 
-            <div className="full-screen-content-area">
-              <AlbumTab />
-            </div>
+              <div className="full-screen-content-area">
+                <AlbumPage />
+              </div>
+            </div>)
+        } else {
+          return (
+            <div className="full-screen-content-container">
 
-            <div className="full-screen-filters-area">
-              <AlbumSidebar />
+              <div className="full-screen-content-area">
+                <AlbumTab />
+              </div>
+
+              <div className="full-screen-filters-area">
+                <AlbumSidebar />
+              </div>
             </div>
-          </div>
-        )
+          )
+        }
+
       case 3:
         return (
           <div className="full-screen-content-container">
