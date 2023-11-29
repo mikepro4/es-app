@@ -11,6 +11,7 @@ import { algoListReducer } from "./slices/algoListSlice";
 import { trackListReducer } from "./slices/trackListSlice";
 import { albumListReducer } from "./slices/albumListSlice";
 import { hardwareListReducer } from "./slices/hardwareListSlice";
+import { tierListReducer } from "./slices/tierListSlice";
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   algoList: algoListReducer,
   trackList: trackListReducer,
   albumList: albumListReducer,
-  hardwareList: hardwareListReducer
+  hardwareList: hardwareListReducer,
+  tierList: tierListReducer
 });
 
 const resettableReducer = (state, action) => {
@@ -59,6 +61,7 @@ export * from "./thunks/algoThunk";
 export * from "./thunks/albumThunk";
 export * from "./thunks/trackThunk";
 export * from "./thunks/hardwareThunk";
+export * from "./thunks/tierThunk";
 
 
 // =========================== //
@@ -73,4 +76,5 @@ export * from "./slices/algoListSlice";
 export * from "./slices/trackListSlice";
 export * from "./slices/albumListSlice";
 export * from "./slices/hardwareListSlice";
+export * from "./slices/tierListSlice";
 

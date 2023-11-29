@@ -19,6 +19,8 @@ import AlbumSettings from "./type/album_settings.js";
 import AlbumCollectionSettings from "./type/album_collection_settings.js"
 import HardwareSettings from "./type/hardware_settings.js";
 import HardwareCollectionSettings from "./type/hardware_collection_settings.js"
+import TierSettings from "./type/tier_settings.js";
+import TierCollectionSettings from "./type/tier_collection_settings.js"
 
 function Drawer() {
     const dispatch = useDispatch();
@@ -64,6 +66,10 @@ function Drawer() {
                 return <HardwareSettings hideDrawer={hideDrawer} enablePortal />;
             case "hardware-collection-settings":
                 return <HardwareCollectionSettings hideDrawer={hideDrawer} enablePortal />;
+            case "tier-settings":
+                return <TierSettings hideDrawer={hideDrawer} enablePortal />;
+            case "tier-collection-settings":
+                return <TierCollectionSettings hideDrawer={hideDrawer} enablePortal />;
             default:
                 return;
         }

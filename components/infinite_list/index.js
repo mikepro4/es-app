@@ -14,6 +14,7 @@ import AlgoView from "./views/algo_list_view"
 import TrackView from "./views/track_list_view"
 import AlbumView from "./views/album_list_view"
 import HardwareView from "./views/hardware_list_view"
+import TierView from "./views/tier_list_view"
 
 function InfiniteList({
     type,
@@ -122,6 +123,12 @@ function InfiniteList({
                 />)
             case "hardware-view-list":
                 return (<HardwareView
+                    item={item}
+                    key={item._id}
+                    handleClick={handleClick}
+                />)
+            case "tier-view-list":
+                return (<TierView
                     item={item}
                     key={item._id}
                     handleClick={handleClick}
