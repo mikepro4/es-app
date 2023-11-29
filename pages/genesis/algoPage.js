@@ -40,6 +40,9 @@ function AlgoPageContainer({
     const [selectedTypes, setSelectedTypes] = useState({});
     const [selectedTabId, setSelectedTabId] = useState(2);
 
+    const [code, setCode] = useState(null);
+    const [params, setParams] = useState(null);
+
     const formikRef = useRef(null);
 
     const monaco = useMonaco();
@@ -98,6 +101,7 @@ function AlgoPageContainer({
                 setAlgo(data)
                 dispatch(updateCollectionItem(null))
                 dispatch(toggleParamsData(data))
+                setCode(data.code)
             }
         }))
     }
@@ -122,6 +126,23 @@ function AlgoPageContainer({
             fetchAlgo()
         }
     }, [router]);
+
+    const saveCodeAndParams = () => {
+        dispatch(algoUpdateItem({
+            data: {
+                ...algo,
+                ...params,
+                code
+            },
+            callback: (data) => {
+                console.log(data);
+                setAlgo(data)
+                dispatch(updateCollectionItem(null))
+                dispatch(toggleParamsData(data))
+                toasterRef.current.show({ message: "Algo updated" });
+            }
+        }))
+    }
 
     const typeOptions = [
         { label: 'String', value: 'string' },
@@ -185,7 +206,9 @@ function AlgoPageContainer({
                                     small={true}
                                     wrap={true}
                                     minimal={true}
-                                    onClick={submitFormFromOutside}
+                                    onClick={() => {
+                                        saveCodeAndParams()
+                                    }}
                                 />
                             </li>
                         </ul>
@@ -212,7 +235,7 @@ function AlgoPageContainer({
         console.log(values);
         // dispatch(testListChangeCriteria(values))
         dispatch(toggleParamsData(values))
-
+        setParams(values)
     };
 
     const handleSubmit = (values) => {
@@ -800,7 +823,6 @@ function AlgoPageContainer({
                     }}
                 </Formik>}
 
-                <OverlayToaster ref={toasterRef} />
             </div>
         )
     }
@@ -848,8 +870,10 @@ function AlgoPageContainer({
                     <Editor
                         height="90vh"
                         defaultLanguage="wgsl"
-                        defaultValue="// some comment"
+                        defaultValue={code}
                         theme="space-dark"
+                        value={code} 
+                        onChange={(newCode) => setCode(newCode)} 
                     />
                 </div>}
 
@@ -914,6 +938,9 @@ function AlgoPageContainer({
                 />
 
             </div>
+
+            <OverlayToaster ref={toasterRef} />
+
         </div>
     );
 }

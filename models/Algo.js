@@ -13,7 +13,8 @@ const AlgoSchema = new Schema({
     },
     slug: { type: String },
     default: { type: Boolean, default: false },
-    params: [Object]
+    params: [Object],
+    code: { type: String },
 });
 
 module.exports = mongoose.model("Algo", AlgoSchema);
