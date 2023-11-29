@@ -16,25 +16,25 @@ function AppSettings(
 
     const [shape, setShape ] = useState(null)
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     if(item) {
-    //         setShape(item)
-    //     } else {
-    //         // setShape(app.playerData.params)
-    //     }
+        if(item) {
+            setShape(item)
+        } else {
+            // setShape(app.playerData.params)
+        }
 
-    // }, item); 
+    }, [item]); 
 
     useEffect(() => {
         params.current = shape
-    }, shape); 
+    }, [shape]); 
 
     useEffect(() => {
-        // params.current = app.paramsValues
-        // setShape(app.paramsValues)
+        params.current = app.paramsValues
+        setShape(app.paramsValues)
         console.log("update here")
-    }, paramsValues); 
+    }, [paramsValues]); 
 
 
     if(!shape) return null;
