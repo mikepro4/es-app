@@ -12,10 +12,13 @@ import AlbumTab from "./albumTab"
 import HardwareTab from "./hardwareTab"
 
 
+import TrackPage from "./trackPage"
+
+
 export default function Music() {
   const router = useRouter();
   const query = router.query;
-  
+
 
 
   const [selectedTabId, setSelectedTabId] = useState(1);
@@ -28,46 +31,52 @@ export default function Music() {
   const renderTab = () => {
     switch (selectedTabId) {
       case 1:
-        return (
-          <div className="full-screen-content-container">
-
-            <div className="full-screen-content-area">
-              <TrackTab/>
-            </div>
-
-            <div className="full-screen-filters-area">
-              <TrackSidebar />
-            </div>
-          </div>)
-      case 2:
+        if (router.query.trackId) {
           return (
             <div className="full-screen-content-container">
 
               <div className="full-screen-content-area">
-                <AlbumTab/>
+                <TrackPage />
+              </div>
+            </div>)
+        } else {
+          return (
+            <div className="full-screen-content-container">
+
+              <div className="full-screen-content-area">
+                <TrackTab />
               </div>
 
               <div className="full-screen-filters-area">
-                <AlbumSidebar/>
+                <TrackSidebar />
               </div>
+            </div>)
+        }
+      case 2:
+        return (
+          <div className="full-screen-content-container">
+
+            <div className="full-screen-content-area">
+              <AlbumTab />
             </div>
-          )
+
+            <div className="full-screen-filters-area">
+              <AlbumSidebar />
+            </div>
+          </div>
+        )
       case 3:
         return (
           <div className="full-screen-content-container">
 
-          <div className="full-screen-content-area">
-            <HardwareTab/>
-          </div>
+            <div className="full-screen-content-area">
+              <HardwareTab />
+            </div>
 
-          <div className="full-screen-filters-area">
-            <HardwareSidebar/>
-          </div>
-        </div>)
-      case 4:
-        return (<div>Generate</div>)
-      case 5:
-        return (<div>Generate</div>)
+            <div className="full-screen-filters-area">
+              <HardwareSidebar />
+            </div>
+          </div>)
       default:
         return;
     }
@@ -82,12 +91,12 @@ export default function Music() {
 
   const selectTab = (tab) => {
     setSelectedTabId(tab)
-   
+
     router.push({
       pathname: router.pathname,
       query: { ...router.query, tab: tab }
     }, undefined, { shallow: true });
-    
+
   }
 
   return (
@@ -104,14 +113,14 @@ export default function Music() {
                 activeTab={selectedTabId}
                 onTabChange={(tab) => selectTab(tab)}
                 onClick={(tab) => {
-                  if(tab == selectedTabId && router.query.algoId){
+                  if (tab == selectedTabId && router.query.algoId) {
                     router.push({
                       pathname: router.pathname,
                       query: { ...router.query }
                     }, undefined, { shallow: true });
-                  } 
+                  }
                 }
-              }
+                }
               />
             </div>
 
