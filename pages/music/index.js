@@ -4,10 +4,12 @@ import { useRouter } from 'next/router';
 
 import TrackSidebar from '@/components/collection_sidebar/trackSidebar'
 import AlbumSidebar from '@/components/collection_sidebar/albumSidebar'
+import HardwareSidebar from '@/components/collection_sidebar/hardwareSidebar'
 
 import TabBar from '@/components/tab'
 import TrackTab from "./trackTab"
 import AlbumTab from "./albumTab"
+import HardwareTab from "./hardwareTab"
 
 
 export default function Music() {
@@ -16,7 +18,7 @@ export default function Music() {
   
 
 
-  const [selectedTabId, setSelectedTabId] = useState(2);
+  const [selectedTabId, setSelectedTabId] = useState(1);
   let tabs = [
     "Tracks",
     "Albums",
@@ -55,11 +57,11 @@ export default function Music() {
           <div className="full-screen-content-container">
 
           <div className="full-screen-content-area">
-            Content
+            <HardwareTab/>
           </div>
 
           <div className="full-screen-filters-area">
-            Sidebar
+            <HardwareSidebar/>
           </div>
         </div>)
       case 4:

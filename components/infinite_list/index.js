@@ -13,6 +13,7 @@ import ShapeView from "./views/shape_list_view"
 import AlgoView from "./views/algo_list_view"
 import TrackView from "./views/track_list_view"
 import AlbumView from "./views/album_list_view"
+import HardwareView from "./views/hardware_list_view"
 
 function InfiniteList({
     type,
@@ -115,6 +116,12 @@ function InfiniteList({
                 />)
             case "album-view-list":
                 return (<AlbumView
+                    item={item}
+                    key={item._id}
+                    handleClick={handleClick}
+                />)
+            case "hardware-view-list":
+                return (<HardwareView
                     item={item}
                     key={item._id}
                     handleClick={handleClick}
