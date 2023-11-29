@@ -16,6 +16,8 @@ import NftDetails from "../nft_details";
 
 import Icon from "../icon";
 
+import Viz from "@/components/viz";
+
 function Player() {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
@@ -129,7 +131,7 @@ function Player() {
         switch (selectedTabId) {
             case 1:
                 return (<div className="player-viz-container">
-                    <div className="shape-placeholder"></div>
+                    <Viz/>
                 </div>)
             case 2:
                 return (<NftDetails/>)

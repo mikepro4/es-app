@@ -25,10 +25,6 @@ function AlbumPageContainer({
                 console.log(data);
                 setAlbum(data)
                 dispatch(updateCollectionItem(null))
-                dispatch(toggleParamsData(data))
-                if(data.code) {
-                    setCodeItems(data.code)
-                }
             }
         }))
     }
@@ -53,6 +49,7 @@ function AlbumPageContainer({
             fetchAlbum()
         }
     }, [router]);
+
 
      
 

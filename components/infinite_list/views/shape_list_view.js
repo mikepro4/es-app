@@ -12,6 +12,7 @@ import ShapeActionsView from "@/components/collection_actions/shapeActions";
 import ShapeMainInfo from "@/components/shape_main_info";
 
 import Icon from "@/components/icon";
+import Viz from "@/components/viz";
 
 function ShapeListView({
     item,
@@ -34,7 +35,7 @@ function ShapeListView({
                     }))
                 }}
             >
-                <div className="shape-placeholder"></div>
+                <Viz/>
             </div>
         
 

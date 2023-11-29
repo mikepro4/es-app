@@ -13,6 +13,7 @@ const ShapeSchema = new Schema({
   },
   algo: { type: Schema.Types.ObjectId, ref: "Algo" },
   imageLink: { type: String },
+  params: Object
 });
 
 module.exports = mongoose.model("Shape", ShapeSchema);

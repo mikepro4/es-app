@@ -3,6 +3,7 @@ import { useSelector, useDispatch} from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 import ParamRenderer from "@/components/param_renderer";
+import Viz from "@/components/viz";
 
 function AlgoPreview({
     item
@@ -24,7 +25,9 @@ function AlgoPreview({
         <div className="algo-preview-container">
 
             <div className="algo-preview-animation">
-                <div className="shape-placeholder"></div>
+                <Viz
+                    item={app.paramsValues}
+                />
             </div>
 
             <div className="algo-preview-params">
