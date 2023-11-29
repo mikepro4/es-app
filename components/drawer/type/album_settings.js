@@ -10,7 +10,7 @@ import {
     Switch,
 } from "@blueprintjs/core";;
 
-import { algoUpdateItem, updateCollectionItem, algoUpdateManyItems, toggleDrawer, togglePlayer, toggleModal } from "@/redux";
+import { albumUpdateItem, updateCollectionItem, albumUpdateManyItems, toggleDrawer, togglePlayer, toggleModal } from "@/redux";
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
@@ -26,7 +26,7 @@ function AppSettings() {
     const handleSubmit = (values) => {
         console.log(values);
 
-        dispatch(algoUpdateItem({
+        dispatch(albumUpdateItem({
             data: values,
             callback: (data) => {
                 dispatch(updateCollectionItem(data._id))
@@ -61,13 +61,13 @@ function AppSettings() {
 
         let value = event.target.checked
 
-        dispatch(algoUpdateManyItems({
+        dispatch(albumUpdateManyItems({
             newCriteria: {
                 default: false
             },
             callback: (data) => {
 
-                dispatch(algoUpdateItem({
+                dispatch(albumUpdateItem({
                     data: {
                         ...app.drawerData,
                         default: value
@@ -76,7 +76,7 @@ function AppSettings() {
                         dispatch(updateCollectionItem(app.drawerData._id))
                         dispatch(toggleDrawer({
                             drawerOpen: true,
-                            drawerType: "algo-settings",
+                            drawerType: "album-settings",
                             drawerData: data,
                         }))
                     }
@@ -110,7 +110,7 @@ function AppSettings() {
                                     <Field
                                         name="_id"
                                         component={Input}
-                                        title="Algo ID"
+                                        title="Album ID"
                                         placeholder="Name"
                                     />
 
@@ -155,14 +155,7 @@ function AppSettings() {
                     }}
                 </Formik>
 
-                <div className="switch-container">
-                    <Switch
-                        checked={app.drawerData.default}
-                        onChange={handleDefaultChange}
-                    />
-                    <span>Default algo</span>
-                </div>
-
+           
 
             </div>
         </div>

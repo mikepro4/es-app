@@ -6,9 +6,9 @@ import classNames from "classnames";
 import ParamSwitch from "@/components/paramSwitch";
 import Label from "@/components/label";
 
-import { algoDelete, algoUpdateItem, updateCollectionItem, toggleDrawer, algoDuplicate, updateCollection, togglePlayer } from "@/redux";
+import { trackDelete, trackUpdateItem, updateCollectionItem, toggleDrawer, trackDuplicate, updateCollection, togglePlayer } from "@/redux";
 
-function AlgoActionsView({
+function TrackActionsView({
     item,
     onChange,
 }) {
@@ -23,7 +23,7 @@ function AlgoActionsView({
                 console.log("edit")
                 dispatch(toggleDrawer({
                     drawerOpen: open,
-                    drawerType: "algo-settings",
+                    drawerType: "track-settings",
                     drawerData: item,
                 }));
                 break;
@@ -31,15 +31,15 @@ function AlgoActionsView({
                 console.log("delete")
                 
                 dispatch(
-                    algoDelete(
+                    trackDelete(
                         {
-                            algoId: item._id,
+                            trackId: item._id,
                             callback: (data) => {
                                 dispatch(updateCollectionItem(item._id))
 
                                 router.push({
                                     pathname: router.pathname,
-                                    query: { ...router.query, tab: 2, algoId: null }
+                                    query: { ...router.query, tab: 1, trackId: null }
                                 }, undefined, { shallow: true });
                                 
                             }
@@ -49,15 +49,15 @@ function AlgoActionsView({
             case "duplicate":
                 console.log("duplicate")
                 dispatch(
-                    algoDuplicate(
+                    trackDuplicate(
                         {
-                            algoId: item._id,
+                            trackId: item._id,
                             callback: (data) => {
                                 dispatch(updateCollection(true))
                                 
                                 router.push({
                                     pathname: router.pathname,
-                                    query: { ...router.query, tab: 2, algoId: data._id }
+                                    query: { ...router.query, tab: 1, trackId: data._id }
                                 }, undefined, { shallow: true });
                             }
                         },)
@@ -111,7 +111,7 @@ function AlgoActionsView({
                     onChange={(value) => {
                         switchAction(value)
                         dispatch(
-                            algoUpdateItem({
+                            trackUpdateItem({
                                 data: {
                                     ...item,
                                     status: value
@@ -176,4 +176,4 @@ function AlgoActionsView({
     );
 }
 
-export default AlgoActionsView;
+export default TrackActionsView;

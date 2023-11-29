@@ -12,11 +12,14 @@ import ColorPicker from "@/components/form/ColorPicker";
 import TabSwitcher from "@/components/form/TabSwitcher";
 import Button from "@/components/button";
 
+import { toggleParamsValues } from "@/redux";
+
 function ParamRenderer({
 }) {
     const [item, setItem] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
+    const dispatch = useDispatch();
 
     useEffect(() => {
 
@@ -202,6 +205,7 @@ function ParamRenderer({
     const handleFormChange = (values) => {
         console.log(values);
         console.log("parseValues", parseValues(values))
+        dispatch(toggleParamsValues(parseValues(values)))
 
         
         // dispatch(testListChangeCriteria(values))

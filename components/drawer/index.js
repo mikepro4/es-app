@@ -13,6 +13,14 @@ import ShapeCollectionSettings from "./type/shape_collection_settings.js";
 import VizSettings from "./type/viz_settings.js";
 import AlgoSettings from "./type/algo_settings.js";
 import AlgoCollectionSettings from "./type/algo_collection_settings.js"
+import TrackSettings from "./type/track_settings.js";
+import TrackCollectionSettings from "./type/track_collection_settings.js"
+import AlbumSettings from "./type/album_settings.js";
+import AlbumCollectionSettings from "./type/album_collection_settings.js"
+import HardwareSettings from "./type/hardware_settings.js";
+import HardwareCollectionSettings from "./type/hardware_collection_settings.js"
+import TierSettings from "./type/tier_settings.js";
+import TierCollectionSettings from "./type/tier_collection_settings.js"
 
 function Drawer() {
     const dispatch = useDispatch();
@@ -46,6 +54,22 @@ function Drawer() {
                 return <AlgoSettings hideDrawer={hideDrawer} enablePortal />;
             case "algo-collection-settings":
                 return <AlgoCollectionSettings hideDrawer={hideDrawer} enablePortal />;
+            case "track-settings":
+                return <TrackSettings hideDrawer={hideDrawer} enablePortal />;
+            case "track-collection-settings":
+                return <TrackCollectionSettings hideDrawer={hideDrawer} enablePortal />;
+            case "album-settings":
+                return <AlbumSettings hideDrawer={hideDrawer} enablePortal />;
+            case "album-collection-settings":
+                return <AlbumCollectionSettings hideDrawer={hideDrawer} enablePortal />;
+            case "hardware-settings":
+                return <HardwareSettings hideDrawer={hideDrawer} enablePortal />;
+            case "hardware-collection-settings":
+                return <HardwareCollectionSettings hideDrawer={hideDrawer} enablePortal />;
+            case "tier-settings":
+                return <TierSettings hideDrawer={hideDrawer} enablePortal />;
+            case "tier-collection-settings":
+                return <TierCollectionSettings hideDrawer={hideDrawer} enablePortal />;
             default:
                 return;
         }

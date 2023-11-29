@@ -10,6 +10,7 @@
   "dependencies": {
     "@babel/core": "^7.23.3",
     "@blueprintjs/core": "^5.7.1",
+    "@monaco-editor/react": "^4.6.0",
     "@reduxjs/toolkit": "^1.9.7",
     "@thirdweb-dev/react": "^4.1.10",
     "@thirdweb-dev/sdk": "^4.0.17",

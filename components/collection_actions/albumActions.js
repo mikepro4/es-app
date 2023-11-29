@@ -6,9 +6,9 @@ import classNames from "classnames";
 import ParamSwitch from "@/components/paramSwitch";
 import Label from "@/components/label";
 
-import { algoDelete, algoUpdateItem, updateCollectionItem, toggleDrawer, algoDuplicate, updateCollection, togglePlayer } from "@/redux";
+import { albumDelete, albumUpdateItem, updateCollectionItem, toggleDrawer, albumDuplicate, updateCollection, togglePlayer } from "@/redux";
 
-function AlgoActionsView({
+function AlbumActionsView({
     item,
     onChange,
 }) {
@@ -23,7 +23,7 @@ function AlgoActionsView({
                 console.log("edit")
                 dispatch(toggleDrawer({
                     drawerOpen: open,
-                    drawerType: "algo-settings",
+                    drawerType: "album-settings",
                     drawerData: item,
                 }));
                 break;
@@ -31,15 +31,15 @@ function AlgoActionsView({
                 console.log("delete")
                 
                 dispatch(
-                    algoDelete(
+                    albumDelete(
                         {
-                            algoId: item._id,
+                            albumId: item._id,
                             callback: (data) => {
                                 dispatch(updateCollectionItem(item._id))
 
                                 router.push({
                                     pathname: router.pathname,
-                                    query: { ...router.query, tab: 2, algoId: null }
+                                    query: { ...router.query, tab: 2, albumId: null }
                                 }, undefined, { shallow: true });
                                 
                             }
@@ -49,15 +49,15 @@ function AlgoActionsView({
             case "duplicate":
                 console.log("duplicate")
                 dispatch(
-                    algoDuplicate(
+                    albumDuplicate(
                         {
-                            algoId: item._id,
+                            albumId: item._id,
                             callback: (data) => {
                                 dispatch(updateCollection(true))
                                 
                                 router.push({
                                     pathname: router.pathname,
-                                    query: { ...router.query, tab: 2, algoId: data._id }
+                                    query: { ...router.query, tab: 2, albumId: data._id }
                                 }, undefined, { shallow: true });
                             }
                         },)
@@ -111,7 +111,7 @@ function AlgoActionsView({
                     onChange={(value) => {
                         switchAction(value)
                         dispatch(
-                            algoUpdateItem({
+                            albumUpdateItem({
                                 data: {
                                     ...item,
                                     status: value
@@ -176,4 +176,4 @@ function AlgoActionsView({
     );
 }
 
-export default AlgoActionsView;
+export default AlbumActionsView;

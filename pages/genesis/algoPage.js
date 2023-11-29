@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 
+import Editor, { DiffEditor, useMonaco, loader } from '@monaco-editor/react';
+
 import { Formik, Form, Field, FieldArray } from 'formik';
 import Input from "@/components/form/BladeInput";
 import Select from "@/components/form/Select";
@@ -10,7 +12,10 @@ import SwitchField from "@/components/form/Switch";
 import ColorPicker from "@/components/form/ColorPicker";
 import TabSwitcher from "@/components/form/TabSwitcher";
 import Button from "@/components/button";
+import Icon from "@/components/icon";
 import AlgoPreview from "./algoPreview";
+
+
 
 import TabBar from '@/components/tab'
 import { v4 as uuidv4 } from 'uuid';
@@ -21,11 +26,10 @@ import { algoUpdateItem, updateCollectionItem, algoItem, algoUpdateManyItems, to
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-
 import {
-    Switch,
     OverlayToaster,
 } from "@blueprintjs/core";
+import { set } from "lodash";
 
 function AlgoPageContainer({
 }) {
@@ -36,16 +40,99 @@ function AlgoPageContainer({
     const toasterRef = useRef(null)
     const [selectedTypes, setSelectedTypes] = useState({});
     const [selectedTabId, setSelectedTabId] = useState(1);
+    const [selectedSectionId, setselectedSectionId] = useState(1);
+
+    const [code, setCode] = useState(null);
+    const [params, setParams] = useState(null);
+
+    const [codeItems, setCodeItems] = useState({
+        main: {
+            fragment: "// Main fragment",
+            vertex: "// Main vertex"
+        },
+        bufferA: {
+            fragment: "// Buffer A Fragment",
+            vertex: "// Buffer A Vertex"
+        },
+        bufferB: {
+            fragment: "// Buffer B Fragment",
+            vertex: "// Buffer B Vertex"
+        },
+        common: {
+            fragment: "// Common F",
+            vertex: "// Common V"
+        }
+    });
+
+    const [selectedSection, setSelectedSection] = useState(1);
+    const [selectedShader, setSelectedShader] = useState(1);
+
+    // const [mainFragCode, setMainFragCode] = useState(null);
+
+
+    const formikRef = useRef(null);
+
+    const monaco = useMonaco();
 
     let tabs = [
         "Properties",
-        "Preview"
+        "Code",
+        "Preview",
     ]
+
+    let tabsAlgo = [
+        "Properties",
+        "Code"
+    ]
+
+    let tabsSections = [
+        "Main image",
+        "Buffer A",
+        "Buffer B",
+        "Common"
+    ]
+
+    let tabShaders = [
+        "Fragment",
+        "Vertex"
+    ]
+
+
+    const submitFormFromOutside = () => {
+        if (formikRef.current) {
+            formikRef.current.submitForm();
+        }
+    };
+
+    const selectSection = (section) => {
+        setSelectedSection(section)
+    }
 
 
     const selectTab = (tab) => {
         setSelectedTabId(tab)
+
+        if (tab == 2) {
+            fetch('/theme.json') // You need to have the theme JSON
+                .then(data => data.json())
+                .then(theme => {
+                    monaco.editor.defineTheme('vs-dark', theme);
+                    monaco.editor.setTheme('vs-dark');
+                });
+        }
     }
+
+    useEffect(() => {
+        if (monaco) {
+            fetch('/theme.json') // You need to have the theme JSON
+                .then(data => data.json())
+                .then(theme => {
+                    monaco.editor.defineTheme('vs-dark', theme);
+                    monaco.editor.setTheme('vs-dark');
+                });
+        }
+
+    }, [monaco]);
 
 
     const [algo, setAlgo] = useState(false);
@@ -58,6 +145,9 @@ function AlgoPageContainer({
                 setAlgo(data)
                 dispatch(updateCollectionItem(null))
                 dispatch(toggleParamsData(data))
+                if(data.code) {
+                    setCodeItems(data.code)
+                }
             }
         }))
     }
@@ -78,10 +168,27 @@ function AlgoPageContainer({
     }, [app.updateCollectionItem]);
 
     useEffect(() => {
-        if (router.query.algoId && algo?.id && router.query.algoId !== algo?.id) {
+        if (router.query.algoId && algo?._id && router.query.algoId !== algo?._id) {
             fetchAlgo()
         }
     }, [router]);
+
+    const saveCodeAndParams = () => {
+        dispatch(algoUpdateItem({
+            data: {
+                ...algo,
+                ...params,
+                code: codeItems
+            },
+            callback: (data) => {
+                console.log(data);
+                setAlgo(data)
+                dispatch(updateCollectionItem(null))
+                dispatch(toggleParamsData(data))
+                toasterRef.current.show({ message: "Algo updated" });
+            }
+        }))
+    }
 
     const typeOptions = [
         { label: 'String', value: 'string' },
@@ -124,8 +231,44 @@ function AlgoPageContainer({
                     </div>
 
                     <div className="algo-page-header-right">
+                        <ul className="algo-save-button">
+                            <li>
+                                <Button
+                                    label="Compile"
+                                    icon="play"
+                                    small={true}
+                                    wrap={true}
+                                    minimal={true}
+                                    onClick={() => {
+
+                                    }}
+                                />
+                            </li>
+
+                            <li>
+                                <Button
+                                    label="Save"
+                                    icon="floppy-disk"
+                                    small={true}
+                                    wrap={true}
+                                    minimal={true}
+                                    onClick={() => {
+                                        saveCodeAndParams()
+                                    }}
+                                />
+                            </li>
+                        </ul>
+
                         <AlgoActionsView
                             item={algo}
+                        />
+                    </div>
+
+                    <div className="algo-page-content-header-desktop-tab">
+                        <TabBar
+                            tabs={tabsAlgo}
+                            activeTab={selectedTabId}
+                            onTabChange={(tab) => selectTab(tab)}
                         />
                     </div>
 
@@ -138,7 +281,7 @@ function AlgoPageContainer({
         console.log(values);
         // dispatch(testListChangeCriteria(values))
         dispatch(toggleParamsData(values))
-
+        setParams(values)
     };
 
     const handleSubmit = (values) => {
@@ -164,33 +307,6 @@ function AlgoPageContainer({
     let initialValues = {
         slug: algo?.slug,
         params: algo?.params || [],
-    }
-
-    const handleDefaultChange = (event) => {
-        let value = event.target.checked
-
-        dispatch(algoUpdateManyItems({
-            newCriteria: {
-                default: false
-            },
-            callback: (data) => {
-
-                dispatch(algoUpdateItem({
-                    data: {
-                        ...algo,
-                        default: value
-                    },
-                    callback: (data) => {
-                        toasterRef.current.show({ message: "Algo updated" });
-                        dispatch(updateCollectionItem(algo._id))
-                    }
-                })
-
-                )
-
-
-            }
-        }))
     }
 
     const addParameterToParam = (setFieldValue, values) => {
@@ -551,6 +667,7 @@ function AlgoPageContainer({
         return (
             <div className="algo-form">
                 {algo && algo._id && <Formik
+                    innerRef={formikRef}
                     enableReinitialize={true}
                     initialValues={initialValues}
                     onSubmit={handleSubmit}
@@ -752,7 +869,6 @@ function AlgoPageContainer({
                     }}
                 </Formik>}
 
-                <OverlayToaster ref={toasterRef} />
             </div>
         )
     }
@@ -761,7 +877,7 @@ function AlgoPageContainer({
         switch (selectedTabId) {
             case 1:
                 return (<>{renderForm()}</>)
-            case 2:
+            case 3:
                 return (
                     <div className="params-container">
                         <AlgoPreview
@@ -774,56 +890,167 @@ function AlgoPageContainer({
         }
     }
 
+    const getCodeValue = () => {
+
+        switch (selectedSection) {
+            case 1:
+                return codeItems.main[selectDestinationShader()]
+            case 2:
+                return codeItems.bufferA[selectDestinationShader()]
+            case 3:
+                return codeItems.bufferB[selectDestinationShader()]
+            case 4:
+                return codeItems.common[selectDestinationShader()]
+            default:
+                return;
+        }
+    }
+
+    const selectDestination = () => {
+
+        switch (selectedSection) {
+            case 1:
+                return "main"  
+            case 2:
+                return "bufferA"
+            case 3:
+                return "bufferB"
+            case 4:
+                return "common"
+            default:
+                return;
+        }
+    }
+
+    const selectDestinationShader = () => {
+
+        switch (selectedShader) {
+            case 1:
+                return "fragment"  
+            case 2:
+                return "vertex"
+            default:
+                return;
+        }
+    }
+
+    const updateCodeItems = (newCode) => {
+
+
+        
+        let newItem = {
+            ...codeItems,
+            [selectDestination()]: {
+                ...codeItems[selectDestination()],
+                [selectDestinationShader()]: newCode
+            }
+        }
+
+        setCodeItems(newItem)
+        
+    }
+
     return (
         <div className="algo-page-container">
 
-            <div className="algo-page-content">
-                <div className="algo-page-content-header">
-                    <Button
-                        label="Back"
-                        icon="arrow-left"
-                        minimal={true}
-                        small={true}
-                        wrap={true}
+            <div className="algo-page-wrapper">
+
+                <div className="algo-page-content-header-desktop">
+                    <div
+                        className="algo-page-content-header-desktop-arrow-back-container"
                         onClick={() => {
                             router.push({
                                 pathname: '/genesis',
                                 query: { ...router.query, algoId: null },
                             }, undefined, { shallow: true })
                         }}
-                    />
-
+                    >
+                        <Icon name="arrow-back" />
+                    </div>
                     {renderAlgo()}
+
+
                 </div>
 
+                {selectedTabId == 2 && <div className="algo-page-code">
+
+                    <div className="algo-code-sections">
+                        <TabBar
+                            tabs={tabsSections}
+                            activeTab={selectedSection}
+                            onTabChange={(tab) => setSelectedSection(tab)}
+                        />
+
+                        <TabBar
+                            tabs={tabShaders}
+                            activeTab={selectedShader}
+                            onTabChange={(tab) => setSelectedShader(tab)}
+                        />
+                    </div>
+
+                    <Editor
+                        height="90vh"
+                        defaultLanguage="wgsl"
+                        defaultValue={getCodeValue()}
+                        theme="space-dark"
+                        value={getCodeValue()} 
+                        onChange={(newCode) => updateCodeItems(newCode)} 
+                    />
+
+                </div>}
+
+                <div className="algo-page-content">
+                    <div className="algo-page-content-header">
+                        <Button
+                            label="Back"
+                            icon="arrow-left"
+                            minimal={true}
+                            small={true}
+                            wrap={true}
+                            onClick={() => {
+                                router.push({
+                                    pathname: '/genesis',
+                                    query: { ...router.query, algoId: null },
+                                }, undefined, { shallow: true })
+                            }}
+                        />
+
+                        {renderAlgo()}
+                    </div>
 
 
-                <div className="algo-page-content-container">
 
 
-                    <div className="algo-page-content-right">
-                        <div className="algo-properties-container">
-                            <div className="algo-properties-container-header">
-                                <div className="algo-properties-container-left">
-                                    <TabBar
-                                        tabs={tabs}
-                                        activeTab={selectedTabId}
-                                        onTabChange={(tab) => selectTab(tab)}
-                                    />
+
+
+                    <div className="algo-page-content-container">
+
+
+                        <div className="algo-page-content-right">
+                            <div className="algo-properties-container">
+                                <div className="algo-properties-container-header">
+                                    <div className="algo-properties-container-left">
+                                        <TabBar
+                                            tabs={tabs}
+                                            activeTab={selectedTabId}
+                                            onTabChange={(tab) => selectTab(tab)}
+                                        />
+                                    </div>
+                                    <div className="algo-properties-container-right">
+
+                                    </div>
                                 </div>
-                                <div className="algo-properties-container-right">
 
-                                </div>
+
+                                {renderContent()}
+
                             </div>
-
-                            {renderContent()}
 
                         </div>
 
                     </div>
 
                 </div>
-
             </div>
 
             <div className="algo-page-content-algo-preview">
@@ -832,19 +1059,10 @@ function AlgoPageContainer({
                     item={algo}
                 />
 
-                {/* <div className="algo-preview"></div> */}
-
-                {/* <div className="switch-container">
-    <Switch
-        checked={algo?.default}
-        onChange={handleDefaultChange}
-    />
-    <span>Default algo</span>
-</div> */}
-
-
-
             </div>
+
+            <OverlayToaster ref={toasterRef} />
+
         </div>
     );
 }

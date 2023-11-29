@@ -24,6 +24,7 @@ const initialState = {
   playerData: null,
   noRedirect: false,
   paramsData: null,
+  paramsValues: null,
 };
 
 const appSlice = createSlice({
@@ -71,6 +72,9 @@ const appSlice = createSlice({
     toggleParamsData: (state, action) => {
       state.paramsData = action.payload;
     },
+    toggleParamsValues: (state, action) => {
+      state.paramsValues = action.payload;
+    },
   }
 });
 
@@ -83,7 +87,8 @@ export const {
     updateCollectionItem,
     togglePlayer,
     toggleNoRedirect,
-    toggleParamsData
+    toggleParamsData,
+    toggleParamsValues
 } = appSlice.actions;
 
 export const appReducer = appSlice.reducer;

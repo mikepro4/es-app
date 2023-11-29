@@ -15,16 +15,29 @@
         // overflow-y: auto;
     }
 
+    .algo-page-wrapper {
+        display: flex;
+        flex-grow: 1;
+        flex-shrink: 1;
+        position: relative;
+        flex-direction: column;
+    }
+
   
     .algo-page-content {
         // display: flex;
         flex-grow: 1;
         // flex-shrink: 1;
-        margin: 0 auto;
+        // margin: 0 auto;
         flex-direction: column;
         justify-content: flex-start;
-        padding: 30px 0 0 0;
         overflow-y: scroll;
+        padding: 0px 0 0 0;
+        
+
+        @media only screen and (max-width: $mobile) {
+            padding-top: 30px
+        }
 
         &::-webkit-scrollbar {
             width: 1px; // Width of the scrollbar
@@ -46,6 +59,8 @@
           scrollbar-color: #888 #f5f5f5; 
 
         .algo-page-content-container {
+            position: relative;
+            
             
             @media only screen and (min-width: $mobile) {
                 display: flex;
@@ -214,7 +229,6 @@
 
     .algo-page-content-algo-preview{
         border-left: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
         display: flex;
         flex-grow: 0;
         flex-shrink: 0;
@@ -227,6 +241,7 @@
 
 
         .algo-properties-container-header {
+           
             // padding: 20px;
             padding: 10px 20px 0 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -252,6 +267,197 @@
     .algo-page-content-header {
         max-width: 700px;
         margin: 0 auto;
+        @media only screen and (min-width: $mobile) {
+            display: none;
+        }
     }
 
+    .algo-page-content-header-desktop {
+        // position: absolute;
+        // top:0;
+        // left: 0;
+        // right: 0;
+        // height: 60px;
+        // background: red;
+        flex-grow: 0;
+        flex-shrink: 0;
+        height: 70px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        position: relative;
+
+        .algo-page-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px 0 20px;
+            position: relative;
+            z-index: 2;
+
+            h1 {
+                font-size: 20px;
+                font-weight: 500;
+            }
+        }
+
+        @media only screen and (max-width: $mobile) {
+            display: none;
+        }
+
+        .algo-page-content-header-desktop-arrow-back-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 0 0 20px;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: all 0.2s;
+            position: relative;
+            z-index: 3;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+
+        
+
+        .algo-page-header-left {
+            position: relative;
+            z-index: 2;
+        }
+
+        .algo-page-header-right {
+            position: relative;
+            z-index: 2;
+            display: flex;
+
+            .algo-save-button {
+                display: flex;
+
+                @media only screen and (max-width: $mobile) {
+                    display: none ;
+                }
+
+                li {
+                    margin-left: 10px;
+
+                    
+                }
+            }
+        }
+
+    }
+
+}
+
+.algo-save-button {
+
+    @media only screen and (max-width: $mobile) {
+        display: none ;
+    }
+}
+
+.algo-page-content-header-desktop-tab {
+    position: absolute;
+    top: 0;
+    left: -44px;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media only screen and (max-width: $mobile) {
+        display: none;
+    }
+
+    .tab-container ul.tab-list li.tab-link-container {
+        position: relative;
+        top: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        margin: 0 5px;
+        width: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+            .tab-link-wrapper {
+                color: $white;;
+            }
+        }
+
+        .tab-link-wrapper {
+            padding: 10px 20px;
+            margin-bottom: 0;
+        }
+
+
+
+        &.tab-link-active {
+            background: $white;
+
+            .tab-link-wrapper {
+                color: $black;
+            }
+
+            &::after {
+                display: none;
+            }
+
+        }
+
+    }
+}
+
+.algo-page-code {
+    opacity: 0;
+    @extend .animation-fadeIn;
+
+    @media only screen and (max-width: $mobile) {
+        display: none;
+    }
+
+    .algo-code-sections {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .tab-container ul.tab-list {
+            margin: 0px 0 0 0;
+            padding: 0;
+        }
+    }
+
+    .algo-code-sections {
+        padding: 0 15px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+
+        .tab-container ul.tab-list li.tab-link-container {
+            padding: 0px 15px;
+            border-radius: 4px;
+            margin-right: 5px;
+
+            &.tab-link-active {
+                background: rgba(255, 255, 255, 0.1);
+
+
+                &::after {
+                    display: none;
+                
+                }
+
+            }
+
+            
+
+        }
+    }
+
+    
 }
