@@ -58,6 +58,7 @@
 @import "../components/infinite_list/views/shape_list_view.scss";
 @import "../components/infinite_list/views/algo_list_view.scss";
 @import "../components/infinite_list/views/track_list_view.scss";
+@import "../components/infinite_list/views/album_list_view.scss";
 
 
 // Pages
@@ -71,6 +72,8 @@
 @import "../pages/genesis/index.scss";
 @import "../pages/genesis/algoPage.scss";
 @import "../pages/genesis/algoPreview.scss";
+
+@import "../pages/music/index.scss";
 
 
 // Drawers

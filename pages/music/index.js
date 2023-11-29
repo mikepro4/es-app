@@ -3,9 +3,11 @@ import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from 'next/router';
 
 import TrackSidebar from '@/components/collection_sidebar/trackSidebar'
+import AlbumSidebar from '@/components/collection_sidebar/albumSidebar'
 
 import TabBar from '@/components/tab'
 import TrackTab from "./trackTab"
+import AlbumTab from "./albumTab"
 
 
 export default function Music() {
@@ -14,7 +16,7 @@ export default function Music() {
   
 
 
-  const [selectedTabId, setSelectedTabId] = useState(1);
+  const [selectedTabId, setSelectedTabId] = useState(2);
   let tabs = [
     "Tracks",
     "Albums",
@@ -40,11 +42,11 @@ export default function Music() {
             <div className="full-screen-content-container">
 
               <div className="full-screen-content-area">
-                Content
+                <AlbumTab/>
               </div>
 
               <div className="full-screen-filters-area">
-                Sidebar
+                <AlbumSidebar/>
               </div>
             </div>
           )

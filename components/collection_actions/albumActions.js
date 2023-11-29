@@ -6,9 +6,9 @@ import classNames from "classnames";
 import ParamSwitch from "@/components/paramSwitch";
 import Label from "@/components/label";
 
-import { trackDelete, trackUpdateItem, updateCollectionItem, toggleDrawer, trackDuplicate, updateCollection, togglePlayer } from "@/redux";
+import { albumDelete, albumUpdateItem, updateCollectionItem, toggleDrawer, albumDuplicate, updateCollection, togglePlayer } from "@/redux";
 
-function TrackActionsView({
+function AlbumActionsView({
     item,
     onChange,
 }) {
@@ -23,7 +23,7 @@ function TrackActionsView({
                 console.log("edit")
                 dispatch(toggleDrawer({
                     drawerOpen: open,
-                    drawerType: "track-settings",
+                    drawerType: "album-settings",
                     drawerData: item,
                 }));
                 break;
@@ -31,15 +31,15 @@ function TrackActionsView({
                 console.log("delete")
                 
                 dispatch(
-                    trackDelete(
+                    albumDelete(
                         {
-                            trackId: item._id,
+                            albumId: item._id,
                             callback: (data) => {
                                 dispatch(updateCollectionItem(item._id))
 
                                 router.push({
                                     pathname: router.pathname,
-                                    query: { ...router.query, tab: 1, trackId: null }
+                                    query: { ...router.query, tab: 2, albumId: null }
                                 }, undefined, { shallow: true });
                                 
                             }
@@ -49,15 +49,15 @@ function TrackActionsView({
             case "duplicate":
                 console.log("duplicate")
                 dispatch(
-                    trackDuplicate(
+                    albumDuplicate(
                         {
-                            trackId: item._id,
+                            albumId: item._id,
                             callback: (data) => {
                                 dispatch(updateCollection(true))
                                 
                                 router.push({
                                     pathname: router.pathname,
-                                    query: { ...router.query, tab: 1, trackId: data._id }
+                                    query: { ...router.query, tab: 2, albumId: data._id }
                                 }, undefined, { shallow: true });
                             }
                         },)
@@ -111,7 +111,7 @@ function TrackActionsView({
                     onChange={(value) => {
                         switchAction(value)
                         dispatch(
-                            trackUpdateItem({
+                            albumUpdateItem({
                                 data: {
                                     ...item,
                                     status: value
@@ -176,4 +176,4 @@ function TrackActionsView({
     );
 }
 
-export default TrackActionsView;
+export default AlbumActionsView;

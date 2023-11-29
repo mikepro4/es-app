@@ -8,13 +8,13 @@ import Label from "@/components/label";
 
 import { togglePlayer, toggleNoRedirect } from "@/redux";
 
-import TrackActionsView from "@/components/collection_actions/trackActions";
+import AlbumActionsView from "@/components/collection_actions/albumActions";
 
 import Button from "@/components/button";
 
 import Icon from "@/components/icon";
 
-function TrackListView({
+function AlbumListView({
     item,
 }) {
     const [loading, setLoading] = useState(false);
@@ -24,31 +24,31 @@ function TrackListView({
 
 
     return (
-        <div className="track-view-list-container" 
+        <div className="album-view-list-container" 
             >
             <div 
-                className="track-view-list-left"
+                className="album-view-list-left"
                 onClick={() => {
                     router.push({
                         pathname: '/music',
-                        query: { ...router.query, trackId: item._id },
+                        query: { ...router.query, albumId: item._id },
                     }, undefined, { shallow: true })
                 }}
             >
-                <div className="track-name">
+                <div className="album-name">
                     {item.name}
                 </div>
 
-                <div className="track-slug">
+                <div className="album-slug">
                     {item.slug}
                 </div>
             </div>
-            <div className="track-view-list-right">
+            <div className="album-view-list-right">
                 {item.default && <Label
                     label="Default"
                     intent="neutral"
                 />}
-                <TrackActionsView
+                <AlbumActionsView
                     item={item}
                 />
             </div>
@@ -65,4 +65,4 @@ function TrackListView({
     );
 }
 
-export default TrackListView;
+export default AlbumListView;

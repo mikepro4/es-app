@@ -10,7 +10,7 @@ import {
     Switch,
 } from "@blueprintjs/core";;
 
-import { trackUpdateItem, updateCollectionItem, trackUpdateManyItems, toggleDrawer, togglePlayer, toggleModal } from "@/redux";
+import { albumUpdateItem, updateCollectionItem, albumUpdateManyItems, toggleDrawer, togglePlayer, toggleModal } from "@/redux";
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
@@ -26,7 +26,7 @@ function AppSettings() {
     const handleSubmit = (values) => {
         console.log(values);
 
-        dispatch(trackUpdateItem({
+        dispatch(albumUpdateItem({
             data: values,
             callback: (data) => {
                 dispatch(updateCollectionItem(data._id))
@@ -61,13 +61,13 @@ function AppSettings() {
 
         let value = event.target.checked
 
-        dispatch(trackUpdateManyItems({
+        dispatch(albumUpdateManyItems({
             newCriteria: {
                 default: false
             },
             callback: (data) => {
 
-                dispatch(trackUpdateItem({
+                dispatch(albumUpdateItem({
                     data: {
                         ...app.drawerData,
                         default: value
@@ -76,7 +76,7 @@ function AppSettings() {
                         dispatch(updateCollectionItem(app.drawerData._id))
                         dispatch(toggleDrawer({
                             drawerOpen: true,
-                            drawerType: "track-settings",
+                            drawerType: "album-settings",
                             drawerData: data,
                         }))
                     }
@@ -110,7 +110,7 @@ function AppSettings() {
                                     <Field
                                         name="_id"
                                         component={Input}
-                                        title="Track ID"
+                                        title="Album ID"
                                         placeholder="Name"
                                     />
 
@@ -155,7 +155,7 @@ function AppSettings() {
                     }}
                 </Formik>
 
-
+           
 
             </div>
         </div>

@@ -15,6 +15,8 @@ import AlgoSettings from "./type/algo_settings.js";
 import AlgoCollectionSettings from "./type/algo_collection_settings.js"
 import TrackSettings from "./type/track_settings.js";
 import TrackCollectionSettings from "./type/track_collection_settings.js"
+import AlbumSettings from "./type/album_settings.js";
+import AlbumCollectionSettings from "./type/album_collection_settings.js"
 
 function Drawer() {
     const dispatch = useDispatch();
@@ -52,6 +54,10 @@ function Drawer() {
                 return <TrackSettings hideDrawer={hideDrawer} enablePortal />;
             case "track-collection-settings":
                 return <TrackCollectionSettings hideDrawer={hideDrawer} enablePortal />;
+            case "album-settings":
+                return <AlbumSettings hideDrawer={hideDrawer} enablePortal />;
+            case "album-collection-settings":
+                return <AlbumCollectionSettings hideDrawer={hideDrawer} enablePortal />;
             default:
                 return;
         }
