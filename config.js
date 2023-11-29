@@ -1,2 +1,3 @@
 export const TEST_CONTRACT_ADDRESS =
   "0xaC844a64FE5A7eFf16b2fF159e6E006e00f3F18E";
+export const CLIENT_ID = "a0815e45c470abdad32bb79a489e88d2";

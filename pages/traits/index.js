@@ -1,13 +1,10 @@
-import Head from 'next/head'
+import Head from "next/head";
+import StorageUpload from "@/components/storage_upload";
 
 export default function Genesis() {
   return (
-    <>
-      <div className="full-screen-container">
-        Traits
-
-        <div className="placeholder"></div>
-      </div>
-    </>
-  )
+    <div className="ui-screen">
+      <StorageUpload />
+    </div>
+  );
 }

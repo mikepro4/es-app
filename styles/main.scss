@@ -67,6 +67,7 @@
 @import "../pages/ui/infinite_list/index.scss";
 @import "../pages/ui/infinite_list";
 @import "../pages/mint/";
+@import "../pages/collection/";
 
 @import "../pages/genesis/index.scss";
 @import "../pages/genesis/algoPage.scss";
@@ -76,6 +77,10 @@
 @import "../components/drawer/type/profile_settings.scss";
 @import "../components/drawer/type/collection_settings.scss";
 @import "../components/drawer/type/viz_settings.scss";
+
+//Components
+
+@import "../components/storage_upload/";
 
 .line-hover {
   position: relative;
