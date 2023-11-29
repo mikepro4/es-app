@@ -40,6 +40,7 @@ function AlgoPageContainer({
     const toasterRef = useRef(null)
     const [selectedTypes, setSelectedTypes] = useState({});
     const [selectedTabId, setSelectedTabId] = useState(2);
+    const [selectedSectionId, setselectedSectionId] = useState(1);
 
     const [code, setCode] = useState(null);
     const [params, setParams] = useState(null);
@@ -63,7 +64,7 @@ function AlgoPageContainer({
         }
     });
 
-    const [selectedSection, setSelectedSection] = useState("main");
+    const [selectedSection, setSelectedSection] = useState(1);
     const [selectedShader, setSelectedShader] = useState("fragment");
 
     // const [mainFragCode, setMainFragCode] = useState(null);
@@ -84,11 +85,22 @@ function AlgoPageContainer({
         "Code"
     ]
 
+    let tabsSections = [
+        "Main image",
+        "Buffer A",
+        "Buffer B",
+        "Common"
+    ]
+
     const submitFormFromOutside = () => {
         if (formikRef.current) {
             formikRef.current.submitForm();
         }
     };
+
+    const selectSection = (section) => {
+        setSelectedSection(section)
+    }
 
 
     const selectTab = (tab) => {
@@ -871,20 +883,45 @@ function AlgoPageContainer({
     }
 
     const getCodeValue = () => {
-        if (selectedShader == "fragment") {
-            return codeItems[selectedSection].fragment
-        }
 
-        if (selectedShader == "vertex") {
-            return codeItems[selectedSection].vertex
+        switch (selectedSection) {
+            case 1:
+                return codeItems.main[selectedShader]
+            case 2:
+                return codeItems.bufferA[selectedShader]
+            case 3:
+                return codeItems.bufferB[selectedShader]
+            case 4:
+                return codeItems.common[selectedShader]
+            default:
+                return;
+        }
+    }
+
+    const selectDestination = () => {
+
+        switch (selectedSection) {
+            case 1:
+                return "main"  
+            case 2:
+                return "bufferA"
+            case 3:
+                return "bufferB"
+            case 4:
+                return "common"
+            default:
+                return;
         }
     }
 
     const updateCodeItems = (newCode) => {
+
+
+        
         let newItem = {
             ...codeItems,
-            [selectedSection]: {
-                ...codeItems[selectedSection],
+            [selectDestination()]: {
+                ...codeItems[selectDestination()],
                 [selectedShader]: newCode
             }
         }
@@ -916,6 +953,15 @@ function AlgoPageContainer({
                 </div>
 
                 {selectedTabId == 2 && <div className="algo-page-code">
+
+                    <div className="algo-code-sections">
+                        <TabBar
+                            tabs={tabsSections}
+                            activeTab={selectedSection}
+                            onTabChange={(tab) => selectSection(tab)}
+                        />
+                    </div>
+
                     <Editor
                         height="90vh"
                         defaultLanguage="wgsl"
@@ -924,6 +970,10 @@ function AlgoPageContainer({
                         value={getCodeValue()} 
                         onChange={(newCode) => updateCodeItems(newCode)} 
                     />
+
+                    <div className="algo-code-sections">
+                        shaders
+                    </div>
                 </div>}
 
                 <div className="algo-page-content">
