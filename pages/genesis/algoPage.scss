@@ -424,6 +424,17 @@
     }
 
     .algo-code-sections {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .tab-container ul.tab-list {
+            margin: 0px 0 0 0;
+            padding: 0;
+        }
+    }
+
+    .algo-code-sections {
         padding: 0 15px;
         border-bottom: 1px solid rgba(255,255,255,0.1);
 

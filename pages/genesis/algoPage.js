@@ -39,7 +39,7 @@ function AlgoPageContainer({
     const dispatch = useDispatch();
     const toasterRef = useRef(null)
     const [selectedTypes, setSelectedTypes] = useState({});
-    const [selectedTabId, setSelectedTabId] = useState(2);
+    const [selectedTabId, setSelectedTabId] = useState(1);
     const [selectedSectionId, setselectedSectionId] = useState(1);
 
     const [code, setCode] = useState(null);
@@ -47,25 +47,25 @@ function AlgoPageContainer({
 
     const [codeItems, setCodeItems] = useState({
         main: {
-            fragment: "Main fragment",
-            vertex: "Main vertex"
+            fragment: "// Main fragment",
+            vertex: "// Main vertex"
         },
         bufferA: {
-            fragment: "Buffer A Fragment",
-            vertex: "Buffer A Vertex"
+            fragment: "// Buffer A Fragment",
+            vertex: "// Buffer A Vertex"
         },
         bufferB: {
-            fragment: "Buffer B Fragment",
-            vertex: "Buffer B Vertex"
+            fragment: "// Buffer B Fragment",
+            vertex: "// Buffer B Vertex"
         },
         common: {
-            fragment: "Common F",
-            vertex: "Common V"
+            fragment: "// Common F",
+            vertex: "// Common V"
         }
     });
 
     const [selectedSection, setSelectedSection] = useState(1);
-    const [selectedShader, setSelectedShader] = useState("fragment");
+    const [selectedShader, setSelectedShader] = useState(1);
 
     // const [mainFragCode, setMainFragCode] = useState(null);
 
@@ -91,6 +91,12 @@ function AlgoPageContainer({
         "Buffer B",
         "Common"
     ]
+
+    let tabShaders = [
+        "Fragment",
+        "Vertex"
+    ]
+
 
     const submitFormFromOutside = () => {
         if (formikRef.current) {
@@ -139,7 +145,9 @@ function AlgoPageContainer({
                 setAlgo(data)
                 dispatch(updateCollectionItem(null))
                 dispatch(toggleParamsData(data))
-                setCodeItems(data.code)
+                if(data.code) {
+                    setCodeItems(data.code)
+                }
             }
         }))
     }
@@ -886,13 +894,13 @@ function AlgoPageContainer({
 
         switch (selectedSection) {
             case 1:
-                return codeItems.main[selectedShader]
+                return codeItems.main[selectDestinationShader()]
             case 2:
-                return codeItems.bufferA[selectedShader]
+                return codeItems.bufferA[selectDestinationShader()]
             case 3:
-                return codeItems.bufferB[selectedShader]
+                return codeItems.bufferB[selectDestinationShader()]
             case 4:
-                return codeItems.common[selectedShader]
+                return codeItems.common[selectDestinationShader()]
             default:
                 return;
         }
@@ -914,6 +922,18 @@ function AlgoPageContainer({
         }
     }
 
+    const selectDestinationShader = () => {
+
+        switch (selectedShader) {
+            case 1:
+                return "fragment"  
+            case 2:
+                return "vertex"
+            default:
+                return;
+        }
+    }
+
     const updateCodeItems = (newCode) => {
 
 
@@ -922,7 +942,7 @@ function AlgoPageContainer({
             ...codeItems,
             [selectDestination()]: {
                 ...codeItems[selectDestination()],
-                [selectedShader]: newCode
+                [selectDestinationShader()]: newCode
             }
         }
 
@@ -958,7 +978,13 @@ function AlgoPageContainer({
                         <TabBar
                             tabs={tabsSections}
                             activeTab={selectedSection}
-                            onTabChange={(tab) => selectSection(tab)}
+                            onTabChange={(tab) => setSelectedSection(tab)}
+                        />
+
+                        <TabBar
+                            tabs={tabShaders}
+                            activeTab={selectedShader}
+                            onTabChange={(tab) => setSelectedShader(tab)}
                         />
                     </div>
 
@@ -971,9 +997,6 @@ function AlgoPageContainer({
                         onChange={(newCode) => updateCodeItems(newCode)} 
                     />
 
-                    <div className="algo-code-sections">
-                        shaders
-                    </div>
                 </div>}
 
                 <div className="algo-page-content">
