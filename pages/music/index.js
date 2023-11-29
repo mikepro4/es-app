@@ -14,6 +14,7 @@ import HardwareTab from "./hardwareTab"
 
 import TrackPage from "./trackPage"
 import AlbumPage from "./albumPage"
+import HardwarePage from "./hardwarePage"
 
 
 
@@ -78,6 +79,15 @@ export default function Music() {
         }
 
       case 3:
+        if (router.query.hardwareId) {
+          return (
+            <div className="full-screen-content-container">
+
+              <div className="full-screen-content-area">
+                <HardwarePage />
+              </div>
+            </div>)
+        } else {
         return (
           <div className="full-screen-content-container">
 
@@ -89,6 +99,7 @@ export default function Music() {
               <HardwareSidebar />
             </div>
           </div>)
+        }
       default:
         return;
     }
