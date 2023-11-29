@@ -5,9 +5,12 @@ import classNames from "classnames";
 import { Formik, Form, Field, FieldArray } from 'formik';
 import Input from "../../../components/form/BladeInput";
 import Button from "../../../components/button";
-import TabSwitcher from "../../../components/form/TabSwitcher";
+import TabSwitcher from "../../../components/form/TabSwitcher"
+import {
+    Switch,
+} from "@blueprintjs/core";;
 
-import { algoUpdateItem, updateCollectionItem, toggleDrawer, togglePlayer, toggleModal } from "@/redux";
+import { algoUpdateItem, updateCollectionItem, algoUpdateManyItems, toggleDrawer, togglePlayer, toggleModal } from "@/redux";
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
@@ -50,9 +53,41 @@ function AppSettings() {
         label: 'Active',
         value: 'active',
     }, {
-        label: 'Inactive',
-        value: 'inactive',
-    }]
+            label: 'Inactive',
+            value: 'inactive',
+        }]
+
+    const handleDefaultChange = (event) => {
+
+        let value = event.target.checked
+
+        dispatch(algoUpdateManyItems({
+            newCriteria: {
+                default: false
+            },
+            callback: (data) => {
+
+                dispatch(algoUpdateItem({
+                    data: {
+                        ...app.drawerData,
+                        default: value
+                    },
+                    callback: (data) => {
+                        dispatch(updateCollectionItem(app.drawerData._id))
+                        dispatch(toggleDrawer({
+                            drawerOpen: true,
+                            drawerType: "algo-settings",
+                            drawerData: data,
+                        }))
+                    }
+                })
+
+                )
+
+
+            }
+        }))
+    }
 
     return (
         <div className={`app-drawer-content-container standard-drawer`}>
@@ -119,6 +154,15 @@ function AppSettings() {
                         )
                     }}
                 </Formik>
+
+                <div className="switch-container">
+                    <Switch
+                        checked={app.drawerData.default}
+                        onChange={handleDefaultChange}
+                    />
+                    <span>Default algo</span>
+                </div>
+
 
             </div>
         </div>

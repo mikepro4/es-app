@@ -26,9 +26,7 @@ import { algoUpdateItem, updateCollectionItem, algoItem, algoUpdateManyItems, to
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-
 import {
-    Switch,
     OverlayToaster,
 } from "@blueprintjs/core";
 
@@ -240,33 +238,6 @@ function AlgoPageContainer({
     let initialValues = {
         slug: algo?.slug,
         params: algo?.params || [],
-    }
-
-    const handleDefaultChange = (event) => {
-        let value = event.target.checked
-
-        dispatch(algoUpdateManyItems({
-            newCriteria: {
-                default: false
-            },
-            callback: (data) => {
-
-                dispatch(algoUpdateItem({
-                    data: {
-                        ...algo,
-                        default: value
-                    },
-                    callback: (data) => {
-                        toasterRef.current.show({ message: "Algo updated" });
-                        dispatch(updateCollectionItem(algo._id))
-                    }
-                })
-
-                )
-
-
-            }
-        }))
     }
 
     const addParameterToParam = (setFieldValue, values) => {
@@ -941,18 +912,6 @@ function AlgoPageContainer({
                 <AlgoPreview
                     item={algo}
                 />
-
-                {/* <div className="algo-preview"></div> */}
-
-                {/* <div className="switch-container">
-    <Switch
-        checked={algo?.default}
-        onChange={handleDefaultChange}
-    />
-    <span>Default algo</span>
-</div> */}
-
-
 
             </div>
         </div>

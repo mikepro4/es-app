@@ -363,7 +363,7 @@
         display: inline-block;
 
         button {
-            padding-right: 20px;
+            padding-right: 16px;
             padding-left: 18px;
 
             &.only-color {
@@ -377,6 +377,10 @@
         &.has-left-icon {
             button {
                 padding-left: 15px;
+
+                .button-label {
+                    margin-left: 5px;
+                }
             }
         }
 
@@ -384,7 +388,9 @@
             &.has-left-icon {
                 button {
                     padding-left: 10px;
-
+                    .button-label {
+                        margin-left: 0;
+                    }
                 }
             }
 
