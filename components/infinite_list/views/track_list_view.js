@@ -31,7 +31,7 @@ function TrackListView({
                 onClick={() => {
                     router.push({
                         pathname: '/music',
-                        query: { ...router.query, trackId: item._id },
+                        query: { ...router.query, tab: 1, trackId: item._id },
                     }, undefined, { shallow: true })
                 }}
             >

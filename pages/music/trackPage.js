@@ -88,6 +88,21 @@ function TrackPageContainer({
 
             <h1>{track && track.name} </h1>
 
+            <Button
+                label="Go to album"
+                icon="arrow-Right"
+                minimal={true}
+                small={true}
+                wrap={true}
+                onClick={() => {
+                    router.push({
+                        pathname: '/music',
+                        query: { ...router.query, tab: 2, albumId: track.album._id },
+                    }, undefined, { shallow: true })
+                }
+            }
+            />
+
             
             
            

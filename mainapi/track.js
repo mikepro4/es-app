@@ -280,6 +280,15 @@ const buildQuery = criteria => {
             }
         });
     }
+
+    if (criteria && criteria.album) {
+        _.assign(query, {
+            "album": {
+                $eq: criteria.album,
+            }
+        });
+    }
+
     return query
 };
 
