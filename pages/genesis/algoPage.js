@@ -401,18 +401,11 @@ function AlgoPageContainer({
                         label={title}
                     />
                 )
-            case "boolean":
-                return (
-                    <Field
-                        name={name}
-                        component={SwitchField}
-                        label={title}
-                    />
-                )
             case "color":
                 return (
                     <Field
                         name={name}
+                        title={title}
                         component={ColorPicker}
                     />
                 )

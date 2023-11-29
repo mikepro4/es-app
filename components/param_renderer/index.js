@@ -194,7 +194,7 @@ function ParamRenderer({
                 return renderArrayParameters(param, index, values, setFieldValue);
             case 'color':
                 // Render ColorPicker component
-                return <Field component={ColorPicker} name={name} /* ...other props */ />;
+                return <Field component={ColorPicker} title={param.label} name={name} /* ...other props */ />;
             // Add more cases for other types if needed
             default:
                 return null;

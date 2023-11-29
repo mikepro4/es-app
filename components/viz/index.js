@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import { useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 
@@ -9,44 +9,80 @@ function AppSettings(
     }
 ) {
     const [loading, setLoading] = useState(false);
-    const app = useSelector((state) => state.app);
-    const paramsValues = useSelector((state) => state.app.paramsValues);
-    const router = useRouter();
-    const params = useRef()
-
-    const [shape, setShape ] = useState(null)
+    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+    const paramsRef = useRef()
+    const canvasRef = useRef()
+    const containerRef = useRef()
+    const [shape, setShape] = useState(null)
 
     useEffect(() => {
 
-        if(item) {
+        if (item) {
             setShape(item)
+            paramsRef.current = item
         } else {
-            // setShape(app.playerData.params)
         }
 
-    }, [item]); 
+    }, [item]);
+
+    const updateDimensions = () => {
+        if (containerRef.current) {
+            setDimensions({
+                width: containerRef.current.offsetWidth,
+                height: containerRef.current.offsetHeight,
+            });
+        }
+    };
 
     useEffect(() => {
-        params.current = shape
-    }, [shape]); 
+        updateDimensions();
+        // paramsRef.current = shape
 
-    useEffect(() => {
-        params.current = app.paramsValues
-        setShape(app.paramsValues)
-        console.log("update here")
-    }, [paramsValues]); 
+        window.addEventListener("resize", updateDimensions);
+
+        // Cleanup function to remove the event listener
+        return () => {
+            window.removeEventListener("resize", updateDimensions);
+        };
+
+    }, [shape]);
+
+    // useEffect(() => {
+    //     paramsRef.current = app.paramsValues
+    //     setShape(app.paramsValues)
+    // }, [paramsValues]);
 
 
-    if(!shape) return null;
+    const renderOverlay = () => {
+
+    }
+
+
+    if (!shape) return null;
 
     return (
-        <div 
+        <div
+            ref={containerRef}
             className={classNames({
                 "viz-container": true,
             })}
+            style={{
+                backgroundColor: paramsRef.current.backgroundColor,
+            }}
         >
+            <canvas
+                ref={canvasRef}
+                className="viz"
+                id="viz"
+                width={dimensions.width}
+                height={dimensions.height}
+            />
 
-            {shape.step}
+            <div 
+                className="placeholder-shape"
+            >
+                {paramsRef.current.frequency}
+            </div>
 
         </div>
     );
