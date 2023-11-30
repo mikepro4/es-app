@@ -16,6 +16,7 @@ import AlbumView from "./views/album_list_view"
 import HardwareView from "./views/hardware_list_view"
 import TierView from "./views/tier_list_view"
 import PlanetView from "./views/planet_list_view"
+import GalaxyView from "./views/galaxy_list_view"
 
 function InfiniteList({
     type,
@@ -148,6 +149,13 @@ function InfiniteList({
                   scroll={scrollValue}
                   handleClick={handleClick}
               />)
+            case "galaxy-view-list":
+                return (<GalaxyView
+                    item={item}
+                    key={item._id}
+                    scroll={scrollValue}
+                    handleClick={handleClick}
+                />)
             default:
                 return (
                     <div></div>

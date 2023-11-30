@@ -3,16 +3,18 @@ import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 
 import PlanetSidebar from "@/components/collection_sidebar/planetSidebar";
+import GalaxySidebar from "@/components/collection_sidebar/galaxySidebar";
 
 import TabBar from "@/components/tab";
 import PlanetTab from "./planetTab";
+import GalaxyTab from "./galaxyTab";
 
 export default function Music() {
   const router = useRouter();
   const query = router.query;
 
   const [selectedTabId, setSelectedTabId] = useState(1);
-  let tabs = ["Planets", "Galaxies", "Hardware"];
+  let tabs = ["Planets", "Galaxies"];
 
   const renderTab = () => {
     switch (selectedTabId) {
@@ -32,11 +34,11 @@ export default function Music() {
         return (
           <div className="full-screen-content-container">
             <div className="full-screen-content-area">
-              {/* <PlanetTab /> */}
+              <GalaxyTab />
             </div>
 
             <div className="full-screen-filters-area">
-              {/* <PlanetSidebar /> */}
+              <GalaxySidebar />
             </div>
           </div>
         );
@@ -67,7 +69,7 @@ export default function Music() {
       <div className="full-screen-container">
         <div className="full-screen-header">
           <div className="page-header">
-            Music
+            Universe
             <div className="page-header-tab-container">
               <TabBar
                 tabs={tabs}

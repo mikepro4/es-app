@@ -73,7 +73,7 @@ function AppSettings() {
       url: "/planets",
       name: "Planets",
       icon: "x",
-    },
+    }
   ];
 
   return (

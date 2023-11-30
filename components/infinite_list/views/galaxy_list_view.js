@@ -8,40 +8,40 @@ import Label from "@/components/label";
 
 import { togglePlayer, toggleNoRedirect } from "@/redux";
 
-import PlanetActionsView from "@/components/collection_actions/planetActions";
+import GalaxyActionsView from "@/components/collection_actions/galaxyActions";
 
 import Button from "@/components/button";
 
 import Icon from "@/components/icon";
 
-function PlanetListView({ item }) {
+function GalaxyListView({ item }) {
   const [loading, setLoading] = useState(false);
   const app = useSelector((state) => state.app);
   const router = useRouter();
   const dispatch = useDispatch();
 
   return (
-    <div className="planet-view-list-container">
+    <div className="galaxy-view-list-container">
       <div
-        className="planet-view-list-left"
+        className="galaxy-view-list-left"
         onClick={() => {
           //   router.push(
           //     {
           //       pathname: "/music",
-          //       query: { ...router.query, planetId: item._id },
+          //       query: { ...router.query, galaxyId: item._id },
           //     },
           //     undefined,
           //     { shallow: true }
           //   );
         }}
       >
-        <div className="planet-name">{item.display_name}</div>
+        <div className="galaxy-name">{item.ngc}</div>
 
-        <div className="planet-slug">{item?.pl_hostname}</div>
+        <div className="galaxy-slug">{item?.latin_name_nom_latin}</div>
       </div>
-      <div className="planet-view-list-right">
+      <div className="galaxy-view-list-right">
         {item.default && <Label label="Default" intent="neutral" />}
-        <PlanetActionsView item={item} />
+        <GalaxyActionsView item={item} />
       </div>
 
       {/* <Button
@@ -54,4 +54,4 @@ function PlanetListView({ item }) {
   );
 }
 
-export default PlanetListView;
+export default GalaxyListView;
