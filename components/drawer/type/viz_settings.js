@@ -5,7 +5,7 @@ import classNames from "classnames";
 
 import Button from "@/components/button";
 
-import { togglePlayer, shapeUpdateItem, toggleDrawer } from "@/redux";
+import { togglePlayer, shapeUpdateItem, toggleDrawer, updateCollectionItem } from "@/redux";
 
 import ShapeActionsView from "../../collection_actions/shapeActions";
 
@@ -72,6 +72,7 @@ function VizSettings() {
                                         drawerType: false,
                                         drawerData: null
                                     }))
+                                    dispatch(updateCollectionItem(data._id))
                                 }
                             }))
                         }
