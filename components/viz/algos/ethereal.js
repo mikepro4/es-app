@@ -6,7 +6,7 @@ import classNames from "classnames";
 function Ethereal(
     {
         item,
-        scale = 6,
+        scale = 8,
         containerWidth,
         containerHeight,
         pause,
@@ -58,7 +58,7 @@ function Ethereal(
             if(mobilePointSize > 1.0) {
                 return mobilePointSize
             } else {
-                return 1.0
+                return 0.5
             }
         }
     }
