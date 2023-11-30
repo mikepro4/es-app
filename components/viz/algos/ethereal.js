@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
+import VizTouch from "../../viz_touch";
 
 function Ethereal(
     {
@@ -299,6 +300,10 @@ function Ethereal(
                 backgroundColor: paramsRef.current?.backgroundColor,
             }}
         >
+
+
+            {fullScreen && <VizTouch />}
+
             <canvas
                 ref={canvasRef}
                 className="viz"

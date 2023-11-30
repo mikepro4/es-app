@@ -1,0 +1,27 @@
+.touch-viz-container {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    top: 150px;
+    bottom: 150px;
+    z-index: 2;
+    display: grid;
+    column-gap: 10px;
+    row-gap: 10px;
+    grid-template-columns: 1fr 1fr;
+
+    .touch-viz-button {
+        background: rgba(255,255,255, 0);
+        border-radius: 10px;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        transition: all 0.8s;
+        cursor: pointer;
+
+        &:active {
+            background: rgba(255,255,255, 0.1);
+        }
+    }
+
+}
