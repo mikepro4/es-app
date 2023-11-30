@@ -8,10 +8,13 @@ function Ethereal(
         item,
         scale = 3,
         containerWidth,
-        containerHeight
+        containerHeight,
+        pause,
+        respondToScroll = false, 
     }
 ) {
     const [loaded, setLoaded] = useState(false);
+    const [mainShape, setMainShape] = useState(false);
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
     const paramsRef = useRef()
     const canvasRef = useRef()
@@ -60,9 +63,6 @@ function Ethereal(
     }
 
 
-
-
-
     const generatePoints = () => {
         let generatedPoints = []
         for (var i = 0; i < 2048; i++) {
@@ -73,8 +73,6 @@ function Ethereal(
             generatedPoints.push(pt)
         }
         pointsRef.current = generatedPoints
-
-
     }
 
     const createPoint = (x, y, i) => {
@@ -95,7 +93,8 @@ function Ethereal(
         if (item) {
             paramsRef.current = item
             updateShape(item)
-            // if (!shape) setShape(item)
+            setMainShape(true)
+            updateDimensions();
         }
 
     }, [item]);
@@ -105,7 +104,6 @@ function Ethereal(
             generatePoints()
             setLoaded(true)
         }
-
 
     }, [dimensions])
 
@@ -133,12 +131,11 @@ function Ethereal(
         updateDimensions();
 
         window.addEventListener("resize", updateDimensions);
-        animationFrameId.current = requestAnimationFrame(frameTicker);
-
 
         return () => {
             window.removeEventListener("resize", updateDimensions);
             cancelAnimationFrame(animationFrameId.current);
+            console.log("stop animation from player")
         };
     }, []);
 
@@ -147,78 +144,7 @@ function Ethereal(
 
     }
 
-    const getWidth = () => {
-      
-        return dimensions.width
-    }
-
-    const getHeight = () => {
-        return dimensions.height
-    }
-
-    // const frameTicker = useCallback(() => {
-    //     if (canvasRef.current && pointsRef.current?.length > 0) {
-
-    //         const width = containerRef.current.offsetWidth*4;
-    //         const height = containerRef.current.offsetHeight*4
-
-    //         radius.current = width / scale;
-
-            
-    //         let shapeViz = shape.current
-    //         let ctx = canvasRef.current.getContext('2d');
-    //         const centerX = width / 2;
-    //         const centerY = height / 2;
-
-    //         ctx.clearRect(0, 0, height * 3, width * 3);
-
-    //         let l = pointsRef.current.length;
-
-    //                 // Draw a simple circle
-    //         ctx.beginPath();
-    //         ctx.arc(centerX, centerY, 50, 0, Math.PI * 2); // 50 is the radius of the circle
-    //         ctx.fillStyle = 'red'; // Fill color of the circle
-    //         ctx.fill();
-
-
-    //         for (i = 0; i < l; i++) {
-    //             let pt = pointsRef.current[i];
-
-    //             let w = width;
-    //             let h = height;
-
-    //             var t_radius = Math[shapeViz.math](rotate.current + shapeViz.freq * i) * radius.current * shapeViz.boldRate + radius.current;
-    //             var tx = centerX + Math.cos(rotate.current + shapeViz.step * i) * t_radius;
-    //             var ty = centerY + Math.sin(rotate.current + shapeViz.step * i) * t_radius;
-
-    //             pt.vx += (tx - pt.x) * shapeViz.pointRotateSpeed;
-    //             pt.vy += (ty - pt.y) * shapeViz.pointRotateSpeed;
-
-    //             pt.x += pt.vx;
-    //             pt.y += pt.vy;
-
-    //             pt.vx *= shapeViz.friction;
-    //             pt.vy *= shapeViz.friction;
-
-    //             if (pt.x >= 0 && pt.x <= w && pt.y >= 0 && pt.y <= h) {
-    //                 ctx.fillStyle = "rgb(255, 255, 255, 1.0)";
-    //                 ctx.fillRect(pt.x, pt.y, 0.7, 1);
-    //             }
-    //         }
-
-    //         rotate.current += shapeViz.rotateSpeed;
-    //     }
-
-    //     // frameTicker()
-
-    //     if (animationFrameId.current !== null) {
-    //         animationFrameId.current = requestAnimationFrame(frameTicker);
-    //     }
-
-    // }, []);
-
     const frameTicker = useCallback(() => {
-        const pixelRatio = window.devicePixelRatio || 1; 
         if (canvasRef.current && pointsRef.current?.length > 0) {
             let shapeViz = shape.current;
             let ctx = canvasRef.current.getContext('2d');
@@ -232,14 +158,7 @@ function Ethereal(
 
             ctx.clearRect(0, 0, width, height);
 
-            // // Draw a simple circle
-            // ctx.beginPath();
-            // ctx.arc(centerX, centerY, 50, 0, Math.PI * 2); // 50 is the radius of the circle
-            // ctx.fillStyle = 'red'; // Fill color of the circle
-            // ctx.fill();
-
-            // ctx.clearRect(0, 0, dimensions.width * 3, dimensions.height * 3);
-
+        
             let l = pointsRef.current.length;
 
 
@@ -248,7 +167,6 @@ function Ethereal(
 
 
                 var t_radius = Math[shapeViz.math](rotate.current + shapeViz.frequency * i) * radius * shapeViz.boldRate + radius;
-                // console.log("t_radius", t_radius)
                 let w = containerRef.current.offsetWidth;
                 let h = containerRef.current.offsetHeight;
                 var tx = centerX + Math.cos(rotate.current + shapeViz.step * i) * t_radius;
@@ -286,8 +204,47 @@ function Ethereal(
             animationFrameId.current = requestAnimationFrame(frameTicker);
         }
 
-    }, [dimensions.width, dimensions.height, shape.current ]);
+    }, [dimensions.width, dimensions.height, shape.current, item]);
 
+    const observer = new IntersectionObserver(
+        ([entry]) => {
+            if(entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+                if(animationFrameId.current == null && !pause) {
+                    animationFrameId.current = requestAnimationFrame(frameTicker);
+                }
+            } else {
+                cancelAnimationFrame(animationFrameId.current);
+                animationFrameId.current = null
+            }
+        },
+        {
+            root: null, // null means it observes changes in the viewport
+            threshold: 0.5 // 0.5 means 50% visibility
+        }
+    );
+
+    useEffect(() => {
+        
+
+        if (containerRef.current) {
+            observer.observe(containerRef.current);
+        }
+
+        return () => {
+            if (containerRef.current) {
+                observer.unobserve(containerRef.current);
+            }
+        };
+    }, [containerRef]);
+
+    useEffect(() => {
+        if(pause) {
+            cancelAnimationFrame(animationFrameId.current);
+            animationFrameId.current = null
+        } else {
+            observer.observe(containerRef.current);
+        }
+    }, [pause]);
 
 
     if (!item) return null;

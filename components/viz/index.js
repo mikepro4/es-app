@@ -5,8 +5,9 @@ import classNames from "classnames";
 
 import Ethereal from "./algos/ethereal"
 
-function AppSettings({
-    item
+function Viz({
+    item,
+    pause
 }) {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
@@ -29,9 +30,10 @@ function AppSettings({
         <>
             <Ethereal
                 item={item}
+                pause={pause}
             />
         </>
     );
 }
 
-export default AppSettings;
+export default Viz;

@@ -16,6 +16,7 @@ import Viz from "@/components/viz";
 
 function ShapeListView({
     item,
+    scroll
 }) {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
@@ -35,7 +36,12 @@ function ShapeListView({
                     }))
                 }}
             >
-                <Viz item={item.params}/>
+                <Viz 
+                    item={item.params}
+                    respondToScroll={true}
+                    scroll={scroll}
+                    pause={app.playerOpen}
+                />
             </div>
         
 

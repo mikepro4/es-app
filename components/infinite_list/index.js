@@ -95,42 +95,49 @@ function InfiniteList({
                 return (<TestView
                     item={item}
                     key={item._id}
+                    scroll={scrollValue}
                     handleClick={handleClick}
                 />)
             case "shape-view-list":
                 return (<ShapeView
                     item={item}
                     key={item._id}
+                    scroll={scrollValue}
                     handleClick={handleClick}
                 />)
             case "algo-view-list":
                 return (<AlgoView
                     item={item}
                     key={item._id}
+                    scroll={scrollValue}
                     handleClick={handleClick}
                 />)
             case "track-view-list":
                 return (<TrackView
                     item={item}
                     key={item._id}
+                    scroll={scrollValue}
                     handleClick={handleClick}
                 />)
             case "album-view-list":
                 return (<AlbumView
                     item={item}
                     key={item._id}
+                    scroll={scrollValue}
                     handleClick={handleClick}
                 />)
             case "hardware-view-list":
                 return (<HardwareView
                     item={item}
                     key={item._id}
+                    scroll={scrollValue}
                     handleClick={handleClick}
                 />)
             case "tier-view-list":
                 return (<TierView
                     item={item}
                     key={item._id}
+                    scroll={scrollValue}
                     handleClick={handleClick}
                 />)
             default:
