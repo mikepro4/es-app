@@ -12,6 +12,7 @@ import { trackListReducer } from "./slices/trackListSlice";
 import { albumListReducer } from "./slices/albumListSlice";
 import { hardwareListReducer } from "./slices/hardwareListSlice";
 import { tierListReducer } from "./slices/tierListSlice";
+import { planetListReducer } from "./slices/planetListSlice";
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -22,14 +23,14 @@ const rootReducer = combineReducers({
   trackList: trackListReducer,
   albumList: albumListReducer,
   hardwareList: hardwareListReducer,
-  tierList: tierListReducer
+  tierList: tierListReducer,
+  planetList: planetListReducer,
 });
 
 const resettableReducer = (state, action) => {
   // Use the .fulfilled property of the signout action to get the correct action type
   if (action.type === signout.fulfilled.type) {
-    state = {
-    };
+    state = {};
   }
   return rootReducer(state, action);
 };
@@ -37,10 +38,10 @@ const resettableReducer = (state, action) => {
 let middleware;
 
 middleware = (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-      thunk: true,
-    });
+  getDefaultMiddleware({
+    serializableCheck: false,
+    thunk: true,
+  });
 
 export const store = configureStore({
   reducer: resettableReducer,
@@ -48,7 +49,6 @@ export const store = configureStore({
 });
 
 setupListeners(store.dispatch);
-
 
 // =========================== //
 
@@ -62,10 +62,9 @@ export * from "./thunks/albumThunk";
 export * from "./thunks/trackThunk";
 export * from "./thunks/hardwareThunk";
 export * from "./thunks/tierThunk";
-
+export * from "./thunks/planetThunk";
 
 // =========================== //
-
 
 // ACTIONS
 export * from "./slices/appSlice";
@@ -77,4 +76,4 @@ export * from "./slices/trackListSlice";
 export * from "./slices/albumListSlice";
 export * from "./slices/hardwareListSlice";
 export * from "./slices/tierListSlice";
-
+export * from "./slices/planetListSlice";
