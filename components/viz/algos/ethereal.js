@@ -67,8 +67,8 @@ function Ethereal(
         let generatedPoints = []
         for (var i = 0; i < 2048; i++) {
             var pt = createPoint(
-                Math.random(1) * dimensions.width,
-                Math.random(1) * dimensions.height,
+                Math.random(1) * containerRef.current.offsetWidth,
+                Math.random(1) * containerRef.current.offsetHeight,
             );
             generatedPoints.push(pt)
         }
@@ -247,7 +247,7 @@ function Ethereal(
                 let pt = pointsRef.current[i];
 
 
-                var t_radius = Math[shapeViz.math](rotate.current + shapeViz.frequency * i) * radius * Number(shapeViz.boldRate) + radius;
+                var t_radius = Math[shapeViz.math](rotate.current + shapeViz.frequency * i) * radius * shapeViz.boldRate + radius;
                 // console.log("t_radius", t_radius)
                 let w = containerRef.current.offsetWidth;
                 let h = containerRef.current.offsetHeight;
@@ -286,7 +286,7 @@ function Ethereal(
             animationFrameId.current = requestAnimationFrame(frameTicker);
         }
 
-    }, [dimensions.width, dimensions.height]);
+    }, [dimensions.width, dimensions.height, shape.current ]);
 
 
 
