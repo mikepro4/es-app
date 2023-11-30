@@ -1,0 +1,28 @@
+.viz-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: all 0.2s ease-in-out;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+
+    .viz {
+        // position: absolute;
+        // top: 0;
+        // left: 0;
+        // right: 0;
+        // bottom: 0;
+        width: 100%;
+        
+    }
+
+    .placeholder-shape {
+        width: 150px;
+        height: 150px;
+        background: grey;
+        border-radius: 100px;
+    }
+}

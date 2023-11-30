@@ -6,7 +6,7 @@ import CollectionInfo from "@/components/collection_info";
 import AlgosDetails from "@/components/collectionControls/algosDetails";
 import InfiniteList from '@/components/infinite_list'
 
-import { algoSearch, algoItem, algoListUpdateStats} from "@/redux"
+import { algoSearch, algoItem, algoListUpdateStats, toggleParamsData, toggleParamsValues} from "@/redux"
 
 function AlgosTab() {
     const [loading, setLoading] = useState(false);
@@ -45,6 +45,8 @@ function AlgosTab() {
                 scrollContainer.removeEventListener('scroll', handleScroll);
             }
             window.removeEventListener('resize', handleResize);
+            dispatch(toggleParamsData(null))
+            dispatch(toggleParamsValues(null))
         };
 
     }, []);

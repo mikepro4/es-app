@@ -12,9 +12,11 @@ import ShapeActionsView from "@/components/collection_actions/shapeActions";
 import ShapeMainInfo from "@/components/shape_main_info";
 
 import Icon from "@/components/icon";
+import Viz from "@/components/viz";
 
 function ShapeListView({
     item,
+    scroll
 }) {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
@@ -34,7 +36,13 @@ function ShapeListView({
                     }))
                 }}
             >
-                <div className="shape-placeholder"></div>
+                <Viz 
+                    item={item.params}
+                    respondToScroll={true}
+                    scroll={scroll}
+                    pause={app.playerOpen}
+                    scale={4}
+                />
             </div>
         
 

@@ -30,61 +30,120 @@ function InfiniteList({
   contained,
   scrollValue,
   loadCollectionItem,
-}) {
-  const app = useSelector((state) => state.app);
-  const updateCollectionValue = useSelector(
-    (state) => state.app.updateCollection
-  );
-  const updateCollectionItemValue = useSelector(
-    (state) => state.app.updateCollectionItem
-  );
-  const router = useRouter();
-  const dispatch = useDispatch();
 
-  const anchorRef = useRef(null);
+    const app = useSelector((state) => state.app);
+    const updateCollectionValue = useSelector(state => state.app.updateCollection);
+    const updateCollectionItemValue = useSelector(state => state.app.updateCollectionItem);
+    const router = useRouter();
+    const dispatch = useDispatch()
 
-  const [collection, setCollection] = useState([]);
-  const [loading, setLoading] = useState(false);
+    const anchorRef = useRef(null);
 
-  const localOffset = useRef(0);
-  const count = useRef(0);
+    const [collection, setCollection] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-  const sortPropertyRef = useRef(sortProperty);
-  const orderRef = useRef(order);
-  const criteriaRef = useRef(criteria);
+    const localOffset = useRef(0);
+    const count = useRef(0);
 
-  const searchCollectionFunction = useCallback(
-    (offset, reset) => {
-      if (!loading && anchorRef.current) {
-        if (offset == 0 || offset <= count.current) {
-          setLoading(true);
-          console.log({
-            criteria: criteriaRef.current,
-            sortProperty: sortPropertyRef.current,
-            offset: offset,
-            limit: limit ? limit : 20,
-            order: orderRef.current,
-          });
+    const sortPropertyRef = useRef(sortProperty);
+    const orderRef = useRef(order);
+    const criteriaRef = useRef(criteria);
 
-          dispatch(
-            searchCollection({
-              criteria: criteriaRef.current,
-              sortProperty: sortPropertyRef.current,
-              offset: offset,
-              limit: limit ? limit : 20,
-              order: orderRef.current,
-              callback: (data) => {
-                setLoading(false);
-                setCollection((prevCollection) =>
-                  reset ? data.all : [...prevCollection, ...data.all]
-                ); // Use functional update
-                localOffset.current = localOffset.current + limit;
-                count.current = data.count;
-                dispatch(updateCollection(false));
-                updateCollectionStats(data.count, data.total);
-              },
-            })
-          );
+    const searchCollectionFunction = useCallback((offset, reset) => {
+
+        if (!loading && anchorRef.current) {
+
+            if (offset == 0 || offset <= count.current) {
+                setLoading(true)
+                console.log({
+                    criteria: criteriaRef.current,
+                    sortProperty: sortPropertyRef.current,
+                    offset: offset,
+                    limit: limit ? limit : 20,
+                    order: orderRef.current,
+                })
+
+
+
+                dispatch(
+                    searchCollection(
+                        {
+                            criteria: criteriaRef.current,
+                            sortProperty: sortPropertyRef.current,
+                            offset: offset,
+                            limit: limit ? limit : 20,
+                            order: orderRef.current,
+                            callback: (data) => {
+                                setLoading(false);
+                                setCollection(prevCollection => reset ? data.all : [...prevCollection, ...data.all]); // Use functional update
+                                localOffset.current = localOffset.current + limit
+                                count.current = data.count
+                                dispatch(updateCollection(false))
+                                updateCollectionStats(data.count, data.total)
+                            }
+                        },)
+                )
+            }
+
+        }
+    }, [loading, count.current, criteria, sortPropertyRef.current, localOffset.current, limit, orderRef.current, dispatch, searchCollection, collection]);
+
+
+    const renderResultItem = (item, i) => {
+        switch (resultType) {
+            case "test-view-list":
+                return (<TestView
+                    item={item}
+                    key={item._id}
+                    scroll={scrollValue}
+                    handleClick={handleClick}
+                />)
+            case "shape-view-list":
+                return (<ShapeView
+                    item={item}
+                    key={item._id}
+                    scroll={scrollValue}
+                    handleClick={handleClick}
+                />)
+            case "algo-view-list":
+                return (<AlgoView
+                    item={item}
+                    key={item._id}
+                    scroll={scrollValue}
+                    handleClick={handleClick}
+                />)
+            case "track-view-list":
+                return (<TrackView
+                    item={item}
+                    key={item._id}
+                    scroll={scrollValue}
+                    handleClick={handleClick}
+                />)
+            case "album-view-list":
+                return (<AlbumView
+                    item={item}
+                    key={item._id}
+                    scroll={scrollValue}
+                    handleClick={handleClick}
+                />)
+            case "hardware-view-list":
+                return (<HardwareView
+                    item={item}
+                    key={item._id}
+                    scroll={scrollValue}
+                    handleClick={handleClick}
+                />)
+            case "tier-view-list":
+                return (<TierView
+                    item={item}
+                    key={item._id}
+                    scroll={scrollValue}
+                    handleClick={handleClick}
+                />)
+            default:
+                return (
+                    <div></div>
+                )
         }
       }
     },

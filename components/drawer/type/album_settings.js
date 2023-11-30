@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import classNames from "classnames";
 import { Formik, Form, Field, FieldArray } from 'formik';
 import Input from "../../../components/form/BladeInput";
+
 import Button from "../../../components/button";
 import TabSwitcher from "../../../components/form/TabSwitcher"
 import {
@@ -120,6 +121,15 @@ function AppSettings() {
                                         title="Name"
                                         placeholder="Name"
                                     />
+
+                                    <Field
+                                        name="imageLink"
+                                        component={Input}
+                                        title="Image Link"
+                                        placeholder="Image link"
+                                    />
+
+                                    
 
                                     <Field
                                         name="status"

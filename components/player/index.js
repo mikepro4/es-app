@@ -5,7 +5,7 @@ import classNames from "classnames";
 
 import TabBar from '@/components/tab'
 
-import { togglePlayer, shapeNextItem, shapePreviousItem, shapeItem, toggleDrawer } from "@/redux";
+import { togglePlayer, shapeNextItem, shapePreviousItem, shapeItem, toggleDrawer, toggleParamsValues } from "@/redux";
 
 import CollectionGoBack from "../collection_go_back";
 
@@ -15,6 +15,8 @@ import ShapeMainInfo from "../shape_main_info";
 import NftDetails from "../nft_details";
 
 import Icon from "../icon";
+
+import Viz from "@/components/viz";
 
 function Player() {
     const [loading, setLoading] = useState(false);
@@ -61,6 +63,7 @@ function Player() {
         document.body.classList.add("no-scroll")
         return () => {
             document.body.classList.remove("no-scroll");
+            dispatch(toggleParamsValues(null))
         };
     }, []);
 
@@ -129,7 +132,7 @@ function Player() {
         switch (selectedTabId) {
             case 1:
                 return (<div className="player-viz-container">
-                    <div className="shape-placeholder"></div>
+                    <Viz item={app.paramsValues ? app.paramsValues :app.playerData?.params}/>
                 </div>)
             case 2:
                 return (<NftDetails/>)
@@ -137,7 +140,6 @@ function Player() {
                 return;
         }
     }
-
 
     return (
         <div className="main-player" >

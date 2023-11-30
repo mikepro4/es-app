@@ -6,17 +6,20 @@ import { Formik, Form, Field, FieldArray } from 'formik';
 import Input from "../../../components/form/BladeInput";
 import Button from "../../../components/button";
 import TabSwitcher from "../../../components/form/TabSwitcher"
+import Select from "../../../components/form/Select";
+
 import {
     Switch,
 } from "@blueprintjs/core";;
 
-import { trackUpdateItem, updateCollectionItem, trackUpdateManyItems, toggleDrawer, togglePlayer, toggleModal } from "@/redux";
+import { trackUpdateItem, updateCollectionItem, trackUpdateManyItems, toggleDrawer, togglePlayer, toggleModal, albumSearch } from "@/redux";
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
     const dispatch = useDispatch();
+    const [localOptions, setLocalOptions] = useState([]);
 
     const handleFormChange = (values) => {
         console.log(values);
@@ -43,11 +46,33 @@ function AppSettings() {
     let initialValues = app.drawerData
 
     useEffect(() => {
-
-        return () => {
-
-        };
-    }, []);
+        loadInitialOptions();
+    
+        return () => {};
+      }, []);
+    
+    
+      const loadInitialOptions = () => {
+        dispatch(
+          albumSearch({
+            criteria: {},
+            sortProperty: "created",
+            offset: 0,
+            limit: 10000,
+            order: 1,
+    
+            callback: (data) => {
+              let finalOptinos = data.all.map((option) => {
+                return {
+                  value: option._id,
+                  label: option.name,
+                };
+              });
+              setLocalOptions(finalOptinos);
+            },
+          })
+        );
+      };
 
     const statusOptions = [, {
         label: 'Active',
@@ -119,6 +144,22 @@ function AppSettings() {
                                         component={Input}
                                         title="Name"
                                         placeholder="Name"
+                                    />
+
+                                    <Field
+                                        name="songLink"
+                                        component={Input}
+                                        title="Song Link"
+                                        placeholder="Song Link"
+                                    />
+
+                                    <Field
+                                        name="album._id"
+                                        title="Album"
+                                        apiUrl="/album/search"
+                                        useAsync={true}
+                                        component={Select}
+                                        options={localOptions}
                                     />
 
                                     <Field

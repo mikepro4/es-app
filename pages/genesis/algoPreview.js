@@ -3,6 +3,12 @@ import { useSelector, useDispatch} from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 import ParamRenderer from "@/components/param_renderer";
+import Viz from "@/components/viz";
+import Button from "@/components/button";
+
+import { OverlayToaster } from '@blueprintjs/core';
+
+import { shapeCreate, toggleParamsValues } from "@/redux";
 
 function AlgoPreview({
     item
@@ -10,11 +16,13 @@ function AlgoPreview({
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
+    const dispatch = useDispatch();
+    const toasterRef = useRef()
 
     useEffect(() => {
 
         return () => {
-            
+            dispatch(toggleParamsValues(null))
         };
     }, []); 
 
@@ -24,7 +32,27 @@ function AlgoPreview({
         <div className="algo-preview-container">
 
             <div className="algo-preview-animation">
-                <div className="shape-placeholder"></div>
+                <div className="shape-create-button">
+                    <Button
+                        icon="plus"
+                        minimal={true}
+                        small={true}
+                        onClick={() => {
+                            dispatch(shapeCreate({
+                                name: "From Algo",
+                                params: app.paramsValues,
+                                algo: item._id,
+                                callback: ((data) => {
+                                    console.log("callback")
+                                    toasterRef.current.show({ message: `Shape was created` });
+                                })
+                            }))
+                        }}
+                    />
+                </div>
+                <Viz
+                    item={app.paramsValues}
+                />
             </div>
 
             <div className="algo-preview-params">
@@ -32,6 +60,8 @@ function AlgoPreview({
                     item={item}
                 />
             </div>
+
+            <OverlayToaster ref={toasterRef} />
            
         </div>
     );

@@ -11,6 +11,8 @@ const TrackSchema = new Schema({
         enum: ["active", "inactive"],
         default: "inactive"
     },
+    songLink: { type: String },
+    album: { type: Schema.Types.ObjectId, ref: "Album" },
 });
 
 module.exports = mongoose.model("Track", TrackSchema);

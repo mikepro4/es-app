@@ -14,21 +14,59 @@ import Button from "@/components/button";
 
 import { toggleParamsValues } from "@/redux";
 
-function ParamRenderer({
-}) {
+function ParamRenderer(props) {
     const [item, setItem] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
     const dispatch = useDispatch();
 
-    useEffect(() => {
 
-        setItem(app.paramsData);
+
+    useEffect(() => {
+        if(app.paramsData) {
+            setItem(app.paramsData);
+            // setItem(parseParamsToDefaults(app.paramsData.params, app.paramsData.algo) )
+
+        } else {
+            let finalParams
+
+            if(app.paramsValues) {
+                finalParams = app.paramsValues
+            } else {
+                finalParams = props.item.params
+            }
+            let newParams = props.item.algo.params.map((param, i) => {
+                if(param.type === 'array') {
+                    return{
+                        ...param,
+                        values: finalParams[param.value]
+                    }
+                }else {
+                    return{
+                        ...param,
+                        defaultValue: finalParams[param.value]
+                    }
+                }
+                
+            })
+
+            let newItem = {
+                ...props.item.algo,
+                params: newParams
+            }
+
+            setItem(newItem)
+
+        }
 
         return () => {
 
         };
     }, [app.paramsData]);
+
+    useEffect(() => {
+        console.log("item", props.item)
+    }, [item]);
 
     const getLabelStepSize = (min, max) => {
         const stepSize = (Math.abs(min) + Math.abs(max)) / 4;
@@ -194,7 +232,7 @@ function ParamRenderer({
                 return renderArrayParameters(param, index, values, setFieldValue);
             case 'color':
                 // Render ColorPicker component
-                return <Field component={ColorPicker} name={name} /* ...other props */ />;
+                return <Field component={ColorPicker} title={param.label} name={name} /* ...other props */ />;
             // Add more cases for other types if needed
             default:
                 return null;
