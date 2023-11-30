@@ -14,7 +14,7 @@
         display: flex;
         align-items: center;
         height: 40px;
-        background: #222;
+        background: rgba(255,255,255,0.1);
         border-radius: 50px;
         margin-bottom: 50px;
         cursor: pointer;
@@ -22,15 +22,15 @@
         user-select: none;
         cursor: pointer;
 
-        background: rgba(15, 15, 15, 0.6);
-        -webkit-backdrop-filter: blur(30px);
-        backdrop-filter: blur(20px);
+        // background: rgba(15, 15, 15, 0.6);
+        // -webkit-backdrop-filter: blur(30px);
+        // backdrop-filter: blur(20px);
        
 
         @media only screen and (max-width: $mobile) {
-            background: rgba(15, 15, 15, 0.6);
-            -webkit-backdrop-filter: blur(30px);
-            backdrop-filter: blur(20px);
+            // background: rgba(15, 15, 15, 0.6);
+            // -webkit-backdrop-filter: blur(30px);
+            // backdrop-filter: blur(20px);
         }
 
         &.icon-only {
@@ -57,7 +57,7 @@
             flex-grow: 1;
             flex-shrink: 1;
             font-size: 12px;
-            opacity: 0.6;
+            // opacity: 0.6;
             transition: all 0.2s;
 
             .collection-count-number {
@@ -75,7 +75,7 @@
 
         .collection-properties-button {
             // margin-left: 20px;
-            opacity: 0.3;
+            opacity: 1;
             transition: all 0.2s;
             svg {
                 width: 16px;

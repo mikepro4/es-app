@@ -6,6 +6,8 @@ import ParamRenderer from "@/components/param_renderer";
 import Viz from "@/components/viz";
 import Button from "@/components/button";
 
+import { OverlayToaster } from '@blueprintjs/core';
+
 import { shapeCreate } from "@/redux";
 
 function AlgoPreview({
@@ -15,6 +17,7 @@ function AlgoPreview({
     const app = useSelector((state) => state.app);
     const router = useRouter();
     const dispatch = useDispatch();
+    const toasterRef = useRef()
 
     useEffect(() => {
 
@@ -36,10 +39,12 @@ function AlgoPreview({
                         small={true}
                         onClick={() => {
                             dispatch(shapeCreate({
-                                name: item.name,
+                                name: "From Algo",
                                 params: app.paramsValues,
+                                algo: item._id,
                                 callback: ((data) => {
                                     console.log("callback")
+                                    toasterRef.current.show({ message: `Shape was created` });
                                 })
                             }))
                         }}
@@ -55,6 +60,8 @@ function AlgoPreview({
                     item={item}
                 />
             </div>
+
+            <OverlayToaster ref={toasterRef} />
            
         </div>
     );

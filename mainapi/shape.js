@@ -15,11 +15,12 @@ router.post("/create", requireSignin, async (req, res) => {
     console.log(req.body, req.user)
     try {
         const count = await Shapes.countDocuments();
-        const shapeName = `New Shape ${count + 1}`;
+        const shapeName = req.body.name ? req.body.name : `New Shape ${count + 1}`;
         const Shape = await new Shapes({
             name: shapeName,
             author: req.user._id,
             params: req.body.params,
+            algo: req.body.algo,
             created: new Date()
         }).save();
         if (Shape) {

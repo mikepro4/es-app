@@ -7,6 +7,8 @@ import { togglePlayer } from "@/redux";
 
 import ShapeActionsView from "../../collection_actions/shapeActions";
 
+import ParamRenderer from "@/components/param_renderer";
+
 function VizSettings() {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
@@ -23,7 +25,7 @@ function VizSettings() {
 
     return (
         <div className={`app-drawer-content-container standard-drawer`}>
-            <div className={"viz-container"}>
+            <div className={"viz-controls"}>
 
                 <div className="viz-settings-header">
 
@@ -46,6 +48,10 @@ function VizSettings() {
                     </div>
                     
                 </div>
+
+                <ParamRenderer
+                    item={app.playerData.algo}
+                />
 
 
                 <div className="placeholder"></div>

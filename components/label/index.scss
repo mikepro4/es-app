@@ -31,7 +31,8 @@
 
     &.label-container--neutral {
         color: rgba(255,255,255,0.8);
-        border: 1px solid #222; 
+        border: 1px solid rgba(255,255,255,0.3);
+        // border: 1px solid #222; 
 
         svg {
             width: 14px;
