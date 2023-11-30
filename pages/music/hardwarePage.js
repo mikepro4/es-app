@@ -17,6 +17,7 @@ function HardwarePageContainer({
     const router = useRouter();
     const dispatch = useDispatch();
     const [hardware, setHardware] = useState(false);
+    const [scroll, setScroll] = useState(0);
 
     const fetchHardware = () => {
         dispatch(hardwareItem({

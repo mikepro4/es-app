@@ -21,7 +21,8 @@ function AlbumPageContainer({
     const [album, setAlbum] = useState(false);
     const scrollContainerRef = useRef(null); 
     const [screenWidth, setScreenWidth] = useState(0);
-
+    const [scroll, setScroll] = useState(0);
+    
     const fetchAlbum = () => {
         dispatch(albumItem({
             id: router.query.albumId,
