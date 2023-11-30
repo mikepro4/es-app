@@ -131,6 +131,10 @@ function Ethereal(
         updateDimensions();
 
         window.addEventListener("resize", updateDimensions);
+        
+        if(animationFrameId.current == null && !pause && !respondToScroll) {
+            animationFrameId.current = requestAnimationFrame(frameTicker);
+        }
 
         return () => {
             window.removeEventListener("resize", updateDimensions);
@@ -142,6 +146,14 @@ function Ethereal(
 
     const renderOverlay = () => {
 
+    }
+
+    const getPointSize = () => {
+        let finalSize
+
+        if(containerRef.current.offsetWidth) {
+
+        }
     }
 
     const frameTicker = useCallback(() => {
@@ -198,8 +210,6 @@ function Ethereal(
             rotate.current += Number(shapeViz.rotateSpeed);
         }
 
-        // frameTicker()
-
         if (animationFrameId.current !== null) {
             animationFrameId.current = requestAnimationFrame(frameTicker);
         }
@@ -225,7 +235,6 @@ function Ethereal(
 
     useEffect(() => {
         
-
         if (containerRef.current) {
             observer.observe(containerRef.current);
         }
@@ -242,10 +251,11 @@ function Ethereal(
             cancelAnimationFrame(animationFrameId.current);
             animationFrameId.current = null
         } else {
-            observer.observe(containerRef.current);
+            if (containerRef.current) {
+                observer.observe(containerRef.current);
+            }
         }
     }, [pause]);
-
 
     if (!item) return null;
 
