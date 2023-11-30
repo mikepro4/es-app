@@ -11,6 +11,7 @@ function Ethereal(
         containerHeight,
         pause,
         respondToScroll = false, 
+        fullScreen
     }
 ) {
     const [loaded, setLoaded] = useState(false);
@@ -45,20 +46,20 @@ function Ethereal(
 
     const getPointSize = (fullShape) => {
         let finalSize
-        let originalPointSize = Number(fullShape.pointSize) - 0.5
-        let mobilePointSize = originalPointSize - 0.7
+        let originalPointSize = Number(fullShape.pointSize) - 0.7
+        let mobilePointSize = originalPointSize - 0.9
 
         if(containerRef.current.offsetWidth > 500) {
             if(originalPointSize > 0.6) {
                 return originalPointSize
             } else {
-                return 0.6
+                return 0.5
             }
         } else {
             if(mobilePointSize > 1.0) {
                 return mobilePointSize
             } else {
-                return 0.5
+                return 0.4
             }
         }
     }
@@ -168,6 +169,23 @@ function Ethereal(
 
     }
 
+    const getScale = () => {
+        let finalScale = 1
+
+        if(fullScreen) {
+            if(containerRef.current.offsetWidth > 500) {
+                finalScale = scale
+            } else {
+                finalScale = 4
+            }
+        } else {
+            finalScale = scale
+        }
+
+        return finalScale
+
+    }
+
     const frameTicker = useCallback(() => {
         if (canvasRef.current && pointsRef.current?.length > 0) {
             let shapeViz = shape.current;
@@ -177,7 +195,7 @@ function Ethereal(
             const centerX = width / 2;
             const centerY = height / 2;
 
-            let radius = width / scale;
+            let radius = width / getScale();
 
 
             ctx.clearRect(0, 0, width, height);
