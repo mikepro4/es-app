@@ -50,7 +50,7 @@ function VizSettings() {
                 </div>
 
                 <ParamRenderer
-                    item={app.playerData.algo}
+                    item={app.playerData}
                 />
 
 
