@@ -28,17 +28,23 @@ function ParamRenderer(props) {
             // setItem(parseParamsToDefaults(app.paramsData.params, app.paramsData.algo) )
 
         } else {
+            let finalParams
 
+            if(app.paramsValues) {
+                finalParams = app.paramsValues
+            } else {
+                finalParams = props.item.params
+            }
             let newParams = props.item.algo.params.map((param, i) => {
                 if(param.type === 'array') {
                     return{
                         ...param,
-                        [param.value]: props.item.params[param.value]
+                        [param.value]: finalParams[param.value]
                     }
                 }else {
                     return{
                         ...param,
-                        defaultValue: props.item.params[param.value]
+                        defaultValue: finalParams[param.value]
                     }
                 }
                 
