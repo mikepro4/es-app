@@ -5,7 +5,7 @@ import classNames from "classnames";
 
 import TabBar from '@/components/tab'
 
-import { togglePlayer, shapeNextItem, shapePreviousItem, shapeItem, toggleDrawer } from "@/redux";
+import { togglePlayer, shapeNextItem, shapePreviousItem, shapeItem, toggleDrawer, toggleParamsValues } from "@/redux";
 
 import CollectionGoBack from "../collection_go_back";
 
@@ -63,6 +63,7 @@ function Player() {
         document.body.classList.add("no-scroll")
         return () => {
             document.body.classList.remove("no-scroll");
+            dispatch(toggleParamsValues(null))
         };
     }, []);
 

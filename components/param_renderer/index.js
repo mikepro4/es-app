@@ -39,7 +39,7 @@ function ParamRenderer(props) {
                 if(param.type === 'array') {
                     return{
                         ...param,
-                        [param.value]: finalParams[param.value]
+                        values: finalParams[param.value]
                     }
                 }else {
                     return{

@@ -36,7 +36,6 @@ function AppSettings(
 
         if (item) {
             paramsRef.current = item
-        
             if(!shape) setShape(item)
         } 
 

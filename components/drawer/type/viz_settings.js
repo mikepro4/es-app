@@ -3,7 +3,9 @@ import { useSelector, useDispatch} from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 
-import { togglePlayer } from "@/redux";
+import Button from "@/components/button";
+
+import { togglePlayer, shapeUpdateItem, toggleDrawer } from "@/redux";
 
 import ShapeActionsView from "../../collection_actions/shapeActions";
 
@@ -13,6 +15,7 @@ function VizSettings() {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
+    const dispatch = useDispatch();
 
 
 
@@ -51,6 +54,28 @@ function VizSettings() {
 
                 <ParamRenderer
                     item={app.playerData}
+                />
+
+                <Button
+                    label="Update shape"
+                    onClick={() => {
+                        if(app.paramsValues) {
+                            dispatch(shapeUpdateItem({
+                                data: {
+                                    ...app.playerData,
+                                    params: app.paramsValues
+                                },
+                                callback: (data) => {
+                                    console.log("update item", data);
+                                    dispatch(toggleDrawer({
+                                        drawerOpen: false,
+                                        drawerType: false,
+                                        drawerData: null
+                                    }))
+                                }
+                            }))
+                        }
+                    }}
                 />
 
 
