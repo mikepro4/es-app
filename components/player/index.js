@@ -131,7 +131,7 @@ function Player() {
         switch (selectedTabId) {
             case 1:
                 return (<div className="player-viz-container">
-                    <Viz item={app.playerData?.params}/>
+                    <Viz item={app.paramsValues ? app.paramsValues :app.playerData?.params}/>
                 </div>)
             case 2:
                 return (<NftDetails/>)
@@ -139,7 +139,6 @@ function Player() {
                 return;
         }
     }
-
 
     return (
         <div className="main-player" >

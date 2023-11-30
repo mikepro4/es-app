@@ -156,7 +156,7 @@ function AlgoPageContainer({
         fetchAlgo()
 
         return () => {
-
+            dispatch(toggleParamsData(null))
         };
     }, []);
 
