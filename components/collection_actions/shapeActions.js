@@ -2,11 +2,11 @@ import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
-
+import { AppToaster } from '@/components/toaster';
 import ParamSwitch from "@/components/paramSwitch";
 import Label from "@/components/label";
 
-import { shapeDelete, shapeUpdateItem, updateCollectionItem, toggleDrawer, shapeDuplicate, updateCollection, togglePlayer } from "@/redux";
+import { shapeDelete, shapeUpdateItem, updateCollectionItem, toggleDrawer, shapeDuplicate, updateCollection, togglePlayer, shapeCreateItemWithData } from "@/redux";
 
 function ShapeActionsView({
     item,
@@ -16,6 +16,13 @@ function ShapeActionsView({
     const app = useSelector((state) => state.app);
     const router = useRouter();
     const dispatch = useDispatch();
+
+    const showToast = useCallback((message) => {
+        // Ensure AppToaster is not null before calling show
+        if (AppToaster) {
+          AppToaster.show({ message: message});
+        }
+    }, []);
 
     let switchAction = (value) => {
         switch (value) {
@@ -29,7 +36,7 @@ function ShapeActionsView({
                 break;
             case "delete":
                 console.log("delete")
-                
+
                 dispatch(
                     shapeDelete(
                         {
@@ -40,28 +47,63 @@ function ShapeActionsView({
                                     playerOpen: false,
                                     playerData: null
                                 }))
-                                
+                                showToast("Shape deleted")
+
                             }
                         },)
                 )
                 break;
             case "duplicate":
                 console.log("duplicate")
-                dispatch(
-                    shapeDuplicate(
-                        {
-                            shapeId: item._id,
-                            callback: (data) => {
-                                dispatch(updateCollection(true))
-                                if(app.playerOpen) {
+                if (!app.paramsValues) {
+                    dispatch(
+                        shapeDuplicate(
+                            {
+                                shapeId: item._id,
+                                callback: (data) => {
+                                    dispatch(updateCollection(true))
+                                    showToast("Shape duplicated")
+
+                                    if (app.playerOpen) {
+                                        dispatch(togglePlayer({
+                                            playerOpen: true,
+                                            playerData: data
+                                        }))
+                                    }
+                                }
+                            },)
+                    )
+                } else {
+                    dispatch(
+                        shapeCreateItemWithData(
+                            {
+                                data: {
+                                    name: item.name + " (copy)",
+                                    algo: item.algo._id,
+                                    params: app.paramsValues
+                                },
+                                callback: (data) => {
+                                    dispatch(updateCollection(true))
                                     dispatch(togglePlayer({
                                         playerOpen: true,
                                         playerData: data
                                     }))
+
+                                    dispatch(toggleDrawer({
+                                        drawerOpen: false,
+                                        drawerType: null,
+                                        drawerData: null,
+                                    }));
+
+                                    showToast("Shape duplicated with new params")
+
                                 }
                             }
-                        },)
-                )
+                        )
+                    )
+                }
+
+
                 break;
             default:
                 break;
@@ -146,7 +188,7 @@ function ShapeActionsView({
                     icon="more-vertical"
                     value=""
                     position="bottom right"
-                    offset={[10,0]}
+                    offset={[10, 0]}
                     params={[
                         {
                             type: "links",

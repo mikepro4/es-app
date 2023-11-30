@@ -28,6 +28,7 @@ import {
 } from "@thirdweb-dev/react";
 
 
+import { OverlayToaster } from '@blueprintjs/core';
 
 import Drawer from "../components/drawer";
 import Modal from "../components/modal";
@@ -43,8 +44,6 @@ const App = ({ children }) => {
   const router = useRouter();
   const query = router.query;
 
-
-
   const fetchUserDetails = async () => {
     const userIdFromStorage = localStorage.getItem("token");
 
@@ -55,7 +54,6 @@ const App = ({ children }) => {
 
   useEffect(() => {
     fetchUserDetails();
-
   }, []);
 
 

@@ -164,6 +164,7 @@ function Player() {
                         <CollectionGoBack
                             icon="arrow-back"
                             onClick={() => {
+                                dispatch(toggleParamsValues(null))
                                 dispatch(shapePreviousItem({
                                     id: app.playerData._id,
                                     sortProperty: shapeList.sortProperty,
@@ -184,6 +185,7 @@ function Player() {
                         <CollectionGoBack
                             icon="arrow-forward"
                             onClick={() => {
+                                dispatch(toggleParamsValues(null))
                                 dispatch(shapeNextItem({
                                     id: app.playerData._id,
                                     sortProperty: shapeList.sortProperty,
@@ -262,6 +264,7 @@ function Player() {
                         <CollectionGoBack
                             icon="arrow-back"
                             onClick={() => {
+                                dispatch(toggleParamsValues(null))
                                 dispatch(shapePreviousItem({
                                     id: app.playerData._id,
                                     sortProperty: shapeList.sortProperty,
@@ -283,6 +286,7 @@ function Player() {
                             label="Next"
                             iconRight="arrow-forward"
                             onClick={() => {
+                                dispatch(toggleParamsValues(null))
                                 dispatch(shapeNextItem({
                                     id: app.playerData._id,
                                     sortProperty: shapeList.sortProperty,

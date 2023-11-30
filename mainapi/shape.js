@@ -35,6 +35,22 @@ router.post("/create", requireSignin, async (req, res) => {
     }
 });
 
+router.post("/createItemWithData", requireSignin, async (req, res) => {
+    console.log(req.body)
+    try {
+        const Shape = await new Shapes(req.body.data).save();
+        if (Shape) {
+            let query = await Shapes.findOne({ _id: Shape._id })
+                .populate("algo")
+
+            res.json(query);
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send("Server Error");
+    }
+});
+
 
 // ===========================================================================
 

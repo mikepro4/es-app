@@ -5,17 +5,28 @@ import classNames from "classnames";
 
 import Button from "@/components/button";
 
+import { AppToaster } from '@/components/toaster';
+
 import { togglePlayer, shapeUpdateItem, toggleDrawer, updateCollectionItem } from "@/redux";
 
 import ShapeActionsView from "../../collection_actions/shapeActions";
 
 import ParamRenderer from "@/components/param_renderer";
 
+
+
 function VizSettings() {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
     const dispatch = useDispatch();
+
+    const showToast = useCallback((message) => {
+        // Ensure AppToaster is not null before calling show
+        if (AppToaster) {
+          AppToaster.show({ message: message});
+        }
+    }, []);
 
 
 
@@ -73,6 +84,7 @@ function VizSettings() {
                                         drawerData: null
                                     }))
                                     dispatch(updateCollectionItem(data._id))
+                                    showToast("Shape updated")
                                 }
                             }))
                         }
