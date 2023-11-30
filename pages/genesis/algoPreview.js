@@ -8,7 +8,7 @@ import Button from "@/components/button";
 
 import { OverlayToaster } from '@blueprintjs/core';
 
-import { shapeCreate } from "@/redux";
+import { shapeCreate, toggleParamsValues } from "@/redux";
 
 function AlgoPreview({
     item
@@ -22,7 +22,7 @@ function AlgoPreview({
     useEffect(() => {
 
         return () => {
-            
+            dispatch(toggleParamsValues(null))
         };
     }, []); 
 

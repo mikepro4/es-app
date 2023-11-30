@@ -6,7 +6,7 @@ import classNames from "classnames";
 function Ethereal(
     {
         item,
-        scale = 3,
+        scale = 6,
         containerWidth,
         containerHeight,
         pause,
@@ -43,6 +43,26 @@ function Ethereal(
         "overlayColor": "rgba(0,0,0, 1)"
     }
 
+    const getPointSize = (fullShape) => {
+        let finalSize
+        let originalPointSize = Number(fullShape.pointSize) - 0.5
+        let mobilePointSize = originalPointSize - 0.7
+
+        if(containerRef.current.offsetWidth > 500) {
+            if(originalPointSize > 0.6) {
+                return originalPointSize
+            } else {
+                return 0.6
+            }
+        } else {
+            if(mobilePointSize > 1.0) {
+                return mobilePointSize
+            } else {
+                return 1.0
+            }
+        }
+    }
+
     const updateShape = (fullShape) => {
         console.log("fullShape", fullShape)
         shape.current = {
@@ -53,7 +73,7 @@ function Ethereal(
             frequency: Number(fullShape.frequency) * 0.09 + 0.01,
             boldRate: Number(fullShape.boldRate) * 0.3 + 0.1,
             math: fullShape.math,
-            pointSize: Number(fullShape.pointSize) - 0.5,
+            pointSize: getPointSize(fullShape),
             pointOpacity: Number(fullShape.pointOpacity),
             pointColor: fullShape.pointColor ? fullShape.pointColor : "#ffffff",
             backgroundColor: fullShape.backgroundColor,
@@ -110,8 +130,8 @@ function Ethereal(
     const updateDimensions = () => {
         if (containerRef.current) {
             const pixelRatio = window.devicePixelRatio || 1; // Get the device pixel ratio
-            const width = containerRef.current.offsetWidth * pixelRatio;
-            const height = containerRef.current.offsetHeight * pixelRatio;
+            const width = containerRef.current.offsetWidth * 4;
+            const height = containerRef.current.offsetHeight * 4;
 
             setDimensions({
                 width,
@@ -122,7 +142,7 @@ function Ethereal(
                 canvasRef.current.width = width;
                 canvasRef.current.height = height;
                 const ctx = canvasRef.current.getContext('2d');
-                ctx.scale(pixelRatio, pixelRatio); // Scale the canvas context
+                ctx.scale(4, 4); // Scale the canvas context
             }
         }
     };
@@ -131,7 +151,7 @@ function Ethereal(
         updateDimensions();
 
         window.addEventListener("resize", updateDimensions);
-        
+
         if(animationFrameId.current == null && !pause && !respondToScroll) {
             animationFrameId.current = requestAnimationFrame(frameTicker);
         }
@@ -148,14 +168,6 @@ function Ethereal(
 
     }
 
-    const getPointSize = () => {
-        let finalSize
-
-        if(containerRef.current.offsetWidth) {
-
-        }
-    }
-
     const frameTicker = useCallback(() => {
         if (canvasRef.current && pointsRef.current?.length > 0) {
             let shapeViz = shape.current;
@@ -165,7 +177,7 @@ function Ethereal(
             const centerX = width / 2;
             const centerY = height / 2;
 
-            let radius = width / 6;
+            let radius = width / scale;
 
 
             ctx.clearRect(0, 0, width, height);

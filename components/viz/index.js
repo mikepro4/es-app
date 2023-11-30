@@ -8,7 +8,8 @@ import Ethereal from "./algos/ethereal"
 function Viz({
     item,
     pause,
-    respondToScroll
+    respondToScroll,
+    scale
 }) {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
@@ -33,6 +34,7 @@ function Viz({
                 item={item}
                 pause={pause}
                 respondToScroll={respondToScroll}
+                scale={scale}
             />
         </>
     );
