@@ -1,20 +1,15 @@
 import React, { useRef, useState, useEffect } from 'react'
 import TimeLine from "./TimeLine"
-import { setCurrentTime, setDuration, setAnalyser, setConnected, resetPlayer } from '@/redux';
 import { useDispatch, useSelector } from 'react-redux';
-import { Icon } from "@blueprintjs/core";
-import classNames from 'classnames';
-
-
+import { setCurrentTime, setDuration, setVolume, setAudioContext, setAnalyser } from '@/redux';
 
 
 const AudioPlayer = ({ links }) => {
-    const { currentTime, duration, connected, analyser } = useSelector((state) => state.audioPlayer);
-    const state = useSelector((state) => state.audioPlayer);
-    console.log("analyser", analyser)
 
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const { currentTime, duration, volume, audioContext, analyser } = useSelector((state) => state.audioPlayer);
+
 
     const audioRef = useRef(null)
 
@@ -22,16 +17,15 @@ const AudioPlayer = ({ links }) => {
         const audio = audioRef.current;
 
         const handleTimeUpdate = () => {
-            dispatch(setCurrentTime(audio.currentTime));
+            setCurrentTime(audio.currentTime);
         };
 
-
         const handleLoadedMetadata = () => {
-            dispatch(setDuration(audio.duration));
+            setDuration(audio.duration);
         };
 
         const handleAudioEnd = () => {
-            dispatch(setCurrentTime(0));
+            setCurrentTime(0);
             audio.pause()
         };
 
@@ -49,7 +43,6 @@ const AudioPlayer = ({ links }) => {
                 audio.removeEventListener('timeupdate', handleTimeUpdate);
                 audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
                 audio.removeEventListener('ended', handleAudioEnd);
-                dispatch(resetPlayer())
             }
         };
     }, []);
@@ -64,19 +57,19 @@ const AudioPlayer = ({ links }) => {
     const play = () => {
         console.log("play audio")
         if (!connected) {
-            dispatch(setConnected(true));
+            setConnected(true)
             const analyserConnect = () => {
                 const context = new (window.AudioContext || window.webkitAudioContext)();
                 const analyser = context.createAnalyser();
                 const audioSrc = context.createMediaElementSource(audioRef.current);
 
                 audioRef.current.addEventListener('loadedmetadata', () => {
-                    dispatch(setDuration(audioRef.current.duration));
+                    setDuration(audioRef.current.duration);
                 });
 
                 audioSrc.connect(analyser);
                 audioSrc.connect(context.destination);
-                dispatch(setAnalyser(analyser));
+                setAnalyser(analyser)
             }
             analyserConnect()
         }
@@ -101,14 +94,7 @@ const AudioPlayer = ({ links }) => {
                 crossOrigin="anonymous"
             />
             <TimeLine currentTime={currentTime} duration={duration} audioRef={audioRef} />
-            <div
-                className={classNames({
-                    "shape-play-button-container": true,
-                    "small": false,
-                })}
-            >
-                <Icon icon="play" />
-            </div>
+
             <button onClick={play} >Play</button>
             <button onClick={stop} >Pause</button>
         </div>
