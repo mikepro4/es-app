@@ -12,7 +12,8 @@ import { trackListReducer } from "./slices/trackListSlice";
 import { albumListReducer } from "./slices/albumListSlice";
 import { hardwareListReducer } from "./slices/hardwareListSlice";
 import { tierListReducer } from "./slices/tierListSlice";
-import { planetListReducer } from "./slices/planetListSlice";
+
+import { audioSliceReducer } from "./slices/audioPlayerSlice";
 import { galaxyListReducer } from "./slices/galaxyListSlice";
 
 const rootReducer = combineReducers({
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   hardwareList: hardwareListReducer,
   tierList: tierListReducer,
   planetList: planetListReducer,
+  audioPlayer: audioSliceReducer,
   galaxyList: galaxyListReducer,
 });
 
@@ -80,4 +82,5 @@ export * from "./slices/albumListSlice";
 export * from "./slices/hardwareListSlice";
 export * from "./slices/tierListSlice";
 export * from "./slices/planetListSlice";
+export * from "./slices/audioPlayerSlice";
 export * from "./slices/galaxyListSlice";
