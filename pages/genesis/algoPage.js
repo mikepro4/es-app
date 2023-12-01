@@ -285,7 +285,10 @@ function AlgoPageContainer({
     const handleFormChange = (values) => {
         console.log(values);
         // dispatch(testListChangeCriteria(values))
-        dispatch(toggleParamsData(values))
+        dispatch(toggleParamsData({
+            ...values,
+            inputs: algo?.inputs
+        }))
         setParams(values)
     };
 

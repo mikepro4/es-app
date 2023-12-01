@@ -54,12 +54,14 @@ function AppSettings() {
                     key: values.key,
                     param: inputDetails.param,
                     paramValue: inputDetails.paramValue,
+                    paramType: inputDetails.paramType
                 })
             } else {
                 setInitialValues({
                     key: values.key,
                     param: null,
                     paramValue: null,
+                    paramType: null
                 })
             }
         }
@@ -78,11 +80,13 @@ function AppSettings() {
 
         let newItem = {
             ...app.paramsData,
+            _id: router.query.algoId,
             inputs: {
                 ...app.paramsData.inputs,
                 [values.key]: {
                     param: values.param,
-                    paramValue: values.paramValue
+                    paramValue: values.paramValue,
+                    paramType: values.paramType
                 }
             }
         }
@@ -129,6 +133,7 @@ function AppSettings() {
                         key: keyToRemove,
                         param: null,
                         paramValue: null,
+                        paramType: null,
                     })
                 }
             }));
@@ -250,12 +255,14 @@ function AppSettings() {
     ]
 
     const renderField = (fieldParam, handleChange) => {
-        let getParam = app.paramsData?.params.find(param => param.value === fieldParam)
+        let getParam = app.paramsData?.params.find(param => param.value === fieldParam.param)
         // console.log("renderField", getParam && getParam.type)
 
         let fieldType = getParam && getParam.type
 
-        if(fieldType == "string") {
+        if(
+            fieldParam.paramType == "setValue" 
+        ) {
             return (
                 <Field
                     name="paramValue"
@@ -296,7 +303,6 @@ function AppSettings() {
             >{letter}</div>
         )
     }
-
 
     return (
         <div className="algo-inputs-container">
@@ -366,12 +372,34 @@ function AppSettings() {
 
                                     <Field
                                         name="param"
-                                        title="Param type"
+                                        title="Param"
                                         component={Select}
                                         options={app.paramsData?.params}
                                     />
 
-                                    {renderField(values.param, handleChange)}
+                                    <Field
+                                        name="paramType"
+                                        title="Param type"
+                                        component={Select}
+                                        options={[{
+                                            value: "setValue",
+                                            label: "Set value"
+                                        },{
+                                            value: "nextSwitch",
+                                            label: "Next Switch"
+                                        },{
+                                            value: "prevSwitch",
+                                            label: "Prev Switch"
+                                        }, {
+                                            value: "increment",
+                                            label: "Increment"
+                                        }, {
+                                            value: "decrement",
+                                            label: "Decrement"
+                                        }]}
+                                    />
+
+                                    {renderField(values, handleChange)}
                                 </div>
 
                                 <Button type="submit" label="Save" />
