@@ -15,6 +15,7 @@ import { tierListReducer } from "./slices/tierListSlice";
 
 import { audioSliceReducer } from "./slices/audioPlayerSlice";
 import { galaxyListReducer } from "./slices/galaxyListSlice";
+import { planetListReducer } from "./slices/planetListSlice";
 
 const rootReducer = combineReducers({
   app: appReducer,
