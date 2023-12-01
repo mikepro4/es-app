@@ -1,21 +1,21 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 import classNames from "classnames";
-import throttle from "lodash/throttle";
+import throttle from 'lodash/throttle';
 
-import _ from "lodash";
+import _ from 'lodash';
 
-import { updateCollection, updateCollectionItem } from "@/redux";
+import { updateCollection, updateCollectionItem } from "@/redux"
 
-import TestView from "./views/test_list_view";
-import ShapeView from "./views/shape_list_view";
-import AlgoView from "./views/algo_list_view";
-import TrackView from "./views/track_list_view";
-import AlbumView from "./views/album_list_view";
-import HardwareView from "./views/hardware_list_view";
-import TierView from "./views/tier_list_view";
-import PlanetView from "./views/planet_list_view";
+import TestView from "./views/test_list_view"
+import ShapeView from "./views/shape_list_view"
+import AlgoView from "./views/algo_list_view"
+import TrackView from "./views/track_list_view"
+import AlbumView from "./views/album_list_view"
+import HardwareView from "./views/hardware_list_view"
+import TierView from "./views/tier_list_view"
+import PlanetView from "./views/planet_list_view"
 
 function InfiniteList({
   type,
@@ -29,198 +29,153 @@ function InfiniteList({
   sortProperty,
   contained,
   scrollValue,
-  loadCollectionItem,
+  loadCollectionItem
+}) {
 
-    const app = useSelector((state) => state.app);
-    const updateCollectionValue = useSelector(state => state.app.updateCollection);
-    const updateCollectionItemValue = useSelector(state => state.app.updateCollectionItem);
-    const router = useRouter();
-    const dispatch = useDispatch()
+  const app = useSelector((state) => state.app);
+  const updateCollectionValue = useSelector(state => state.app.updateCollection);
+  const updateCollectionItemValue = useSelector(state => state.app.updateCollectionItem);
+  const router = useRouter();
+  const dispatch = useDispatch()
 
-    const anchorRef = useRef(null);
+  const anchorRef = useRef(null);
 
-    const [collection, setCollection] = useState([]);
-    const [loading, setLoading] = useState(false);
+  const [collection, setCollection] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-    const localOffset = useRef(0);
-    const count = useRef(0);
+  const localOffset = useRef(0);
+  const count = useRef(0);
 
-    const sortPropertyRef = useRef(sortProperty);
-    const orderRef = useRef(order);
-    const criteriaRef = useRef(criteria);
+  const sortPropertyRef = useRef(sortProperty);
+  const orderRef = useRef(order);
+  const criteriaRef = useRef(criteria);
 
-    const searchCollectionFunction = useCallback((offset, reset) => {
+  const searchCollectionFunction = useCallback((offset, reset) => {
 
-        if (!loading && anchorRef.current) {
+    if (!loading && anchorRef.current) {
 
-            if (offset == 0 || offset <= count.current) {
-                setLoading(true)
-                console.log({
-                    criteria: criteriaRef.current,
-                    sortProperty: sortPropertyRef.current,
-                    offset: offset,
-                    limit: limit ? limit : 20,
-                    order: orderRef.current,
-                })
-
-
-
-                dispatch(
-                    searchCollection(
-                        {
-                            criteria: criteriaRef.current,
-                            sortProperty: sortPropertyRef.current,
-                            offset: offset,
-                            limit: limit ? limit : 20,
-                            order: orderRef.current,
-                            callback: (data) => {
-                                setLoading(false);
-                                setCollection(prevCollection => reset ? data.all : [...prevCollection, ...data.all]); // Use functional update
-                                localOffset.current = localOffset.current + limit
-                                count.current = data.count
-                                dispatch(updateCollection(false))
-                                updateCollectionStats(data.count, data.total)
-                            }
-                        },)
-                )
-            }
-
-        }
-    }, [loading, count.current, criteria, sortPropertyRef.current, localOffset.current, limit, orderRef.current, dispatch, searchCollection, collection]);
+      if (offset == 0 || offset <= count.current) {
+        setLoading(true)
+        console.log({
+          criteria: criteriaRef.current,
+          sortProperty: sortPropertyRef.current,
+          offset: offset,
+          limit: limit ? limit : 20,
+          order: orderRef.current,
+        })
 
 
-    const renderResultItem = (item, i) => {
-        switch (resultType) {
-            case "test-view-list":
-                return (<TestView
-                    item={item}
-                    key={item._id}
-                    scroll={scrollValue}
-                    handleClick={handleClick}
-                />)
-            case "shape-view-list":
-                return (<ShapeView
-                    item={item}
-                    key={item._id}
-                    scroll={scrollValue}
-                    handleClick={handleClick}
-                />)
-            case "algo-view-list":
-                return (<AlgoView
-                    item={item}
-                    key={item._id}
-                    scroll={scrollValue}
-                    handleClick={handleClick}
-                />)
-            case "track-view-list":
-                return (<TrackView
-                    item={item}
-                    key={item._id}
-                    scroll={scrollValue}
-                    handleClick={handleClick}
-                />)
-            case "album-view-list":
-                return (<AlbumView
-                    item={item}
-                    key={item._id}
-                    scroll={scrollValue}
-                    handleClick={handleClick}
-                />)
-            case "hardware-view-list":
-                return (<HardwareView
-                    item={item}
-                    key={item._id}
-                    scroll={scrollValue}
-                    handleClick={handleClick}
-                />)
-            case "tier-view-list":
-                return (<TierView
-                    item={item}
-                    key={item._id}
-                    scroll={scrollValue}
-                    handleClick={handleClick}
-                />)
-            default:
-                return (
-                    <div></div>
-                )
-        }
+
+        dispatch(
+          searchCollection(
+            {
+              criteria: criteriaRef.current,
+              sortProperty: sortPropertyRef.current,
+              offset: offset,
+              limit: limit ? limit : 20,
+              order: orderRef.current,
+              callback: (data) => {
+                setLoading(false);
+                setCollection(prevCollection => reset ? data.all : [...prevCollection, ...data.all]); // Use functional update
+                localOffset.current = localOffset.current + limit
+                count.current = data.count
+                dispatch(updateCollection(false))
+                updateCollectionStats(data.count, data.total)
+              }
+            },)
+        )
       }
-    },
-    [
-      loading,
-      count.current,
-      criteria,
-      sortPropertyRef.current,
-      localOffset.current,
-      limit,
-      orderRef.current,
-      dispatch,
-      searchCollection,
-      collection,
-    ]
-  );
+
+    }
+  }, [loading, count.current, criteria, sortPropertyRef.current, localOffset.current, limit, orderRef.current, dispatch, searchCollection, collection]);
+
 
   const renderResultItem = (item, i) => {
     switch (resultType) {
       case "test-view-list":
-        return (
-          <TestView item={item} key={item._id} handleClick={handleClick} />
-        );
+        return (<TestView
+          item={item}
+          key={item._id}
+          scroll={scrollValue}
+          handleClick={handleClick}
+        />)
       case "shape-view-list":
-        return (
-          <ShapeView item={item} key={item._id} handleClick={handleClick} />
-        );
+        return (<ShapeView
+          item={item}
+          key={item._id}
+          scroll={scrollValue}
+          handleClick={handleClick}
+        />)
       case "algo-view-list":
-        return (
-          <AlgoView item={item} key={item._id} handleClick={handleClick} />
-        );
+        return (<AlgoView
+          item={item}
+          key={item._id}
+          scroll={scrollValue}
+          handleClick={handleClick}
+        />)
       case "track-view-list":
-        return (
-          <TrackView item={item} key={item._id} handleClick={handleClick} />
-        );
+        return (<TrackView
+          item={item}
+          key={item._id}
+          scroll={scrollValue}
+          handleClick={handleClick}
+        />)
       case "album-view-list":
-        return (
-          <AlbumView item={item} key={item._id} handleClick={handleClick} />
-        );
+        return (<AlbumView
+          item={item}
+          key={item._id}
+          scroll={scrollValue}
+          handleClick={handleClick}
+        />)
       case "hardware-view-list":
-        return (
-          <HardwareView item={item} key={item._id} handleClick={handleClick} />
-        );
+        return (<HardwareView
+          item={item}
+          key={item._id}
+          scroll={scrollValue}
+          handleClick={handleClick}
+        />)
       case "tier-view-list":
-        return (
-          <TierView item={item} key={item._id} handleClick={handleClick} />
-        );
+        return (<TierView
+          item={item}
+          key={item._id}
+          scroll={scrollValue}
+          handleClick={handleClick}
+        />)
       case "planet-view-list":
-        return (
-          <PlanetView item={item} key={item._id} handleClick={handleClick} />
-        );
+        return (<PlanetView
+          item={item}
+          key={item._id}
+          scroll={scrollValue}
+          handleClick={handleClick}
+        />)
+
       default:
-        return <div></div>;
+        return (
+          <div></div>
+        )
     }
-  };
+  }
 
-  const updatePosition = useCallback(
-    throttle(() => {
-      if (localOffset.current !== 0) {
-        if (anchorRef.current) {
-          const rect = anchorRef.current.getBoundingClientRect();
+  const updatePosition = useCallback(throttle(() => {
+    if (localOffset.current !== 0) {
+      if (anchorRef.current) {
+        const rect = anchorRef.current.getBoundingClientRect();
 
-          if (rect.top < 1200) {
-            searchCollectionFunction(localOffset.current);
-          }
+
+        if (rect.top < 1200) {
+          searchCollectionFunction(localOffset.current)
         }
       }
-    }, 200),
-    []
-  );
+    }
+
+  }, 200), []);
 
   useEffect(() => {
-    console.log("criteria", criteria);
+    console.log("criteria", criteria)
     criteriaRef.current = criteria;
     setTimeout(() => {
-      searchCollectionFunction(localOffset.current, true);
-    }, 100);
+      searchCollectionFunction(localOffset.current, true)
+    }, 100)
 
     // window.addEventListener('scroll', updatePosition);
 
@@ -233,18 +188,19 @@ function InfiniteList({
 
   useEffect(() => {
     if (!contained) {
-      window.addEventListener("scroll", updatePosition);
+      window.addEventListener('scroll', updatePosition);
+
     }
 
     return () => {
       if (!contained) {
-        window.removeEventListener("scroll", updatePosition);
+        window.removeEventListener('scroll', updatePosition);
       }
     };
   }, [contained]);
 
   useEffect(() => {
-    updatePosition();
+    updatePosition()
   }, [scrollValue]);
 
   const resetCollection = useCallback(() => {
@@ -255,29 +211,35 @@ function InfiniteList({
 
   useEffect(() => {
     if (updateCollectionValue) {
-      resetCollection();
+      resetCollection()
     }
+
   }, [updateCollectionValue]);
 
+
+
   useEffect(() => {
+
     if (sortPropertyRef.current !== sortProperty) {
       sortPropertyRef.current = sortProperty;
-      resetCollection();
+      resetCollection()
     }
 
     if (orderRef.current !== order) {
       orderRef.current = order;
-      resetCollection();
+      resetCollection()
     }
   }, [sortProperty, order]);
 
   useEffect(() => {
+
     const areObjectsEqual = _.isEqual(criteriaRef.current, criteria);
 
     if (!areObjectsEqual) {
       criteriaRef.current = criteria;
-      resetCollection();
+      resetCollection()
     }
+
   }, [criteria]);
 
   useEffect(() => {
@@ -289,22 +251,20 @@ function InfiniteList({
           callback: (data) => {
             if (data == null) {
               // Filter out the item from the collection
-              setCollection((prevCollection) =>
-                prevCollection.filter(
-                  (item) => item._id !== updateCollectionItemValue
-                )
+              setCollection(prevCollection =>
+                prevCollection.filter(item => item._id !== updateCollectionItemValue)
               );
             } else {
               // Map over the collection and replace the item with the updated data
-              setCollection((prevCollection) =>
-                prevCollection.map((item) =>
+              setCollection(prevCollection =>
+                prevCollection.map(item =>
                   item._id === updateCollectionItemValue ? data : item
                 )
               );
             }
 
-            dispatch(updateCollectionItem(null));
-          },
+            dispatch(updateCollectionItem(null))
+          }
         })
       );
     }
