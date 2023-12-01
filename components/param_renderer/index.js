@@ -23,11 +23,8 @@ function ParamRenderer(props) {
 
 
     useEffect(() => {
-        if(app.paramsData ) {
-            setItem(app.paramsData);
-            // setItem(parseParamsToDefaults(app.paramsData.params, app.paramsData.algo) )
-
-        } else {
+        if(app.paramsValues) {
+            
             let finalParams
 
             if(app.paramsValues) {
@@ -35,28 +32,55 @@ function ParamRenderer(props) {
             } else {
                 finalParams = props.item.params
             }
-            let newParams = props.item?.algo?.params.map((param, i) => {
-                if(param.type === 'array') {
-                    return{
-                        ...param,
-                        values: finalParams[param.value]
+            if(!app.paramsData) {
+                let newParams = props.item?.algo?.params.map((param, i) => {
+                    if(param.type === 'array') {
+                        return{
+                            ...param,
+                            values: finalParams[param.value]
+                        }
+                    }else {
+                        return{
+                            ...param,
+                            defaultValue: finalParams[param.value]
+                        }
                     }
-                }else {
-                    return{
-                        ...param,
-                        defaultValue: finalParams[param.value]
-                    }
+                    
+                })
+    
+                let newItem = {
+                    ...props.item.algo,
+                    params: newParams
                 }
-                
-            })
-
-            let newItem = {
-                ...props.item.algo,
-                params: newParams
+    
+                setItem(newItem)
+            } else {
+                let newParams = app.paramsData.params.map((param, i) => {
+                    if(param.type === 'array') {
+                        return{
+                            ...param,
+                            values: finalParams[param.value]
+                        }
+                    }else {
+                        return{
+                            ...param,
+                            defaultValue: finalParams[param.value]
+                        }
+                    }
+                    
+                })
+    
+                let newItem = {
+                    ...app.paramsData,
+                    params: newParams
+                }
+    
+                setItem(newItem)
             }
+            
 
-            setItem(newItem)
-
+        } else {
+            setItem(app.paramsData);
         }
 
         return () => {

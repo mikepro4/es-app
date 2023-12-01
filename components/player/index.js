@@ -60,6 +60,7 @@ function Player() {
 
 
     useEffect(() => {
+        dispatch(toggleParamsValues(app.playerData?.params))
         document.body.classList.add("no-scroll")
         return () => {
             document.body.classList.remove("no-scroll");
@@ -75,6 +76,7 @@ function Player() {
                         playerOpen: true,
                         playerData: data
                     }))
+                    dispatch(toggleParamsValues(data.params))
                 }
             }))
         }
@@ -175,6 +177,7 @@ function Player() {
                                             playerOpen: true,
                                             playerData: data
                                         }))
+                                        dispatch(toggleParamsValues(data.params))
                                     }
                                 }))
                             }}
@@ -196,6 +199,7 @@ function Player() {
                                             playerOpen: true,
                                             playerData: data
                                         }))
+                                        dispatch(toggleParamsValues(data.params))
                                     }
                                 }))
                             }}
