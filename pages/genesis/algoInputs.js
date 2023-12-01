@@ -101,6 +101,47 @@ function AppSettings() {
 
     };
 
+    const handleReset = (keyToRemove) => {
+        // Log the key to be removed
+        console.log("Removing key:", keyToRemove);
+    
+        // Clone the current app.paramsData
+        let updatedItem = {
+            ...app.paramsData,
+            inputs: {
+                ...app.paramsData.inputs
+            }
+        };
+    
+        // Check if the key exists in the inputs object
+        if (updatedItem.inputs.hasOwnProperty(keyToRemove)) {
+            // Delete the key from the inputs object
+            delete updatedItem.inputs[keyToRemove];
+    
+            // Dispatch the update action
+            dispatch(algoUpdateItem({
+                data: updatedItem,
+                callback: (response) => {
+                    console.log(response);
+                    dispatch(toggleParamsData(response));
+                    showToast("Key removed");
+                    setInitialValues({
+                        key: keyToRemove,
+                        param: null,
+                        paramValue: null,
+                    })
+                }
+            }));
+        } else {
+            // Log or handle the case where the key does not exist
+            console.log("Key not found:", keyToRemove);
+            showToast("Key not found");
+        }
+    
+        // Log the updated item for debugging
+        console.log(updatedItem);
+    };
+
     const keys = [
         {
             value: "Q",
@@ -272,89 +313,28 @@ function AppSettings() {
                     {renderLetter("O")}
                     {renderLetter("P")}
                 </div>
+
                 <div className="keyboard-row row-2">
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("A"),
-                        })}
-                    >A</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("S"),
-                        })}
-                    >S</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("D"),
-                        })}
-                    >D</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("F"),
-                        })}
-                    >F</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("G"),
-                        })}
-                    >G</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("H"),
-                        })}
-                    >H</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("J"),
-                        })}
-                    >J</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("K"),
-                        })}
-                    >K</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("L"),
-                        })}
-                    >L</div>
+                    {renderLetter("A")}
+                    {renderLetter("S")}
+                    {renderLetter("D")}
+                    {renderLetter("F")}
+                    {renderLetter("G")}
+                    {renderLetter("H")}
+                    {renderLetter("J")}
+                    {renderLetter("K")}
+                    {renderLetter("L")}
                 </div>
                 <div className="keyboard-row row-3">
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("Z"),
-                        })}
-                    >Z</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("X"),
-                        })}
-                    >X</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("C"),
-                        })}
-                    >C</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("V"),
-                        })}
-                    >V</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("B"),
-                        })}
-                    >B</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("N"),
-                        })}
-                    >N</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("M"),
-                        })}
-                    >M</div>
+
+                    {renderLetter("Z")}
+                    {renderLetter("X")}
+                    {renderLetter("C")}
+                    {renderLetter("V")}
+                    {renderLetter("B")}
+                    {renderLetter("N")}
+                    {renderLetter("M")}
+
                 </div>
             </div>
 
@@ -395,6 +375,20 @@ function AppSettings() {
                                 </div>
 
                                 <Button type="submit" label="Save" />
+
+                                <div className="reset-value-container">
+                                    {values.param && <Button 
+                                        type="button" 
+                                        label="Reset value" 
+                                        minimal={true}
+                                        onClick={() => {
+                                            if(values.key) {
+                                                handleReset(values.key)
+                                            }
+                                        }}
+                                    />}
+                                </div>
+                                
 
                             </Form>
                         );
