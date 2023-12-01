@@ -188,7 +188,7 @@ function Ethereal(
     }
 
     const frameTicker = useCallback(() => {
-        if (canvasRef.current && pointsRef.current?.length > 0) {
+        if (canvasRef.current && paramsRef.current && shape.current && shape.current.math && pointsRef.current?.length > 0) {
             let shapeViz = shape.current;
             let ctx = canvasRef.current.getContext('2d');
             const width = containerRef.current.offsetWidth;

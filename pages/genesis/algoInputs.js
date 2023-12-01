@@ -7,6 +7,9 @@ import Input from "@/components/form/BladeInput";
 import Button from "@/components/button";
 import Select from "@/components/form/Select";
 import TabSwitcher from "@/components/form/TabSwitcher";
+import { AppToaster } from '@/components/toaster';
+
+import { algoUpdateItem, toggleParamsData } from "@/redux";
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
@@ -14,7 +17,15 @@ function AppSettings() {
     const keyboard = useSelector((state) => state.keyboard);
     const router = useRouter();
     const [activeKey, setActiveKey] = useState(false);
+    const dispatch = useDispatch();
     const [initialValues, setInitialValues] = useState({});
+
+    const showToast = useCallback((message) => {
+        // Ensure AppToaster is not null before calling show
+        if (AppToaster) {
+          AppToaster.show({ message: message});
+        }
+    }, []);
 
     useEffect(() => {
         let key = keyboard.activeKeys[keyboard.activeKeys.length - 1]
@@ -32,11 +43,61 @@ function AppSettings() {
 
     const handleFormChange = (values) => {
         console.log(values);
+        
+        // set initial value ith the letter
+
+        if(app.paramsData?.inputs) {
+            let inputDetails = app.paramsData?.inputs[values.key]
+
+            if(inputDetails) {
+                 setInitialValues({
+                    key: values.key,
+                    param: inputDetails.param,
+                    paramValue: inputDetails.paramValue,
+                })
+            } else {
+                setInitialValues({
+                    key: values.key,
+                    param: null,
+                    paramValue: null,
+                })
+            }
+        }
+
+       
+
+        // setInitialValues({
+        //     key: key
+        // })
+
         // dispatch(testListChangeCriteria(values))
     };
 
     const handleSubmit = (values) => {
         console.log(values);
+
+        let newItem = {
+            ...app.paramsData,
+            inputs: {
+                ...app.paramsData.inputs,
+                [values.key]: {
+                    param: values.param,
+                    paramValue: values.paramValue
+                }
+            }
+        }
+
+        dispatch(algoUpdateItem({
+            data: newItem,
+            callback: (response) => {
+                console.log(response)
+                dispatch(toggleParamsData(response))
+                showToast("Algo saved")
+            }
+        }))
+
+        console.log(newItem)
+
 
     };
 
@@ -147,62 +208,69 @@ function AppSettings() {
         }
     ]
 
+    const renderField = (fieldParam, handleChange) => {
+        let getParam = app.paramsData?.params.find(param => param.value === fieldParam)
+        // console.log("renderField", getParam && getParam.type)
+
+        let fieldType = getParam && getParam.type
+
+        if(fieldType == "string") {
+            return (
+                <Field
+                    name="paramValue"
+                    title="Param value"
+                    component={TabSwitcher}
+                    options={getParam?.enumParameters}
+                />
+            )
+        }
+       
+
+    }
+
+    const findParam = (key) => {
+        if(app.paramsData && app.paramsData.inputs) {
+            let paramValue = app.paramsData?.inputs[key]
+
+            if(paramValue) {
+                return true
+            }
+        }
+    }
+
+    const renderLetter = (letter) => {
+        return (
+            <div
+                className={classNames("keyboard-key", {
+                    "keyboard-key-active": keyboard.activeKeys.includes(letter),
+                    "has-value": findParam(letter),
+                })}
+                onClick={() => {
+                    setActiveKey(letter)
+                    setInitialValues({
+                        key: letter
+                    })
+                }}
+                
+            >{letter}</div>
+        )
+    }
 
 
     return (
         <div className="algo-inputs-container">
             <div className="keyboard-container">
                 <div className="keyboard-row row-1">
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("Q"),
-                        })}
-                    >Q</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("W"),
-                        })}
-                    >W</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("E"),
-                        })}
-                    >E</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("R"),
-                        })}
-                    >R</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("T"),
-                        })}
-                    >T</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("Y"),
-                        })}
-                    >Y</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("U"),
-                        })}
-                    >U</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("I"),
-                        })}
-                    >I</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("O"),
-                        })}
-                    >O</div>
-                    <div
-                        className={classNames("keyboard-key", {
-                            "keyboard-key-active": keyboard.activeKeys.includes("P"),
-                        })}
-                    >P</div>
+                    {renderLetter("Q")}
+                    {renderLetter("W")}
+                    {renderLetter("E")}
+                    {renderLetter("R")}
+                    {renderLetter("T")}
+                    {renderLetter("Y")}
+                    {renderLetter("U")}
+                    {renderLetter("I")}
+                    {renderLetter("O")}
+                    {renderLetter("P")}
                 </div>
                 <div className="keyboard-row row-2">
                     <div
@@ -317,11 +385,13 @@ function AppSettings() {
 
 
                                     <Field
-                                        name="status"
-                                        title="Status"
+                                        name="param"
+                                        title="Param type"
                                         component={Select}
                                         options={app.paramsData?.params}
                                     />
+
+                                    {renderField(values.param, handleChange)}
                                 </div>
 
                                 <Button type="submit" label="Save" />

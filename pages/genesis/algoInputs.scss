@@ -29,6 +29,11 @@
                 cursor: pointer;
                 transition: all 0.2s ease-in-out;
 
+                &.has-value {
+                    border: 1px solid white;
+                    color: rgba(255, 255, 255, 1)
+                }
+
                 &:hover {
                     background: #fff;
                     color: #000;

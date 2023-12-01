@@ -31,8 +31,11 @@
         // margin: 0 auto;
         flex-direction: column;
         justify-content: flex-start;
-        overflow-y: scroll;
         padding: 0px 0 0 0;
+
+        @media only screen and (min-width: $mobile) {
+            overflow-y: scroll;
+        }
         
 
         @media only screen and (max-width: $mobile) {
