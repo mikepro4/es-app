@@ -15,6 +15,8 @@ import Button from "@/components/button";
 import Icon from "@/components/icon";
 import AlgoPreview from "./algoPreview";
 
+import AlgoInputs from "./algoInputs";
+
 
 
 import TabBar from '@/components/tab'
@@ -39,7 +41,7 @@ function AlgoPageContainer({
     const dispatch = useDispatch();
     const toasterRef = useRef(null)
     const [selectedTypes, setSelectedTypes] = useState({});
-    const [selectedTabId, setSelectedTabId] = useState(1);
+    const [selectedTabId, setSelectedTabId] = useState(4);
     const [selectedSectionId, setselectedSectionId] = useState(1);
 
     const [code, setCode] = useState(null);
@@ -78,11 +80,14 @@ function AlgoPageContainer({
         "Properties",
         "Code",
         "Preview",
+        "Inputs"
     ]
 
     let tabsAlgo = [
         "Properties",
-        "Code"
+        "Code",
+        "Preview",
+        "Inputs"
     ]
 
     let tabsSections = [
@@ -145,7 +150,7 @@ function AlgoPageContainer({
                 setAlgo(data)
                 dispatch(updateCollectionItem(null))
                 dispatch(toggleParamsData(data))
-                if(data.code) {
+                if (data.code) {
                     setCodeItems(data.code)
                 }
             }
@@ -903,7 +908,7 @@ function AlgoPageContainer({
 
         switch (selectedSection) {
             case 1:
-                return "main"  
+                return "main"
             case 2:
                 return "bufferA"
             case 3:
@@ -919,7 +924,7 @@ function AlgoPageContainer({
 
         switch (selectedShader) {
             case 1:
-                return "fragment"  
+                return "fragment"
             case 2:
                 return "vertex"
             default:
@@ -930,7 +935,7 @@ function AlgoPageContainer({
     const updateCodeItems = (newCode) => {
 
 
-        
+
         let newItem = {
             ...codeItems,
             [selectDestination()]: {
@@ -940,7 +945,7 @@ function AlgoPageContainer({
         }
 
         setCodeItems(newItem)
-        
+
     }
 
     return (
@@ -986,11 +991,12 @@ function AlgoPageContainer({
                         defaultLanguage="wgsl"
                         defaultValue={getCodeValue()}
                         theme="space-dark"
-                        value={getCodeValue()} 
-                        onChange={(newCode) => updateCodeItems(newCode)} 
+                        value={getCodeValue()}
+                        onChange={(newCode) => updateCodeItems(newCode)}
                     />
 
                 </div>}
+
 
                 <div className="algo-page-content">
                     <div className="algo-page-content-header">
@@ -1042,6 +1048,9 @@ function AlgoPageContainer({
                         </div>
 
                     </div>
+
+                    {selectedTabId == 4 && <AlgoInputs />}
+
 
                 </div>
             </div>

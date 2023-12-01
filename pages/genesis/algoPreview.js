@@ -28,6 +28,32 @@ function AlgoPreview({
 
     if(!item) return null;
 
+    const parseValues = (values) => {
+        // let newValues = values.map((value, i) => {
+        //     if (value.type === 'array') {
+        //         return {
+        //             [value.labe]: value.values,
+        //         }
+        //     } else {
+        //         return {
+        //             [value.label]: value.defaultValue
+        //         }
+        //     }
+        // })
+
+        const paramsToPush = values.params.reduce((obj, item) => {
+            if (item.type === 'array') {
+                obj[item.value] = item.values;
+            } else {
+                obj[item.value] = item.defaultValue;
+            }
+            return obj;
+        }, {});
+
+        return paramsToPush
+    }
+
+
     return (
         <div className="algo-preview-container">
 
@@ -51,7 +77,7 @@ function AlgoPreview({
                     />
                 </div>
                 <Viz
-                    item={app.paramsValues}
+                    item={app.paramsValues ? app.paramsValues : parseValues(app.paramsData)}
                     scale={4.5}
                 />
             </div>

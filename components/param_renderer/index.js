@@ -243,7 +243,12 @@ function ParamRenderer(props) {
     const handleFormChange = (values) => {
         console.log(values);
         console.log("parseValues", parseValues(values))
-        dispatch(toggleParamsValues(parseValues(values)))
+        // if(parseValues(values) && parseValues(values).length > 0) {
+         // Check if every value is truthy (not null, not undefined, not false, etc.)
+            // If 'values' has at least one key-value pair
+            // Assuming parseValues returns an object and you want to check it as well
+        dispatch(toggleParamsValues(parseValues(values)));
+        // }
 
         
         // dispatch(testListChangeCriteria(values))
