@@ -9,7 +9,7 @@ import Select from "@/components/form/Select";
 import TabSwitcher from "@/components/form/TabSwitcher";
 import { AppToaster } from '@/components/toaster';
 
-import { algoUpdateItem, toggleParamsData } from "@/redux";
+import { algoUpdateItem, toggleParamsData, toggleParamsValues } from "@/redux";
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
@@ -34,6 +34,12 @@ function AppSettings() {
             setInitialValues({
                 key: key
             })
+
+            // dispatch(toggleParamsValues({
+            //     ...app.paramsValues,
+            //     math: "sin"
+            // }
+            // ))
         }
 
         return () => {
@@ -54,14 +60,18 @@ function AppSettings() {
                     key: values.key,
                     param: inputDetails.param,
                     paramValue: inputDetails.paramValue,
-                    paramType: inputDetails.paramType
+                    paramType: inputDetails.paramType,
+                    paramStepValue: inputDetails.paramStepValue,
+                    paramShiftStepValue: inputDetails.paramShiftStepValue,
                 })
             } else {
                 setInitialValues({
                     key: values.key,
                     param: null,
                     paramValue: null,
-                    paramType: null
+                    paramType: null,
+                    paramStepValue: null,
+                    paramShiftStepValue: null,
                 })
             }
         }
@@ -86,7 +96,9 @@ function AppSettings() {
                 [values.key]: {
                     param: values.param,
                     paramValue: values.paramValue,
-                    paramType: values.paramType
+                    paramType: values.paramType,
+                    paramStepValue: values.paramStepValue,
+                    paramShiftStepValue: values.paramShiftStepValue,
                 }
             }
         }
@@ -272,7 +284,30 @@ function AppSettings() {
                 />
             )
         }
-       
+
+        if(
+            fieldParam.paramType == "increment"
+            || fieldParam.paramType == "decrement"
+        ) {
+            return (
+                <>
+                    <Field
+                        name="paramStepValue"
+                        title="Default step value"
+                        placeholder="Default step value"
+                        component={Input}
+                    />
+
+                    <Field
+                        name="paramShiftStepValue"
+                        title="[Shift] step value"
+                        placeholder="Shift step value"
+                        component={Input}
+                    />
+                </>
+                
+            )
+        }
 
     }
 
@@ -369,14 +404,6 @@ function AppSettings() {
                                         options={keys}
                                     />
 
-
-                                    <Field
-                                        name="param"
-                                        title="Param"
-                                        component={Select}
-                                        options={app.paramsData?.params}
-                                    />
-
                                     <Field
                                         name="paramType"
                                         title="Param type"
@@ -396,8 +423,21 @@ function AppSettings() {
                                         }, {
                                             value: "decrement",
                                             label: "Decrement"
-                                        }]}
+                                        },{
+                                            value: "hideUi",
+                                            label: "Hide UI"
+                                        },]}
                                     />
+
+
+                                    {values.paramType !== "hideUi" && <Field
+                                        name="param"
+                                        title="Param"
+                                        component={Select}
+                                        options={app.paramsData?.params}
+                                    />}
+
+                                    
 
                                     {renderField(values, handleChange)}
                                 </div>

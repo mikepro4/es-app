@@ -7,6 +7,7 @@ import '../styles/main.scss';
 import Head from "next/head";
 import Script from 'next/script';
 import { useRouter } from 'next/router';
+import useLastKeyPressed from '../hooks/useLastKeyPressed';
 
 import {
   store,
@@ -43,8 +44,10 @@ import KeyboardListener from '../components/keyboard';
 const App = ({ children }) => {
   const dispatch = useDispatch();
   const app = useSelector((state) => state.app);
+  const keyboard = useSelector((state) => state.keyboard);
   const router = useRouter();
   const query = router.query;
+
 
   const fetchUserDetails = async () => {
     const userIdFromStorage = localStorage.getItem("token");
@@ -55,8 +58,14 @@ const App = ({ children }) => {
   };
 
   useEffect(() => {
+
     fetchUserDetails();
   }, []);
+
+  useEffect(() => {
+    useLastKeyPressed(dispatch, app, keyboard)
+
+  }, [keyboard]);
 
 
   useEffect(() => {

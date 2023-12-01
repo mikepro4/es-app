@@ -23,7 +23,7 @@ function ParamRenderer(props) {
 
 
     useEffect(() => {
-        if(app.paramsData) {
+        if(app.paramsData ) {
             setItem(app.paramsData);
             // setItem(parseParamsToDefaults(app.paramsData.params, app.paramsData.algo) )
 
@@ -62,7 +62,7 @@ function ParamRenderer(props) {
         return () => {
 
         };
-    }, [app.paramsData]);
+    }, [app.paramsData, app.paramsValues]);
 
     useEffect(() => {
         console.log("item", props.item)
