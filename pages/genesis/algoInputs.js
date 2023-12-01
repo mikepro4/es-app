@@ -14,11 +14,15 @@ function AppSettings() {
     const keyboard = useSelector((state) => state.keyboard);
     const router = useRouter();
     const [activeKey, setActiveKey] = useState(false);
+    const [initialValues, setInitialValues] = useState({});
 
     useEffect(() => {
         let key = keyboard.activeKeys[keyboard.activeKeys.length - 1]
         if (key) {
             setActiveKey(keyboard.activeKeys[keyboard.activeKeys.length - 1])
+            setInitialValues({
+                key: key
+            })
         }
 
         return () => {
@@ -36,8 +40,113 @@ function AppSettings() {
 
     };
 
-    let initialValues = {
-    }
+    const keys = [
+        {
+            value: "Q",
+            label: "Q"
+        },
+        {
+            value: "W",
+            label: "W"
+        },
+        {
+            value: "E",
+            label: "E"
+        },
+        {
+            value: "R",
+            label: "R"
+        },
+        {
+            value: "T",
+            label: "T"
+        },
+        {
+            value: "Y",
+            label: "Y"
+        },
+        {
+            value: "U",
+            label: "U"
+        },
+        {
+            value: "I",
+            label: "I"
+        },
+        {
+            value: "O",
+            label: "O"
+        },
+        {
+            value: "P",
+            label: "P"
+        },
+        {
+            value: "A",
+            label: "A"
+        },
+        {
+            value: "S",
+            label: "S"
+        },
+        {
+            value: "D",
+            label: "D"
+        },
+        {
+            value: "F",
+            label: "F"
+        },
+        {
+            value: "G",
+            label: "G"
+        },
+        {
+            value: "H",
+            label: "H"
+        },
+        {
+            value: "J",
+            label: "J"
+        },
+        {
+            value: "K",
+            label: "K"
+        },
+        {
+            value: "L",
+            label: "L"
+        },
+        {
+            value: "Z",
+            label: "Z"
+        },
+        {
+            value: "X",
+            label: "X"
+        },
+        {
+            value: "C",
+            label: "C"
+        },
+        {
+            value: "V",
+            label: "V"
+        },
+        {
+            value: "B",
+            label: "B"
+        },
+        {
+            value: "N",
+            label: "N"
+        },
+        {
+            value: "M",
+            label: "M"
+        }
+    ]
+
 
 
     return (
@@ -182,13 +291,13 @@ function AppSettings() {
             </div>
 
             <div className="key-settings-container">
-                <div className="key-header-container">
+                {/* <div className="key-header-container">
                     <div className="key-settings-header-left">
                         {activeKey}
                     </div>
                     <div className="key-settings-header-right">
                     </div>
-                </div>
+                </div> */}
 
                 <Formik enableReinitialize initialValues={initialValues} onSubmit={handleSubmit}>
                     {({ values, handleChange, handleSubmit }) => {
@@ -200,10 +309,10 @@ function AppSettings() {
                             <Form>
                                 <div className="form-fields">
                                     <Field
-                                        name="_id"
-                                        component={Input}
-                                        title="Shape ID"
-                                        placeholder="Name"
+                                        name="key"
+                                        component={Select}
+                                        title="Key"
+                                        options={keys}
                                     />
 
 
