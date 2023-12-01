@@ -12,8 +12,9 @@ import { trackListReducer } from "./slices/trackListSlice";
 import { albumListReducer } from "./slices/albumListSlice";
 import { hardwareListReducer } from "./slices/hardwareListSlice";
 import { tierListReducer } from "./slices/tierListSlice";
-import { planetListReducer } from "./slices/planetListSlice";
+
 import { audioSliceReducer } from "./slices/audioPlayerSlice";
+import { galaxyListReducer } from "./slices/galaxyListSlice";
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   tierList: tierListReducer,
   planetList: planetListReducer,
   audioPlayer: audioSliceReducer,
+  galaxyList: galaxyListReducer,
 });
 
 const resettableReducer = (state, action) => {
@@ -65,6 +67,7 @@ export * from "./thunks/trackThunk";
 export * from "./thunks/hardwareThunk";
 export * from "./thunks/tierThunk";
 export * from "./thunks/planetThunk";
+export * from "./thunks/galaxyThunk";
 
 // =========================== //
 
@@ -80,3 +83,4 @@ export * from "./slices/hardwareListSlice";
 export * from "./slices/tierListSlice";
 export * from "./slices/planetListSlice";
 export * from "./slices/audioPlayerSlice";
+export * from "./slices/galaxyListSlice";

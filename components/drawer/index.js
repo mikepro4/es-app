@@ -23,6 +23,8 @@ import TierSettings from "./type/tier_settings.js";
 import TierCollectionSettings from "./type/tier_collection_settings.js";
 import PlanetSettings from "./type/planet_settings.js";
 import PlanetCollectionSettings from "./type/planet_collection_settings.js";
+import GalaxySettings from "./type/galaxy_settings.js";
+import GalaxyCollectionSettings from "./type/planet_collection_settings.js";
 
 function Drawer() {
   const dispatch = useDispatch();
@@ -85,6 +87,12 @@ function Drawer() {
       case "planet-collection-settings":
         return (
           <PlanetCollectionSettings hideDrawer={hideDrawer} enablePortal />
+        );
+      case "galaxy-settings":
+        return <GalaxySettings hideDrawer={hideDrawer} enablePortal />;
+      case "galaxy-collection-settings":
+        return (
+          <GalaxyCollectionSettings hideDrawer={hideDrawer} enablePortal />
         );
       default:
         return;

@@ -9,7 +9,8 @@
     align-items: flex-end;
 
     @media only screen and (min-width: $mobile) {
-        left: inherit
+        left: inherit;
+        right: 20px
     }
 
     .app-drawer-background {
@@ -82,8 +83,10 @@
     // min-height: 500px;
     margin: 0 auto;
 
+
     @media only screen and (min-width: $mobile) {
         min-width: 600px;
+        max-height: 700px;
     }
 }
 

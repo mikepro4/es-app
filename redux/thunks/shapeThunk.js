@@ -90,6 +90,24 @@ const shapeUpdateItem = createAsyncThunk(
   }
 );
 
+const shapeCreateItemWithData = createAsyncThunk(
+  "shape/createItemWithData",
+    async ({ data, callback }, { rejectWithValue }) => {
+    try {
+      const response = await userApi.post("/shape/createItemWithData", {data: data});
+
+      if (callback) {
+        callback(response.data)
+      }
+
+      return response.data;
+    } catch (err) {
+      throw new Error("Error");
+    }
+  }
+);
+
+
 function convertCriteriaToUpdateData(criteria) {
   const updateData = { $set: {} };
 
@@ -194,5 +212,6 @@ export {
     shapeDuplicate,
     shapeNextItem,
     shapePreviousItem,
-    shapeUpdateManyItems
+    shapeUpdateManyItems,
+    shapeCreateItemWithData
 };

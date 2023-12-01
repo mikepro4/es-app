@@ -132,7 +132,10 @@ function Player() {
         switch (selectedTabId) {
             case 1:
                 return (<div className="player-viz-container">
-                    <Viz item={app.paramsValues ? app.paramsValues :app.playerData?.params}/>
+                    <Viz 
+                        item={app.paramsValues ? app.paramsValues :app.playerData?.params}
+                        fullScreen={true}
+                    />
                 </div>)
             case 2:
                 return (<NftDetails/>)
@@ -161,6 +164,7 @@ function Player() {
                         <CollectionGoBack
                             icon="arrow-back"
                             onClick={() => {
+                                dispatch(toggleParamsValues(null))
                                 dispatch(shapePreviousItem({
                                     id: app.playerData._id,
                                     sortProperty: shapeList.sortProperty,
@@ -181,6 +185,7 @@ function Player() {
                         <CollectionGoBack
                             icon="arrow-forward"
                             onClick={() => {
+                                dispatch(toggleParamsValues(null))
                                 dispatch(shapeNextItem({
                                     id: app.playerData._id,
                                     sortProperty: shapeList.sortProperty,
@@ -259,6 +264,7 @@ function Player() {
                         <CollectionGoBack
                             icon="arrow-back"
                             onClick={() => {
+                                dispatch(toggleParamsValues(null))
                                 dispatch(shapePreviousItem({
                                     id: app.playerData._id,
                                     sortProperty: shapeList.sortProperty,
@@ -280,6 +286,7 @@ function Player() {
                             label="Next"
                             iconRight="arrow-forward"
                             onClick={() => {
+                                dispatch(toggleParamsValues(null))
                                 dispatch(shapeNextItem({
                                     id: app.playerData._id,
                                     sortProperty: shapeList.sortProperty,

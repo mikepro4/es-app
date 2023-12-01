@@ -5,7 +5,7 @@ const requireSignin = passport.authenticate('jwt', { session: false });
 const passportService = require('../services/passport');
 const _ = require("lodash");
 
-const Shapes = require("../models/Shape");
+const Galaxys = require("../models/Galaxy");
 
 
 // ===========================================================================
@@ -14,34 +14,15 @@ const Shapes = require("../models/Shape");
 router.post("/create", requireSignin, async (req, res) => {
     console.log(req.body, req.user)
     try {
-        const count = await Shapes.countDocuments();
-        const shapeName = req.body.name ? req.body.name : `New Shape ${count + 1}`;
-        const Shape = await new Shapes({
-            name: shapeName,
+        const count = await Galaxys.countDocuments();
+        const galaxyName = `New Galaxy ${count + 1}`;
+        const Galaxy = await new Galaxys({
+            ngc: galaxyName,
             author: req.user._id,
-            params: req.body.params,
-            algo: req.body.algo,
             created: new Date()
         }).save();
-        if (Shape) {
-            let query = await Shapes.findOne({ _id: Shape._id })
-                .populate("algo")
-
-            res.json(query);
-        }
-    } catch (error) {
-        console.error(error);
-        return res.status(500).send("Server Error");
-    }
-});
-
-router.post("/createItemWithData", requireSignin, async (req, res) => {
-    console.log(req.body)
-    try {
-        const Shape = await new Shapes(req.body.data).save();
-        if (Shape) {
-            let query = await Shapes.findOne({ _id: Shape._id })
-                .populate("algo")
+        if (Galaxy) {
+            let query = await Galaxys.findOne({ _id: Galaxy._id })
 
             res.json(query);
         }
@@ -58,17 +39,16 @@ router.post("/createItemWithData", requireSignin, async (req, res) => {
 router.post("/search", requireSignin, async (req, res) => {
     const { criteria, sortProperty, offset, limit, order } = req.body;
 
-    const query = Shapes.find(buildQuery(criteria))
+    const query = Galaxys.find(buildQuery(criteria))
         .sort({ [sortProperty]: order })
-        .populate("algo")
         .skip(offset)
         .limit(limit);
 
     return Promise.all(
         [
             query,
-            Shapes.find(buildQuery(criteria)).countDocuments(),
-            Shapes.find().countDocuments()
+            Galaxys.find(buildQuery(criteria)).countDocuments(),
+            Galaxys.find().countDocuments()
         ]
     ).then(
         results => {
@@ -88,7 +68,7 @@ router.post("/search", requireSignin, async (req, res) => {
 
 
 router.post("/delete", async (req, res) => {
-    Shapes.remove({ _id: req.body.shapeId })
+    Galaxys.remove({ _id: req.body.galaxyId })
         .then(info => {
             res.json({ success: "true", info: info });
         })
@@ -102,8 +82,8 @@ router.post("/delete", async (req, res) => {
 
 
 router.post("/item", async (req, res) => {
-    const query = await Shapes.findOne({ _id: req.body.id })
-        .populate("algo")
+    const query = await Galaxys.findOne({ _id: req.body.id })
+        .populate("author")
 
     res.json(query);
 });
@@ -114,17 +94,17 @@ router.post("/item", async (req, res) => {
 router.post("/duplicateItem", async (req, res) => {
     try {
         // Retrieve the original item by ID
-        const originalItem = await Shapes.findOne({ _id: req.body.shapeId })
+        const originalItem = await Galaxys.findOne({ _id: req.body.galaxyId })
 
         if (!originalItem) {
             return res.status(404).send("Item not found");
         }
 
-        // Clone the original item and modify its name
-        const duplicatedItem = new Shapes({
+        // Clone the original item and modify its ngc
+        const duplicatedItem = new Galaxys({
             ...originalItem.toObject(),  // Convert the Mongoose document to a plain object
             _id: undefined,  // Remove the original _id so MongoDB assigns a new one
-            name: `${originalItem.name} Copy`,  // Append "Copy" to the name
+            ngc: `${originalItem.ngc} Copy`,  // Append "Copy" to the ngc
             created: new Date()
         });
 
@@ -144,28 +124,28 @@ router.post("/duplicateItem", async (req, res) => {
 
 router.post("/updateItem", async (req, res) => {
     try {
-        const shapeId = req.body._id;  // Extract the ID from the request body
-        const updateData = req.body;  // Entire Shape object received in the request body
+        const galaxyId = req.body._id;  // Extract the ID from the request body
+        const updateData = req.body;  // Entire Galaxy object received in the request body
 
         // Ensure that updateData has an _id property
-        if (!shapeId) {
+        if (!galaxyId) {
             return res.status(400).send("No ID provided");
         }
 
-        // Update the Shape object in the database
-        const updatedShape = await Shapes.findByIdAndUpdate(
-            shapeId,
+        // Update the Galaxy object in the database
+        const updatedGalaxy = await Galaxys.findByIdAndUpdate(
+            galaxyId,
             updateData,
             { new: true }  // Return the updated object
-        ).populate("algo");
+        ).populate("author");
 
-        // If the Shape object is not found
-        if (!updatedShape) {
-            return res.status(404).send("Shape not found");
+        // If the Galaxy object is not found
+        if (!updatedGalaxy) {
+            return res.status(404).send("Galaxy not found");
         }
 
-        // Send back the updated Shape object
-        res.json(updatedShape);
+        // Send back the updated Galaxy object
+        res.json(updatedGalaxy);
     } catch (error) {
         console.error(error);
         res.status(500).send("Server Error");
@@ -182,7 +162,7 @@ router.post("/nextItem", async (req, res) => {
         const additionalQuery = buildQuery(criteria);
 
         // Find the current item
-        const currentItem = await Shapes.findById(id);
+        const currentItem = await Galaxys.findById(id);
         if (!currentItem) {
             return res.status(404).send("Item not found");
         }
@@ -198,7 +178,7 @@ router.post("/nextItem", async (req, res) => {
         }
 
         // Find the next item
-        const nextItem = await Shapes.findOne(sortCondition)
+        const nextItem = await Galaxys.findOne(sortCondition)
             .sort({ [sortProperty]: order })
             .exec();
 
@@ -223,7 +203,7 @@ router.post("/previousItem", async (req, res) => {
         const additionalQuery = buildQuery(criteria);
 
         // Find the current item
-        const currentItem = await Shapes.findById(id);
+        const currentItem = await Galaxys.findById(id);
         if (!currentItem) {
             return res.status(404).send("Item not found");
         }
@@ -239,7 +219,7 @@ router.post("/previousItem", async (req, res) => {
         }
 
         // Find the previous item
-        const previousItem = await Shapes.findOne(sortCondition)
+        const previousItem = await Galaxys.findOne(sortCondition)
             .sort({ [sortProperty]: order === "1" ? -1 : 1 }) // Invert the sorting order
             .exec();
 
@@ -262,7 +242,7 @@ router.post("/updateMany", requireSignin, async (req, res) => {
         const query = buildQuery(criteria);
 
         // Update multiple documents that match the query
-        const result = await Shapes.updateMany(query, updateData);
+        const result = await Galaxys.updateMany(query, updateData);
 
         res.json({
             success: true,
@@ -283,7 +263,7 @@ const buildQuery = criteria => {
 
     if (criteria && criteria.search) {
         _.assign(query, {
-            name: {
+            ngc: {
                 $regex: criteria.search,
                 $options: 'i'
             }
