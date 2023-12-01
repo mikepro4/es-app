@@ -16,6 +16,7 @@ import { tierListReducer } from "./slices/tierListSlice";
 import { audioSliceReducer } from "./slices/audioPlayerSlice";
 import { galaxyListReducer } from "./slices/galaxyListSlice";
 import { planetListReducer } from "./slices/planetListSlice";
+import { keyboardReducer } from "./slices/keyboardSlice";
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   planetList: planetListReducer,
   audioPlayer: audioSliceReducer,
   galaxyList: galaxyListReducer,
+  keyboard: keyboardReducer
 });
 
 const resettableReducer = (state, action) => {
@@ -85,3 +87,4 @@ export * from "./slices/tierListSlice";
 export * from "./slices/planetListSlice";
 export * from "./slices/audioPlayerSlice";
 export * from "./slices/galaxyListSlice";
+export * from "./slices/keyboardSlice";

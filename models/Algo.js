@@ -15,6 +15,7 @@ const AlgoSchema = new Schema({
     default: { type: Boolean, default: false },
     params: [Object],
     code: Object,
+    input: [Object]
 });
 
 module.exports = mongoose.model("Algo", AlgoSchema);

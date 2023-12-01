@@ -37,6 +37,8 @@ import HeaderDesktop from "../components/header_desktop";
 import MainPlayer from "../components/player";
 import Sidebar from "../components/sidebar";
 
+import KeyboardListener from '../components/keyboard';
+
 
 const App = ({ children }) => {
   const dispatch = useDispatch();
@@ -144,10 +146,13 @@ export default function MainApp({ Component, pageProps }) {
           ]}
         >
           <div className="app">
+            <KeyboardListener>
 
-            <App>
-              <Component {...pageProps} />
-            </App>
+              <App>
+                <Component {...pageProps} />
+              </App>
+            </KeyboardListener>
+
 
           </div>
         </ThirdwebProvider>
