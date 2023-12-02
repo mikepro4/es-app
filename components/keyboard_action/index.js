@@ -12,6 +12,7 @@ function AppSettings() {
     const router = useRouter();
     const dispatch = useDispatch();
     const intervalRef = useRef(null);
+    const shiftEnabledRef = useRef(false);
 
     // Function to determine what action to dispatch based on the last key pressed
 
@@ -57,7 +58,15 @@ function AppSettings() {
                         break;
                     case "increment":
                     case "decrement":
-                        const stepValue = inputConfig.paramStepValue || 1; // Default step is 1 if not specified
+
+                        let stepValue 
+                        console.log("shiftEnabled", shiftEnabledRef.current)
+
+                        if(shiftEnabledRef.current && inputConfig.paramShiftStepValue) {
+                            stepValue = inputConfig.paramShiftStepValue
+                        } else {
+                            stepValue = inputConfig.paramStepValue || 1; // Default step is 1 if not specified
+                        }
                         const valueAsNumber = Number(currentParamValue);
                         if (!isNaN(valueAsNumber)) {
                             nextValue = inputConfig.paramType === "increment"
@@ -106,9 +115,14 @@ function AppSettings() {
     useEffect(() => {
         let lastKey = keyboard.activeKeys[keyboard.activeKeys.length - 1];
         if (lastKey) {
-            startAction(lastKey);
+            if(lastKey === "SHIFT") {
+                shiftEnabledRef.current = true;
+            } else {
+                startAction(lastKey);
+            }
         } else {
             stopAction();
+            shiftEnabledRef.current = false;
         }
         // Cleanup action when the key changes
         return () => stopAction();

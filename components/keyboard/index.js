@@ -1,4 +1,3 @@
-// components/KeyboardListener.js
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { keyDown, keyUp } from '@/redux';
@@ -8,15 +7,15 @@ const KeyboardListener = ({ children }) => {
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      // Use a regular expression to check if the key is a letter
-      if (event.key.match(/^[a-zA-Z]$/)) {
-        dispatch(keyDown(event.key.toUpperCase()));
+      // Check if the key is a letter, Shift, Escape, or Space
+      if (event.key.match(/^[a-zA-Z]$/) || event.key === 'Shift' || event.key === 'Escape' || event.key === ' ') {
+        dispatch(keyDown(event.key === ' ' ? 'SPACE' : event.key.toUpperCase()));
       }
     };
 
     const handleKeyUp = (event) => {
-      if (event.key.match(/^[a-zA-Z]$/)) {
-        dispatch(keyUp(event.key.toUpperCase()));
+      if (event.key.match(/^[a-zA-Z]$/) || event.key === 'Shift' || event.key === 'Escape' || event.key === ' ') {
+        dispatch(keyUp(event.key === ' ' ? 'SPACE' : event.key.toUpperCase()));
       }
     };
 
@@ -31,4 +30,5 @@ const KeyboardListener = ({ children }) => {
 
   return <>{children}</>;
 };
+
 export default KeyboardListener;
