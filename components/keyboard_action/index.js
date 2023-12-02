@@ -92,7 +92,7 @@ function AppSettings() {
         if (!intervalRef.current) {
             intervalRef.current = setInterval(() => {
                 determineAction(key);
-            }, 1);
+            }, 100);
         }
     }, [determineAction]);
 

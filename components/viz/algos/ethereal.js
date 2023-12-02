@@ -81,7 +81,8 @@ function Ethereal(
             pointColor: fullShape.pointColor ? fullShape.pointColor : "#ffffff",
             backgroundColor: fullShape.backgroundColor,
             backgroundEnabled: false,
-            backgroundOpacity: 1
+            backgroundOpacity: 1,
+            scale: fullShape.scale ?  Number(fullShape.scale) : 1,
         }
     }
 
@@ -197,7 +198,7 @@ function Ethereal(
             const centerX = width / 2;
             const centerY = height / 2;
 
-            let radius = width / getScale();
+            let radius = width / getScale() / shape.current.scale;
 
 
             ctx.clearRect(0, 0, width, height);
