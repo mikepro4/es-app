@@ -135,23 +135,37 @@
         .touch-row {
             height: 10px;
             display: flex;
-            background: red;
             align-self: stretch;
             margin: 5px 10px;
             flex-grow: 1;
-            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
 
             .touch-item {
-                background: rgba(255, 255, 255, 0.1);
+                background: rgba(255, 255, 255, 0.05);
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 margin: 5px;
                 flex: 1;
                 border-radius: 3px;
-
             }
+
+            &:hover {
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+
+            &.active {
+                border: 1px solid white;
+
+                .touch-item {
+                    background: rgba(255, 255, 255, 0.1); 
+                }
+            }
+
+            
 
         }
     }

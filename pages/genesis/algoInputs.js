@@ -21,6 +21,7 @@ function AppSettings() {
     const dispatch = useDispatch();
     const [initialValues, setInitialValues] = useState({});
     const [selectedSection, setSelectedSection] = useState(2);
+    const [selectedTouchRow, setSelectedTouchRow] = useState(1);
 
     const showToast = useCallback((message) => {
         // Ensure AppToaster is not null before calling show
@@ -31,7 +32,7 @@ function AppSettings() {
 
     useEffect(() => {
         let key = keyboard.activeKeys[keyboard.activeKeys.length - 1]
-        if (key) {
+        if (key && selectedSection == 1) {
             setActiveKey(keyboard.activeKeys[keyboard.activeKeys.length - 1])
             setInitialValues({
                 key: key
@@ -475,30 +476,140 @@ function AppSettings() {
     const renderVizTouchContent = () => {
         return (
             <>
-                <div className="algo-touch-viz-container">
-                    <div 
-                        className={classNames("touch-row", {
-                            "active": true
-                        })}
-                    >
-                        <div className="touch-item">-</div>
-                        <div className="touch-item">+</div>
-                    </div>
 
-                    <div className="touch-row">
-                        <div className="touch-item">-</div>
-                        <div className="touch-item">+</div>
-                    </div>
 
-                    <div className="touch-row">
-                        <div className="touch-item">-</div>
-                        <div className="touch-item">+</div>
+                <div className="key-settings-container">
+                    {/* <div className="key-header-container">
+                    <div className="key-settings-header-left">
+                        {activeKey}
                     </div>
+                    <div className="key-settings-header-right">
+                    </div>
+                </div> */}
 
-                    <div className="touch-row">
-                        <div className="touch-item">-</div>
-                        <div className="touch-item">+</div>
-                    </div>
+                    <Formik enableReinitialize initialValues={initialValues} onSubmit={handleSubmit}>
+                        {({ values, handleChange, handleSubmit, setFieldValue }) => {
+                            useEffect(() => {
+                                handleFormChange(values);
+                            }, [values]);
+
+                            return (
+                                <Form>
+
+                                    <div className="algo-touch-viz-container">
+                                        <div
+                                            className={classNames("touch-row", {
+                                                "active": values.key == "touch-row-1"
+                                            })}
+                                            onClick={() => {
+                                                setSelectedTouchRow(1)
+                                                setFieldValue("key", "touch-row-1")
+                                            }}
+                                        >
+                                            <div className="touch-item">-</div>
+                                            <div className="touch-item">+</div>
+                                        </div>
+
+                                        <div
+                                            className={classNames("touch-row", {
+                                                "active": values.key == "touch-row-2"
+                                            })}
+                                            onClick={() => {
+                                                setSelectedTouchRow(2)
+                                                setFieldValue("key", "touch-row-2")
+                                            }}
+                                        >
+                                            <div className="touch-item">-</div>
+                                            <div className="touch-item">+</div>
+                                        </div>
+
+                                        <div
+                                            className={classNames("touch-row", {
+                                                "active": values.key == "touch-row-3"
+                                            })}
+                                            onClick={() => {
+                                                setSelectedTouchRow(3)
+                                                setFieldValue("key", "touch-row-3")
+                                            }}
+                                        >
+                                            <div className="touch-item">-</div>
+                                            <div className="touch-item">+</div>
+                                        </div>
+
+                                        <div
+                                            className={classNames("touch-row", {
+                                                "active": values.key == "touch-row-4"
+                                            })}
+                                            onClick={() => {
+                                                setSelectedTouchRow(4)
+                                                setFieldValue("key", "touch-row-4")
+                                            }}
+                                        >
+                                            <div className="touch-item">-</div>
+                                            <div className="touch-item">+</div>
+                                        </div>
+                                    </div>
+                                    <div className="form-fields">
+                                        <Field
+                                            name="key"
+                                            component={Select}
+                                            title="Key"
+                                            options={[
+                                                {
+                                                    value: "touch-row-1",
+                                                    label: "Touch row 1"
+                                                },
+                                                {
+                                                    value: "touch-row-2",
+                                                    label: "Touch row 2"
+                                                },
+                                                {
+                                                    value: "touch-row-3",
+                                                    label: "Touch row 3"
+                                                },
+                                                {
+                                                    value: "touch-row-4",
+                                                    label: "Touch row 4"
+                                                },
+                                            ]}
+                                        />
+
+                                        <Field
+                                            name="param"
+                                            title="Param"
+                                            component={Select}
+                                            options={app.paramsData?.params}
+                                        />
+
+                                        <Field
+                                            name="paramStepValue"
+                                            title="Default step value"
+                                            placeholder="Default step value"
+                                            component={Input}
+                                        />
+
+                                    </div>
+
+                                    <Button type="submit" label="Save" />
+
+                                    <div className="reset-value-container">
+                                        {values.param && <Button
+                                            type="button"
+                                            label="Reset value"
+                                            minimal={true}
+                                            onClick={() => {
+                                                if (values.key) {
+                                                    handleReset(values.key)
+                                                }
+                                            }}
+                                        />}
+                                    </div>
+
+
+                                </Form>
+                            );
+                        }}
+                    </Formik>
                 </div>
             </>
         )
