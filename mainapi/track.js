@@ -172,7 +172,7 @@ router.post("/nextItem", async (req, res) => {
 
         // Determine the sorting order and condition
         let sortCondition;
-        if(order === "1") {
+        if (order === "1") {
             // Ascending order: find the first item that has a greater sortProperty value
             sortCondition = { ...additionalQuery, [sortProperty]: { $gt: currentItem[sortProperty] } };
         } else {
@@ -213,7 +213,7 @@ router.post("/previousItem", async (req, res) => {
 
         // Determine the sorting order and condition
         let sortCondition;
-        if(order === "1") {
+        if (order === "1") {
             // Ascending order: find the last item that has a lesser sortProperty value
             sortCondition = { ...additionalQuery, [sortProperty]: { $lt: currentItem[sortProperty] } };
         } else {
@@ -256,6 +256,37 @@ router.post("/updateMany", requireSignin, async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
+
+
+// ===========================================================================
+
+
+
+router.post('/createMany', requireSignin, async (req, res) => {
+    try {
+        const trackData = req.body; // Expecting an object with key-value pairs
+
+        // Transform and format the data
+        const tracksToCreate = Object.entries(trackData).map(([key, value]) => {
+            // Replace underscores with spaces in the key to get the name
+            const name = key.replace(/_/g, ' ');
+
+            return { name, songLink: value };
+        });
+
+        // Insert the formatted data into the database
+        const createdTracks = await Tracks.insertMany(tracksToCreate);
+
+        res.json({
+            success: true,
+            createdTracks
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+});
+
 
 
 // ===========================================================================

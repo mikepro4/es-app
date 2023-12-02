@@ -1,19 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    playing: false,
     currentTime: 0,
     duration: 0,
     volume: 1,
+    connected: false,
+    audioContext: null,
+    analyser: null,
+
 };
 
 export const audioSlice = createSlice({
     name: 'audioPlayer',
     initialState,
     reducers: {
-        togglePlay: (state) => {
-            state.playing = !state.playing;
-        },
+
         setCurrentTime: (state, action) => {
             state.currentTime = action.payload;
         },
@@ -21,12 +22,23 @@ export const audioSlice = createSlice({
             state.duration = action.payload;
         },
         setVolume: (state, action) => {
-            state.volume = action.payload; // Reducer to set the volume
+            state.volume = action.payload;
         },
-        // other reducers...
+        setAudioContext: (state, action) => {
+            state.audioContext = action.payload;
+        },
+        setAnalyser: (state, action) => {
+            state.analyser = action.payload;
+        },
+        setConnected: (state, action) => {
+            state.connected = action.payload;
+        },
+        resetPlayer: (state) => {
+            Object.assign(state, initialState);
+        }
     },
 });
 
-export const { togglePlay, setCurrentTime, setDuration, setVolume } = audioSlice.actions;
+export const { setCurrentTime, setDuration, setVolume, setAudioContext, setAnalyser, setConnected, resetPlayer } = audioSlice.actions;
 
 export const audioSliceReducer = audioSlice.reducer;
