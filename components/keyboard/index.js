@@ -7,14 +7,26 @@ const KeyboardListener = ({ children }) => {
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      // Check if the key is a letter, Shift, Escape, or Space
-      if (event.key.match(/^[a-zA-Z]$/) || event.key === 'Shift' || event.key === 'Escape' || event.key === ' ') {
+      // Check if the key is a letter, Shift, Escape, Space, Command, Control, or Option
+      if (event.key.match(/^[a-zA-Z]$/) || 
+          event.key === 'Shift' || 
+          event.key === 'Escape' || 
+          event.key === ' ' || 
+          event.key === 'Meta' || // Command key on Mac
+          event.key === 'Control' || 
+          event.key === 'Alt') { // Option key is 'Alt' in JavaScript
         dispatch(keyDown(event.key === ' ' ? 'SPACE' : event.key.toUpperCase()));
       }
     };
 
     const handleKeyUp = (event) => {
-      if (event.key.match(/^[a-zA-Z]$/) || event.key === 'Shift' || event.key === 'Escape' || event.key === ' ') {
+      if (event.key.match(/^[a-zA-Z]$/) || 
+          event.key === 'Shift' || 
+          event.key === 'Escape' || 
+          event.key === ' ' || 
+          event.key === 'Meta' || // Command key on Mac
+          event.key === 'Control' || 
+          event.key === 'Alt') { // Option key is 'Alt' in JavaScript
         dispatch(keyUp(event.key === ' ' ? 'SPACE' : event.key.toUpperCase()));
       }
     };

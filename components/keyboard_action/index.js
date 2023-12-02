@@ -117,6 +117,8 @@ function AppSettings() {
         if (lastKey) {
             if(lastKey === "SHIFT") {
                 shiftEnabledRef.current = true;
+            }else if(lastKey === "META") {
+                shiftEnabledRef.current = true;
             } else {
                 startAction(lastKey);
             }
