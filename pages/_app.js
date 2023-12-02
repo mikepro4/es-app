@@ -7,7 +7,6 @@ import '../styles/main.scss';
 import Head from "next/head";
 import Script from 'next/script';
 import { useRouter } from 'next/router';
-// import useLastKeyPressed from '../hooks/useLastKeyPressed';
 
 import {
   store,

@@ -7,6 +7,7 @@ import Input from "@/components/form/BladeInput";
 import Button from "@/components/button";
 import Select from "@/components/form/Select";
 import TabSwitcher from "@/components/form/TabSwitcher";
+import TabBar from "@/components/tab";
 import { AppToaster } from '@/components/toaster';
 
 import { algoUpdateItem, toggleParamsData, toggleParamsValues } from "@/redux";
@@ -19,6 +20,7 @@ function AppSettings() {
     const [activeKey, setActiveKey] = useState(false);
     const dispatch = useDispatch();
     const [initialValues, setInitialValues] = useState({});
+    const [selectedSection, setSelectedSection] = useState(1);
 
     const showToast = useCallback((message) => {
         // Ensure AppToaster is not null before calling show
@@ -341,6 +343,19 @@ function AppSettings() {
 
     return (
         <div className="algo-inputs-container">
+
+            <div className="algo-inputs-sections">
+                <TabBar
+                    tabs={[
+                        "Keyboard",
+                        "Viz touch",
+                        "Audio"
+                    ]}
+                    activeTab={selectedSection}
+                    onTabChange={(tab) => setSelectedSection(tab)}
+                />
+            </div>
+
             <div className="keyboard-container">
                 <div className="keyboard-row row-1">
                     {renderLetter("Q")}
@@ -378,6 +393,8 @@ function AppSettings() {
 
                 </div>
             </div>
+
+            
 
             <div className="key-settings-container">
                 {/* <div className="key-header-container">

@@ -68,4 +68,56 @@
     .reset-value-container {
         margin-top: 10px;
     }
+
+    .algo-inputs-sections {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .tab-container ul.tab-list {
+            margin: 0px 0 0 0;
+            padding: 0;
+
+
+            &::before {
+                @media only screen and (max-width: $mobile) {
+                    display: none;
+                }
+            }
+            
+    
+        }
+    }
+
+    .algo-inputs-sections {
+        padding: 0 15px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        position: relative;
+        top: -40px;
+
+        @media only screen and (max-width: $mobile) {
+            top: -20px;
+        }
+
+
+        .tab-container ul.tab-list li.tab-link-container {
+            padding: 0px 15px;
+            border-radius: 4px;
+            margin-right: 5px;
+
+            &.tab-link-active {
+                background: rgba(255, 255, 255, 0.1);
+
+
+                &::after {
+                    display: none;
+                
+                }
+
+            }
+
+            
+
+        }
+    }
 }
