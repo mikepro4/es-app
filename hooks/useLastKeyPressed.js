@@ -1,5 +1,5 @@
 // useLastKeyPressedAction.js
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 
 import { toggleParamsValues } from '@/redux';
@@ -79,6 +79,8 @@ const useLastKeyPressed = (dispatch, app, keyboard) => {
     if (lastKey) {
         determineAction(lastKey); // Function to determine action based on key
     }
+
+    
 
 
 };
