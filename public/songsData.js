@@ -1,4 +1,4 @@
-export const songData = {
+export default songData = {
     "NGC_4548": "https://bb554ba31d988dbbc880888db00d07be.ipfscdn.io/ipfs/QmXyenNjhTktcY28ttr8uqGj2b2Z7okvQQNnHYt2jDxFxr/0",
     "NGC_6864": "https://bb554ba31d988dbbc880888db00d07be.ipfscdn.io/ipfs/QmWbqzwJrrMCqHmXKFSQTCsCgQZgGiTjKi41YuSTC6jjFF/0",
     "NGC_3351": "https://bb554ba31d988dbbc880888db00d07be.ipfscdn.io/ipfs/QmXE8X2SAvcxzrL6t7ShhiTRe6jCjcbSYGGtAVGbKJKpuh/0",
