@@ -7,7 +7,7 @@ import '../styles/main.scss';
 import Head from "next/head";
 import Script from 'next/script';
 import { useRouter } from 'next/router';
-import useLastKeyPressed from '../hooks/useLastKeyPressed';
+// import useLastKeyPressed from '../hooks/useLastKeyPressed';
 
 import {
   store,
@@ -39,6 +39,8 @@ import MainPlayer from "../components/player";
 import Sidebar from "../components/sidebar";
 
 import KeyboardListener from '../components/keyboard';
+import KeyboardAction from '../components/keyboard_action';
+
 
 
 const App = ({ children }) => {
@@ -62,10 +64,10 @@ const App = ({ children }) => {
     fetchUserDetails();
   }, []);
 
-  useEffect(() => {
-    useLastKeyPressed(dispatch, app, keyboard)
+  // useEffect(() => {
+    // useLastKeyPressed(dispatch, app, keyboard)
 
-  }, [keyboard]);
+  // }, [keyboard]);
 
 
   useEffect(() => {
@@ -93,6 +95,7 @@ const App = ({ children }) => {
       {app.playerOpen && <MainPlayer />}
       {app.drawerOpen && <Drawer />}
       {app.modalOpen && <Modal />}
+      <KeyboardAction/>
     </>
   )
 }

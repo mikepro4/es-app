@@ -272,18 +272,18 @@ function AppSettings() {
 
         let fieldType = getParam && getParam.type
 
-        if(
-            fieldParam.paramType == "setValue" 
-        ) {
-            return (
-                <Field
-                    name="paramValue"
-                    title="Param value"
-                    component={TabSwitcher}
-                    options={getParam?.enumParameters}
-                />
-            )
-        }
+        // if(
+        //     fieldParam.paramType == "setValue" 
+        // ) {
+        //     return (
+        //         <Field
+        //             name="paramValue"
+        //             title="Param value"
+        //             component={TabSwitcher}
+        //             options={getParam?.enumParameters}
+        //         />
+        //     )
+        // }
 
         if(
             fieldParam.paramType == "increment"
