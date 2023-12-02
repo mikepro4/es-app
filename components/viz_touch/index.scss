@@ -2,13 +2,18 @@
     position: absolute;
     left: 20px;
     right: 20px;
-    top: 150px;
-    bottom: 150px;
+    top: 20px;
+    bottom: 20px;
     z-index: 2;
     display: grid;
-    column-gap: 10px;
-    row-gap: 10px;
+    column-gap: 5px;
+    row-gap: 5px;
     grid-template-columns: 1fr 1fr;
+
+    &.full {
+        top: 150px;
+        bottom: 150px;
+    }
 
     .touch-viz-button {
         background: rgba(255,255,255, 0);

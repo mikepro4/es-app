@@ -137,6 +137,7 @@ function Player() {
                     <Viz 
                         item={app.paramsValues ? app.paramsValues :app.playerData?.params}
                         fullScreen={true}
+                        showControls={true}
                     />
                 </div>)
             case 2:

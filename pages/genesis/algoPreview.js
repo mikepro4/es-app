@@ -79,6 +79,7 @@ function AlgoPreview({
                 <Viz
                     item={app.paramsValues ? app.paramsValues : parseValues(app.paramsData)}
                     scale={4.5}
+                    showControls={true}
                 />
             </div>
 

@@ -12,7 +12,8 @@ function Ethereal(
         containerHeight,
         pause,
         respondToScroll = false, 
-        fullScreen
+        fullScreen,
+        showControls
     }
 ) {
     const [loaded, setLoaded] = useState(false);
@@ -302,7 +303,7 @@ function Ethereal(
         >
 
 
-            {fullScreen && <VizTouch />}
+            {showControls && <VizTouch fullScreen={fullScreen} />}
 
             <canvas
                 ref={canvasRef}

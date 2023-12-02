@@ -3,7 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 
-function AppSettings() {
+function AppSettings({
+    fullScreen
+}) {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
@@ -18,7 +20,11 @@ function AppSettings() {
     }, []);
 
     return (
-        <div className="touch-viz-container">
+        <div 
+            className={classNames("touch-viz-container", {
+                "full": fullScreen
+            })}
+        >
                 <div className="touch-viz-button">
                 </div>
 
