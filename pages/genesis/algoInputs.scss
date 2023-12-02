@@ -120,4 +120,39 @@
 
         }
     }
+
+    .algo-touch-viz-container {
+        width: 200px;
+        height: 200px;
+        margin: 0 auto;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 10px 5px;
+        border-radius: 10px;
+
+        .touch-row {
+            height: 10px;
+            display: flex;
+            background: red;
+            align-self: stretch;
+            margin: 5px 10px;
+            flex-grow: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+
+            .touch-item {
+                background: rgba(255, 255, 255, 0.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 5px;
+                flex: 1;
+                border-radius: 3px;
+
+            }
+
+        }
+    }
 }

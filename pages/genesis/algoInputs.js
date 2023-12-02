@@ -20,12 +20,12 @@ function AppSettings() {
     const [activeKey, setActiveKey] = useState(false);
     const dispatch = useDispatch();
     const [initialValues, setInitialValues] = useState({});
-    const [selectedSection, setSelectedSection] = useState(1);
+    const [selectedSection, setSelectedSection] = useState(2);
 
     const showToast = useCallback((message) => {
         // Ensure AppToaster is not null before calling show
         if (AppToaster) {
-          AppToaster.show({ message: message});
+            AppToaster.show({ message: message });
         }
     }, []);
 
@@ -51,14 +51,14 @@ function AppSettings() {
 
     const handleFormChange = (values) => {
         console.log(values);
-        
+
         // set initial value ith the letter
 
-        if(app.paramsData?.inputs) {
+        if (app.paramsData?.inputs) {
             let inputDetails = app.paramsData?.inputs[values.key]
 
-            if(inputDetails) {
-                 setInitialValues({
+            if (inputDetails) {
+                setInitialValues({
                     key: values.key,
                     param: inputDetails.param,
                     paramValue: inputDetails.paramValue,
@@ -78,7 +78,7 @@ function AppSettings() {
             }
         }
 
-       
+
 
         // setInitialValues({
         //     key: key
@@ -122,7 +122,7 @@ function AppSettings() {
     const handleReset = (keyToRemove) => {
         // Log the key to be removed
         console.log("Removing key:", keyToRemove);
-    
+
         // Clone the current app.paramsData
         let updatedItem = {
             ...app.paramsData,
@@ -130,12 +130,12 @@ function AppSettings() {
                 ...app.paramsData.inputs
             }
         };
-    
+
         // Check if the key exists in the inputs object
         if (updatedItem.inputs.hasOwnProperty(keyToRemove)) {
             // Delete the key from the inputs object
             delete updatedItem.inputs[keyToRemove];
-    
+
             // Dispatch the update action
             dispatch(algoUpdateItem({
                 data: updatedItem,
@@ -156,7 +156,7 @@ function AppSettings() {
             console.log("Key not found:", keyToRemove);
             showToast("Key not found");
         }
-    
+
         // Log the updated item for debugging
         console.log(updatedItem);
     };
@@ -287,7 +287,7 @@ function AppSettings() {
         //     )
         // }
 
-        if(
+        if (
             fieldParam.paramType == "increment"
             || fieldParam.paramType == "decrement"
         ) {
@@ -307,17 +307,17 @@ function AppSettings() {
                         component={Input}
                     />
                 </>
-                
+
             )
         }
 
     }
 
     const findParam = (key) => {
-        if(app.paramsData && app.paramsData.inputs) {
+        if (app.paramsData && app.paramsData.inputs) {
             let paramValue = app.paramsData?.inputs[key]
 
-            if(paramValue) {
+            if (paramValue) {
                 return true
             }
         }
@@ -336,8 +336,171 @@ function AppSettings() {
                         key: letter
                     })
                 }}
-                
+
             >{letter}</div>
+        )
+    }
+
+    const renderKeyboardContent = () => {
+        return (
+            <>
+                <div className="keyboard-container">
+                    <div className="keyboard-row row-1">
+                        {renderLetter("Q")}
+                        {renderLetter("W")}
+                        {renderLetter("E")}
+                        {renderLetter("R")}
+                        {renderLetter("T")}
+                        {renderLetter("Y")}
+                        {renderLetter("U")}
+                        {renderLetter("I")}
+                        {renderLetter("O")}
+                        {renderLetter("P")}
+                    </div>
+
+                    <div className="keyboard-row row-2">
+                        {renderLetter("A")}
+                        {renderLetter("S")}
+                        {renderLetter("D")}
+                        {renderLetter("F")}
+                        {renderLetter("G")}
+                        {renderLetter("H")}
+                        {renderLetter("J")}
+                        {renderLetter("K")}
+                        {renderLetter("L")}
+                    </div>
+                    <div className="keyboard-row row-3">
+
+                        {renderLetter("Z")}
+                        {renderLetter("X")}
+                        {renderLetter("C")}
+                        {renderLetter("V")}
+                        {renderLetter("B")}
+                        {renderLetter("N")}
+                        {renderLetter("M")}
+
+                    </div>
+                </div>
+
+
+
+                <div className="key-settings-container">
+                    {/* <div className="key-header-container">
+                    <div className="key-settings-header-left">
+                        {activeKey}
+                    </div>
+                    <div className="key-settings-header-right">
+                    </div>
+                </div> */}
+
+                    <Formik enableReinitialize initialValues={initialValues} onSubmit={handleSubmit}>
+                        {({ values, handleChange, handleSubmit }) => {
+                            useEffect(() => {
+                                handleFormChange(values);
+                            }, [values]);
+
+                            return (
+                                <Form>
+                                    <div className="form-fields">
+                                        <Field
+                                            name="key"
+                                            component={Select}
+                                            title="Key"
+                                            options={keys}
+                                        />
+
+                                        <Field
+                                            name="paramType"
+                                            title="Param type"
+                                            component={Select}
+                                            options={[{
+                                                value: "setValue",
+                                                label: "Set value"
+                                            }, {
+                                                value: "nextSwitch",
+                                                label: "Next Switch"
+                                            }, {
+                                                value: "prevSwitch",
+                                                label: "Prev Switch"
+                                            }, {
+                                                value: "increment",
+                                                label: "Increment"
+                                            }, {
+                                                value: "decrement",
+                                                label: "Decrement"
+                                            }, {
+                                                value: "hideUi",
+                                                label: "Hide UI"
+                                            },]}
+                                        />
+
+
+                                        {values.paramType !== "hideUi" && <Field
+                                            name="param"
+                                            title="Param"
+                                            component={Select}
+                                            options={app.paramsData?.params}
+                                        />}
+
+
+
+                                        {renderField(values, handleChange)}
+                                    </div>
+
+                                    <Button type="submit" label="Save" />
+
+                                    <div className="reset-value-container">
+                                        {values.param && <Button
+                                            type="button"
+                                            label="Reset value"
+                                            minimal={true}
+                                            onClick={() => {
+                                                if (values.key) {
+                                                    handleReset(values.key)
+                                                }
+                                            }}
+                                        />}
+                                    </div>
+
+
+                                </Form>
+                            );
+                        }}
+                    </Formik>
+                </div>
+            </>
+        )
+    }
+
+    const renderVizTouchContent = () => {
+        return (
+            <>
+                <div className="algo-touch-viz-container">
+                    <div 
+                        className={classNames("touch-row", {
+                            "active": true
+                        })}
+                    >
+                        <div className="touch-item">-</div>
+                        <div className="touch-item">+</div>
+                    </div>
+
+                    <div className="touch-row">
+                        <div className="touch-item">-</div>
+                        <div className="touch-item">+</div>
+                    </div>
+
+                    <div className="touch-row">
+                        <div className="touch-item">-</div>
+                        <div className="touch-item">+</div>
+                    </div>
+
+                    <div className="touch-row">
+                        <div className="touch-item">-</div>
+                        <div className="touch-item">+</div>
+                    </div>
+                </div>
+            </>
         )
     }
 
@@ -356,130 +519,11 @@ function AppSettings() {
                 />
             </div>
 
-            <div className="keyboard-container">
-                <div className="keyboard-row row-1">
-                    {renderLetter("Q")}
-                    {renderLetter("W")}
-                    {renderLetter("E")}
-                    {renderLetter("R")}
-                    {renderLetter("T")}
-                    {renderLetter("Y")}
-                    {renderLetter("U")}
-                    {renderLetter("I")}
-                    {renderLetter("O")}
-                    {renderLetter("P")}
-                </div>
+            {selectedSection == 1 && renderKeyboardContent()}
 
-                <div className="keyboard-row row-2">
-                    {renderLetter("A")}
-                    {renderLetter("S")}
-                    {renderLetter("D")}
-                    {renderLetter("F")}
-                    {renderLetter("G")}
-                    {renderLetter("H")}
-                    {renderLetter("J")}
-                    {renderLetter("K")}
-                    {renderLetter("L")}
-                </div>
-                <div className="keyboard-row row-3">
-
-                    {renderLetter("Z")}
-                    {renderLetter("X")}
-                    {renderLetter("C")}
-                    {renderLetter("V")}
-                    {renderLetter("B")}
-                    {renderLetter("N")}
-                    {renderLetter("M")}
-
-                </div>
-            </div>
-
-            
-
-            <div className="key-settings-container">
-                {/* <div className="key-header-container">
-                    <div className="key-settings-header-left">
-                        {activeKey}
-                    </div>
-                    <div className="key-settings-header-right">
-                    </div>
-                </div> */}
-
-                <Formik enableReinitialize initialValues={initialValues} onSubmit={handleSubmit}>
-                    {({ values, handleChange, handleSubmit }) => {
-                        useEffect(() => {
-                            handleFormChange(values);
-                        }, [values]);
-
-                        return (
-                            <Form>
-                                <div className="form-fields">
-                                    <Field
-                                        name="key"
-                                        component={Select}
-                                        title="Key"
-                                        options={keys}
-                                    />
-
-                                    <Field
-                                        name="paramType"
-                                        title="Param type"
-                                        component={Select}
-                                        options={[{
-                                            value: "setValue",
-                                            label: "Set value"
-                                        },{
-                                            value: "nextSwitch",
-                                            label: "Next Switch"
-                                        },{
-                                            value: "prevSwitch",
-                                            label: "Prev Switch"
-                                        }, {
-                                            value: "increment",
-                                            label: "Increment"
-                                        }, {
-                                            value: "decrement",
-                                            label: "Decrement"
-                                        },{
-                                            value: "hideUi",
-                                            label: "Hide UI"
-                                        },]}
-                                    />
+            {selectedSection == 2 && renderVizTouchContent()}
 
 
-                                    {values.paramType !== "hideUi" && <Field
-                                        name="param"
-                                        title="Param"
-                                        component={Select}
-                                        options={app.paramsData?.params}
-                                    />}
-
-                                    
-
-                                    {renderField(values, handleChange)}
-                                </div>
-
-                                <Button type="submit" label="Save" />
-
-                                <div className="reset-value-container">
-                                    {values.param && <Button 
-                                        type="button" 
-                                        label="Reset value" 
-                                        minimal={true}
-                                        onClick={() => {
-                                            if(values.key) {
-                                                handleReset(values.key)
-                                            }
-                                        }}
-                                    />}
-                                </div>
-                                
-
-                            </Form>
-                        );
-                    }}
-                </Formik>
-            </div>
         </div>
     );
 }

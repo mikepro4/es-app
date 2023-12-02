@@ -16,8 +16,6 @@ function AppSettings() {
 
     // Function to determine what action to dispatch based on the last key pressed
 
-  
-
     const determineAction = useCallback((key) => {
 
         let paramsData
