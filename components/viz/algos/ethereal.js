@@ -304,7 +304,10 @@ function Ethereal(
         >
 
 
-            {showControls && <VizTouch fullScreen={fullScreen} />}
+            {showControls && <VizTouch 
+                fullScreen={fullScreen} 
+                item={item}
+            />}
 
             <canvas
                 ref={canvasRef}
