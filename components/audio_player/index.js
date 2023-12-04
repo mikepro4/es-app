@@ -66,7 +66,7 @@ const AudioPlayer = ({ links }) => {
         if (!connected) {
             dispatch(setConnected(true));
             const analyserConnect = () => {
-                const context = new (window.AudioContext || window.webkitAudioContext)();
+                const context = new (window.AudioContext || window.webkitAudioContext || AudioContext)();
                 const analyser = context.createAnalyser();
                 const audioSrc = context.createMediaElementSource(audioRef.current);
 
