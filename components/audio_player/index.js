@@ -18,6 +18,12 @@ const AudioPlayer = ({ links }) => {
 
     const audioRef = useRef(null)
 
+
+    const isSafari = () => {
+        return typeof window !== 'undefined' && /^((?!chrome|android).)*safari/i.test(window.navigator.userAgent);
+    };
+    console.log("isSafari", isSafari())
+
     useEffect(() => {
         const audio = audioRef.current;
 
@@ -56,6 +62,7 @@ const AudioPlayer = ({ links }) => {
 
     console.log(links[0].uri);
     console.log("audioRef",);
+    console.log("duration", duration);
     console.log("analyser", analyser);
     console.log("currentTime", currentTime, "duration", duration);
 
@@ -63,23 +70,28 @@ const AudioPlayer = ({ links }) => {
 
     const play = () => {
         console.log("play audio")
-        if (!connected) {
-            dispatch(setConnected(true));
-            const analyserConnect = () => {
-                const context = new (window.AudioContext || window.webkitAudioContext || AudioContext)();
-                const analyser = context.createAnalyser();
-                const audioSrc = context.createMediaElementSource(audioRef.current);
+        if (!isSafari()) {
+            if (!connected) {
+                dispatch(setConnected(true));
+                const analyserConnect = () => {
+                    const context = new (window.AudioContext || window.webkitAudioContext || AudioContext)();
+                    const analyser = context.createAnalyser();
+                    const audioSrc = context.createMediaElementSource(audioRef.current);
 
-                audioRef.current.addEventListener('loadedmetadata', () => {
-                    dispatch(setDuration(audioRef.current.duration));
-                });
 
-                audioSrc.connect(analyser);
-                audioSrc.connect(context.destination);
-                dispatch(setAnalyser(analyser));
+
+                    audioSrc.connect(analyser);
+                    audioSrc.connect(context.destination);
+                    dispatch(setAnalyser(analyser));
+                }
+                analyserConnect()
             }
-            analyserConnect()
         }
+        // if (!duration) {
+        //     audioRef.current.addEventListener('loadedmetadata', () => {
+        //         dispatch(setDuration(audioRef.current.duration));
+        //     });
+        // }
         audioRef.current.play()
     }
 
