@@ -11,6 +11,7 @@ import TabSwitcher from "../../../components/form/TabSwitcher";
 import {
   shapeUpdateItem,
   algoSearch,
+  trackSearch,
   updateCollectionItem,
   toggleDrawer,
   togglePlayer,
@@ -23,6 +24,7 @@ function AppSettings() {
   const router = useRouter();
   const dispatch = useDispatch();
   const [localOptions, setLocalOptions] = useState([]);
+  const [tracks, setTracks] = useState([]);
 
   const handleFormChange = (values) => {
     console.log(values);
@@ -60,6 +62,7 @@ function AppSettings() {
 
   useEffect(() => {
     loadInitialOptions();
+    loadInitialTracks();
 
     return () => {};
   }, []);
@@ -102,6 +105,29 @@ function AppSettings() {
     );
   };
 
+  const loadInitialTracks = () => {
+    dispatch(
+      trackSearch({
+        criteria: {},
+        sortProperty: "created",
+        offset: 0,
+        limit: 10000,
+        order: 1,
+
+        callback: (data) => {
+          let finalOptinos = data.all.map((option) => {
+            return {
+              value: option._id,
+              label: option.name,
+            };
+          });
+          setTracks(finalOptinos);
+        },
+      })
+    );
+  };
+
+
   return (
     <div className={`app-drawer-content-container standard-drawer`}>
       <div className={"details-container"}>
@@ -135,6 +161,15 @@ function AppSettings() {
                     useAsync={true}
                     component={Select}
                     options={localOptions}
+                  />
+
+                  <Field
+                    name="track._id"
+                    title="Track"
+                    apiUrl="/track/search"
+                    useAsync={true}
+                    component={Select}
+                    options={tracks}
                   />
 
                   <Field

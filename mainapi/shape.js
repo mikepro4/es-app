@@ -61,6 +61,7 @@ router.post("/search", requireSignin, async (req, res) => {
     const query = Shapes.find(buildQuery(criteria))
         .sort({ [sortProperty]: order })
         .populate("algo")
+        .populate("track")
         .skip(offset)
         .limit(limit);
 
@@ -104,6 +105,7 @@ router.post("/delete", async (req, res) => {
 router.post("/item", async (req, res) => {
     const query = await Shapes.findOne({ _id: req.body.id })
         .populate("algo")
+        .populate("track")
 
     res.json(query);
 });

@@ -12,6 +12,7 @@ const ShapeSchema = new Schema({
     default: "unreviewed",
   },
   algo: { type: Schema.Types.ObjectId, ref: "Algo" },
+  track: { type: Schema.Types.ObjectId, ref: "Track" },
   imageLink: { type: String },
   params: Object
 });
