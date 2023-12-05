@@ -5,9 +5,11 @@ import { formatTime } from '@/utils/timeFormatter';
 import { togglePlay, setCurrentTime } from '@/redux';
 
 
-const Timeline = ({ currentTime, duration, audioRef }) => {
+const TimeLine = ({ audioRef }) => {
     const [hoverWidth, setHoverWidth] = useState(0);
     const timelineRef = useRef(null);
+    const { duration, currentTime } = useSelector(state => state.audioPlayer)
+
 
 
 
@@ -92,4 +94,4 @@ const Timeline = ({ currentTime, duration, audioRef }) => {
     );
 };
 
-export default Timeline;
+export default TimeLine;
