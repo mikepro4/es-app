@@ -8,7 +8,6 @@ import api from "@/redux/api"
 import * as _ from 'lodash'
 
 const IconOption = (props) => {
-	console.log(props)
 	const iconName = props.data.icon;
 	const isValidIcon = iconName && typeof iconName === 'string';
 
