@@ -6,7 +6,7 @@ import classNames from "classnames";
 import ParamSwitch from "@/components/paramSwitch";
 import Label from "@/components/label";
 
-import { togglePlayer, toggleNoRedirect, setAudioLink, setAudioId, togglePlayPause } from "@/redux";
+import { togglePlayer, toggleNoRedirect, setAudioLink, setAudioId, togglePlayPause, setIsPlaying } from "@/redux";
 import { Icon as PlayBtn } from "@blueprintjs/core";
 import TrackActionsView from "@/components/collection_actions/trackActions";
 
@@ -31,6 +31,7 @@ function TrackListView({
         if (item._id !== trackId) {
             dispatch(setAudioId(item._id));
             dispatch(setAudioLink(item.songLink));
+            dispatch(setIsPlaying(true));
         } else {
             dispatch(togglePlayPause());
         }
@@ -46,7 +47,7 @@ function TrackListView({
         >
 
             <div className="track-view-list__play_btn" onClick={() => handlePlay()}>
-                {!isCurrentTrackPlaying ? <PlayBtn icon="play" iconSize={20} /> : <PlayBtn icon="pause" iconSize={20} />}
+                <PlayBtn icon={!isCurrentTrackPlaying ? "play" : "pause"} iconSize={20} />
             </div>
 
 

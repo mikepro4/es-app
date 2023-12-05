@@ -45,12 +45,15 @@ export const audioSlice = createSlice({
         togglePlayPause: (state, action) => {
             state.isPlaying = !state.isPlaying;
         },
+        setIsPlaying: (state, action) => {
+            state.isPlaying = action.payload;
+        },
         resetPlayer: (state) => {
             Object.assign(state, initialState);
         }
     },
 });
 
-export const { setCurrentTime, setDuration, setVolume, setAudioContext, setAnalyser, setConnected, resetPlayer, setAudioLink, setAudioId, togglePlayPause } = audioSlice.actions;
+export const { setCurrentTime, setDuration, setVolume, setAudioContext, setAnalyser, setConnected, resetPlayer, setAudioLink, setAudioId, togglePlayPause, setIsPlaying } = audioSlice.actions;
 
 export const audioSliceReducer = audioSlice.reducer;

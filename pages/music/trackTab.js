@@ -27,14 +27,14 @@ function TracksTab() {
 
 
     useEffect(() => {
-
-        audioRef.current.src = audioLink;
-        if (isPlaying) {
-            audioRef.current.play();
-        } else {
-            audioRef.current.pause();
+        if (audioRef.current) {
+            audioRef.current.src = audioLink;
+            if (isPlaying) {
+                audioRef.current.play();
+            } else {
+                audioRef.current.pause();
+            }
         }
-
     }, [audioLink, isPlaying]);
 
     const handleScroll = () => {
@@ -71,7 +71,7 @@ function TracksTab() {
             {/* <div className="tab-content-details">
                 <TracksDetails />
             </div> */}
-            <audio ref={audioRef} crossOrigin="anonymous" />
+            <audio ref={audioRef} crossOrigin="anonymous" preload="auto" />
 
             <div className="tab-content-track" ref={scrollContainerRef}>
 
