@@ -4,7 +4,7 @@ import StorageUpload from "@/components/storage_upload";
 export default function Genesis() {
   return (
     <div className="ui-screen">
-      <StorageUpload />
+      {/* <StorageUpload /> */}
     </div>
   );
 }
