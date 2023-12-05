@@ -2,16 +2,20 @@ import React, { useState, useEffect } from "react";
 import { useStorageUpload } from "@thirdweb-dev/react";
 import html2canvas from "html2canvas";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CLIENT_ID } from "@/config";
 
 import Button from "@/components/button";
 import { shapeItem, shapeUpdateItem, togglePlayer } from "@/redux";
 
+import Viz from "@/components/viz";
+
 function StorageUpload({ id }) {
   const [image, setImage] = useState(null);
   console.log("image", image);
   const { mutateAsync: uploadToIPFS } = useStorageUpload();
+const app = useSelector((state) => state.app);
+
   const dispatch = useDispatch();
 
   const formatIPFSLink = (ipfsLink) => {
@@ -75,6 +79,11 @@ function StorageUpload({ id }) {
       />
       <div id="image-container">
         {image && <img src={image} alt="Uploaded" />}
+        <Viz 
+              item={app.paramsValues ? app.paramsValues :app.playerData?.params}
+              fullScreen={true}
+              showControls={true}
+          />
       </div>
       <div className="storage btn-margin">
         <Button
