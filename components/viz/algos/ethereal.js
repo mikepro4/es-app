@@ -226,7 +226,7 @@ function Ethereal(
                 pt.vx *= shapeViz.friction;
                 pt.vy *= shapeViz.friction;
 
-                if (pt.x >= 0 && pt.x <= w && pt.y >= 0 && pt.y <= h) {
+                // if (pt.x >= 0 && pt.x <= w && pt.y >= 0 && pt.y <= h) {
                     ctx.beginPath();
                     ctx.arc(pt.x, pt.y, shapeViz.pointSize, 0, 2 * Math.PI);
                     ctx.fillStyle = 'rgba(255, 255, 255, 1.0)';
@@ -237,7 +237,7 @@ function Ethereal(
                     //     ${this.getPointOpacity(freqData[this.getPointIterator(i)], point)}
                     // )`;
                     ctx.fill();
-                }
+                // }
             }
 
             rotate.current += Number(shapeViz.rotateSpeed);

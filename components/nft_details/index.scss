@@ -16,6 +16,10 @@
         position: relative;
         z-index: 1;
 
+        img {
+            max-width: 100%;
+        }
+
         @media only screen and (max-width: $mobile) {
             margin-left: 15px;
             margin-right: 15px;
