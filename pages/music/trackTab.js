@@ -5,8 +5,10 @@ import classNames from "classnames";
 import CollectionInfo from "@/components/collection_info";
 import TracksDetails from "@/components/collectionControls/tracksDetails";
 import InfiniteList from '@/components/infinite_list'
+import TimeLine from '@/components/audio_player/TimeLine'
 
-import { trackSearch, trackItem, trackListUpdateStats } from "@/redux"
+
+import { trackSearch, trackItem, trackListUpdateStats, resetPlayer, setCurrentTime, setDuration, setIsPlaying } from "@/redux"
 
 function TracksTab() {
     // const [loading, setLoading] = useState(false);
@@ -36,6 +38,36 @@ function TracksTab() {
             }
         }
     }, [audioLink, isPlaying]);
+
+    useEffect(() => {
+        const audio = audioRef.current;
+        const handleTimeUpdate = () => {
+            dispatch(setCurrentTime(audio.currentTime));
+        };
+        const handleLoadedMetadata = () => {
+            dispatch(setDuration(audio.duration));
+        };
+        const handleAudioEnd = () => {
+            dispatch(setCurrentTime(0));
+            dispatch(setIsPlaying(false));
+            audio.pause()
+        };
+        if (audio) {
+            audio.addEventListener('timeupdate', handleTimeUpdate);
+            audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+            audio.addEventListener('ended', handleAudioEnd);
+            // Trigger load to ensure metadata is loaded
+            audio.load();
+        }
+        return () => {
+            if (audio) {
+                audio.removeEventListener('timeupdate', handleTimeUpdate);
+                audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+                audio.removeEventListener('ended', handleAudioEnd);
+                dispatch(resetPlayer())
+            }
+        };
+    }, []);
 
     const handleScroll = () => {
         const position = scrollContainerRef.current.scrollTop
@@ -72,6 +104,7 @@ function TracksTab() {
                 <TracksDetails />
             </div> */}
             <audio ref={audioRef} crossOrigin="anonymous" preload="auto" />
+            <TimeLine audioRef={audioRef} />
 
             <div className="tab-content-track" ref={scrollContainerRef}>
 
