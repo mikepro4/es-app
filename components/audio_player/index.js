@@ -1,22 +1,24 @@
 import React, { useRef, useState, useEffect } from 'react'
 import TimeLine from "./TimeLine"
-import { setCurrentTime, setDuration, setAnalyser, setConnected, resetPlayer } from '@/redux';
+import { setCurrentTime, setDuration, setAnalyser, setConnected, resetPlayer, setAudioLink } from '@/redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { Icon } from "@blueprintjs/core";
+import { Icon as PlayBtn } from "@blueprintjs/core";
+
 import classNames from 'classnames';
 
 
 
 
-const AudioPlayer = ({ links }) => {
+const AudioPlayer = ({ link, audioRef }) => {
     const { currentTime, duration, connected, analyser } = useSelector((state) => state.audioPlayer);
+    const [isPlaying, setIsPlaying] = useState(false)
     const state = useSelector((state) => state.audioPlayer);
     console.log("analyser", analyser)
 
 
     const dispatch = useDispatch()
-
-    const audioRef = useRef(null)
+    const audio = audioRef?.current;
 
 
     const isSafari = () => {
@@ -25,30 +27,30 @@ const AudioPlayer = ({ links }) => {
     console.log("isSafari", isSafari())
 
     useEffect(() => {
-        const audio = audioRef.current;
-
-        const handleTimeUpdate = () => {
-            dispatch(setCurrentTime(audio.currentTime));
-        };
 
 
-        const handleLoadedMetadata = () => {
-            dispatch(setDuration(audio.duration));
-        };
+        // const handleTimeUpdate = () => {
+        //     dispatch(setCurrentTime(audio.currentTime));
+        // };
 
-        const handleAudioEnd = () => {
-            dispatch(setCurrentTime(0));
-            audio.pause()
-        };
 
-        if (audio) {
-            audio.addEventListener('timeupdate', handleTimeUpdate);
-            audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-            audio.addEventListener('ended', handleAudioEnd);
+        // const handleLoadedMetadata = () => {
+        //     dispatch(setDuration(audio.duration));
+        // };
 
-            // Trigger load to ensure metadata is loaded
-            audio.load();
-        }
+        // const handleAudioEnd = () => {
+        //     dispatch(setCurrentTime(0));
+        //     audio.pause()
+        // };
+
+        // if (audio) {
+        //     audio.addEventListener('timeupdate', handleTimeUpdate);
+        //     audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+        //     audio.addEventListener('ended', handleAudioEnd);
+
+        //     // Trigger load to ensure metadata is loaded
+        //     audio.load();
+        // }
 
         return () => {
             if (audio) {
@@ -60,7 +62,7 @@ const AudioPlayer = ({ links }) => {
         };
     }, []);
 
-    console.log(links[0].uri);
+    console.log(link.uri);
     console.log("audioRef",);
     console.log("duration", duration);
     console.log("analyser", analyser);
@@ -70,28 +72,47 @@ const AudioPlayer = ({ links }) => {
 
     const play = () => {
         console.log("play audio")
-        if (!isSafari()) {
-            if (!connected) {
-                dispatch(setConnected(true));
-                const analyserConnect = () => {
-                    const context = new (window.AudioContext || window.webkitAudioContext || AudioContext)();
-                    const analyser = context.createAnalyser();
-                    const audioSrc = context.createMediaElementSource(audioRef.current);
+        dispatch(setAudioLink(link))
 
 
 
-                    audioSrc.connect(analyser);
-                    audioSrc.connect(context.destination);
-                    dispatch(setAnalyser(analyser));
-                }
-                analyserConnect()
+        // Set up event listeners
+        const handleTimeUpdate = () => {
+            dispatch(setCurrentTime(audio.currentTime));
+        };
+
+        const handleLoadedMetadata = () => {
+            dispatch(setDuration(audio.duration));
+        };
+
+        const handleAudioEnd = () => {
+            dispatch(setCurrentTime(0));
+            audio.pause();
+            setIsPlaying(false); // Update playing state
+        };
+
+        audio.addEventListener('timeupdate', handleTimeUpdate);
+        audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+        audio.addEventListener('ended', handleAudioEnd);
+        audio.load();
+        if (!connected && !isSafari()) {
+
+            dispatch(setConnected(true));
+            const analyserConnect = () => {
+                const context = new (window.AudioContext || window.webkitAudioContext || false)();
+                const analyser = context.createAnalyser();
+                const audioSrc = context.createMediaElementSource(audioRef.current);
+
+
+
+                audioSrc.connect(analyser);
+                audioSrc.connect(context.destination);
+                dispatch(setAnalyser(analyser));
             }
+            analyserConnect()
         }
-        // if (!duration) {
-        //     audioRef.current.addEventListener('loadedmetadata', () => {
-        //         dispatch(setDuration(audioRef.current.duration));
-        //     });
-        // }
+
+
         audioRef.current.play()
     }
 
@@ -105,24 +126,12 @@ const AudioPlayer = ({ links }) => {
 
     return (
         <div>
-            <p>AudioPlayer</p>
-            <audio
-                src={links[0].uri}
-                controls
-                ref={audioRef}
-                crossOrigin="anonymous"
-            />
-            <TimeLine currentTime={currentTime} duration={duration} audioRef={audioRef} />
-            <div
-                className={classNames({
-                    "shape-play-button-container": true,
-                    "small": false,
-                })}
-            >
-                <Icon icon="play" />
+            <p>{link.id}</p>
+
+            <div className="track-view-list__play_btn" onClick={() => { !isPlaying ? play() : stop(); setIsPlaying(!isPlaying) }}>
+                {!isPlaying ? <PlayBtn icon="play" iconSize={20} /> : <PlayBtn icon="pause" iconSize={20} />}
             </div>
-            <button onClick={play} >Play</button>
-            <button onClick={stop} >Pause</button>
+
         </div>
     )
 }

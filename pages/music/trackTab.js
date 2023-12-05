@@ -6,12 +6,12 @@ import CollectionInfo from "@/components/collection_info";
 import TracksDetails from "@/components/collectionControls/tracksDetails";
 import InfiniteList from '@/components/infinite_list'
 
-import { trackSearch, trackItem, trackListUpdateStats} from "@/redux"
+import { trackSearch, trackItem, trackListUpdateStats } from "@/redux"
 
 function TracksTab() {
-    const [loading, setLoading] = useState(false);
-    const app = useSelector((state) => state.app);
-    const router = useRouter();
+    // const [loading, setLoading] = useState(false);
+    // const app = useSelector((state) => state.app);
+    // const router = useRouter();
     const dispatch = useDispatch()
 
     const [screenWidth, setScreenWidth] = useState(0);
@@ -20,7 +20,22 @@ function TracksTab() {
     const [count, setCount] = useState(0);
     const [total, setTotal] = useState(0);
     const [scroll, setScroll] = useState(0);
-    const scrollContainerRef = useRef(null); 
+    const scrollContainerRef = useRef(null);
+
+    const audioRef = useRef(null);
+    const { audioLink, isPlaying } = useSelector(state => state.audioPlayer)
+
+
+    useEffect(() => {
+
+        audioRef.current.src = audioLink;
+        if (isPlaying) {
+            audioRef.current.play();
+        } else {
+            audioRef.current.pause();
+        }
+
+    }, [audioLink, isPlaying]);
 
     const handleScroll = () => {
         const position = scrollContainerRef.current.scrollTop
@@ -56,6 +71,7 @@ function TracksTab() {
             {/* <div className="tab-content-details">
                 <TracksDetails />
             </div> */}
+            <audio ref={audioRef} crossOrigin="anonymous" />
 
             <div className="tab-content-track" ref={scrollContainerRef}>
 
@@ -76,6 +92,7 @@ function TracksTab() {
 
                     }}
                     loadCollectionItem={trackItem}
+                    audioRef={audioRef}
                 />
 
 

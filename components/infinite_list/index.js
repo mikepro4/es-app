@@ -30,7 +30,8 @@ function InfiniteList({
     sortProperty,
     contained,
     scrollValue,
-    loadCollectionItem
+    loadCollectionItem,
+    audioRef
 }) {
 
     const app = useSelector((state) => state.app);
@@ -120,6 +121,7 @@ function InfiniteList({
                     key={item._id}
                     scroll={scrollValue}
                     handleClick={handleClick}
+                    audioRef={audioRef}
                 />)
             case "album-view-list":
                 return (<AlbumView
@@ -143,12 +145,12 @@ function InfiniteList({
                     handleClick={handleClick}
                 />)
             case "planet-view-list":
-              return (<PlanetView
-                  item={item}
-                  key={item._id}
-                  scroll={scrollValue}
-                  handleClick={handleClick}
-              />)
+                return (<PlanetView
+                    item={item}
+                    key={item._id}
+                    scroll={scrollValue}
+                    handleClick={handleClick}
+                />)
             case "galaxy-view-list":
                 return (<GalaxyView
                     item={item}
