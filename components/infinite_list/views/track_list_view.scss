@@ -10,6 +10,10 @@
     transition: all 0.2s;
     margin-bottom: 20px;
 
+    &__active {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
     .track-view-list-left {
         padding: 20px;
         flex-grow: 1;

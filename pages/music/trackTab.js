@@ -29,12 +29,18 @@ function TracksTab() {
 
 
     useEffect(() => {
-        if (audioRef.current) {
-            audioRef.current.src = audioLink;
+        const audio = audioRef.current;
+        if (audio) {
+            // Set the audio source only if it's different from the current source
+            if (audio.src !== audioLink) {
+                audio.src = audioLink;
+            }
+
+            // Play or pause the audio based on the isPlaying state
             if (isPlaying) {
-                audioRef.current.play();
+                audio.play();
             } else {
-                audioRef.current.pause();
+                audio.pause();
             }
         }
     }, [audioLink, isPlaying]);
@@ -104,7 +110,7 @@ function TracksTab() {
                 <TracksDetails />
             </div> */}
             <audio ref={audioRef} crossOrigin="anonymous" preload="auto" />
-            <TimeLine audioRef={audioRef} />
+            {audioLink && <TimeLine audioRef={audioRef} />}
 
             <div className="tab-content-track" ref={scrollContainerRef}>
 

@@ -38,13 +38,16 @@ function TrackListView({
         }
     };
 
-
+    //"track-view-list-container"
     console.log("audioRefTrack", audioRef)
     console.log("itemTrack", item)
     console.log("audioState", state)
 
     return (
-        <div className="track-view-list-container"
+        <div className={classNames({
+            "track-view-list-container": true,
+            "track-view-list-container__active": item._id === trackId
+        })}
         >
 
             <div className="track-view-list__play_btn" onClick={() => handlePlay()}>
