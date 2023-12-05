@@ -19,7 +19,7 @@ function TrackListView({
     item,
     audioRef
 }) {
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
     // const [isPlaying, setIsPlaying] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
@@ -39,9 +39,9 @@ function TrackListView({
     };
 
     //"track-view-list-container"
-    console.log("audioRefTrack", audioRef)
-    console.log("itemTrack", item)
-    console.log("audioState", state)
+    // console.log("audioRefTrack", audioRef)
+    // console.log("itemTrack", item)
+    // console.log("audioState", state)
 
     return (
         <div className={classNames({

@@ -8,7 +8,7 @@ import InfiniteList from '@/components/infinite_list'
 import TimeLine from '@/components/audio_player/TimeLine'
 
 
-import { trackSearch, trackItem, trackListUpdateStats, resetPlayer, setCurrentTime, setDuration, setIsPlaying } from "@/redux"
+import { trackSearch, trackItem, trackListUpdateStats, resetPlayer, setCurrentTime, setDuration, setIsPlaying, setAnalyser, setConnected } from "@/redux"
 
 function TracksTab() {
     // const [loading, setLoading] = useState(false);
@@ -25,15 +25,32 @@ function TracksTab() {
     const scrollContainerRef = useRef(null);
 
     const audioRef = useRef(null);
-    const { audioLink, isPlaying } = useSelector(state => state.audioPlayer)
+    const { audioLink, isPlaying, analyser, connected } = useSelector(state => state.audioPlayer)
+    console.log("analyser", analyser)
+
 
 
     useEffect(() => {
+
         const audio = audioRef.current;
+        const setAudioContext = () => {
+            if (!connected) {
+                let AudioContext = window.AudioContext || window.webkitAudioContext
+                let audioCtx = new AudioContext();
+                let analyser = audioCtx.createAnalyser();
+                let source = audioCtx.createMediaElementSource(audio);
+                source.connect(analyser);
+                source.connect(audioCtx.destination);
+                dispatch(setAnalyser(analyser))
+                dispatch(setConnected(true))
+            }
+
+        }
         if (audio) {
             // Set the audio source only if it's different from the current source
             if (audio.src !== audioLink) {
                 audio.src = audioLink;
+                setAudioContext()
             }
 
             // Play or pause the audio based on the isPlaying state
@@ -47,6 +64,7 @@ function TracksTab() {
 
     useEffect(() => {
         const audio = audioRef.current;
+        audio.src = ""
         const handleTimeUpdate = () => {
             dispatch(setCurrentTime(audio.currentTime));
         };

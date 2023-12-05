@@ -5,7 +5,6 @@ const initialState = {
     duration: 0,
     volume: 1,
     connected: false,
-    audioContext: null,
     analyser: null,
     audioLink: "",
     id: "",
@@ -26,9 +25,6 @@ export const audioSlice = createSlice({
         },
         setVolume: (state, action) => {
             state.volume = action.payload;
-        },
-        setAudioContext: (state, action) => {
-            state.audioContext = action.payload;
         },
         setAnalyser: (state, action) => {
             state.analyser = action.payload;
@@ -54,6 +50,6 @@ export const audioSlice = createSlice({
     },
 });
 
-export const { setCurrentTime, setDuration, setVolume, setAudioContext, setAnalyser, setConnected, resetPlayer, setAudioLink, setAudioId, togglePlayPause, setIsPlaying } = audioSlice.actions;
+export const { setCurrentTime, setDuration, setVolume, setAnalyser, setConnected, resetPlayer, setAudioLink, setAudioId, togglePlayPause, setIsPlaying } = audioSlice.actions;
 
 export const audioSliceReducer = audioSlice.reducer;

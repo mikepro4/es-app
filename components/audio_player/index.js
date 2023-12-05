@@ -97,7 +97,7 @@ const AudioPlayer = ({ link, audioRef }) => {
         audio.addEventListener('loadedmetadata', handleLoadedMetadata);
         audio.addEventListener('ended', handleAudioEnd);
         audio.load();
-        if (!connected && !isSafari()) {
+        if (!connected) {
 
             dispatch(setConnected(true));
             const analyserConnect = () => {
