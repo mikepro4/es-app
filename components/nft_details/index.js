@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import classNames from "classnames";
 import StorageUpload from "../storage_upload";
-import Viz from "@/components/viz";
 
 function AppSettings() {
   const [loading, setLoading] = useState(false);

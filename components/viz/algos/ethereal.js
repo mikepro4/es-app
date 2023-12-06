@@ -89,7 +89,7 @@ function Ethereal(
 
     const generatePoints = () => {
         let generatedPoints = []
-        for (var i = 0; i < 2048; i++) {
+        for (var i = 0; i < paramsRef.current?.pointCount; i++) {
             var pt = createPoint(
                 Math.random(1) * containerRef.current.offsetWidth,
                 Math.random(1) * containerRef.current.offsetHeight,
@@ -122,6 +122,13 @@ function Ethereal(
         }
 
     }, [item]);
+
+    useEffect(() => {
+        if (paramsRef.current?.pointCount !== shape.current.pointCount) {
+            generatePoints()
+        }
+
+    }, [paramsRef.current?.pointCount]);  
 
     useEffect(() => {
         if (!loaded && dimensions.width > 0 && dimensions.height > 0) {
@@ -159,6 +166,10 @@ function Ethereal(
         if(animationFrameId.current == null && !pause && !respondToScroll) {
             animationFrameId.current = requestAnimationFrame(frameTicker);
         }
+
+        const canvas = canvasRef.current;
+        const context = canvas.getContext('2d');
+        context.imageSmoothingEnabled = true;
 
         return () => {
             window.removeEventListener("resize", updateDimensions);

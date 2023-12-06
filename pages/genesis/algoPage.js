@@ -41,7 +41,7 @@ function AlgoPageContainer({
     const dispatch = useDispatch();
     const toasterRef = useRef(null)
     const [selectedTypes, setSelectedTypes] = useState({});
-    const [selectedTabId, setSelectedTabId] = useState(4);
+    const [selectedTabId, setSelectedTabId] = useState(1);
     const [selectedSectionId, setselectedSectionId] = useState(1);
 
     const [code, setCode] = useState(null);

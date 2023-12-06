@@ -20,7 +20,7 @@ function AppSettings() {
     const [activeKey, setActiveKey] = useState(false);
     const dispatch = useDispatch();
     const [initialValues, setInitialValues] = useState({});
-    const [selectedSection, setSelectedSection] = useState(2);
+    const [selectedSection, setSelectedSection] = useState(1);
     const [selectedTouchRow, setSelectedTouchRow] = useState(1);
 
     const showToast = useCallback((message) => {
