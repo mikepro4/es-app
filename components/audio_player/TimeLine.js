@@ -2,13 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { formatTime } from '@/utils/timeFormatter';
-import { togglePlay, setCurrentTime } from '@/redux';
+import { togglePlay, setCurrentTime, togglePlayerControls } from '@/redux';
+import Icon from '../icon';
 
 
 const TimeLine = ({ audioRef }) => {
     const [hoverWidth, setHoverWidth] = useState(0);
     const timelineRef = useRef(null);
-    const { duration, currentTime } = useSelector(state => state.audioPlayer)
+    const { duration, currentTime, playerControls } = useSelector(state => state.audioPlayer)
 
 
 
@@ -90,7 +91,10 @@ const TimeLine = ({ audioRef }) => {
                     </li>
                 ))}
             </ul>
-        </div>
+            <div onClick={(e) => { e.stopPropagation(); dispatch(togglePlayerControls()) }} className={classNames({ "timeline-props-icon": true, "timeline-props-icon__active": playerControls, })}>
+                <Icon name="audio-settings" />
+            </div>
+        </div >
     );
 };
 

@@ -31,7 +31,7 @@ function InfiniteList({
     contained,
     scrollValue,
     loadCollectionItem,
-    audioRef
+
 }) {
 
     const app = useSelector((state) => state.app);
@@ -121,7 +121,7 @@ function InfiniteList({
                     key={item._id}
                     scroll={scrollValue}
                     handleClick={handleClick}
-                    audioRef={audioRef}
+
                 />)
             case "album-view-list":
                 return (<AlbumView

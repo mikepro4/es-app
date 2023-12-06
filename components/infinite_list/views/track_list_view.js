@@ -5,10 +5,11 @@ import classNames from "classnames";
 
 import ParamSwitch from "@/components/paramSwitch";
 import Label from "@/components/label";
+import PlayBtn from "@/components/play-btn";
 
 
-import { togglePlayer, toggleNoRedirect, setAudioLink, setAudioId, togglePlayPause, setIsPlaying } from "@/redux";
-import { Icon as PlayBtn } from "@blueprintjs/core";
+import { togglePlayer, toggleNoRedirect, setAudioLink, setAudioId, togglePlayPause, setIsPlaying, setAudioName } from "@/redux";
+//import { Icon } from "@blueprintjs/core";
 import TrackActionsView from "@/components/collection_actions/trackActions";
 
 import Button from "@/components/button";
@@ -17,7 +18,7 @@ import Icon from "@/components/icon";
 
 function TrackListView({
     item,
-    audioRef
+
 }) {
     // const [loading, setLoading] = useState(false);
     // const [isPlaying, setIsPlaying] = useState(false);
@@ -27,10 +28,10 @@ function TrackListView({
     const { audioLink, isPlaying, id: trackId } = useSelector(state => state.audioPlayer)
     const state = useSelector(state => state.audioPlayer)
     const isCurrentTrackPlaying = item._id === trackId && isPlaying;
-
     const handlePlay = () => {
         if (item._id !== trackId) {
             dispatch(setAudioId(item._id));
+            dispatch(setAudioName(item.name));
             dispatch(setAudioLink(item.songLink));
             dispatch(setIsPlaying(true));
         } else {
@@ -50,9 +51,7 @@ function TrackListView({
         })}
         >
 
-            <div className="track-view-list__play_btn" onClick={() => handlePlay()}>
-                <PlayBtn icon={!isCurrentTrackPlaying ? "play" : "pause"} iconSize={20} />
-            </div>
+            <PlayBtn isCurrentTrackPlaying={isCurrentTrackPlaying} handlePlay={() => handlePlay()} />
 
 
             <div
@@ -64,8 +63,11 @@ function TrackListView({
                     }, undefined, { shallow: true })
                 }}
             >
-                <div className="track-name">
-                    {item.name}
+                <div className="track-view-list__name-play">
+
+                    <div className="track-name">
+                        {item.name}
+                    </div>
                 </div>
 
                 <div className="track-slug">
