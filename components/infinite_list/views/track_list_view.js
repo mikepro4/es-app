@@ -51,7 +51,7 @@ function TrackListView({
         })}
         >
 
-            <PlayBtn isCurrentTrackPlaying={isCurrentTrackPlaying} handlePlay={() => handlePlay()} />
+            <PlayBtn ml isCurrentTrackPlaying={isCurrentTrackPlaying} handlePlay={() => handlePlay()} />
 
 
             <div

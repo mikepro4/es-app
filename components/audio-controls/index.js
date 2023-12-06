@@ -15,7 +15,7 @@ const AudioControls = () => {
 
     return (
         <div className="audio-controls" onClick={e => e.stopPropagation()}>
-            <PlayBtn round isCurrentTrackPlaying={isPlaying} handlePlay={() => dispatch(togglePlayPause())} />
+            <PlayBtn ml round isCurrentTrackPlaying={isPlaying} handlePlay={() => dispatch(togglePlayPause())} />
             <div className="audio-controls__track-name">
                 {audioName}
             </div>

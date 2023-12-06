@@ -1,7 +1,7 @@
 
 import TimeLine from '@/components/audio_player/TimeLine'
 import AudioControls from '../audio-controls'
-import { trackSearch, trackItem, trackListUpdateStats, resetPlayer, setCurrentTime, setDuration, setIsPlaying, setAnalyser, setConnected } from "@/redux"
+import { setPlayerControls, togglePlayerControls, trackListUpdateStats, resetPlayer, setCurrentTime, setDuration, setIsPlaying, setAnalyser, setConnected } from "@/redux"
 import { useSelector, useDispatch } from 'react-redux'
 import React, { useRef, useEffect } from 'react'
 
@@ -9,6 +9,17 @@ const AudioPlayer = () => {
     const audioRef = useRef(null);
     const dispatch = useDispatch()
     const { audioLink, isPlaying, analyser, connected, volume, playerControls } = useSelector(state => state.audioPlayer)
+    const shapeOpen = useSelector(state => state.app.playerOpen)
+    console.log("shapeOpen", shapeOpen)
+
+
+    useEffect(() => {
+        if (shapeOpen && playerControls) {
+            dispatch(setPlayerControls(false))
+        }
+
+
+    }, [shapeOpen])
 
 
     useEffect(() => {

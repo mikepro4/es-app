@@ -10,6 +10,7 @@ const TimeLine = ({ audioRef }) => {
     const [hoverWidth, setHoverWidth] = useState(0);
     const timelineRef = useRef(null);
     const { duration, currentTime, playerControls } = useSelector(state => state.audioPlayer)
+    const shapeOpen = useSelector(state => state.app.playerOpen)
 
 
 
@@ -91,9 +92,10 @@ const TimeLine = ({ audioRef }) => {
                     </li>
                 ))}
             </ul>
-            <div onClick={(e) => { e.stopPropagation(); dispatch(togglePlayerControls()) }} className={classNames({ "timeline-props-icon": true, "timeline-props-icon__active": playerControls, })}>
-                <Icon name="audio-settings" />
-            </div>
+            {!shapeOpen &&
+                <div onClick={(e) => { e.stopPropagation(); dispatch(togglePlayerControls()) }} className={classNames({ "timeline-props-icon": true, "timeline-props-icon__active": playerControls, })}>
+                    <Icon name="audio-settings" />
+                </div>}
         </div >
     );
 };
