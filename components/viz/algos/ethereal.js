@@ -83,6 +83,8 @@ function Ethereal(
             backgroundEnabled: false,
             backgroundOpacity: 1,
             scale: fullShape.scale ?  Number(fullShape.scale) : 1,
+            colors: fullShape.colors,
+            pointCount: Number(fullShape.pointCount),
         }
     }
 
@@ -106,7 +108,7 @@ function Ethereal(
             y: y,
             vx: 0,
             vy: 0,
-            color: "#ffffff",
+            color: paramsRef.current[i]?.color,
         }
 
         return point
@@ -119,20 +121,27 @@ function Ethereal(
             updateShape(item)
             setMainShape(true)
             updateDimensions();
+            updateColors()
         }
 
     }, [item]);
 
     useEffect(() => {
-        if (paramsRef.current?.pointCount !== shape.current.pointCount) {
+        // if (paramsRef.current?.pointCount !== shape.current.pointCount) {
             generatePoints()
-        }
+            setTimeout(() => {
+                updateColors()
+            }, 100)
+        // }
 
     }, [paramsRef.current?.pointCount]);  
 
     useEffect(() => {
         if (!loaded && dimensions.width > 0 && dimensions.height > 0) {
             generatePoints()
+            setTimeout(() => {
+                updateColors()
+            }, 1)
             setLoaded(true)
         }
 
@@ -240,7 +249,7 @@ function Ethereal(
                 // if (pt.x >= 0 && pt.x <= w && pt.y >= 0 && pt.y <= h) {
                     ctx.beginPath();
                     ctx.arc(pt.x, pt.y, shapeViz.pointSize, 0, 2 * Math.PI);
-                    ctx.fillStyle = 'rgba(255, 255, 255, 1.0)';
+                    ctx.fillStyle = pt.color;
                     // ctx.fillStyle = `rgba(
                     //     ${this.hexToRgb(point.color).r},
                     //     ${this.hexToRgb(point.color).g},
@@ -300,6 +309,58 @@ function Ethereal(
             }
         }
     }, [pause]);
+
+    useEffect(() => {
+        console.log(pointsRef.current)
+    }, [pointsRef.current]);
+
+    const updateColors = () => {
+        if (shape.current && shape.current.pointCount && pointsRef.current && pointsRef.current.length > 0) {
+          let colors = shape.current?.colors;
+          
+          if (colors && colors.length > 0) {
+            let newRanges = colors.map(point => ({
+              count: Number(point.amount) * shape.current.pointCount / 100
+            }));
+
+            console.log("newRanges", newRanges)
+    
+            let updatedPoints = [];
+    
+            if (newRanges.length === 1) {
+              updatedPoints = pointsRef.current.slice(0, shape.current.pointCount).map(point => ({
+                ...point,
+                color: colors[0].color
+              }));
+            } else {
+              let accumulatedCount = 0;
+              newRanges.forEach((range, index) => {
+                const rangePoints = pointsRef.current.slice(accumulatedCount, accumulatedCount + range.count).map(point => ({
+                  ...point,
+                  color: colors[index].color
+                }));
+                accumulatedCount += range.count;
+                updatedPoints = [...updatedPoints, ...rangePoints];
+              });
+    
+              if (accumulatedCount < shape.current.pointCount) {
+                const remainingPoints = pointsRef.current.slice(accumulatedCount).map(point => ({ ...point, hidden: true }));
+                updatedPoints = [...updatedPoints, ...remainingPoints];
+              }
+            }
+    
+            pointsRef.current = updatedPoints;
+
+            // console.log("updatedPoints", updatedPoints)
+          } else {
+            pointsRef.current = pointsRef.current.map(point => ({
+              ...point,
+              color: `rgba(255,255,255,1)`,
+            }));
+          }
+        }
+      };
+
 
     if (!item) return null;
 
