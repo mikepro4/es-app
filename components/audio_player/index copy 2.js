@@ -69,7 +69,7 @@ const AudioPlayer = ({ links }) => {
 
                 audioSrc.connect(analyser);
                 audioSrc.connect(context.destination);
-                setAnalyser(analyser)
+                dispatch(setAnalyser(analyser))
             }
             analyserConnect()
         }

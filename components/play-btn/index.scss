@@ -1,28 +1,52 @@
- .play_btn {
-     user-select: none;
-     cursor: pointer;
-     width: 40px;
-     height: 40px;
-     display: flex;
-     align-items: center;
-     justify-content: center;
+.play_btn {
+    user-select: none;
+    cursor: pointer;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-     border-radius: 1000px;
+    border-radius: 1000px;
 
-     &__ml {
-         margin-left: 20px;
-     }
+    &__ml {
+        margin-left: 20px;
+    }
 
-     &__mr {
-         margin-right: 10px;
-     }
+    &__mr {
+        margin-right: 10px;
+    }
 
-     &__round {
-         background-color: white;
+    &__round {
+        background-color: white;
 
-     }
+    }
 
-     &--icon {
-         color: black;
-     }
- }
+    &--icon {
+        color: black;
+        position: relative;
+        left: 1px;
+    }
+}
+
+.main-player {
+    .play_btn {
+        @media only screen and (min-width: $mobile) {
+            width: 100px;
+            height: 100px;
+    
+            &__mr {
+                margin-right: 30px;
+            }
+    
+            &--icon { 
+                left: 1px;
+    
+                svg {
+                    height: 45px;
+                    width: 45px;
+                }
+            }
+        }
+    }
+}

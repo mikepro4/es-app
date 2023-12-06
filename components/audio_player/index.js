@@ -10,7 +10,7 @@ const AudioPlayer = () => {
     const dispatch = useDispatch()
     const { audioLink, isPlaying, analyser, connected, volume, playerControls } = useSelector(state => state.audioPlayer)
     const shapeOpen = useSelector(state => state.app.playerOpen)
-    console.log("shapeOpen", shapeOpen)
+    console.log("analyser", analyser)
 
 
     useEffect(() => {
@@ -36,11 +36,11 @@ const AudioPlayer = () => {
             if (!connected) {
                 let AudioContext = window.AudioContext || window.webkitAudioContext
                 let audioCtx = new AudioContext();
-                let analyser = audioCtx.createAnalyser();
+                let analyserVar = audioCtx.createAnalyser();
                 let source = audioCtx.createMediaElementSource(audio);
-                source.connect(analyser);
+                source.connect(analyserVar);
                 source.connect(audioCtx.destination);
-                dispatch(setAnalyser(analyser))
+                dispatch(setAnalyser(analyserVar))
                 dispatch(setConnected(true))
             }
 

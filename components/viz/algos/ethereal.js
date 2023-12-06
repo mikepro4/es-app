@@ -16,6 +16,7 @@ function Ethereal(
         showControls
     }
 ) {
+    const player = useSelector((state) => state.audioPlayer);
     const [loaded, setLoaded] = useState(false);
     const [mainShape, setMainShape] = useState(false);
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
@@ -27,7 +28,12 @@ function Ethereal(
     const radius = useRef(0)
     const animationFrameId = useRef(null)
     const shape = useRef()
+    const playerRef = useRef()
     // const [shape, setShape] = useState();
+
+    useEffect(() => {
+        playerRef.current = player
+    }, [player]);
 
     const exampleParams = {
         "math": "sin",
@@ -246,6 +252,14 @@ function Ethereal(
 
     }
 
+    const getPointIterator = (i) => {
+        if (i <= shape.current.pointCount) {
+            return i
+        } else {
+            return i - shape.current.pointCount
+        }
+    }
+
     const frameTicker = useCallback(() => {
         if (canvasRef.current && paramsRef.current && shape.current && shape.current.math && pointsRef.current?.length > 0) {
             let shapeViz = shape.current;
@@ -260,6 +274,14 @@ function Ethereal(
 
             ctx.clearRect(0, 0, width, height);
 
+            let freqData = []
+            let soundModifier = 1
+
+            if (playerRef.current.analyser) {
+                freqData = new Uint8Array(playerRef.current.analyser.frequencyBinCount)
+                playerRef.current.analyser.getByteFrequencyData(freqData)
+            }
+            console.log(playerRef.current, freqData)
         
             let l = pointsRef.current.length;
 
@@ -267,12 +289,20 @@ function Ethereal(
             for (i = 0; i < l; i++) {
                 let pt = pointsRef.current[i];
 
+                if (playerRef.current.analyser && soundModifier) {
+                    soundModifier = freqData[getPointIterator(i)] / 1000
+
+                    if (soundModifier == 0) {
+                        soundModifier = 1
+                    }
+                }
+
 
                 var t_radius = Math[shapeViz.math](rotate.current + shapeViz.frequency * i) * radius * shapeViz.boldRate + radius;
                 let w = containerRef.current.offsetWidth;
                 let h = containerRef.current.offsetHeight;
-                var tx = centerX + Math.cos(rotate.current + shapeViz.step * i) * t_radius;
-                var ty = centerY + Math.sin(rotate.current + shapeViz.step * i) * t_radius;
+                var tx = centerX + Math.cos(rotate.current + shapeViz.step * i + soundModifier) * t_radius;
+                var ty = centerY + Math.sin(rotate.current + shapeViz.step * i + soundModifier) * t_radius;
 
                 pt.vx += (tx - pt.x) * shapeViz.pointRotateSpeed;
                 pt.vy += (ty - pt.y) * shapeViz.pointRotateSpeed;
@@ -304,7 +334,7 @@ function Ethereal(
             animationFrameId.current = requestAnimationFrame(frameTicker);
         }
 
-    }, [dimensions.width, dimensions.height, shape.current, item]);
+    }, [dimensions.width, dimensions.height, shape.current, item, playerRef.current, pointsRef.current]);
 
     const observer = new IntersectionObserver(
         ([entry]) => {
