@@ -1,24 +1,47 @@
-
 .timeline-container {
-	  position: fixed;
+	position: fixed;
 	height: 37px;
-   // position: absolute;
-    bottom: -36px;
-    left: 0;
-    right: 0;
-    z-index: 2;
-    opacity: 0;
-    animation: fadeIn forwards 1s 1.5s ease-in-out; 
-    transition: all 0.3s;
+	// position: absolute;
+	bottom: -36px;
+	left: 0;
+	right: 0;
+	z-index: 2;
+	opacity: 0;
+	animation: fadeIn forwards 1s 1.5s ease-in-out;
+	transition: all 0.3s;
+	z-index: 5555;
 
-    &:hover {
-        bottom: 0;
-    }
-    // border-top: 1px solid rgba($white,0.15);
+	&:hover {
+		bottom: 0;
+	}
 
-    @media only screen and (max-width: $mobile) {
-        height: 20px;
-    }
+	// border-top: 1px solid rgba($white,0.15);
+
+	@media only screen and (max-width: $mobile) {
+		height: 20px;
+	}
+
+	.timeline-props-icon {
+		position: absolute;
+		right: 10px;
+		top: 50%;
+		transform: translateY(-40%);
+		z-index: 1000;
+		width: 25px;
+		height: 25px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 5px;
+		cursor: pointer;
+
+
+		&__active {
+			background-color: rgba(255, 255, 255, 0.15);
+			transition: all 0.3s;
+		}
+
+	}
 
 	.hoverTime {
 		background: $white;
@@ -67,15 +90,15 @@
 		align-items: center;
 		position: absolute;
 		z-index: 1;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
 
-        @media only screen and (max-width: $mobile) {
-            display: none;
-        }
-    
+		@media only screen and (max-width: $mobile) {
+			display: none;
+		}
+
 
 		li {
 			float: left;
@@ -83,14 +106,14 @@
 			// margin-right: 30px;
 			font-size: 10px;
 			position: relative;
-            color: $white;
+			color: $white;
 
 			&:before {
 				content: "";
 				position: absolute;
 				top: 20px;
 				height: 10px;
-				border-right: 1px solid rgba($white,0.15);
+				border-right: 1px solid rgba($white, 0.15);
 				width: 0;
 				left: 0;
 			}
@@ -105,25 +128,26 @@
 		}
 	}
 
-    .progress-bar-wrapper {
-        position: absolute;
-        top: 0;
-        left: 0;
-        background: rgba($white, 0.15);
-        right: 0;
-        height: 1px;
-        @media only screen and (max-width: $mobile) {
-            background: none;
-            top: inherit;
-            bottom: 0;
-        }
+	.progress-bar-wrapper {
+		position: absolute;
+		top: 0;
+		left: 0;
+		background: rgba($white, 0.15);
+		right: 0;
+		height: 1px;
 
-        .progress-bar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 1px;
-            background: $white;
-        }
-    }
+		@media only screen and (max-width: $mobile) {
+			background: none;
+			top: inherit;
+			bottom: 0;
+		}
+
+		.progress-bar {
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 1px;
+			background: $white;
+		}
+	}
 }

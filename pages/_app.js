@@ -14,6 +14,9 @@ import {
   toggleNoRedirect
 } from "../redux";
 
+import AudioControls from '@/components/audio-controls';
+import AudioPlayer from '@/components/audio_player';
+
 FocusStyleManager.onlyShowFocusOnTabs();
 
 import {
@@ -46,6 +49,7 @@ const App = ({ children }) => {
   const dispatch = useDispatch();
   const app = useSelector((state) => state.app);
   const keyboard = useSelector((state) => state.keyboard);
+  const playerControls = useSelector((state) => state.audioPlayer.playerControls);
   const router = useRouter();
   const query = router.query;
 
@@ -64,7 +68,7 @@ const App = ({ children }) => {
   }, []);
 
   // useEffect(() => {
-    // useLastKeyPressed(dispatch, app, keyboard)
+  // useLastKeyPressed(dispatch, app, keyboard)
 
   // }, [keyboard]);
 
@@ -87,6 +91,7 @@ const App = ({ children }) => {
 
   return (
     <>
+
       <HeaderDesktop />
       <Header />
       <Sidebar />
@@ -94,7 +99,8 @@ const App = ({ children }) => {
       {app.playerOpen && <MainPlayer />}
       {app.drawerOpen && <Drawer />}
       {app.modalOpen && <Modal />}
-      <KeyboardAction/>
+      <AudioPlayer />
+      <KeyboardAction />
     </>
   )
 }

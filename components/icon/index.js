@@ -28,12 +28,13 @@ import CaretBottom from "./icons/caret_bottom"
 import CaretUp from "./icons/caret_up"
 import CaretRight from "./icons/caret_right"
 import CaretLeft from "./icons/caret_left"
+import AudioSettings from "./icons/audio-settings"
 import Atom from "./icons/atom"
 
-const Icon = ({name, onClick}) => {
+const Icon = ({ name, onClick }) => {
 
     const selectIcon = () => {
-        switch(name) {
+        switch (name) {
             case "logo-desktop":
                 return <LogoDesktop />
             case "logo-mobile":
@@ -46,6 +47,8 @@ const Icon = ({name, onClick}) => {
                 return <Shapes />
             case "properties":
                 return <Properties />
+            case "audio-settings":
+                return <AudioSettings />
             case "music":
                 return <Music />
             case "tier":
@@ -84,12 +87,12 @@ const Icon = ({name, onClick}) => {
                 return <CaretLeft />
             case "atom":
                 return <Atom />
-            
+
         }
     }
 
     return (
-        <div className="icon-container" onClick={()=> onClick && onClick()}>
+        <div className="icon-container" onClick={() => onClick && onClick()}>
             {selectIcon()}
         </div>
     );

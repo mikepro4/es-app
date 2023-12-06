@@ -23,7 +23,7 @@ function ShapeListView({
     const router = useRouter();
     const dispatch = useDispatch();
 
-
+    console.log("Vizitem", item?.track)
     return (
         <div className="shape-view-list-container">
 
@@ -36,7 +36,7 @@ function ShapeListView({
                     }))
                 }}
             >
-                <Viz 
+                <Viz
                     item={item.params}
                     respondToScroll={true}
                     scroll={scroll}
@@ -44,31 +44,31 @@ function ShapeListView({
                     scale={4.5}
                 />
             </div>
-        
+
 
             <div className="shape-view-actions">
-                <ShapeActionsView 
+                <ShapeActionsView
                     item={item}
                 />
             </div>
 
             <div className="shape-view-info">
-                <ShapeMainInfo 
+                <ShapeMainInfo
                     item={item}
                     small={true}
                 />
             </div>
 
             <div className="shape-view-arrow" onClick={() => {
-                    dispatch(toggleNoRedirect(true))
-                    dispatch(togglePlayer({
-                        playerOpen: true,
-                        playerData: item
-                    }))
-                }}>
-                <Icon name="arrow-forward"/>
+                dispatch(toggleNoRedirect(true))
+                dispatch(togglePlayer({
+                    playerOpen: true,
+                    playerData: item
+                }))
+            }}>
+                <Icon name="arrow-forward" />
             </div>
-            
+
 
 
 
