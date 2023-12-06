@@ -130,22 +130,15 @@ function ParamRenderer(props) {
                         placeholder={param.label}
                     />)
             case 'slider':
-                // return (<Field
-                //     component={Slider}
-                //     name={name}
-                //     min={Number(param.minValue)}
-                //     max={Number(param.maxValue)}
-                //     step={Number(param.stepValue)}
-                //     labelStepSize={getLabelStepSize(param.minValue, param.maxValue)}
-                //     displayName={param.label}
-                // />)
-                return (
-                    <Field
-                        component={Input}
-                        name={name}
-                        title={param.label}
-                        placeholder={param.label}
-                    />)
+                return (<Field
+                    component={Slider}
+                    name={name}
+                    min={Number(param.minValue)}
+                    max={Number(param.maxValue)}
+                    step={Number(param.stepValue)}
+                    labelStepSize={getLabelStepSize(param.minValue, param.maxValue)}
+                    displayName={param.label}
+                />)
             default:
                 return null;
         }
