@@ -121,10 +121,22 @@ function Ethereal(
             updateShape(item)
             setMainShape(true)
             updateDimensions();
-            updateColors()
+            setTimeout(() => {
+                updateColors()
+            }, 1)
         }
 
+      
+
     }, [item]);
+
+
+    useEffect(() => {
+        generatePoints()
+        setTimeout(() => {
+            updateColors()
+        }, 1)
+    }, [paramsRef.current?.colors]);
 
     useEffect(() => {
         // if (paramsRef.current?.pointCount !== shape.current.pointCount) {
@@ -189,7 +201,32 @@ function Ethereal(
 
 
     const renderOverlay = () => {
+        // if (paramsRef.current?.overlayOpacity > 0) {
+            let finalBlur = 1000
+            let finalOpacity =  1
 
+            if(containerRef.current) {
+                if(containerRef.current?.offsetWidth > 500) {
+                    finalBlur = paramsRef.current?.overlayBlur 
+                    
+                } else {
+                    finalBlur = paramsRef.current?.overlayBlur / 1.2
+                }
+                finalOpacity = paramsRef.current?.overlayOpacity
+            }
+
+            return (
+                <div
+                    className="overlay"
+                    style={{
+                        backgroundColor: paramsRef.current?.overlayColor,
+                        opacity: finalOpacity,
+                        backdropFilter: `blur(${finalBlur}px)`,
+                        "-webkit-backdrop-filter": `blur(${finalBlur}px)`,
+                    }}
+                />
+            )
+        // }
     }
 
     const getScale = () => {
@@ -386,6 +423,8 @@ function Ethereal(
                 className="viz"
                 id="viz"
             />
+
+            {renderOverlay()}
 
             {/* <div
                 className="placeholder-shape"

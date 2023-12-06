@@ -280,6 +280,7 @@ function Player() {
                                             playerOpen: true,
                                             playerData: data
                                         }))
+                                        dispatch(toggleParamsValues(data.params))
                                     }
                                 }))
                             }}
@@ -302,6 +303,7 @@ function Player() {
                                             playerOpen: true,
                                             playerData: data
                                         }))
+                                        dispatch(toggleParamsValues(data.params))
                                     }
                                 }))
                             }}
