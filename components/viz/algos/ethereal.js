@@ -281,7 +281,6 @@ function Ethereal(
                 freqData = new Uint8Array(playerRef.current.analyser.frequencyBinCount)
                 playerRef.current.analyser.getByteFrequencyData(freqData)
             }
-            console.log(playerRef.current, freqData)
         
             let l = pointsRef.current.length;
 
