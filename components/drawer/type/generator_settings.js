@@ -12,7 +12,7 @@ import TabSwitcher from "@/components/form/TabSwitcher";
 
 import { OverlayToaster } from '@blueprintjs/core';
 
-import { generatorCreate, generatorSearch } from "@/redux"
+import { generatorCreate, generatorSearch, generatorItem } from "@/redux"
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
@@ -22,6 +22,8 @@ function AppSettings() {
     const dispatch = useDispatch();
     const [generators, setGenerators] = useState([]);
     const [timeStamp, setTimestamp] = useState(Date.now());
+    const [generator, setGenerator] = useState(null);
+    const [ activeGenerator, setActiveGenerator ] = useState({});
 
 
     useEffect(() => {
@@ -32,6 +34,21 @@ function AppSettings() {
 
         };
     }, []);
+
+    const loadGenerator = (id) => {
+        dispatch(generatorItem({
+            id: id,
+            callback: (data) => {
+                console.log("loaded generator", data)
+                setGenerator(data)
+                
+            }
+        }))
+    }
+
+    const selectGenerator = (id) => {
+        setActiveGenerator({generatorId: id})
+    }
 
     const searchGenerators = () => {
         dispatch(
@@ -51,6 +68,9 @@ function AppSettings() {
                 });
                 setGenerators(finalOptinos);
                 setTimestamp(Date.now())
+                setTimeout(() => {
+                    selectGenerator(finalOptinos[0].value)
+                }, 100)
               },
             })
           );
@@ -141,25 +161,25 @@ function AppSettings() {
         }
     }
 
-    const handleFormChange = (values) => {
+    const handleSelectorFormChange = (values) => {
         console.log(values);
-        // dispatch(testListChangeCriteria(values))
-      };
-    
-    const handleSubmit = (values) => {
-        console.log(values);
-
-    
+        if(values && values.generatorId) {
+            loadGenerator(values?.generatorId)
+        }
     };
 
-    let initialValues = {};
+    const handleSelectorSubmit = (values) => {
+        console.log(values);
+    };
+    
+    let initialSelectorValues = {};
     
 
     const renderSwitcher = () => {
-        return(<Formik initialValues={initialValues} onSubmit={handleSubmit}>
+        return(<Formik enableReinitialize initialValues={activeGenerator} onSubmit={handleSelectorSubmit}>
           {({ values, handleChange, handleSubmit }) => {
             useEffect(() => {
-              handleFormChange(values);
+                handleSelectorFormChange(values);
             }, [values]);
 
             return (
@@ -180,6 +200,46 @@ function AppSettings() {
             );
           }}
         </Formik>)
+    }
+
+    const handleGeneratorSubmit = (values) => {
+        console.log(values);
+        // loadGenerator(values.generatorId)
+    };
+
+    const handleGenerationsFormChange = (values) => {
+        console.log(values);
+    };
+    
+    const renderGeneratorParams =  () => {
+        return(
+            <div className="generator-params">
+
+                <Formik enableReinitialize initialValues={generator.params} onSubmit={handleGeneratorSubmit}>
+                    {({ values, handleChange, handleSubmit }) => {
+                        useEffect(() => {
+                            handleGenerationsFormChange(values);
+                        }, [values]);
+
+                        return (
+                            <Form
+                                enableReinitialize={true}
+                                key={timeStamp}
+                            >
+
+                            <Field
+                                name="iterations"
+                                component={Input}
+                                title="Iteraions"
+                                placeholder="Iterations"
+                            />
+
+                        </Form>
+                        );
+                    }}
+                    </Formik>
+            </div>
+        )
     }
 
 
@@ -241,6 +301,8 @@ function AppSettings() {
                         />
                     </div>
                 </div>
+
+                {generator && generator._id && renderGeneratorParams()}
 
                 <OverlayToaster ref={toasterRef} />
 
