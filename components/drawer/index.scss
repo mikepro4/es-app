@@ -109,3 +109,9 @@
 .standard-drawer {
     user-select: none;
 }
+
+.form-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+}

@@ -12,7 +12,7 @@ import TabSwitcher from "@/components/form/TabSwitcher";
 
 import { OverlayToaster } from '@blueprintjs/core';
 
-import { generatorCreate, generatorSearch, generatorItem } from "@/redux"
+import { generatorCreate, generatorSearch, generatorItem, generatorUpdateItem } from "@/redux"
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
@@ -23,7 +23,7 @@ function AppSettings() {
     const [generators, setGenerators] = useState([]);
     const [timeStamp, setTimestamp] = useState(Date.now());
     const [generator, setGenerator] = useState(null);
-    const [ activeGenerator, setActiveGenerator ] = useState({});
+    const [activeGenerator, setActiveGenerator] = useState({});
 
 
     useEffect(() => {
@@ -41,39 +41,39 @@ function AppSettings() {
             callback: (data) => {
                 console.log("loaded generator", data)
                 setGenerator(data)
-                
+
             }
         }))
     }
 
     const selectGenerator = (id) => {
-        setActiveGenerator({generatorId: id})
+        setActiveGenerator({ generatorId: id })
     }
 
     const searchGenerators = () => {
         dispatch(
             generatorSearch({
-              criteria: {},
-              sortProperty: "created",
-              offset: 0,
-              limit: 10000,
-              order: 1,
-      
-              callback: (data) => {
-                let finalOptinos = data.all.map((option) => {
-                  return {
-                    value: option._id,
-                    label: option.name,
-                  };
-                });
-                setGenerators(finalOptinos);
-                setTimestamp(Date.now())
-                setTimeout(() => {
-                    selectGenerator(finalOptinos[0].value)
-                }, 100)
-              },
+                criteria: {},
+                sortProperty: "created",
+                offset: 0,
+                limit: 10000,
+                order: 1,
+
+                callback: (data) => {
+                    let finalOptinos = data.all.map((option) => {
+                        return {
+                            value: option._id,
+                            label: option.name,
+                        };
+                    });
+                    setGenerators(finalOptinos);
+                    setTimestamp(Date.now())
+                    setTimeout(() => {
+                        selectGenerator(finalOptinos[0].value)
+                    }, 100)
+                },
             })
-          );
+        );
     }
 
     let switchAction = (value) => {
@@ -86,7 +86,7 @@ function AppSettings() {
                             name: "X",
                             params: {
                                 iterations: 100000,
-                                iterationDelay: 0,
+                                iterationDelay: 1,
                                 list: [
                                     {
                                         paramName: "frequency",
@@ -163,7 +163,7 @@ function AppSettings() {
 
     const handleSelectorFormChange = (values) => {
         console.log(values);
-        if(values && values.generatorId) {
+        if (values && values.generatorId) {
             loadGenerator(values?.generatorId)
         }
     };
@@ -171,73 +171,171 @@ function AppSettings() {
     const handleSelectorSubmit = (values) => {
         console.log(values);
     };
-    
+
     let initialSelectorValues = {};
-    
+
 
     const renderSwitcher = () => {
-        return(<Formik enableReinitialize initialValues={activeGenerator} onSubmit={handleSelectorSubmit}>
-          {({ values, handleChange, handleSubmit }) => {
-            useEffect(() => {
-                handleSelectorFormChange(values);
-            }, [values]);
+        return (<Formik enableReinitialize initialValues={activeGenerator} onSubmit={handleSelectorSubmit}>
+            {({ values, handleChange, handleSubmit }) => {
+                useEffect(() => {
+                    handleSelectorFormChange(values);
+                }, [values]);
 
-            return (
-              <Form
-                enableReinitialize={true}
-                key={timeStamp}
-              >
+                return (
+                    <Form
+                        enableReinitialize={true}
+                        key={timeStamp}
+                    >
 
-                  <Field
-                    name="generatorId"
-                    apiUrl="/generator/search"
-                    useAsync={true}
-                    component={Select}
-                    options={generators}
-                  />
+                        <Field
+                            name="generatorId"
+                            apiUrl="/generator/search"
+                            useAsync={true}
+                            component={Select}
+                            options={generators}
+                        />
 
-              </Form>
-            );
-          }}
+                    </Form>
+                );
+            }}
         </Formik>)
     }
 
     const handleGeneratorSubmit = (values) => {
         console.log(values);
+        dispatch(generatorUpdateItem({
+            data: values,
+            callback: (data) => {
+                searchGenerators()
+                toasterRef.current.show({ message: `${data.name} was updated` });
+            }
+        }))
         // loadGenerator(values.generatorId)
     };
 
     const handleGenerationsFormChange = (values) => {
         console.log(values);
     };
-    
-    const renderGeneratorParams =  () => {
-        return(
+
+    const renderGeneratorParams = () => {
+        return (
             <div className="generator-params">
 
-                <Formik enableReinitialize initialValues={generator.params} onSubmit={handleGeneratorSubmit}>
+                <Formik
+                    enableReinitialize
+                    initialValues={generator}
+                    onSubmit={handleGeneratorSubmit}
+                >
                     {({ values, handleChange, handleSubmit }) => {
-                        useEffect(() => {
+                         useEffect(() => {
                             handleGenerationsFormChange(values);
                         }, [values]);
-
                         return (
-                            <Form
-                                enableReinitialize={true}
-                                key={timeStamp}
-                            >
+                            <Form>
+                                <Field
+                                    name="name"
+                                    component={Input}
+                                    title="Name"
+                                    placeholder="Name"
+                                />
 
-                            <Field
-                                name="iterations"
-                                component={Input}
-                                title="Iteraions"
-                                placeholder="Iterations"
-                            />
+                                <div className="form-split">
 
-                        </Form>
+                                    <Field
+                                        name="params.iterations"
+                                        component={Input}
+                                        title="Iterations"
+                                        placeholder="Iterations"
+                                    />
+
+
+                                    <Field
+                                        name="params.iterationDelay"
+                                        component={Input}
+                                        title="Iteration Delay"
+                                        placeholder="Iteration Delay"
+                                    />
+
+                                </div>
+
+
+
+                                
+                                <FieldArray
+                                    name="params.list"
+                                    render={arrayHelpers => (
+                                        <div className="generator-params-container">
+                                            <div className="generator-params-header">
+                                                Parameters
+                                            </div>
+                                            {values.params?.list && values.params.list.length > 0 ? (
+                                                values.params.list.map((listItem, index) => (
+                                                    <div className="generator-param-container" key={index}>
+                                                        <div className="generator-param-container-header">
+                                                            <div className="generator-param-container-header-left">
+                                                                Parameter {index + 1}
+                                                            </div>
+
+                                                            <div className="generator-param-container-header-right">
+                                                                <Button
+                                                                    type="button"
+                                                                    icon="trash"
+                                                                    small={true}
+                                                                    minimal={true}
+                                                                    onClick={() => arrayHelpers.remove(index)} // remove a list item
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        <Field
+                                                            name={`params.list.${index}.paramName`}
+                                                            component={Input}
+                                                            title="Parameter Name"
+                                                            placeholder="Parameter Name"
+                                                        />
+                                                        <Field
+                                                            name={`params.list.${index}.paramType`}
+                                                            component={Input}
+                                                            title="Parameter Type"
+                                                            placeholder="Parameter Type"
+                                                        />
+                                                        <Field
+                                                            name={`params.list.${index}.paramIncrement`}
+                                                            component={Input}
+                                                            title="Parameter Increment"
+                                                            placeholder="Parameter Increment"
+                                                        />
+                                                        
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <></>
+                                            )}
+                                            <div className="generator-params-footer">
+                                                <Button 
+                                                    type="button" 
+                                                    icon="plus"
+                                                    small={true} 
+                                                    minimal={true} 
+                                                    label="Add parameter" 
+                                                    onClick={() => arrayHelpers.push({ 
+                                                        paramName: '', 
+                                                        paramType: '', 
+                                                        paramIncrement: 0 
+                                                    })}>
+                                                </Button>
+                                            </div>
+                                           
+                                        </div>
+                                    )}
+                                />
+
+                                <Button type="submit" label="Submit">Submit</Button>
+                            </Form>
                         );
                     }}
-                    </Formik>
+                </Formik>
             </div>
         )
     }
