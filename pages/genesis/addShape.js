@@ -62,6 +62,13 @@ function AddShape() {
 
     const remapOriginalValues = (values) => {
 
+        let newColors = values.defaultViz.colors.map((color) => {
+            return {
+                color: hexToRgba(color.hex, color.opacity/ 100) ,
+                amount: Number(color.amount)
+            }
+        })
+
         
 
         let finalShapeParams = {
@@ -76,10 +83,10 @@ function AddShape() {
             pointOpacity: values.defaultViz.point.pointOpacity,
             backgroundColor: hexToRgba(values.defaultViz.shape.backgroundColor, 1),
             scale: 1,
-            colors: values.defaultViz.colors,
+            colors: newColors,
             pointCount: values.defaultViz.point.pointCount,
-            overlayBlur: values.defaultViz.overlay.blur,
-            overlayOpacity: values.defaultViz.overlay.colorOpacity,
+            overlayBlur: values.defaultViz.overlay.visible ? values.defaultViz.overlay.blur : 0,
+            overlayOpacity: values.defaultViz.overlay.visible ? 1 : 0,
             overlayColor: hexToRgba(values.defaultViz.overlay.color, values.defaultViz.overlay.colorOpacity)
             
         }
@@ -129,7 +136,7 @@ function AddShape() {
         <div className="add-shape-container">
             <Formik
                 initialValues={{
-                    shapeId: "65461ac4afe7ea001f76924b",
+                    shapeId: "620f5da262ae4100210b3ce2",
                 }}
                 onSubmit={handleSubmit}
             >

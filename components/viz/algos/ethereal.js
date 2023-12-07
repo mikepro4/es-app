@@ -7,7 +7,7 @@ import VizTouch from "../../viz_touch";
 function Ethereal(
     {
         item,
-        scale = 8,
+        scale = 10,
         containerWidth,
         containerHeight,
         pause,
@@ -70,8 +70,8 @@ function Ethereal(
 
     const getPointSize = (fullShape) => {
         let finalSize
-        let originalPointSize = Number(fullShape.pointSize) - 0.7
-        let mobilePointSize = originalPointSize - 0.9
+        let originalPointSize = Number(fullShape.pointSize) 
+        let mobilePointSize = originalPointSize - 0.4
 
         if(containerRef.current.offsetWidth > 500) {
             if(originalPointSize > 0.6) {
@@ -83,7 +83,7 @@ function Ethereal(
             if(mobilePointSize > 1.0) {
                 return mobilePointSize
             } else {
-                return 0.4
+                return 1.0
             }
         }
     }
@@ -113,10 +113,11 @@ function Ethereal(
 
     const generatePoints = () => {
         let generatedPoints = []
+        const pixelRatio = window.devicePixelRatio 
         for (var i = 0; i < paramsRef.current?.pointCount; i++) {
             var pt = createPoint(
-                Math.random(1) * containerRef.current.offsetWidth,
-                Math.random(1) * containerRef.current.offsetHeight,
+                Math.random(1) * containerRef.current.offsetWidth * pixelRatio,
+                Math.random(1) * containerRef.current.offsetHeight * pixelRatio,
             );
             generatedPoints.push(pt)
         }
@@ -184,8 +185,8 @@ function Ethereal(
     const updateDimensions = () => {
         if (containerRef.current) {
             const pixelRatio = window.devicePixelRatio || 1; // Get the device pixel ratio
-            const width = containerRef.current.offsetWidth * 4;
-            const height = containerRef.current.offsetHeight * 4;
+            const width = containerRef.current.offsetWidth * pixelRatio ;
+            const height = containerRef.current.offsetHeight *  pixelRatio ;
 
             setDimensions({
                 width,
@@ -196,7 +197,7 @@ function Ethereal(
                 canvasRef.current.width = width;
                 canvasRef.current.height = height;
                 const ctx = canvasRef.current.getContext('2d');
-                ctx.scale(4, 4); // Scale the canvas context
+                // ctx.scale(pixelRatio, pixelRatio); // Scale the canvas context
             }
         }
     };
@@ -302,8 +303,9 @@ function Ethereal(
         if (canvasRef.current && paramsRef.current && shape.current && shape.current.math && pointsRef.current?.length > 0) {
             let shapeViz = shape.current;
             let ctx = canvasRef.current.getContext('2d');
-            const width = containerRef.current.offsetWidth;
-            const height = containerRef.current.offsetHeight;
+            const pixelRatio = window.devicePixelRatio || 1
+            const width = containerRef.current.offsetWidth* pixelRatio;
+            const height = containerRef.current.offsetHeight * pixelRatio;
             const centerX = width / 2;
             const centerY = height / 2;
             // const volume = getVolume()
@@ -356,8 +358,6 @@ function Ethereal(
 
 
                 var t_radius = Math[shapeViz.math](rotate.current + shapeViz.frequency * i) * radius * shapeViz.boldRate + radius;
-                let w = containerRef.current.offsetWidth;
-                let h = containerRef.current.offsetHeight;
                 var tx = centerX + Math.cos(rotate.current + shapeViz.step*i + soundModifier ) * t_radius;
                 var ty = centerY + Math.sin(rotate.current + shapeViz.step*i + soundModifier ) * t_radius;
 
@@ -461,9 +461,20 @@ function Ethereal(
           let colors = shape.current?.colors;
           
           if (colors && colors.length > 0) {
-            let newRanges = colors.map(point => ({
-              count: Number(point.amount) * shape.current.pointCount / 100
-            }));
+            let newRanges = colors.map(point => {
+                let finalCount
+
+                let newCount = parseInt(point.amount) * shape.current.pointCount / 100
+
+                if(newCount < 1) {
+                    finalCount = 1
+                } else {
+                    finalCount = newCount
+                }
+                return {
+                    count: finalCount
+                }
+            });
 
             console.log("newRanges", newRanges)
     
