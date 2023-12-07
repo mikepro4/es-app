@@ -134,14 +134,14 @@ function Player() {
         switch (selectedTabId) {
             case 1:
                 return (<div className="player-viz-container">
-                    <Viz 
-                        item={app.paramsValues ? app.paramsValues :app.playerData?.params}
+                    <Viz
+                        item={app.paramsValues ? app.paramsValues : app.playerData?.params}
                         fullScreen={true}
                         showControls={true}
                     />
                 </div>)
             case 2:
-                return (<NftDetails/>)
+                return (<NftDetails />)
             default:
                 return;
         }
@@ -235,6 +235,9 @@ function Player() {
 
             <ul className="play-main-actions">
 
+                <li className="player-main-action">
+                    <Icon name="mic" />
+                </li>
                 <li className="player-main-action">
                     <Icon name="heart" />
                     <div className="player-main-action-label">0</div>

@@ -35,6 +35,8 @@ const Icon = ({ name, onClick }) => {
 
     const selectIcon = () => {
         switch (name) {
+
+
             case "logo-desktop":
                 return <LogoDesktop />
             case "logo-mobile":

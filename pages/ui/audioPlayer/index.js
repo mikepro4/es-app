@@ -6,6 +6,7 @@ import Button from '@/components/button'
 import TimeLine from '@/components/audio_player/TimeLine'
 import { useDispatch, useSelector } from 'react-redux';
 import Icon from '@/components/icon'
+import MicrophoneInput from '@/components/microphone_context'
 
 const songData = {
   "NGC_4548": "https://bb554ba31d988dbbc880888db00d07be.ipfscdn.io/ipfs/QmXyenNjhTktcY28ttr8uqGj2b2Z7okvQQNnHYt2jDxFxr/0",
@@ -137,15 +138,15 @@ const AudioPlayerWrapper = () => {
   return (
     <div className="ui-screen page-wrapper">
       <div className="page-container">
-
-        <Button
+        <MicrophoneInput />
+        {/* <Button
           label="Add Many Tracks"
           wrap={true}
           small={true}
           minimal={true}
           icon="plus"
           onClick={() => createManyTracks()}
-        />
+        /> */}
         {/* <AudioPlayer audioRef={audioRef} link={tracksJson[0]} />
         <AudioPlayer audioRef={audioRef} link={tracksJson[1]} />
         <AudioPlayer audioRef={audioRef} link={tracksJson[2]} />
