@@ -33,7 +33,23 @@ function Ethereal(
 
     useEffect(() => {
         playerRef.current = player
+        // setTimeout(() => {
+            // updateColors()
+        // }, 10)
     }, [player]);
+
+    // useEffect(() => {
+    //     // setTimeout(() => {
+    //         updateColors()
+    //     // }, 10)
+    // }, [playerRef.current ]);
+
+    // useEffect(() => {
+    //     // playerRef.current = player
+    //     // setTimeout(() => {
+    //         updateColors()
+    //     // }, 10)
+    // }, [player.currentTime]);
 
     const exampleParams = {
         "math": "sin",
@@ -252,12 +268,34 @@ function Ethereal(
 
     }
 
+    
+
     const getPointIterator = (i) => {
-        if (i <= shape.current.pointCount) {
+        if (i <= 500) {
             return i
-        } else {
-            return i - shape.current.pointCount
+        } else {    
+            return i - 1024
         }
+    }
+
+    function getVolume() {
+        if(playerRef?.current?.analyser) {
+
+        const dataArray = new Uint8Array(playerRef.current.analyser.frequencyBinCount);
+
+        playerRef.current.analyser.getByteFrequencyData(dataArray);
+    
+        let sum = 0;
+        for(let i = 0; i < dataArray.length; i++) {
+            sum += dataArray[i];
+        }
+    
+        let average = sum / dataArray.length;
+        return average; // This is the approximate volume
+        } else {
+            return 0
+        }
+
     }
 
     const frameTicker = useCallback(() => {
@@ -268,6 +306,7 @@ function Ethereal(
             const height = containerRef.current.offsetHeight;
             const centerX = width / 2;
             const centerY = height / 2;
+            const volume = getVolume()
 
             let radius = width / getScale() / shape.current.scale;
 
@@ -284,33 +323,52 @@ function Ethereal(
         
             let l = pointsRef.current.length;
 
+            // console.log(freqData)
+
 
             for (i = 0; i < l; i++) {
                 let pt = pointsRef.current[i];
 
                 if (playerRef.current.analyser && soundModifier) {
-                    soundModifier = freqData[getPointIterator(i)] / 1000
+                   
+                    soundModifier = freqData[i] / 100
 
-                    if (soundModifier == 0) {
-                        soundModifier = 1
+                    if (!soundModifier) {
+                        soundModifier = 0
                     }
+                }
+
+                let finalFrequency
+
+                if(volume  && volume > 1) {
+                    finalFrequency = volume / 500000 + shapeViz.frequency 
+                } else {
+                    finalFrequency = shapeViz.frequency
+                }
+
+                let finalStep
+
+                if(volume  && volume > 1) {
+                    finalStep = volume / 500000  + shapeViz.step 
+                } else {
+                    finalStep = shapeViz.step
                 }
 
 
                 var t_radius = Math[shapeViz.math](rotate.current + shapeViz.frequency * i) * radius * shapeViz.boldRate + radius;
                 let w = containerRef.current.offsetWidth;
                 let h = containerRef.current.offsetHeight;
-                var tx = centerX + Math.cos(rotate.current + shapeViz.step * i + soundModifier) * t_radius;
-                var ty = centerY + Math.sin(rotate.current + shapeViz.step * i + soundModifier) * t_radius;
+                var tx = centerX + Math.cos(rotate.current + shapeViz.step*i + soundModifier ) * t_radius;
+                var ty = centerY + Math.sin(rotate.current + shapeViz.step*i + soundModifier ) * t_radius;
 
                 pt.vx += (tx - pt.x) * shapeViz.pointRotateSpeed;
                 pt.vy += (ty - pt.y) * shapeViz.pointRotateSpeed;
 
-                pt.x += pt.vx;
+                pt.x += pt.vx ;
                 pt.y += pt.vy;
 
-                pt.vx *= shapeViz.friction;
-                pt.vy *= shapeViz.friction;
+                pt.vx *= shapeViz.friction ;
+                pt.vy *= shapeViz.friction ;
 
                 // if (pt.x >= 0 && pt.x <= w && pt.y >= 0 && pt.y <= h) {
                     ctx.beginPath();
@@ -323,6 +381,24 @@ function Ethereal(
                     //     ${this.getPointOpacity(freqData[this.getPointIterator(i)], point)}
                     // )`;
                     ctx.fill();
+
+                    // ctx.beginPath();
+                    // const sliceWidth = w * 1.0 / playerRef.current?.analyser?.frequencyBinCount;
+                    // let x = 0;
+                    // for(let i = 0; i < playerRef.current?.analyser?.frequencyBinCount; i++) {
+                    //     const v = freqData[i] / 128.0; // Normalize the value
+                    //     const y = v * h / 2;
+
+                    //     if(i === 0) {
+                    //     ctx.moveTo(x, y);
+                    //     } else {
+                    //     ctx.lineTo(x, y);
+                    //     }
+
+                    //     x += sliceWidth;
+                    // }
+                    // ctx.lineTo(w, h / 2);
+                    // ctx.stroke();
                 // }
             }
 

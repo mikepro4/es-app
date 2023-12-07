@@ -11,6 +11,7 @@ const initialState = {
     audioName: "",
     isPlaying: false,
     playerControls: false,
+    setTimeStamp: null
 };
 
 export const audioSlice = createSlice({

@@ -40,6 +40,7 @@ const AudioPlayer = () => {
                 let source = audioCtx.createMediaElementSource(audio);
                 source.connect(analyserVar);
                 source.connect(audioCtx.destination);
+                analyserVar.fftSize = 2048;
                 dispatch(setAnalyser(analyserVar))
                 dispatch(setConnected(true))
             }
