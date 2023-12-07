@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import classNames from "classnames";
 
 import TabBar from '@/components/tab'
+import Generator from '@/components/generator'
 
 import { togglePlayer, shapeNextItem, shapePreviousItem, shapeItem, toggleDrawer, toggleParamsValues } from "@/redux";
 
@@ -224,6 +225,8 @@ function Player() {
 
             </div> */}
             {/* {app.playerData?.name} */}
+
+            {selectedTabId == 1 && <Generator item={app.playerData}/>}
 
             {renderTab()}
 

@@ -37,6 +37,10 @@ const Button = (props) => {
           "chevron-right": props.chevron === "right",
           "small": props.small
         })}
+        style={{
+          "position": "relative",
+          left: props.offset ? props.offset : 0
+        }}
       >
         <Icon icon={props.icon} />
       </div>

@@ -1,0 +1,41 @@
+.generator-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    opacity: 0;
+    animation-delay: 1s;
+    @extend .animation-fadeIn;
+
+    ul.generator-content {
+        height: 30px;
+        margin-top: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        @media only screen and (min-width: $mobile) {
+            margin-top: 120px;
+        }
+
+        li {
+            margin: 0 5px;
+        }
+
+    }
+
+    .current-iteration {
+        background: rgba(255, 255, 255, 0.1);
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 65px;
+        border-radius: 100px;
+        font-size: 10px;
+    }
+}

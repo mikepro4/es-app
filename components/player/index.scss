@@ -17,7 +17,7 @@
         left: 0;
         right: 0;
         height: 70px;
-        z-index: 2;
+        z-index: 5;
         opacity: 0;
         @extend .animation-fadeIn;
         animation-delay: 0.5s;
@@ -40,6 +40,15 @@
                 display: none;
             }
         }
+
+        
+
+        @media only screen and (min-width: $mobile) {
+            .tab-container ul.tab-list li.tab-link-container  {
+                margin: 0 12px;
+            }
+        }
+        
 
         .tab-container ul.tab-list li.tab-link-container .tab-link-wrapper {
             padding-bottom: 0px;
@@ -88,7 +97,7 @@
         left: 222px;
         opacity: 0;
         @extend .animation-fadeIn;
-        z-index: 2;
+        z-index: 5;
 
         @media only screen and (max-width: $mobile) {
             top: 90px;

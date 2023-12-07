@@ -125,7 +125,7 @@ const ParamSwitch = (props) => {
                     {props.display == "label" && <div className="param-switch-label-display">
                         <Label
                             intent={props.intent}
-                            label={props.value}
+                            label={props.valueFromLabel ? getValue(props.value).label : props.value}
                             iconRight={"chevron-down"}
                             />
                     </div>}

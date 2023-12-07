@@ -41,7 +41,7 @@ function ShapeListView({
                     respondToScroll={true}
                     scroll={scroll}
                     pause={app.playerOpen}
-                    scale={6}
+                    scale={5}
                 />
             </div>
 

@@ -61,13 +61,16 @@ function AddShape() {
     }
 
     const remapOriginalValues = (values) => {
-
-        let newColors = values.defaultViz.colors.map((color) => {
-            return {
-                color: hexToRgba(color.hex, color.opacity/ 100) ,
-                amount: Number(color.amount)
-            }
-        })
+        let newColors = []
+        if(values.defaultViz.colors && values.defaultViz.colors.length > 0)  { 
+            newColors = values.defaultViz.colors.map((color) => {
+                return {
+                    color: hexToRgba(color.hex, color.opacity/ 100) ,
+                    amount: Number(color.amount)
+                }
+            })
+        } 
+       
 
         
 
@@ -81,36 +84,30 @@ function AddShape() {
             math: values.defaultViz.shape.math,
             pointSize: values.defaultViz.point.pointSize,
             pointOpacity: values.defaultViz.point.pointOpacity,
-            backgroundColor: hexToRgba(values.defaultViz.shape.backgroundColor, 1),
+            backgroundColor: values.defaultViz.shape.backgroundColor ? hexToRgba(values.defaultViz.shape.backgroundColor, 1) : "rgba(0,0,0,1)",
             scale: 1,
             colors: newColors,
             pointCount: values.defaultViz.point.pointCount,
-            overlayBlur: values.defaultViz.overlay.visible ? values.defaultViz.overlay.blur : 0,
-            overlayOpacity: values.defaultViz.overlay.visible ? 1 : 0,
-            overlayColor: hexToRgba(values.defaultViz.overlay.color, values.defaultViz.overlay.colorOpacity)
+            overlayBlur: values.defaultViz.overlay?.visible ? values.defaultViz.overlay.blur : 0,
+            overlayOpacity: values.defaultViz.overlay?.visible ? 1 : 0,
+            overlayColor: values.defaultViz.overlay?.color ? hexToRgba(values.defaultViz.overlay.color, values.defaultViz.overlay.colorOpacity) : "rgba(0,0,0,1)",
             
         }
         console.log(finalShapeParams);
         setParams(finalShapeParams)
+        // dispatch(shapeCreate({
+        //     name: "From ES",
+        //     params: finalShapeParams,
+        //     algo: "6563fe999e29ba405e2f658c",
+        //     callback: ((data) => {
+        //         console.log("callback")
+        //         toasterRef.current.show({ message: `Shape was created` });
+        //     })
+        // }))
     }
 
     const handleSubmit = (values) => {
-        // console.log(values);
-
         fetchEtherealShape(values.shapeId)
-
-        // dispatch(albumUpdateItem({
-        //     data: values,
-        //     callback: (data) => {
-        //         dispatch(updateCollectionItem(data._id))
-
-        //         dispatch(toggleDrawer({
-        //             drawerOpen: false,
-        //             drawerType: null,
-        //             drawerData: null,
-        //         }))
-        //     }
-        // }))
     };
 
 
@@ -129,6 +126,8 @@ function AddShape() {
             });
             console.log(response.data)
             remapOriginalValues(response.data)
+            
+
           return response.data;
         }
 
