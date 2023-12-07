@@ -18,6 +18,12 @@ function AppSettings(props) {
 
     useEffect(() => {
 
+        dispatch(toggleDrawer({
+            drawerOpen: true,
+            drawerType: "generator-settings",
+            drawerData: props.item,
+        }));
+
         return () => {
             
         };
@@ -112,7 +118,7 @@ function AppSettings(props) {
                         small={true}
                         onClick={() => {
                             dispatch(toggleDrawer({
-                                drawerOpen: "true",
+                                drawerOpen: true,
                                 drawerType: "generator-settings",
                                 drawerData: props.item,
                             }));

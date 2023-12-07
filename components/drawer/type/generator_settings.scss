@@ -1,0 +1,32 @@
+.generator-drawer-container {
+    .generator-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .select-container {
+            margin-bottom: 0;
+        }
+
+        .select-title {
+            display: none;
+        }
+
+        .generator-header-left {
+            display: flex;
+            flex-grow: 1;
+            flex-shrink: 1;
+            padding-right: 20px;
+
+            form {
+                width: 100%;
+            }
+        }
+
+        .generator-header-right {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}

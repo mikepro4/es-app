@@ -11,6 +11,7 @@ const GeneratorSchema = new Schema({
         enum: ["active", "inactive"],
         default: "inactive"
     },
+    params: Object
 });
 
 module.exports = mongoose.model("Generator", GeneratorSchema);

@@ -15,10 +15,11 @@ router.post("/create", requireSignin, async (req, res) => {
     console.log(req.body, req.user)
     try {
         const count = await Generators.countDocuments();
-        const generatorName = `New Generator ${count + 1}`;
+        const generatorName = `X${count + 1}`;
         const Generator = await new Generators({
             name: generatorName,
             author: req.user._id,
+            params: req.body.params,
             created: new Date()
         }).save();
         if (Generator) {

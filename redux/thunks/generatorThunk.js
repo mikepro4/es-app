@@ -4,9 +4,9 @@ import userApi from "../api";
 
 const generatorCreate = createAsyncThunk(
     "generator/create",
-      async ({ name, callback }, { rejectWithValue }) => {
+      async ({ name, params, callback }, { rejectWithValue }) => {
       try {
-        const response = await userApi.post("/generator/create", { name });
+        const response = await userApi.post("/generator/create", { name, params });
   
         if (callback) {
           callback(response.data)
