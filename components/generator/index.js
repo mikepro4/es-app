@@ -5,11 +5,14 @@ import classNames from "classnames";
 import Button from "@/components/button"
 import ParamSwitch from "@/components/paramSwitch";
 
-function AppSettings() {
+import { toggleDrawer } from "@/redux";
+
+function AppSettings(props) {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
     const [generator, setGenerator] = useState("1");
+    const dispatch = useDispatch();
 
 
 
@@ -107,6 +110,13 @@ function AppSettings() {
                         icon="edit"
                         minimal={true}
                         small={true}
+                        onClick={() => {
+                            dispatch(toggleDrawer({
+                                drawerOpen: "true",
+                                drawerType: "generator-settings",
+                                drawerData: props.item,
+                            }));
+                        }}
                     />
                 </li>
                 

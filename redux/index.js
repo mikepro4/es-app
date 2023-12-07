@@ -71,6 +71,7 @@ export * from "./thunks/hardwareThunk";
 export * from "./thunks/tierThunk";
 export * from "./thunks/planetThunk";
 export * from "./thunks/galaxyThunk";
+export * from "./thunks/generatorThunk";
 
 // =========================== //
 

@@ -25,6 +25,7 @@ import PlanetSettings from "./type/planet_settings.js";
 import PlanetCollectionSettings from "./type/planet_collection_settings.js";
 import GalaxySettings from "./type/galaxy_settings.js";
 import GalaxyCollectionSettings from "./type/planet_collection_settings.js";
+import GeneratorSettings from "./type/generator_settings";
 
 function Drawer() {
   const dispatch = useDispatch();
@@ -93,6 +94,10 @@ function Drawer() {
       case "galaxy-collection-settings":
         return (
           <GalaxyCollectionSettings hideDrawer={hideDrawer} enablePortal />
+        );
+      case "generator-settings":
+        return (
+          <GeneratorSettings hideDrawer={hideDrawer} enablePortal />
         );
       default:
         return;
