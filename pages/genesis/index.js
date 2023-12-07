@@ -10,6 +10,7 @@ import AlgoPage from './algoPage'
 
 import ShapesTab from "./shapesTab"
 import AlgoTab from "./algoTab"
+import AddShape from "./addShape"
 
 export default function Genesis() {
   const router = useRouter();
@@ -65,7 +66,7 @@ export default function Genesis() {
         }
 
       case 3:
-        return (<div>Add shape</div>)
+        return (<AddShape/>)
       case 4:
         return (<div>Generate</div>)
       case 5:

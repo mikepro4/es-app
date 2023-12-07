@@ -1,0 +1,21 @@
+.viz-preview-container {
+    position: relative;
+    height: 1000px;
+
+
+    @media only screen and (max-width: $mobile) {
+        height: 500px;
+
+    }
+}
+
+.add-shape-container {
+    max-width: 1000px;
+    margin: 50px auto;
+    width: 100%;
+    overflow-y: scroll;
+
+  
+
+    
+}

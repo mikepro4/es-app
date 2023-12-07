@@ -81,6 +81,7 @@
 @import "../pages/genesis/algoPage.scss";
 @import "../pages/genesis/algoPreview.scss";
 @import "../pages/genesis/algoInputs.scss";
+@import "../pages/genesis/addShape.scss";
 
 @import "../pages/music/index.scss";
 @import "../pages/planets/index.scss";
@@ -179,6 +180,7 @@ body {
   overflow-x: hidden;
   opacity: 1;
   transition: opacity 1s;
+  user-select: none;
 
   &.no-scroll {
     overflow: hidden;

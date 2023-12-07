@@ -306,7 +306,7 @@ function Ethereal(
             const height = containerRef.current.offsetHeight;
             const centerX = width / 2;
             const centerY = height / 2;
-            const volume = getVolume()
+            // const volume = getVolume()
 
             let radius = width / getScale() / shape.current.scale;
 
@@ -338,21 +338,21 @@ function Ethereal(
                     }
                 }
 
-                let finalFrequency
+                // let finalFrequency
 
-                if(volume  && volume > 1) {
-                    finalFrequency = volume / 500000 + shapeViz.frequency 
-                } else {
-                    finalFrequency = shapeViz.frequency
-                }
+                // if(volume  && volume > 1) {
+                //     finalFrequency = volume / 500000 + shapeViz.frequency 
+                // } else {
+                //     finalFrequency = shapeViz.frequency
+                // }
 
-                let finalStep
+                // let finalStep
 
-                if(volume  && volume > 1) {
-                    finalStep = volume / 500000  + shapeViz.step 
-                } else {
-                    finalStep = shapeViz.step
-                }
+                // if(volume  && volume > 1) {
+                //     finalStep = volume / 500000  + shapeViz.step 
+                // } else {
+                //     finalStep = shapeViz.step
+                // }
 
 
                 var t_radius = Math[shapeViz.math](rotate.current + shapeViz.frequency * i) * radius * shapeViz.boldRate + radius;
