@@ -10,15 +10,13 @@ const initialState = {
     id: "",
     audioName: "",
     isPlaying: false,
-    playerControls: false,
-    setTimeStamp: null
+    playerControls: false
 };
 
 export const audioSlice = createSlice({
     name: 'audioPlayer',
     initialState,
     reducers: {
-
 
         setCurrentTime: (state, action) => {
             state.currentTime = action.payload;
