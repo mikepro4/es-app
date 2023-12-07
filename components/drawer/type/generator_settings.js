@@ -12,7 +12,14 @@ import TabSwitcher from "@/components/form/TabSwitcher";
 
 import { OverlayToaster } from '@blueprintjs/core';
 
-import { generatorCreate, generatorSearch, generatorItem, generatorUpdateItem } from "@/redux"
+import { 
+    generatorCreate, 
+    generatorSearch, 
+    generatorItem, 
+    generatorUpdateItem,
+    generatorDelete,
+    generatorDuplicate
+} from "@/redux"
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
@@ -28,7 +35,7 @@ function AppSettings() {
 
     useEffect(() => {
 
-        searchGenerators()
+        searchGenerators(true)
 
         return () => {
 
@@ -50,7 +57,7 @@ function AppSettings() {
         setActiveGenerator({ generatorId: id })
     }
 
-    const searchGenerators = () => {
+    const searchGenerators = (doSelect) => {
         dispatch(
             generatorSearch({
                 criteria: {},
@@ -68,9 +75,12 @@ function AppSettings() {
                     });
                     setGenerators(finalOptinos);
                     setTimestamp(Date.now())
-                    setTimeout(() => {
-                        selectGenerator(finalOptinos[0].value)
-                    }, 100)
+                    if(finalOptinos[0]?.value && doSelect) {
+                        setTimeout(() => {
+                            selectGenerator(finalOptinos[0].value)
+                        }, 100)
+                    }
+                   
                 },
             })
         );
@@ -86,61 +96,49 @@ function AppSettings() {
                             name: "X",
                             params: {
                                 iterations: 100000,
-                                iterationDelay: 1,
-                                list: [
-                                    {
-                                        paramName: "frequency",
-                                        paramType: "forward",
-                                        paramIncrement: 0.0001
-                                    }
-                                ]
+                                iterationGap: 1,
+                                list: []
                             },
                             callback: (data) => {
                                 toasterRef.current.show({ message: `${data.name} was created` });
                                 //   dispatch(updateCollection(true))
-                                searchGenerators()
+                                searchGenerators(false)
+                                setTimeout(() => {
+                                    selectGenerator(data._id)
+                                }, 100)
                             }
                         },)
                 )
 
                 break;
-            case "edit":
-                console.log("edit")
-                // dispatch(toggleDrawer({
-                //     drawerOpen: open,
-                //     drawerType: "album-settings",
-                //     drawerData: item,
-                // }));
-                break;
-            case "edit":
-                console.log("edit")
-                // dispatch(toggleDrawer({
-                //     drawerOpen: open,
-                //     drawerType: "album-settings",
-                //     drawerData: item,
-                // }));
-                break;
             case "delete":
                 console.log("delete")
-
-                // dispatch(
-                //     albumDelete(
-                //         {
-                //             albumId: item._id,
-                //             callback: (data) => {
-                //                 dispatch(updateCollectionItem(item._id))
-
-                //                 router.push({
-                //                     pathname: router.pathname,
-                //                     query: { ...router.query, tab: 2, albumId: null }
-                //                 }, undefined, { shallow: true });
-
-                //             }
-                //         },)
-                // )
+                if(generator && generator._id) {
+                    dispatch(generatorDelete({
+                        generatorId: generator._id,
+                        callback: (data) => {
+                            toasterRef.current.show({ message: `${generator.name} was deleted` });
+                            setActiveGenerator({})
+                            searchGenerators(true)
+                            setGenerator(null)
+                        }
+                    }))
+                }
                 break
             case "duplicate":
                 console.log("duplicate")
+                if(generator && generator._id) {
+                    dispatch(generatorDuplicate({
+                        generatorId: generator._id,
+                        callback: (data) => {
+                            toasterRef.current.show({ message: `${generator.name} was duplicated` });
+                            searchGenerators()
+                            setTimeout(() => {
+                                selectGenerator(data._id)
+                            }, 100)
+                        }
+                    }))
+                }
                 // dispatch(
                 //     albumDuplicate(
                 //         {
@@ -218,6 +216,17 @@ function AppSettings() {
         console.log(values);
     };
 
+    // const getParamsList = () => {
+    //     const paramsList = app.drawerData.params
+    //     const newParamsList = paramsList.map((param) => {
+    //         return {
+    //             value: param.,
+    //             paramType: param.paramType,
+    //             paramIncrement: param.paramIncrement
+    //         }
+    //     }
+    // }
+
     const renderGeneratorParams = () => {
         return (
             <div className="generator-params">
@@ -251,10 +260,10 @@ function AppSettings() {
 
 
                                     <Field
-                                        name="params.iterationDelay"
+                                        name="params.iterationGap"
                                         component={Input}
-                                        title="Iteration Delay"
-                                        placeholder="Iteration Delay"
+                                        title="Iteration Gap"
+                                        placeholder="Iteration Gap"
                                     />
 
                                 </div>
@@ -290,9 +299,10 @@ function AppSettings() {
 
                                                         <Field
                                                             name={`params.list.${index}.paramName`}
-                                                            component={Input}
-                                                            title="Parameter Name"
-                                                            placeholder="Parameter Name"
+                                                            title="Param name"
+                                                            options={app.playerData.algo.params}
+                                                            component={Select}
+                                                            searchable={false}
                                                         />
                                                         <Field
                                                             name={`params.list.${index}.paramType`}
@@ -364,11 +374,6 @@ function AppSettings() {
                                             label: "Create new",
                                             value: "new",
                                             icon: "plus"
-                                        },
-                                        {
-                                            label: "Edit",
-                                            value: "edit",
-                                            icon: "edit"
                                         },
                                         {
                                             label: "Duplicate",
