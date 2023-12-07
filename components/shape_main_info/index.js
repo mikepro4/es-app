@@ -15,14 +15,13 @@ function ShapeMainInfo({
 }) {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
+    const keyboard = useSelector((state) => state.keyboard);
     const { isPlaying, audioName, playerControls, volume, id: trackId } = useSelector(state => state.audioPlayer)
     const router = useRouter();
     const dispatch = useDispatch();
 
-    console.log(item?.track);
-
     const handlePlay = () => {
-        if (item.track._id !== trackId) {
+        if (item && item.track && item.track._id !== trackId ) {
             dispatch(setAudioId(item.track._id));
             dispatch(setAudioName(item.track.name));
             dispatch(setAudioLink(item.track.songLink));
@@ -34,10 +33,15 @@ function ShapeMainInfo({
 
 
     useEffect(() => {
+
+        let lastKey = keyboard.activeKeys[keyboard.activeKeys.length - 1];
+        if (lastKey === "SPACE") {
+            handlePlay();
+        }
         return () => {
 
         };
-    }, []);
+    }, [keyboard]);
 
     return (
         <div className="shape-main-info-container">

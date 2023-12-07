@@ -3,7 +3,7 @@ import { useSelector, useDispatch} from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 
-import { toggleParamsValues } from '@/redux';
+import { toggleParamsValues, togglePlayPause } from '@/redux';
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
