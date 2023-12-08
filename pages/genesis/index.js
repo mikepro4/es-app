@@ -13,6 +13,7 @@ import AlgoTab from "./algoTab"
 import AddShape from "./addShape"
 
 import GenerateTab from "./generateTab"
+import IterationsTab from "./iterationsTab"
 
 export default function Genesis() {
   const router = useRouter();
@@ -23,8 +24,6 @@ export default function Genesis() {
   let tabs = [
     "Shapes",
     "Algorithms",
-    "Add shape",
-    "Generate",
     "Iterations"
   ]
 
@@ -68,7 +67,19 @@ export default function Genesis() {
         }
 
       case 3:
-        return (<AddShape/>)
+        return (
+          <div className="full-screen-content-container">
+
+              <div className="full-screen-content-area">
+                <IterationsTab/>
+
+              </div>
+
+              <div className="full-screen-filters-area">
+                <ShapeSidebar />
+              </div>
+            </div>
+        )
       case 4:
         return (<GenerateTab/>)
       case 5:

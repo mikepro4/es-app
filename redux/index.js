@@ -18,6 +18,7 @@ import { galaxyListReducer } from "./slices/galaxyListSlice";
 import { planetListReducer } from "./slices/planetListSlice";
 import { keyboardReducer } from "./slices/keyboardSlice";
 import { microphoneListenReducer } from "./slices/microphoneListenSlice";
+import { iterationListReducer } from "./slices/iterationListSlice";
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   planetList: planetListReducer,
   audioPlayer: audioSliceReducer,
   galaxyList: galaxyListReducer,
+  iterationList: iterationListReducer,
   keyboard: keyboardReducer,
   microphoneListen: microphoneListenReducer
 });
@@ -80,6 +82,7 @@ export * from "./thunks/generatorThunk";
 // ACTIONS
 export * from "./slices/appSlice";
 export * from "./slices/userSlice";
+export * from "./slices/iterationListSlice";
 export * from "./slices/testListSlice";
 export * from "./slices/shapeListSlice";
 export * from "./slices/algoListSlice";
