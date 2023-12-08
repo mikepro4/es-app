@@ -6,6 +6,7 @@ import ParamSwitch from "@/components/paramSwitch";
 
 import { Formik, Form, Field, FieldArray } from "formik";
 import Input from "@/components/form/BladeInput";
+import Slider from "@/components/form/Slider";
 import Button from "@/components/button";
 import Select from "@/components/form/Select";
 import TabSwitcher from "@/components/form/TabSwitcher";
@@ -304,18 +305,115 @@ function AppSettings() {
                                                             component={Select}
                                                             searchable={false}
                                                         />
+
                                                         <Field
+                                                            name={`params.list.${index}.delayIterations`}
+                                                            component={Input}
+                                                            title="Delay Iterations"
+                                                            placeholder="Delay Iterations"
+                                                        />
+
+                                                        <Field
+                                                            component={Slider}
+                                                            name={`params.list.${index}.delayIterations`}
+                                                            min={0}
+                                                            max={100000}
+                                                            step={1}
+                                                            labelStepSize={100000/3}
+                                                            displayName={"Delay Iterations"}
+                                                        />
+
+                                                        <Field
+                                                            name={`params.list.${index}.paramType`}
+                                                            title="Param type"
+                                                            component={TabSwitcher}
+                                                            options={[{
+                                                                value: "step",
+                                                                label: "Step"
+                                                            },
+                                                            {
+                                                                value: "range",
+                                                                label: "Range"
+                                                            },
+                                                            {
+                                                                value: "random",
+                                                                label: "Random"
+                                                            }
+                                                        ]} />
+                                                        {listItem.paramType === 'step' && (
+                                                            <>
+                                                                <Field
+                                                                    name={`params.list.${index}.stepAmount`}
+                                                                    component={Input}
+                                                                    title="Step amount"
+                                                                    placeholder="Step amount"
+                                                                />
+
+                                                                <Field
+                                                                    name={`params.list.${index}.stepDirection`}
+                                                                    title="Step direction"
+                                                                    component={TabSwitcher}
+                                                                    options={[{
+                                                                        value: "forward",
+                                                                        label: "Foward"
+                                                                    },
+                                                                    {
+                                                                        value: "backward",
+                                                                        label: "Backward"
+                                                                    }
+                                                                ]} />
+                                                            </>
+                                                        )}
+
+                                                        {listItem.paramType === 'range' && (
+                                                            <>
+                                                                <Field
+                                                                    name={`params.list.${index}.fromAmount`}
+                                                                    component={Input}
+                                                                    title="From amount"
+                                                                    placeholder="From amount"
+                                                                />
+
+                                                                <Field
+                                                                    name={`params.list.${index}.toAmount`}
+                                                                    component={Input}
+                                                                    title="To amount"
+                                                                    placeholder="To amount"
+                                                                />
+
+                                                                <Field
+                                                                    name={`params.list.${index}.rangeIterations`}
+                                                                    component={Input}
+                                                                    title="Range Iterations"
+                                                                    placeholder="Range Iterations"
+                                                                />
+
+                                                                <Field
+                                                                    component={Slider}
+                                                                    name={`params.list.${index}.rangeIterations`}
+                                                                    min={0}
+                                                                    max={100000}
+                                                                    step={1}
+                                                                    labelStepSize={100000/3}
+                                                                    displayName={"Range Iterations"}
+                                                                />
+                                                               
+                                                            </>
+                                                        )}
+                                                        
+
+                                                        {/* <Field
                                                             name={`params.list.${index}.paramType`}
                                                             component={Input}
                                                             title="Parameter Type"
                                                             placeholder="Parameter Type"
-                                                        />
-                                                        <Field
+                                                        /> */}
+                                                        {/* <Field
                                                             name={`params.list.${index}.paramIncrement`}
                                                             component={Input}
                                                             title="Parameter Increment"
                                                             placeholder="Parameter Increment"
-                                                        />
+                                                        /> */}
                                                         
                                                     </div>
                                                 ))
@@ -331,8 +429,9 @@ function AppSettings() {
                                                     label="Add parameter" 
                                                     onClick={() => arrayHelpers.push({ 
                                                         paramName: '', 
-                                                        paramType: '', 
-                                                        paramIncrement: 0 
+                                                        paramType: "step",
+                                                        delayIterations: 1,
+                                                        rangeIterations: 0
                                                     })}>
                                                 </Button>
                                             </div>
