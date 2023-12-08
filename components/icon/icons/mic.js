@@ -1,19 +1,27 @@
 import React from "react";
+import classNames from "classnames";
 
-function Icon() {
+function Icon({ fill }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="20"
+      width="19"
       height="24"
       fill="none"
-      viewBox="0 0 20 24"
+      viewBox="0 0 19 24"
+      className={classNames({ "svg-fill-toggle": fill })}
     >
+      <path
+        fill="#fff"
+        fillRule="evenodd"
+        d="M.989 10.665a.57.57 0 01.647.483 8.2 8.2 0 0016.228 0 .57.57 0 111.13.164 9.341 9.341 0 01-8.673 7.979v3.838a.57.57 0 01-1.142 0v-3.838a9.342 9.342 0 01-8.673-7.98.57.57 0 01.483-.646z"
+        clipRule="evenodd"
+      ></path>
       <path
         stroke="#fff"
         strokeLinecap="round"
         strokeLinejoin="round"
-        d="M1.186 10.693a8.802 8.802 0 008.71 7.535m0 0a8.803 8.803 0 008.711-7.535m-8.71 7.535v4.408m0-22a3.771 3.771 0 00-3.77 3.771v5.029a3.772 3.772 0 007.542 0V4.407A3.772 3.772 0 009.898.636z"
+        d="M9.751 1.209a3.758 3.758 0 00-3.758 3.758v5.01a3.758 3.758 0 107.516 0v-5.01A3.758 3.758 0 009.75 1.209z"
       ></path>
     </svg>
   );

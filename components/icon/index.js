@@ -31,10 +31,12 @@ import CaretLeft from "./icons/caret_left"
 import AudioSettings from "./icons/audio-settings"
 import Atom from "./icons/atom"
 
-const Icon = ({ name, onClick }) => {
+const Icon = ({ name, onClick, fill }) => {
 
     const selectIcon = () => {
         switch (name) {
+
+
             case "logo-desktop":
                 return <LogoDesktop />
             case "logo-mobile":
@@ -66,7 +68,7 @@ const Icon = ({ name, onClick }) => {
             case "arrow-forward":
                 return <ArrowForward />
             case "mic":
-                return <Mic />
+                return <Mic fill={fill} />
             case "heart":
                 return <Heart />
             case "tick":
