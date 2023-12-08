@@ -165,7 +165,7 @@ function Ethereal(
 
 
     useEffect(() => {
-        if (!_.isEqual(paramsRef.current?.colors, shape.current.colors)) {
+        if (!_.isEqual(paramsRef.current?.colors, shape.current?.colors)) {
             generatePoints()
             setTimeout(() => {
                 updateColors()
@@ -174,7 +174,7 @@ function Ethereal(
     }, [paramsRef.current?.colors]);
 
     useEffect(() => {
-        if (paramsRef.current?.pointCount !== shape.current.pointCount) {
+        if (paramsRef.current?.pointCount !== shape.current?.pointCount) {
             generatePoints()
             setTimeout(() => {
                 updateColors()

@@ -10,6 +10,7 @@ import { updateCollection, updateCollectionItem } from "@/redux"
 
 import TestView from "./views/test_list_view"
 import ShapeView from "./views/shape_list_view"
+import ShapeViewIteration from "./views/shape_list_view_iteration"
 import AlgoView from "./views/algo_list_view"
 import TrackView from "./views/track_list_view"
 import AlbumView from "./views/album_list_view"
@@ -103,6 +104,13 @@ function InfiniteList({
                 />)
             case "shape-view-list":
                 return (<ShapeView
+                    item={item}
+                    key={item._id}
+                    scroll={scrollValue}
+                    handleClick={handleClick}
+                />)
+            case "shape-view-list-iteration":
+                return (<ShapeViewIteration
                     item={item}
                     key={item._id}
                     scroll={scrollValue}
