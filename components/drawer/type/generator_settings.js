@@ -19,7 +19,8 @@ import {
     generatorItem, 
     generatorUpdateItem,
     generatorDelete,
-    generatorDuplicate
+    generatorDuplicate,
+    updateCollection
 } from "@/redux"
 
 function AppSettings() {
@@ -102,7 +103,7 @@ function AppSettings() {
                             },
                             callback: (data) => {
                                 toasterRef.current.show({ message: `${data.name} was created` });
-                                //   dispatch(updateCollection(true))
+                                dispatch(updateCollection(true))
                                 searchGenerators(false)
                                 setTimeout(() => {
                                     selectGenerator(data._id)
@@ -115,6 +116,7 @@ function AppSettings() {
             case "delete":
                 console.log("delete")
                 if(generator && generator._id) {
+                    dispatch(updateCollection(true))
                     dispatch(generatorDelete({
                         generatorId: generator._id,
                         callback: (data) => {
@@ -129,6 +131,7 @@ function AppSettings() {
             case "duplicate":
                 console.log("duplicate")
                 if(generator && generator._id) {
+                    dispatch(updateCollection(true))
                     dispatch(generatorDuplicate({
                         generatorId: generator._id,
                         callback: (data) => {

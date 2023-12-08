@@ -5,18 +5,21 @@ import classNames from "classnames";
 import Button from "@/components/button"
 import ParamSwitch from "@/components/paramSwitch";
 
-import { toggleDrawer } from "@/redux";
+import { toggleDrawer, generatorSearch, updateCollection } from "@/redux";
+import { set } from "lodash";
 
 function AppSettings(props) {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
-    const [generator, setGenerator] = useState("1");
+    const [generator, setGenerator] = useState();
     const dispatch = useDispatch();
+    const [generators, setGenerators] = useState([]);
 
 
 
     useEffect(() => {
+        searchGenerators()
 
         dispatch(toggleDrawer({
             drawerOpen: true,
@@ -29,11 +32,61 @@ function AppSettings(props) {
         };
     }, []); 
 
+    useEffect(() => {
+        if(app.updateCollection ) {
+            searchGenerators()
+
+            // dispatch(toggleDrawer({
+            //     drawerOpen: true,
+            //     drawerType: "generator-settings",
+            //     drawerData: props.item,
+            // }));
+
+            dispatch(updateCollection(false))
+        }
+       
+
+        return () => {
+            
+        };
+    }, [app.updateCollection]); 
+
+    const searchGenerators = (doSelect) => {
+        dispatch(
+            generatorSearch({
+                criteria: {},
+                sortProperty: "created",
+                offset: 0,
+                limit: 10000,
+                order: 1,
+
+                callback: (data) => {
+                    let finalOptinos = data.all.map((option) => {
+                        return {
+                            value: option._id,
+                            label: option.name,
+                        };
+                    });
+                    setGenerators(finalOptinos);
+                    setGenerator(finalOptinos[0]?.value)
+                    // setTimestamp(Date.now())
+                    // if(finalOptinos[0]?.value && doSelect) {
+                    //     setTimeout(() => {
+                    //         selectGenerator(finalOptinos[0].value)
+                    //     }, 100)
+                    // }
+                   
+                },
+            })
+        );
+    }
+
+
     return (
         <div className="generator-container">
             <ul className="generator-content">
                 <li>
-                    <ParamSwitch
+                    {generator && generators && generators.length > 0 &&<ParamSwitch
                         display="label"
                         intent={"neutral"}
                         value={generator}
@@ -43,31 +96,14 @@ function AppSettings(props) {
                         params={[
                             {
                                 type: "links",
-                                values: [
-                                    {
-                                        label: "X1",
-                                        value: "1",
-                                    },
-                                    {
-                                        label: "X2",
-                                        value: "2",
-                                    },
-                                    {
-                                        label: "X3",
-                                        value: "3",
-                                    },
-                                    {
-                                        label: "X4",
-                                        value: "4",
-                                    },
-                                ],
+                                values: generators
                             }
                         ]}
                         onChange={(value) => {
                             // alert(value)
                             setGenerator(value)
                         }}
-                    />
+                    />}
                 </li>
                 <li>
                     <Button 
