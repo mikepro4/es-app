@@ -85,7 +85,7 @@ function ShapesTab() {
             <CollectionInfo
                 count={count}
                 total={total}
-                drawerType="shape-collection-settings"
+                drawerType="iteration-collection-settings"
             />
 
         </div>

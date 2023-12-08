@@ -13,27 +13,32 @@ import _ from 'lodash';
 
 import { useFormik } from 'formik';
 
-import { updateCollection, shapeListChangeCriteria, shapeResetCriteria, shapeCreate } from "@/redux"
+import { 
+    updateCollection, 
+    iterationListChangeCriteria, 
+    iterationResetCriteria, 
+    iterationCreate,
+} from "@/redux"
 
-import ShapeChangeSort from "@/components/collection_actions/shapeChangeSort"
+import IterationChangeSort from "@/components/collection_actions/iterationChangeSort"
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
     const dispatch = useDispatch();
-    const shapeList = useSelector((state) => state.shapeList);
+    const iterationList = useSelector((state) => state.iterationList);
     const [formLoaded, setFormLoaded] = useState(false);
 
 
     const initialValues = {
-        search: shapeList.criteria?.search,
-        status: shapeList.criteria?.status,
+        search: iterationList.criteria?.search,
+        status: iterationList.criteria?.status,
     }
 
     const handleFormChange = (values, data) => {
         if (formLoaded) {
-            dispatch(shapeListChangeCriteria(values))
+            dispatch(iterationListChangeCriteria(values))
         }
     };
 
@@ -58,8 +63,8 @@ function AppSettings() {
     }, []);
 
     const getInitialValues = () => ({
-        search: shapeList.criteria?.search || '',
-        status: shapeList.criteria?.status || '',
+        search: iterationList.criteria?.search || '',
+        status: iterationList.criteria?.status || '',
     });
 
     const formik = useFormik({
@@ -69,9 +74,9 @@ function AppSettings() {
     });
 
     useEffect(() => {
-        // Update Formik's initialValues when shapeList.criteria changes
+        // Update Formik's initialValues when iterationList.criteria changes
         formik.setValues(getInitialValues());
-    }, [shapeList.criteria]);
+    }, [iterationList.criteria]);
 
     const statusOptions = [{
         label: 'Unreviewed',
@@ -93,12 +98,12 @@ function AppSettings() {
                 <div className="collection-settings-header">
 
                     <div className="collection-settings-header-left">
-                        <span className="collection-count-number">{shapeList.count}</span>
-                        <span className="collection-count-total">of {shapeList.total} items</span>
+                        <span className="collection-count-number">{iterationList.count}</span>
+                        <span className="collection-count-total">of {iterationList.total} items</span>
                     </div>
 
                     <div className="collection-settings-header-right">
-                        <ShapeChangeSort />
+                        <IterationChangeSort />
                     </div>
 
                 </div>
@@ -145,13 +150,17 @@ function AppSettings() {
                                                     wrap={true}
                                                     label="Clear filters"
                                                     onClick={() => {
-                                                        dispatch(shapeResetCriteria())
+                                                        dispatch(iterationResetCriteria())
                                                     }}
                                                 />
                                             </li>
 
-                                           
+
                                         </ul>
+
+
+
+
 
                                     </div>
 

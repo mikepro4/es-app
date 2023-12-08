@@ -27,6 +27,7 @@ import GalaxySettings from "./type/galaxy_settings.js";
 import GalaxyCollectionSettings from "./type/planet_collection_settings.js";
 import GeneratorSettings from "./type/generator_settings";
 import IterationSettings from "./type/iteration_settings";
+import IterationCollectionSettings from "./type/iteration_collection_settings";
 
 function Drawer() {
   const dispatch = useDispatch();
@@ -103,6 +104,10 @@ function Drawer() {
       case "iteration-settings":
         return (
           <IterationSettings hideDrawer={hideDrawer} enablePortal />
+        );
+      case "iteration-collection-settings":
+        return (
+          <IterationCollectionSettings hideDrawer={hideDrawer} enablePortal />
         );
       default:
         return;
