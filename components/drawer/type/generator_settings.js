@@ -59,7 +59,7 @@ function AppSettings() {
         setActiveGenerator({ generatorId: id })
     }
 
-    const searchGenerators = (doSelect) => {
+    const searchGenerators = (doSelect, setSpecific) => {
         dispatch(
             generatorSearch({
                 criteria: {},
@@ -77,15 +77,22 @@ function AppSettings() {
                     });
                     setGenerators(finalOptinos);
                     setTimestamp(Date.now())
-                    if(app.drawerData?.activeItem) {
-                        selectGenerator(app.drawerData.activeItem)
+                    if(setSpecific) {
+                        setTimeout(() => {
+                            selectGenerator(setSpecific)
+                        }, 100)
                     } else {
-                        if(finalOptinos[0]?.value && doSelect) {
-                            setTimeout(() => {
-                                selectGenerator(finalOptinos[0].value)
-                            }, 100)
+                        if(app.drawerData?.activeItem) {
+                            selectGenerator(app.drawerData.activeItem)
+                        } else {
+                            if(finalOptinos[0]?.value && doSelect) {
+                                setTimeout(() => {
+                                    selectGenerator(finalOptinos[0].value)
+                                }, 100)
+                            }
                         }
                     }
+                    
                 },
             })
         );
@@ -107,10 +114,10 @@ function AppSettings() {
                             callback: (data) => {
                                 toasterRef.current.show({ message: `${data.name} was created` });
                                 dispatch(updateCollection(true))
-                                searchGenerators(false)
-                                setTimeout(() => {
-                                    selectGenerator(data._id)
-                                }, 100)
+                                searchGenerators(false, data._id)
+                                // setTimeout(() => {
+                                //     selectGenerator(data._id)
+                                // }, 100)
                             }
                         },)
                 )
