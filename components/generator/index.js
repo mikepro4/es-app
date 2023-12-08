@@ -15,17 +15,20 @@ function AppSettings(props) {
     const [generator, setGenerator] = useState();
     const dispatch = useDispatch();
     const [generators, setGenerators] = useState([]);
+    const [currentIteration, setCurrentIteration] = useState(1);
+    const [status, setStatus] = useState("stopped");
+    const [timeInterval, setTimeInterval] = useState(null);
 
 
 
     useEffect(() => {
         searchGenerators()
 
-        dispatch(toggleDrawer({
-            drawerOpen: true,
-            drawerType: "generator-settings",
-            drawerData: props.item,
-        }));
+        // dispatch(toggleDrawer({
+        //     drawerOpen: true,
+        //     drawerType: "generator-settings",
+        //     drawerData: props.item,
+        // }));
 
         return () => {
             
@@ -81,6 +84,27 @@ function AppSettings(props) {
         );
     }
 
+    const togglePlay = () => {
+        if (status !== "play") {
+            setStatus("play");
+            const intervalId = setInterval(() => {
+                setCurrentIteration(prevCurrentIteration => prevCurrentIteration + 1);
+            }, 1);
+            setTimeInterval(intervalId);
+        } else {
+            setStatus("stopped");
+            clearInterval(timeInterval);
+            setTimeInterval(null);
+        }
+    };
+
+    let icon
+
+    if (status == "play") {
+        icon = "pause"
+    } else {
+        icon = "play"
+    }
 
     return (
         <div className="generator-container">
@@ -107,10 +131,13 @@ function AppSettings(props) {
                 </li>
                 <li>
                     <Button 
-                        icon="play"
+                        icon={icon}
                         minimal={true}
                         small={true}
                         offset={1}
+                        onClick={() => {
+                            togglePlay()
+                        }}
                     />
                 </li>
 
@@ -120,6 +147,12 @@ function AppSettings(props) {
                         minimal={true}
                         small={true}
                         offset={0.5}
+                        onClick={() => {
+                            setStatus("stopped");
+                            setCurrentIteration(1);
+                            clearInterval(timeInterval);
+                            setTimeInterval(null);
+                        }}
                     />
                 </li>
                 
@@ -128,12 +161,21 @@ function AppSettings(props) {
                         icon="chevron-left"
                         minimal={true}
                         small={true}
+                        onClick={() => {
+                            let prevIteration
+                            if(currentIteration > 1) {
+                                prevIteration = currentIteration - 1
+                            } else{
+                                prevIteration = 1
+                            }
+                            setCurrentIteration(prevIteration);
+                        }}
                     />
                 </li>
 
                 <li>
                     <div className="current-iteration">
-                        1
+                        {currentIteration}
                     </div>
                 </li>
 
@@ -144,6 +186,9 @@ function AppSettings(props) {
                         minimal={true}
                         small={true}
                         offset={1}
+                        onClick={() => {
+                            setCurrentIteration(currentIteration + 1);
+                        }}
                     />
                 </li>
 
