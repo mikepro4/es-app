@@ -77,12 +77,15 @@ function AppSettings() {
                     });
                     setGenerators(finalOptinos);
                     setTimestamp(Date.now())
-                    if(finalOptinos[0]?.value && doSelect) {
-                        setTimeout(() => {
-                            selectGenerator(finalOptinos[0].value)
-                        }, 100)
+                    if(app.drawerData?.activeItem) {
+                        selectGenerator(app.drawerData.activeItem)
+                    } else {
+                        if(finalOptinos[0]?.value && doSelect) {
+                            setTimeout(() => {
+                                selectGenerator(finalOptinos[0].value)
+                            }, 100)
+                        }
                     }
-                   
                 },
             })
         );
@@ -209,6 +212,7 @@ function AppSettings() {
         dispatch(generatorUpdateItem({
             data: values,
             callback: (data) => {
+                dispatch(updateCollection(true))
                 searchGenerators()
                 toasterRef.current.show({ message: `${data.name} was updated` });
             }

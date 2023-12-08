@@ -156,7 +156,9 @@ function AppSettings(props) {
                             dispatch(toggleDrawer({
                                 drawerOpen: true,
                                 drawerType: "generator-settings",
-                                drawerData: props.item,
+                                drawerData: {
+                                    activeItem: generator
+                                }
                             }));
                         }}
                     />
