@@ -12,6 +12,8 @@ import ShapesTab from "./shapesTab"
 import AlgoTab from "./algoTab"
 import AddShape from "./addShape"
 
+import GenerateTab from "./generateTab"
+
 export default function Genesis() {
   const router = useRouter();
   const query = router.query;
@@ -68,7 +70,7 @@ export default function Genesis() {
       case 3:
         return (<AddShape/>)
       case 4:
-        return (<div>Generate</div>)
+        return (<GenerateTab/>)
       case 5:
         return (<div>Generate</div>)
       default:

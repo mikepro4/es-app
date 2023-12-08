@@ -14,7 +14,8 @@ const ShapeSchema = new Schema({
   algo: { type: Schema.Types.ObjectId, ref: "Algo" },
   track: { type: Schema.Types.ObjectId, ref: "Track" },
   imageLink: { type: String },
-  params: Object
+  params: Object,
+  genesis: Boolean
 });
 
 module.exports = mongoose.model("Shape", ShapeSchema);

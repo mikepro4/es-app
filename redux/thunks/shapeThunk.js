@@ -90,6 +90,40 @@ const shapeUpdateItem = createAsyncThunk(
   }
 );
 
+const shapeUpdateTrack = createAsyncThunk(
+  "shape/updateTrack",
+    async ({ shapeId, trackId, callback }, { rejectWithValue }) => {
+    try {
+      const response = await userApi.post("/shape/updateTrack", {shapeId, trackId});
+
+      if (callback) {
+        callback(response.data)
+      }
+
+      return response.data;
+    } catch (err) {
+      throw new Error("Error");
+    }
+  }
+);
+
+const shapeUpdateGenesis = createAsyncThunk(
+  "shape/updateGenesis",
+    async ({ shapeId, trackId, callback }, { rejectWithValue }) => {
+    try {
+      const response = await userApi.post("/shape/updateGenesis", {shapeId});
+
+      if (callback) {
+        callback(response.data)
+      }
+
+      return response.data;
+    } catch (err) {
+      throw new Error("Error");
+    }
+  }
+);
+
 const shapeCreateItemWithData = createAsyncThunk(
   "shape/createItemWithData",
     async ({ data, callback }, { rejectWithValue }) => {
@@ -213,5 +247,7 @@ export {
     shapeNextItem,
     shapePreviousItem,
     shapeUpdateManyItems,
-    shapeCreateItemWithData
+    shapeCreateItemWithData,
+    shapeUpdateTrack,
+    shapeUpdateGenesis
 };

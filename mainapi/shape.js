@@ -276,6 +276,71 @@ router.post("/updateMany", requireSignin, async (req, res) => {
     }
 });
 
+// ===========================================================================
+
+router.post("/updateTrack", async (req, res) => {
+    try {
+        const shapeId = req.body.shapeId;  // Extract the ID from the request body
+        const track = req.body.trackId;  // Entire Shape object received in the request body
+
+        // Ensure that updateData has an _id property
+        if (!shapeId) {
+            return res.status(400).send("No ID provided");
+        }
+
+        // Update the Shape object in the database
+        const updatedShape = await Shapes.findByIdAndUpdate(
+            shapeId,
+            {
+                track: track
+            },
+            { new: true }  // Return the updated object
+        ).populate("algo").populate("track");
+
+        // If the Shape object is not found
+        if (!updatedShape) {
+            return res.status(404).send("Shape not found");
+        }
+
+        // Send back the updated Shape object
+        res.json(updatedShape);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+});
+
+router.post("/updateGenesis", async (req, res) => {
+    try {
+        const shapeId = req.body.shapeId;  // Extract the ID from the request body
+
+        // Ensure that updateData has an _id property
+        if (!shapeId) {
+            return res.status(400).send("No ID provided");
+        }
+
+        // Update the Shape object in the database
+        const updatedShape = await Shapes.findByIdAndUpdate(
+            shapeId,
+            {
+                genesis: true
+            },
+            { new: true }  // Return the updated object
+        ).populate("algo").populate("track");
+
+        // If the Shape object is not found
+        if (!updatedShape) {
+            return res.status(404).send("Shape not found");
+        }
+
+        // Send back the updated Shape object
+        res.json(updatedShape);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+});
+
 
 // ===========================================================================
 

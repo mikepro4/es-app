@@ -6,6 +6,7 @@ import { Formik, Form, Field, FieldArray } from "formik";
 import Input from "../../../components/form/BladeInput";
 import Button from "../../../components/button";
 import Select from "../../../components/form/Select";
+import Switch from "../../../components/form/Switch";
 import TabSwitcher from "../../../components/form/TabSwitcher";
 
 import {
@@ -184,6 +185,13 @@ function AppSettings() {
                     title="Status"
                     component={TabSwitcher}
                     options={statusOptions}
+                  />
+
+                  <Field
+                    name="genesis"
+                    title="Genesis"
+                    component={Switch}
+                    label="Genesis"
                   />
                 </div>
 
