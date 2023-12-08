@@ -10,7 +10,8 @@ import { set } from "lodash";
 
 import { 
     toggleParamsValues,
-    generatorItem
+    generatorItem,
+    updateCurrentFrame
 } from "@/redux";
 
 function AppSettings(props) {
@@ -71,6 +72,14 @@ function AppSettings(props) {
             }
         };
     }, [timeInterval]);
+
+    useEffect (() => {
+        if(app.updateCurrentFrame) {
+            currentIterationRef.current = app.updateCurrentFrame
+            updateValues()
+            dispatch(updateCurrentFrame(null))
+        }
+    }, [app.updateCurrentFrame])
 
     useEffect(() => {
         if (player.isPlaying && status !== "play") {
@@ -397,7 +406,10 @@ function AppSettings(props) {
                             dispatch(toggleDrawer({
                                 drawerOpen: true,
                                 drawerType: "iteration-settings",
-                                drawerData: generator
+                                drawerData: {
+                                    iterations: fullGenerator?.params?.iterations,
+                                    iteration: currentIterationRef.current,
+                                }
                             }));
                         }}
                     >
