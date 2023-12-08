@@ -45,7 +45,7 @@
             padding-bottom: 0px;
         }
 
-        
+
     }
 
     .main-player-header {
@@ -67,10 +67,11 @@
 
     .go-back-button-desktop {
         display: flex;
+
         li {
             margin-right: 10px;
         }
-        
+
         @media only screen and (max-width: $mobile) {
             display: none;
         }
@@ -116,10 +117,10 @@
             @media only screen and (min-width: $mobile) {
                 margin-left: 30px;
             }
-    
-        
+
+
             @extend .animation-fadeInSlide;
-           
+
             animation-delay: 0.2s;
         }
 
@@ -131,7 +132,7 @@
                 margin-right: 30px;
                 display: none;
             }
-            
+
 
             li {
                 opacity: 0;
@@ -204,7 +205,7 @@
         animation-delay: 0.4s;
         flex-direction: column;
 
-       
+
 
         li {
             padding: 5px;
@@ -230,7 +231,7 @@
                     font-size: 14px;
                     margin-top: 8px;
                 }
-    
+
             }
 
             &:nth-child(3) {
@@ -250,17 +251,26 @@
                 @extend .animation-fadeInSlide;
                 animation-delay: 0.37s;
             }
-              
+
 
             svg {
                 transition: all 0.2s ease-in-out;
                 fill: rgba(255, 255, 255, 0);
+
+
+
             }
+
+
+
+
+
 
             &:hover {
                 svg {
                     fill: rgba(255, 255, 255, 1);
                 }
+
             }
         }
 
@@ -279,4 +289,8 @@
             right: 40px;
         }
     }
+}
+
+.svg-fill-toggle {
+    fill: rgba(255, 255, 255, 1) !important;
 }

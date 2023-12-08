@@ -1,6 +1,7 @@
 import React from "react";
+import classNames from "classnames";
 
-function Icon() {
+function Icon({ fill }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -8,6 +9,7 @@ function Icon() {
       height="24"
       fill="none"
       viewBox="0 0 19 24"
+      className={classNames({ "svg-fill-toggle": fill })}
     >
       <path
         fill="#fff"

@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
+import { useMicrophone } from "../microphone_context/useMicrophone";
 
 import TabBar from '@/components/tab'
 
@@ -29,6 +30,7 @@ function Player() {
     const [selectedTabId, setSelectedTabId] = useState(1);
 
     const [prevPathname, setPrevPathname] = useState(null);
+    const { toggleMicrophone, isMicrophoneListen } = useMicrophone();
 
     useEffect(() => {
         const handleRouteChange = (url) => {
@@ -227,7 +229,7 @@ function Player() {
 
             {renderTab()}
 
-            <div className="player-main-info">
+            <div className="player-main-info ">
                 <ShapeMainInfo
                     item={app.playerData}
                 />
@@ -235,8 +237,8 @@ function Player() {
 
             <ul className="play-main-actions">
 
-                <li className="player-main-action">
-                    <Icon name="mic" />
+                <li className="player-main-action" onClick={() => toggleMicrophone()}>
+                    <Icon name="mic" fill={isMicrophoneListen} />
                 </li>
                 <li className="player-main-action">
                     <Icon name="heart" />
