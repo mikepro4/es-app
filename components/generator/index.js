@@ -391,7 +391,16 @@ function AppSettings(props) {
                 </li>
 
                 <li>
-                    <div className="current-iteration">
+                    <div 
+                        className="current-iteration"
+                        onClick={() => {
+                            dispatch(toggleDrawer({
+                                drawerOpen: true,
+                                drawerType: "iteration-settings",
+                                drawerData: generator
+                            }));
+                        }}
+                    >
                         {currentIterationRef.current}
                     </div>
                 </li>
