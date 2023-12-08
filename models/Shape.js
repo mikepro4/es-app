@@ -15,7 +15,9 @@ const ShapeSchema = new Schema({
   track: { type: Schema.Types.ObjectId, ref: "Track" },
   imageLink: { type: String },
   params: Object,
-  genesis: Boolean
+  genesis: Boolean,
+  origin: { type: Schema.Types.ObjectId, ref: "Shape" },
+  iteration: Boolean,
 });
 
 module.exports = mongoose.model("Shape", ShapeSchema);

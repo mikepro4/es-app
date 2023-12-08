@@ -132,6 +132,8 @@ function AppSettings() {
   return (
     <div className={`app-drawer-content-container standard-drawer`}>
       <div className={"details-container"}>
+        {app.drawerData?.origin?.name && (<div>From: {app.drawerData?.origin?.name}</div>)}
+
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
           {({ values, handleChange, handleSubmit }) => {
             useEffect(() => {
@@ -192,6 +194,13 @@ function AppSettings() {
                     title="Genesis"
                     component={Switch}
                     label="Genesis"
+                  />
+
+                  <Field
+                    name="iteration"
+                    title="Iteration"
+                    component={Switch}
+                    label="Iteration"
                   />
                 </div>
 

@@ -26,6 +26,7 @@ router.post("/create", requireSignin, async (req, res) => {
         if (Shape) {
             let query = await Shapes.findOne({ _id: Shape._id })
                 .populate("algo")
+                .populate('origin', '_id name')
 
             res.json(query);
         }
@@ -42,6 +43,7 @@ router.post("/createItemWithData", requireSignin, async (req, res) => {
         if (Shape) {
             let query = await Shapes.findOne({ _id: Shape._id })
                 .populate("algo")
+                .populate('origin', '_id name')
 
             res.json(query);
         }
@@ -62,6 +64,7 @@ router.post("/search", requireSignin, async (req, res) => {
         .sort({ [sortProperty]: order })
         .populate("algo")
         .populate("track")
+        .populate('origin', '_id name')
         .skip(offset)
         .limit(limit);
 
@@ -127,7 +130,9 @@ router.post("/duplicateItem", async (req, res) => {
             ...originalItem.toObject(),  // Convert the Mongoose document to a plain object
             _id: undefined,  // Remove the original _id so MongoDB assigns a new one
             name: `${originalItem.name} Copy`,  // Append "Copy" to the name
-            created: new Date()
+            created: new Date(),
+            status: "unreviewed",
+            origin: originalItem && originalItem.origin && originalItem.origin._id ? originalItem.origin._id : req.body.shapeId
         });
 
         // Save the duplicated item
@@ -159,7 +164,7 @@ router.post("/updateItem", async (req, res) => {
             shapeId,
             updateData,
             { new: true }  // Return the updated object
-        ).populate("algo");
+        ).populate("algo").populate('origin', '_id name');
 
         // If the Shape object is not found
         if (!updatedShape) {
@@ -364,6 +369,21 @@ const buildQuery = criteria => {
             }
         });
     }
+
+    if (criteria && criteria.iteration) {
+        _.assign(query, {
+            "iteration": {
+                $eq: true,
+            }
+        });
+    } else  {
+        _.assign(query, {
+            "iteration": {
+                $in: [false, null] 
+            }
+        });
+    }
+
     return query
 };
 

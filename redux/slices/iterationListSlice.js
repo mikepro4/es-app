@@ -4,7 +4,8 @@ const initialState = {
     sortProperty: "created",
     order: "-1",
     criteria: {
-      status: "approved"
+      status: "unreviewed",
+      iteration: true
     },
     count: 0,
     total: 0

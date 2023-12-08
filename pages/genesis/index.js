@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 
 import TabBar from '@/components/tab'
 import ShapeSidebar from '@/components/collection_sidebar/shapeSidebar'
+import IterationSidebar from '@/components/collection_sidebar/iterationSidebar'
 import AlgoSidebar from '@/components/collection_sidebar/algoSidebar'
 import AlgoPage from './algoPage'
 
@@ -76,7 +77,7 @@ export default function Genesis() {
               </div>
 
               <div className="full-screen-filters-area">
-                <ShapeSidebar />
+                <IterationSidebar/>
               </div>
             </div>
         )

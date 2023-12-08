@@ -11,6 +11,7 @@ import Input from "@/components/form/BladeInput";
 import { useFormik } from 'formik';
 
 import ShapesDetails from "@/components/collectionControls/shapesDetails";
+import IterationsDetails from "@/components/collectionControls/iterationsDetails";
 
 import { iterationListChangeCriteria, shapeResetCriteria } from "@/redux"
 
@@ -85,7 +86,7 @@ function AppSettings() {
 
     return (
         <div className="collection-sidebar">
-            <ShapesDetails />
+            <IterationsDetails />
 
             <Formik
                 enableReinitialize
