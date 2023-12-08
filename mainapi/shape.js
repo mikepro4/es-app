@@ -109,6 +109,7 @@ router.post("/item", async (req, res) => {
     const query = await Shapes.findOne({ _id: req.body.id })
         .populate("algo")
         .populate("track")
+        .populate('origin', '_id name')
 
     res.json(query);
 });

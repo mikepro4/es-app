@@ -5,7 +5,7 @@ import classNames from "classnames";
 import Button from "@/components/button"
 import ParamSwitch from "@/components/paramSwitch";
 
-import { toggleDrawer, generatorSearch, updateCollection, setIsPlaying, galaxySearch } from "@/redux";
+import { toggleDrawer, generatorSearch, updateCollection, setIsPlaying, galaxySearch, shapeCreateItemWithData } from "@/redux";
 import { set } from "lodash";
 
 import { 
@@ -239,6 +239,36 @@ function AppSettings(props) {
                 colors: finalColors
             };
             dispatch(toggleParamsValues(newParams));
+            dispatch(
+                shapeCreateItemWithData(
+                    {
+                        data: {
+                            name: app.playerData.name + " (copy)",
+                            algo: app.playerData.algo._id,
+                            params: newParams,
+                            track: app.playerData.track,
+                            iteration: true,
+                            origin: app.playerData?.origin?._id ? app.playerData?.origin?._id : app.playerData._id,
+                        },
+                        callback: (data) => {
+                            // dispatch(updateCollection(true))
+                            // dispatch(togglePlayer({
+                            //     playerOpen: true,
+                            //     playerData: data
+                            // }))
+
+                            // dispatch(toggleDrawer({
+                            //     drawerOpen: false,
+                            //     drawerType: null,
+                            //     drawerData: null,
+                            // }));
+
+                            // showToast("Shape duplicated with new params")
+
+                        }
+                    }
+                )
+            )
             console.log(newParams);
         }
     }, [fullGenerator, app.playerData, dispatch, currentIterationRef.current, galaxys]); 

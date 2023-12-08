@@ -35,9 +35,14 @@ function AppSettings() {
   const handleSubmit = (values) => {
     console.log(values);
 
+    let newValues = {
+      ...values,
+      origin: app.drawerData.origin._id,
+    }
+
     dispatch(
       shapeUpdateItem({
-        data: values,
+        data: newValues,
         callback: (data) => {
           dispatch(updateCollectionItem(data._id));
 
