@@ -5,7 +5,7 @@ import classNames from "classnames";
 import Button from "@/components/button"
 import ParamSwitch from "@/components/paramSwitch";
 
-import { toggleDrawer, generatorSearch, updateCollection } from "@/redux";
+import { toggleDrawer, generatorSearch, updateCollection, setIsPlaying } from "@/redux";
 import { set } from "lodash";
 
 import { 
@@ -34,6 +34,7 @@ function AppSettings(props) {
         clearInterval(timeInterval);
         setTimeInterval(null);
         dispatch(toggleParamsValues(app.playerData.params));
+        dispatch(setIsPlaying(false))
     }
 
 
@@ -50,13 +51,13 @@ function AppSettings(props) {
             if(!internalPlay) {
                 setStatus("play");
                 // If there's no interval set, start one
-                if (!timeInterval) {
+                if (!timeInterval && fullGenerator && fullGenerator.params) {
                     const intervalId = setInterval(() => {
                         // Update the current iteration
                         currentIterationRef.current += 1;
                         // Perform the update values action
                         updateValues();
-                    }, fullGenerator.params.iterationGap);
+                    }, fullGenerator?.params?.iterationGap);
                     // Store the interval ID so it can be cleared later
                     setTimeInterval(intervalId);
                 }
@@ -234,8 +235,10 @@ function AppSettings(props) {
                         minimal={true}
                         small={true}
                         offset={0.5}
-                        onClick={() => {
+                        onClick={(e) => {
                             resetAnimation()
+                            e.currentTarget.blur();
+                            // dispatch(setIsPlaying(false))
                         }}
                     />
                 </li>

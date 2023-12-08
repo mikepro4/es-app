@@ -103,7 +103,7 @@ const Button = (props) => {
     >
       <button
         type={props.type}
-        onClick={() => props.onClick && !props.disabled && props.onClick()}
+        onClick={(e) => props.onClick && !props.disabled && props.onClick(e)}
         className={classNames({
           "only-icon": !props.chevron && !props.label,
           "only-color": (props.colorHsb || props.colorHex || props.colorRgba) && !props.label && true

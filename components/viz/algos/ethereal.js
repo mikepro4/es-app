@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 import VizTouch from "../../viz_touch";
+import * as _ from 'lodash'
 
 function Ethereal(
     {
@@ -155,19 +156,21 @@ function Ethereal(
 
 
     useEffect(() => {
-        generatePoints()
-        setTimeout(() => {
-            updateColors()
-        }, 1)
+        if (!_.isEqual(paramsRef.current?.colors, shape.current.colors)) {
+            generatePoints()
+            setTimeout(() => {
+                updateColors()
+            }, 1)
+        }
     }, [paramsRef.current?.colors]);
 
     useEffect(() => {
-        // if (paramsRef.current?.pointCount !== shape.current.pointCount) {
+        if (paramsRef.current?.pointCount !== shape.current.pointCount) {
             generatePoints()
             setTimeout(() => {
                 updateColors()
             }, 100)
-        // }
+        }
 
     }, [paramsRef.current?.pointCount]);  
 
