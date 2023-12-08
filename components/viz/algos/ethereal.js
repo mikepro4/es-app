@@ -18,6 +18,7 @@ function Ethereal(
     }
 ) {
     const player = useSelector((state) => state.audioPlayer);
+    const mic = useSelector((state) => state.microphoneListen);
     const [loaded, setLoaded] = useState(false);
     const [mainShape, setMainShape] = useState(false);
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
@@ -30,6 +31,7 @@ function Ethereal(
     const animationFrameId = useRef(null)
     const shape = useRef()
     const playerRef = useRef()
+    const micRef = useRef()
     // const [shape, setShape] = useState();
 
     useEffect(() => {
@@ -38,6 +40,13 @@ function Ethereal(
             // updateColors()
         // }, 10)
     }, [player]);
+
+    useEffect(() => {
+        micRef.current = mic
+        // setTimeout(() => {
+            // updateColors()
+        // }, 10)
+    }, [mic]);
 
     // useEffect(() => {
     //     // setTimeout(() => {
@@ -325,6 +334,11 @@ function Ethereal(
                 freqData = new Uint8Array(playerRef.current.analyser.frequencyBinCount)
                 playerRef.current.analyser.getByteFrequencyData(freqData)
             }
+
+            if (micRef.current.microphoneAnalyser) {
+                freqData = new Uint8Array(micRef.current.microphoneAnalyser.frequencyBinCount)
+                micRef.current.microphoneAnalyser.getByteFrequencyData(freqData)
+            }
         
             let l = pointsRef.current.length;
 
@@ -335,6 +349,15 @@ function Ethereal(
                 let pt = pointsRef.current[i];
 
                 if (playerRef.current.analyser && soundModifier) {
+                   
+                    soundModifier = freqData[i] / 100
+
+                    if (!soundModifier) {
+                        soundModifier = 0
+                    }
+                }
+
+                if (micRef.current.microphoneAnalyser && soundModifier) {
                    
                     soundModifier = freqData[i] / 100
 

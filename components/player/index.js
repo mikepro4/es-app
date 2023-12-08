@@ -244,7 +244,7 @@ function Player() {
                 <li className="player-main-action" onClick={() => toggleMicrophone()}>
                     <Icon name="mic" fill={isMicrophoneListen} />
                 </li>
-                <li className="player-main-action">
+                {/* <li className="player-main-action">
                     <Icon name="heart" />
                     <div className="player-main-action-label">0</div>
                 </li>
@@ -252,7 +252,7 @@ function Player() {
                 <li className="player-main-action">
                     <Icon name="share" />
                     <div className="player-main-action-label">Share</div>
-                </li>
+                </li> */}
 
                 <li className="player-main-action" onClick={() => {
                     dispatch(toggleDrawer({
