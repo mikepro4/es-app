@@ -9,14 +9,15 @@ import Input from "@/components/form/BladeInput";
 import Slider from "@/components/form/Slider";
 import Button from "@/components/button";
 import Select from "@/components/form/Select";
+import Switch from "@/components/form/Switch";
 import TabSwitcher from "@/components/form/TabSwitcher";
 
 import { OverlayToaster } from '@blueprintjs/core';
 
-import { 
-    generatorCreate, 
-    generatorSearch, 
-    generatorItem, 
+import {
+    generatorCreate,
+    generatorSearch,
+    generatorItem,
     generatorUpdateItem,
     generatorDelete,
     generatorDuplicate,
@@ -77,22 +78,22 @@ function AppSettings() {
                     });
                     setGenerators(finalOptinos);
                     setTimestamp(Date.now())
-                    if(setSpecific) {
+                    if (setSpecific) {
                         setTimeout(() => {
                             selectGenerator(setSpecific)
                         }, 100)
                     } else {
-                        if(app.drawerData?.activeItem) {
+                        if (app.drawerData?.activeItem) {
                             selectGenerator(app.drawerData.activeItem)
                         } else {
-                            if(finalOptinos[0]?.value && doSelect) {
+                            if (finalOptinos[0]?.value && doSelect) {
                                 setTimeout(() => {
                                     selectGenerator(finalOptinos[0].value)
                                 }, 100)
                             }
                         }
                     }
-                    
+
                 },
             })
         );
@@ -125,7 +126,7 @@ function AppSettings() {
                 break;
             case "delete":
                 console.log("delete")
-                if(generator && generator._id) {
+                if (generator && generator._id) {
                     dispatch(updateCollection(true))
                     dispatch(generatorDelete({
                         generatorId: generator._id,
@@ -140,7 +141,7 @@ function AppSettings() {
                 break
             case "duplicate":
                 console.log("duplicate")
-                if(generator && generator._id) {
+                if (generator && generator._id) {
                     dispatch(updateCollection(true))
                     dispatch(generatorDuplicate({
                         generatorId: generator._id,
@@ -242,6 +243,11 @@ function AppSettings() {
     //     }
     // }
 
+    const getParam = (value) => {
+        const param = app.playerData?.algo.params.find(param => param.value === value)
+        return param
+    }
+
     const renderGeneratorParams = () => {
         return (
             <div className="generator-params">
@@ -252,7 +258,7 @@ function AppSettings() {
                     onSubmit={handleGeneratorSubmit}
                 >
                     {({ values, handleChange, handleSubmit }) => {
-                         useEffect(() => {
+                        useEffect(() => {
                             handleGenerationsFormChange(values);
                         }, [values]);
                         return (
@@ -285,7 +291,7 @@ function AppSettings() {
 
 
 
-                                
+
                                 <FieldArray
                                     name="params.list"
                                     render={arrayHelpers => (
@@ -333,7 +339,7 @@ function AppSettings() {
                                                             min={0}
                                                             max={100000}
                                                             step={1}
-                                                            labelStepSize={100000/3}
+                                                            labelStepSize={100000 / 3}
                                                             displayName={"Delay Iterations"}
                                                         />
 
@@ -353,105 +359,111 @@ function AppSettings() {
                                                                 value: "random",
                                                                 label: "Random"
                                                             }
-                                                        ]} />
-                                                        {listItem.paramType === 'step' && (
+                                                            ]} />
+                                                        {getParam(listItem.paramName)?.type === 'number' && (
                                                             <>
-                                                                <Field
-                                                                    name={`params.list.${index}.stepAmount`}
-                                                                    component={Input}
-                                                                    title="Step amount"
-                                                                    placeholder="Step amount"
-                                                                />
 
-                                                                <Field
-                                                                    name={`params.list.${index}.stepDirection`}
-                                                                    title="Step direction"
-                                                                    component={TabSwitcher}
-                                                                    options={[{
-                                                                        value: "forward",
-                                                                        label: "Foward"
-                                                                    },
-                                                                    {
-                                                                        value: "backward",
-                                                                        label: "Backward"
-                                                                    }
-                                                                ]} />
+                                                                {listItem.paramType === 'step' && (
+                                                                    <>
+                                                                        <Field
+                                                                            name={`params.list.${index}.stepAmount`}
+                                                                            component={Input}
+                                                                            title="Step amount"
+                                                                            placeholder="Step amount"
+                                                                        />
+
+                                                                        <Field
+                                                                            name={`params.list.${index}.stepDirection`}
+                                                                            title="Step direction"
+                                                                            component={TabSwitcher}
+                                                                            options={[{
+                                                                                value: "forward",
+                                                                                label: "Foward"
+                                                                            },
+                                                                            {
+                                                                                value: "backward",
+                                                                                label: "Backward"
+                                                                            }
+                                                                            ]} />
+                                                                    </>
+                                                                )}
+
+                                                                {listItem.paramType === 'range' && (
+                                                                    <>
+                                                                        <Field
+                                                                            name={`params.list.${index}.fromAmount`}
+                                                                            component={Input}
+                                                                            title="From amount"
+                                                                            placeholder="From amount"
+                                                                        />
+
+                                                                        <Field
+                                                                            name={`params.list.${index}.toAmount`}
+                                                                            component={Input}
+                                                                            title="To amount"
+                                                                            placeholder="To amount"
+                                                                        />
+
+                                                                        <Field
+                                                                            name={`params.list.${index}.rangeIterations`}
+                                                                            component={Input}
+                                                                            title="Range Iterations"
+                                                                            placeholder="Range Iterations"
+                                                                        />
+
+                                                                        <Field
+                                                                            component={Slider}
+                                                                            name={`params.list.${index}.rangeIterations`}
+                                                                            min={0}
+                                                                            max={100000}
+                                                                            step={1}
+                                                                            labelStepSize={100000 / 3}
+                                                                            displayName={"Range Iterations"}
+                                                                        />
+
+                                                                        <Field
+                                                                            name={`params.list.${index}.rangeBehavior`}
+                                                                            title="Range behavior"
+                                                                            component={TabSwitcher}
+                                                                            options={[{
+                                                                                value: "single",
+                                                                                label: "Single"
+                                                                            },
+                                                                            {
+                                                                                value: "loop",
+                                                                                label: "Loop"
+                                                                            },
+                                                                            {
+                                                                                value: "bounce",
+                                                                                label: "Bounce"
+                                                                            }
+                                                                            ]} />
+
+                                                                    </>
+                                                                )}
+
+                                                                {listItem.paramType === 'random' && (
+                                                                    <>
+                                                                        <Field
+                                                                            name={`params.list.${index}.fromAmount`}
+                                                                            component={Input}
+                                                                            title="From amount"
+                                                                            placeholder="From amount"
+                                                                        />
+
+                                                                        <Field
+                                                                            name={`params.list.${index}.toAmount`}
+                                                                            component={Input}
+                                                                            title="To amount"
+                                                                            placeholder="To amount"
+                                                                        />
+                                                                    </>
+                                                                )}
                                                             </>
                                                         )}
 
-                                                        {listItem.paramType === 'range' && (
-                                                            <>
-                                                                <Field
-                                                                    name={`params.list.${index}.fromAmount`}
-                                                                    component={Input}
-                                                                    title="From amount"
-                                                                    placeholder="From amount"
-                                                                />
 
-                                                                <Field
-                                                                    name={`params.list.${index}.toAmount`}
-                                                                    component={Input}
-                                                                    title="To amount"
-                                                                    placeholder="To amount"
-                                                                />
 
-                                                                <Field
-                                                                    name={`params.list.${index}.rangeIterations`}
-                                                                    component={Input}
-                                                                    title="Range Iterations"
-                                                                    placeholder="Range Iterations"
-                                                                />
-
-                                                                <Field
-                                                                    component={Slider}
-                                                                    name={`params.list.${index}.rangeIterations`}
-                                                                    min={0}
-                                                                    max={100000}
-                                                                    step={1}
-                                                                    labelStepSize={100000/3}
-                                                                    displayName={"Range Iterations"}
-                                                                />
-
-                                                                <Field
-                                                                    name={`params.list.${index}.rangeBehavior`}
-                                                                    title="Range behavior"
-                                                                    component={TabSwitcher}
-                                                                    options={[{
-                                                                        value: "single",
-                                                                        label: "Single"
-                                                                    },
-                                                                    {
-                                                                        value: "loop",
-                                                                        label: "Loop"
-                                                                    },
-                                                                    {
-                                                                        value: "bounce",
-                                                                        label: "Bounce"
-                                                                    }
-                                                                ]} />
-                                                                
-                                                            </>
-                                                        )}
-
-                                                        {listItem.paramType === 'random' && (
-                                                            <>
-                                                                <Field
-                                                                    name={`params.list.${index}.fromAmount`}
-                                                                    component={Input}
-                                                                    title="From amount"
-                                                                    placeholder="From amount"
-                                                                />
-
-                                                                <Field
-                                                                    name={`params.list.${index}.toAmount`}
-                                                                    component={Input}
-                                                                    title="To amount"
-                                                                    placeholder="To amount"
-                                                                />
-                                                            </>
-                                                        )}
-                                                        
-                                                        
 
                                                         {/* <Field
                                                             name={`params.list.${index}.paramType`}
@@ -465,30 +477,36 @@ function AppSettings() {
                                                             title="Parameter Increment"
                                                             placeholder="Parameter Increment"
                                                         /> */}
-                                                        
+
                                                     </div>
                                                 ))
                                             ) : (
                                                 <></>
                                             )}
                                             <div className="generator-params-footer">
-                                                <Button 
-                                                    type="button" 
+                                                <Button
+                                                    type="button"
                                                     icon="plus"
-                                                    small={true} 
-                                                    minimal={true} 
-                                                    label="Add parameter" 
-                                                    onClick={() => arrayHelpers.push({ 
-                                                        paramName: '', 
+                                                    small={true}
+                                                    minimal={true}
+                                                    label="Add parameter"
+                                                    onClick={() => arrayHelpers.push({
+                                                        paramName: '',
                                                         paramType: "step",
                                                         delayIterations: 1,
                                                         rangeIterations: 0
                                                     })}>
                                                 </Button>
                                             </div>
-                                           
+
                                         </div>
                                     )}
+                                />
+
+                                <Field
+                                    name="params.changeColor"
+                                    label="Change Color"
+                                    component={Switch}
                                 />
 
                                 <Button type="submit" label="Submit">Submit</Button>

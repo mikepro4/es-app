@@ -5,7 +5,7 @@ import classNames from "classnames";
 import Button from "@/components/button"
 import ParamSwitch from "@/components/paramSwitch";
 
-import { toggleDrawer, generatorSearch, updateCollection, setIsPlaying } from "@/redux";
+import { toggleDrawer, generatorSearch, updateCollection, setIsPlaying, galaxySearch } from "@/redux";
 import { set } from "lodash";
 
 import { 
@@ -27,6 +27,7 @@ function AppSettings(props) {
     const currentIterationRef = useRef(0);
     const [prevPlayerIsPlaying, setPrevPlayerIsPlaying] = useState(false);
     const [internalPlay, setInternalPlay] = useState(false)
+    const [galaxys, setGalaxys] = useState([]);
 
     const resetAnimation = () => {
         setStatus("stopped");
@@ -36,6 +37,31 @@ function AppSettings(props) {
         dispatch(toggleParamsValues(app.playerData.params));
         dispatch(setIsPlaying(false))
     }
+
+    const getRgbaObject = (value) => {
+        let rgbaString
+
+        if( value && value !== "" && value !== false && value !== true) {
+            rgbaString = value;
+        } else {
+            rgbaString = "rgba(255,255,225,1)"
+        }
+        // console.log("rgbaString", rgbaString)
+
+        const rgbaArray = rgbaString
+            .match(/\d+(\.\d+)?/g)
+            .map(Number);
+
+        const rgbaObject = {
+            r: rgbaArray[0],
+            g: rgbaArray[1],
+            b: rgbaArray[2],
+            a: rgbaArray[3],
+        };
+
+        return rgbaObject;
+    }
+
 
 
     useEffect(() => {
@@ -153,25 +179,66 @@ function AppSettings(props) {
     }
 
     const updateValues = useCallback(() => {
+        console.log(galaxys)
         if (fullGenerator) {
             const paramsObject = fullGenerator?.params?.list.reduce((acc, item, index) => {
                 acc[item.paramName] = generateValue(app.playerData.params, item, currentIterationRef.current);
                 return acc;
             }, {});
+
+
+            const currentGalaxyIndex = currentIterationRef.current % 110;
+            const currentGalaxy = galaxys[currentGalaxyIndex];
+            const galaxyColors = currentGalaxy.image_url.color_summary
+            console.log("current galaxy", currentGalaxy.image_url.color_summary)
+
+            let newColors = galaxyColors.map((color, i) => {
+                let finalAmount
+
+                if(i == 0) {
+                    finalAmount = 54.5
+                }
+
+                if(i == 1) {
+                    finalAmount = 34
+                }
+
+                if(i == 2) {
+                    finalAmount = 44.5
+                }
+
+                let newColor = getRgbaObject(color)
+                newColor.b = `${newColor.b}`
+
+                return {
+                    color: `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${newColor.a})`,
+                    amount: randomNumber(20,50)
+                }
+            })
+
+            let finalColors
+
+            if(fullGenerator?.params?.changeColor) {
+                finalColors = newColors
+            } else {
+                finalColors = app.playerData.params.colors
+            }
     
             let newParams = {
                 ...app.playerData.params,
-                ...paramsObject
+                ...paramsObject,
+                colors: finalColors
             };
             dispatch(toggleParamsValues(newParams));
             console.log(newParams);
         }
-    }, [fullGenerator, app.playerData, dispatch, currentIterationRef.current]); 
+    }, [fullGenerator, app.playerData, dispatch, currentIterationRef.current, galaxys]); 
 
 
 
     useEffect(() => {
         searchGenerators()
+        searchGalaxys()
 
         return () => {
             
@@ -187,6 +254,22 @@ function AppSettings(props) {
         return () => {
         };
     }, [app.updateCollection]); 
+
+    const searchGalaxys = () => {
+        dispatch(
+            galaxySearch({
+                criteria: {},
+                sortProperty: "created",
+                offset: 0,
+                limit: 10000,
+                order: 1,
+
+                callback: (data) => {
+                    setGalaxys(data.all);
+                },
+            })
+        );
+    }
 
     const searchGenerators = (doSelect) => {
         dispatch(
