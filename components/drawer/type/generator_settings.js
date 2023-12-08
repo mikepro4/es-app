@@ -411,9 +411,46 @@ function AppSettings() {
                                                                     labelStepSize={100000/3}
                                                                     displayName={"Range Iterations"}
                                                                 />
-                                                               
+
+                                                                <Field
+                                                                    name={`params.list.${index}.rangeBehavior`}
+                                                                    title="Range behavior"
+                                                                    component={TabSwitcher}
+                                                                    options={[{
+                                                                        value: "single",
+                                                                        label: "Single"
+                                                                    },
+                                                                    {
+                                                                        value: "loop",
+                                                                        label: "Loop"
+                                                                    },
+                                                                    {
+                                                                        value: "bounce",
+                                                                        label: "Bounce"
+                                                                    }
+                                                                ]} />
+                                                                
                                                             </>
                                                         )}
+
+                                                        {listItem.paramType === 'random' && (
+                                                            <>
+                                                                <Field
+                                                                    name={`params.list.${index}.fromAmount`}
+                                                                    component={Input}
+                                                                    title="From amount"
+                                                                    placeholder="From amount"
+                                                                />
+
+                                                                <Field
+                                                                    name={`params.list.${index}.toAmount`}
+                                                                    component={Input}
+                                                                    title="To amount"
+                                                                    placeholder="To amount"
+                                                                />
+                                                            </>
+                                                        )}
+                                                        
                                                         
 
                                                         {/* <Field

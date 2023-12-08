@@ -94,11 +94,61 @@ function AppSettings(props) {
         }))
     }, [generator])
 
+    const randomNumber = (from, to) => {
+        var randomnum = (Math.random() * (to - from + from) + from).toFixed(6);
+        return randomnum
+    }
+
+    const isOdd = (num) => { 
+        return (num % 2 == 0);
+    }
+
 
     const generateValue = (values, item, i) => {
         if(item.paramType == "step") {
+            if(item.stepDirection == "forward") {
+                return Number(values[item.paramName]) + Number(item.stepAmount)*i
+            } else if(item.stepDirection == "backward") {
+                return Number(values[item.paramName]) - Number(item.stepAmount)*i
+            }
+        }
 
-            return Number(values[item.paramName]) + Number(item.stepAmount)*i
+        if(item.paramType == "range") {
+
+            let from = parseFloat(item.fromAmount, 10)
+            let to = parseFloat(item.toAmount, 10)
+            let delayIterations = parseInt(item.delayIterations, 10)
+            let rangeIterations = parseInt(item.rangeIterations, 10)
+
+            let startFrame = delayIterations
+            let endframe = delayIterations + rangeIterations
+            let difference = to - from
+            let step = (difference / rangeIterations).toFixed(6)
+
+            let frame = currentIterationRef.current % rangeIterations
+
+            console.log(from, to, delayIterations, rangeIterations, startFrame, endframe, difference, Number(step), frame)
+
+            if(currentIterationRef.current < endframe) {
+                return values[item.paramName] + Number(step) * (currentIterationRef.current - delayIterations)
+            } else {
+                if(item.rangeBehavior == "loop") {
+                    return values[item.paramName]  + Number(step) * frame
+                } else if(item.rangeBehavior == "single") {
+                    return values[item.paramName] + Number(step) * (rangeIterations)
+                } else if(item.rangeBehavior == "bounce") {
+                    let test = Math.floor(currentIterationRef.current  / rangeIterations)
+                    if(!isOdd(parseInt(test, 10))) {
+                        return values[item.paramName] + Number(step) * (rangeIterations - frame) 
+                    } else {
+                        return values[item.paramName] + Number(step) * (frame + 1)
+                    }
+                }
+            }
+        }
+
+        if(item.paramType == "random") {
+            return(randomNumber(Number(item.fromAmount), Number(item.toAmount)))
         }
     }
 
@@ -118,11 +168,7 @@ function AppSettings(props) {
         }
     }, [fullGenerator, app.playerData, dispatch, currentIterationRef.current]); 
 
-    // useEffect(() => {
-    //     if(currentIterationRef.current = 0) {
-    //         updateValues()
-    //     }
-    // }, [currentIterationRef.current]);
+
 
     useEffect(() => {
         searchGenerators()
@@ -174,7 +220,7 @@ function AppSettings(props) {
             const intervalId = setInterval(() => {
                 currentIterationRef.current = currentIterationRef.current + 1;
                 updateValues();
-            }, fullGenerator.params.iterationGap);
+            }, fullGenerator?.params?.iterationGap);
             setTimeInterval(intervalId);
         } else {
             setInternalPlay(false)
