@@ -253,20 +253,7 @@ function AppSettings(props) {
                                 origin: app.playerData?.origin?._id ? app.playerData?.origin?._id : app.playerData._id,
                             },
                             callback: (data) => {
-                                // dispatch(updateCollection(true))
-                                // dispatch(togglePlayer({
-                                //     playerOpen: true,
-                                //     playerData: data
-                                // }))
-    
-                                // dispatch(toggleDrawer({
-                                //     drawerOpen: false,
-                                //     drawerType: null,
-                                //     drawerData: null,
-                                // }));
-    
-                                // showToast("Shape duplicated with new params")
-    
+                               
                             }
                         }
                     )
@@ -275,7 +262,7 @@ function AppSettings(props) {
             
             console.log(newParams);
         }
-    }, [fullGenerator, app.playerData, dispatch, currentIterationRef.current, galaxys]); 
+    }, [fullGenerator, app.playerData, dispatch, currentIterationRef.current, galaxys, app.generatorSave]); 
 
 
 

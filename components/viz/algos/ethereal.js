@@ -5,6 +5,8 @@ import classNames from "classnames";
 import VizTouch from "../../viz_touch";
 import * as _ from 'lodash'
 
+import { toggleSaveAsSvg } from "@/redux";
+
 function Ethereal(
     {
         item,
@@ -17,11 +19,13 @@ function Ethereal(
         showControls
     }
 ) {
+    const app = useSelector((state) => state.app);
     const player = useSelector((state) => state.audioPlayer);
     const mic = useSelector((state) => state.microphoneListen);
     const [loaded, setLoaded] = useState(false);
     const [mainShape, setMainShape] = useState(false);
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+    const dispatch = useDispatch();
     const paramsRef = useRef()
     const canvasRef = useRef()
     const containerRef = useRef()
@@ -47,6 +51,13 @@ function Ethereal(
         // updateColors()
         // }, 10)
     }, [mic]);
+
+    useEffect(() => {
+        if(app.saveAsSvg) {
+            setupSVGCanvas()
+            dispatch(toggleSaveAsSvg(false))
+        }
+    }, [app.saveAsSvg]);
 
 
     const setupSVGCanvas = (points) => {

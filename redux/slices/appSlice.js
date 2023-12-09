@@ -26,13 +26,17 @@ const initialState = {
   noRedirect: false,
   paramsData: null,
   paramsValues: null,
-  generatorSave: false
+  generatorSave: false,
+  saveAsSvg: false
 };
 
 const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    toggleSaveAsSvg: (state, action) => {
+      state.saveAsSvg = action.payload;
+    },
     toggleGeneratorSave: (state, action) => {
       state.generatorSave = action.payload;
     },
@@ -98,7 +102,8 @@ export const {
     toggleNoRedirect,
     toggleParamsData,
     toggleParamsValues,
-    toggleGeneratorSave
+    toggleGeneratorSave,
+    toggleSaveAsSvg
 } = appSlice.actions;
 
 export const appReducer = appSlice.reducer;

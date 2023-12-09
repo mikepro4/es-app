@@ -8,7 +8,13 @@ import Button from "@/components/button";
 
 import { AppToaster } from '@/components/toaster';
 
-import { togglePlayer, shapeUpdateItem, toggleDrawer, updateCollectionItem } from "@/redux";
+import { 
+    togglePlayer, 
+    shapeUpdateItem, 
+    toggleDrawer, 
+    updateCollectionItem, 
+    toggleSaveAsSvg 
+} from "@/redux";
 
 import ShapeActionsView from "../../collection_actions/shapeActions";
 
@@ -109,6 +115,7 @@ function VizSettings() {
                             label="Save as SVG"
                             minimal={true}
                             onClick={() => {
+                                dispatch(toggleSaveAsSvg(true))
                             }}
                         />
                     </li>
