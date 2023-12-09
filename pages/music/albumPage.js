@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import classNames from "classnames";
 import Button from "@/components/button";
 import Icon from "@/components/icon";
+import ImageUpload from "@/components/image_upload";
 
 import AlbumActionsView from "@/components/collection_actions/albumActions";
 
@@ -24,14 +25,16 @@ function AlbumPageContainer({
     const [scroll, setScroll] = useState(0);
     
     const fetchAlbum = () => {
-        dispatch(albumItem({
-            id: router.query.albumId,
-            callback: (data) => {
-                console.log(data);
-                setAlbum(data)
-                dispatch(updateCollectionItem(null))
-            }
-        }))
+        if(router.query.albumId) {
+            dispatch(albumItem({
+                id: router.query.albumId,
+                callback: (data) => {
+                    console.log(data);
+                    setAlbum(data)
+                    dispatch(updateCollectionItem(null))
+                }
+            }))
+        }
     }
 
     useEffect(() => {
@@ -82,6 +85,26 @@ function AlbumPageContainer({
 
     }, []);
 
+    const updateItemImage = (imageLink) => {
+        dispatch(
+            albumItem({
+              id: album?._id,
+              callback: (data) => {
+                dispatch(
+                  albumUpdateItem({
+                    data: {
+                      ...data,
+                      imageLink: imageLink,
+                    },
+                    callback: (data) => {
+                        dispatch(updateCollectionItem(album?._id))
+                    },
+                  })
+                );
+              },
+            })
+          );
+    }
 
     return (
         <div className="music-page-container album-page-container" ref={scrollContainerRef}>
@@ -115,7 +138,41 @@ function AlbumPageContainer({
 
             <h1>{album && album.name} </h1>
 
-            <InfiniteList
+            <div 
+                className={classNames("image-display-container", {
+                    "hasImage": album && album.imageLink
+                })}
+            >
+                <div className="image-container">
+                    {album && album.imageLink && <img src={album.imageLink} />}
+                    {album && !album.imageLink && <Icon name="x"/>}
+                </div>
+
+                <div className="image-container-overlay">
+                    <ImageUpload
+                        callback={(data) => {
+                            console.log("IMAGE UPLOAD", data);
+                            updateItemImage(data)
+                        }}
+                    />
+                </div>
+                
+
+                {album && album.imageLink && <div className="image-remove">
+                    <Button
+                        label="Delete image"
+                        small={true}
+                        wrap={true}
+                        minimal={true}
+                        onClick={() => {
+                            updateItemImage("")
+                        }}
+                    />
+                </div>}
+
+            </div>
+            
+            {album && album._id && <InfiniteList
                 resultType="track-view-list"
                 limit={50}
                 contained={screenWidth > 500 ? true : false}
@@ -128,7 +185,7 @@ function AlbumPageContainer({
                 updateCollectionStats={(count, total) => {
                 }}
                 loadCollectionItem={trackItem}
-            />
+            />}
 
             
             
