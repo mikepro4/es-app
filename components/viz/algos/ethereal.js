@@ -12,7 +12,7 @@ function Ethereal(
         containerWidth,
         containerHeight,
         pause,
-        respondToScroll = false, 
+        respondToScroll = false,
         fullScreen,
         showControls
     }
@@ -37,29 +37,70 @@ function Ethereal(
     useEffect(() => {
         playerRef.current = player
         // setTimeout(() => {
-            // updateColors()
+        // updateColors()
         // }, 10)
     }, [player]);
 
     useEffect(() => {
         micRef.current = mic
         // setTimeout(() => {
-            // updateColors()
+        // updateColors()
         // }, 10)
     }, [mic]);
 
-    // useEffect(() => {
-    //     // setTimeout(() => {
-    //         updateColors()
-    //     // }, 10)
-    // }, [playerRef.current ]);
 
-    // useEffect(() => {
-    //     // playerRef.current = player
-    //     // setTimeout(() => {
-    //         updateColors()
-    //     // }, 10)
-    // }, [player.currentTime]);
+    const setupSVGCanvas = (points) => {
+        var container = document.querySelector("#centered");
+        var svgkitContext = new SVGCanvas(dimensions.width, dimensions.height);
+        let element = document.getElementById("svgcanvas");
+
+        if (element) {
+            element.parentNode.removeChild(element);
+        }
+        svgkitContext.svg.svgElement.setAttribute("class", "svg-canvas"); // just for styling
+        svgkitContext.svg.svgElement.setAttribute("id", "svgcanvas");
+        container.appendChild(svgkitContext.svg.svgElement);
+        renderOnce(svgkitContext)
+        setTimeout(() => {
+            saveAsSVG()
+        }, 10)
+    }
+
+    const saveAsSVG = () => {
+        var svg = document.getElementById("svgcanvas");
+
+        var rectNodes = svg.querySelectorAll('rect');
+        [].slice.call(rectNodes).forEach(function (rect) {
+            rect.parentNode.removeChild(rect);
+        });
+
+        //get svg source.
+        var serializer = new XMLSerializer();
+        var source = serializer.serializeToString(svg);
+
+        //add name spaces.
+        if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
+            source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+        }
+        if (!source.match(/^<svg[^>]+"http\:\/\/www\.w3\.org\/1999\/xlink"/)) {
+            source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
+        }
+
+        source = source.replace(/(<rect.*?<\/rect>)/g, "");
+
+
+        // console.log(source)
+
+        //add xml declaration
+        source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+
+        //convert svg source to URI data scheme.
+        var url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
+
+        //set url value to a element's href attribute.
+        var newTab = window.open('about:blank', 'image from canvas');
+        newTab.document.write("<img src='" + url + "' alt='from canvas'/>");
+    }
 
     const exampleParams = {
         "math": "sin",
@@ -80,17 +121,17 @@ function Ethereal(
 
     const getPointSize = (fullShape) => {
         let finalSize
-        let originalPointSize = Number(fullShape.pointSize) 
+        let originalPointSize = Number(fullShape.pointSize)
         let mobilePointSize = originalPointSize - 0.4
 
-        if(containerRef.current.offsetWidth > 500) {
-            if(originalPointSize > 0.6) {
+        if (containerRef.current.offsetWidth > 500) {
+            if (originalPointSize > 0.6) {
                 return originalPointSize
             } else {
                 return 0.5
             }
         } else {
-            if(mobilePointSize > 1.0) {
+            if (mobilePointSize > 1.0) {
                 return mobilePointSize
             } else {
                 return 1.0
@@ -114,7 +155,7 @@ function Ethereal(
             backgroundColor: fullShape.backgroundColor,
             backgroundEnabled: false,
             backgroundOpacity: 1,
-            scale: fullShape.scale ?  Number(fullShape.scale) : 1,
+            scale: fullShape.scale ? Number(fullShape.scale) : 1,
             colors: fullShape.colors,
             pointCount: Number(fullShape.pointCount),
         }
@@ -123,7 +164,7 @@ function Ethereal(
 
     const generatePoints = () => {
         let generatedPoints = []
-        const pixelRatio = window.devicePixelRatio 
+        const pixelRatio = window.devicePixelRatio
         for (var i = 0; i < paramsRef.current?.pointCount; i++) {
             var pt = createPoint(
                 Math.random(1) * containerRef.current.offsetWidth * pixelRatio,
@@ -159,7 +200,7 @@ function Ethereal(
             }, 1)
         }
 
-      
+
 
     }, [item]);
 
@@ -181,7 +222,7 @@ function Ethereal(
             }, 100)
         }
 
-    }, [paramsRef.current?.pointCount]);  
+    }, [paramsRef.current?.pointCount]);
 
     useEffect(() => {
         if (!loaded && dimensions.width > 0 && dimensions.height > 0) {
@@ -197,8 +238,8 @@ function Ethereal(
     const updateDimensions = () => {
         if (containerRef.current) {
             const pixelRatio = window.devicePixelRatio || 1; // Get the device pixel ratio
-            const width = containerRef.current.offsetWidth * pixelRatio ;
-            const height = containerRef.current.offsetHeight *  pixelRatio ;
+            const width = containerRef.current.offsetWidth * pixelRatio;
+            const height = containerRef.current.offsetHeight * pixelRatio;
 
             setDimensions({
                 width,
@@ -219,7 +260,7 @@ function Ethereal(
 
         window.addEventListener("resize", updateDimensions);
 
-        if(animationFrameId.current == null && !pause && !respondToScroll) {
+        if (animationFrameId.current == null && !pause && !respondToScroll) {
             animationFrameId.current = requestAnimationFrame(frameTicker);
         }
 
@@ -237,38 +278,38 @@ function Ethereal(
 
     const renderOverlay = () => {
         // if (paramsRef.current?.overlayOpacity > 0) {
-            let finalBlur = 1000
-            let finalOpacity =  1
+        let finalBlur = 1000
+        let finalOpacity = 1
 
-            if(containerRef.current) {
-                if(containerRef.current?.offsetWidth > 500) {
-                    finalBlur = paramsRef.current?.overlayBlur 
-                    
-                } else {
-                    finalBlur = paramsRef.current?.overlayBlur / 1.2
-                }
-                finalOpacity = paramsRef.current?.overlayOpacity
+        if (containerRef.current) {
+            if (containerRef.current?.offsetWidth > 500) {
+                finalBlur = paramsRef.current?.overlayBlur
+
+            } else {
+                finalBlur = paramsRef.current?.overlayBlur / 1.2
             }
+            finalOpacity = paramsRef.current?.overlayOpacity
+        }
 
-            return (
-                <div
-                    className="overlay"
-                    style={{
-                        backgroundColor: paramsRef.current?.overlayColor,
-                        opacity: finalOpacity,
-                        backdropFilter: `blur(${finalBlur}px)`,
-                        "-webkit-backdrop-filter": `blur(${finalBlur}px)`,
-                    }}
-                />
-            )
+        return (
+            <div
+                className="overlay"
+                style={{
+                    backgroundColor: paramsRef.current?.overlayColor,
+                    opacity: finalOpacity,
+                    backdropFilter: `blur(${finalBlur}px)`,
+                    "-webkit-backdrop-filter": `blur(${finalBlur}px)`,
+                }}
+            />
+        )
         // }
     }
 
     const getScale = () => {
         let finalScale = 1
 
-        if(fullScreen) {
-            if(containerRef.current.offsetWidth > 500) {
+        if (fullScreen) {
+            if (containerRef.current.offsetWidth > 500) {
                 finalScale = scale
             } else {
                 finalScale = 4
@@ -281,32 +322,109 @@ function Ethereal(
 
     }
 
-    
+
 
     const getPointIterator = (i) => {
         if (i <= 500) {
             return i
-        } else {    
+        } else {
             return i - 1024
         }
     }
 
     function getVolume() {
-        if(playerRef?.current?.analyser) {
+        if (playerRef?.current?.analyser) {
 
-        const dataArray = new Uint8Array(playerRef.current.analyser.frequencyBinCount);
+            const dataArray = new Uint8Array(playerRef.current.analyser.frequencyBinCount);
 
-        playerRef.current.analyser.getByteFrequencyData(dataArray);
-    
-        let sum = 0;
-        for(let i = 0; i < dataArray.length; i++) {
-            sum += dataArray[i];
-        }
-    
-        let average = sum / dataArray.length;
-        return average; // This is the approximate volume
+            playerRef.current.analyser.getByteFrequencyData(dataArray);
+
+            let sum = 0;
+            for (let i = 0; i < dataArray.length; i++) {
+                sum += dataArray[i];
+            }
+
+            let average = sum / dataArray.length;
+            return average; // This is the approximate volume
         } else {
             return 0
+        }
+
+    }
+
+    const renderOnce = (ctx) => {
+        let shapeViz = shape.current;
+
+
+        const pixelRatio = window.devicePixelRatio || 1
+        const width = containerRef.current.offsetWidth * pixelRatio;
+        const height = containerRef.current.offsetHeight * pixelRatio;
+        const centerX = width / 2;
+        const centerY = height / 2;
+        // const volume = getVolume()
+
+        let radius = width / getScale() / shape.current.scale;
+
+
+        ctx.clearRect(0, 0, width, height);
+
+        let freqData = []
+        let soundModifier = 1
+
+        if (playerRef.current.analyser) {
+            freqData = new Uint8Array(playerRef.current.analyser.frequencyBinCount)
+            playerRef.current.analyser.getByteFrequencyData(freqData)
+        }
+
+        if (micRef.current.microphoneAnalyser) {
+            freqData = new Uint8Array(micRef.current.microphoneAnalyser.frequencyBinCount)
+            micRef.current.microphoneAnalyser.getByteFrequencyData(freqData)
+        }
+
+        let l = pointsRef.current.length;
+
+
+        for (i = 0; i < l; i++) {
+            let pt = pointsRef.current[i];
+
+            if (playerRef.current.analyser && soundModifier) {
+
+                soundModifier = freqData[i] / 100
+
+                if (!soundModifier) {
+                    soundModifier = 0
+                }
+            }
+
+            if (micRef.current.microphoneAnalyser && soundModifier) {
+
+                soundModifier = freqData[i] / 100
+
+                if (!soundModifier) {
+                    soundModifier = 0
+                }
+            }
+
+
+            var t_radius = Math[shapeViz.math](rotate.current + shapeViz.frequency * i) * radius * shapeViz.boldRate + radius;
+            var tx = centerX + Math.cos(rotate.current + shapeViz.step * i + soundModifier) * t_radius;
+            var ty = centerY + Math.sin(rotate.current + shapeViz.step * i + soundModifier) * t_radius;
+
+            pt.vx += (tx - pt.x) * shapeViz.pointRotateSpeed;
+            pt.vy += (ty - pt.y) * shapeViz.pointRotateSpeed;
+
+            pt.x += pt.vx;
+            pt.y += pt.vy;
+
+            pt.vx *= shapeViz.friction;
+            pt.vy *= shapeViz.friction;
+
+            // if (pt.x >= 0 && pt.x <= w && pt.y >= 0 && pt.y <= h) {
+            ctx.beginPath();
+            ctx.arc(pt.x, pt.y, shapeViz.pointSize, 0, 2 * Math.PI);
+            ctx.fillStyle = pt.color;
+            ctx.fill();
+            // }
         }
 
     }
@@ -315,118 +433,7 @@ function Ethereal(
         if (canvasRef.current && paramsRef.current && shape.current && shape.current.math && pointsRef.current?.length > 0) {
             let shapeViz = shape.current;
             let ctx = canvasRef.current.getContext('2d');
-            const pixelRatio = window.devicePixelRatio || 1
-            const width = containerRef.current.offsetWidth* pixelRatio;
-            const height = containerRef.current.offsetHeight * pixelRatio;
-            const centerX = width / 2;
-            const centerY = height / 2;
-            // const volume = getVolume()
-
-            let radius = width / getScale() / shape.current.scale;
-
-
-            ctx.clearRect(0, 0, width, height);
-
-            let freqData = []
-            let soundModifier = 1
-
-            if (playerRef.current.analyser) {
-                freqData = new Uint8Array(playerRef.current.analyser.frequencyBinCount)
-                playerRef.current.analyser.getByteFrequencyData(freqData)
-            }
-
-            if (micRef.current.microphoneAnalyser) {
-                freqData = new Uint8Array(micRef.current.microphoneAnalyser.frequencyBinCount)
-                micRef.current.microphoneAnalyser.getByteFrequencyData(freqData)
-            }
-        
-            let l = pointsRef.current.length;
-
-            // console.log(freqData)
-
-
-            for (i = 0; i < l; i++) {
-                let pt = pointsRef.current[i];
-
-                if (playerRef.current.analyser && soundModifier) {
-                   
-                    soundModifier = freqData[i] / 100
-
-                    if (!soundModifier) {
-                        soundModifier = 0
-                    }
-                }
-
-                if (micRef.current.microphoneAnalyser && soundModifier) {
-                   
-                    soundModifier = freqData[i] / 100
-
-                    if (!soundModifier) {
-                        soundModifier = 0
-                    }
-                }
-
-                // let finalFrequency
-
-                // if(volume  && volume > 1) {
-                //     finalFrequency = volume / 500000 + shapeViz.frequency 
-                // } else {
-                //     finalFrequency = shapeViz.frequency
-                // }
-
-                // let finalStep
-
-                // if(volume  && volume > 1) {
-                //     finalStep = volume / 500000  + shapeViz.step 
-                // } else {
-                //     finalStep = shapeViz.step
-                // }
-
-
-                var t_radius = Math[shapeViz.math](rotate.current + shapeViz.frequency * i) * radius * shapeViz.boldRate + radius;
-                var tx = centerX + Math.cos(rotate.current + shapeViz.step*i + soundModifier ) * t_radius;
-                var ty = centerY + Math.sin(rotate.current + shapeViz.step*i + soundModifier ) * t_radius;
-
-                pt.vx += (tx - pt.x) * shapeViz.pointRotateSpeed;
-                pt.vy += (ty - pt.y) * shapeViz.pointRotateSpeed;
-
-                pt.x += pt.vx ;
-                pt.y += pt.vy;
-
-                pt.vx *= shapeViz.friction ;
-                pt.vy *= shapeViz.friction ;
-
-                // if (pt.x >= 0 && pt.x <= w && pt.y >= 0 && pt.y <= h) {
-                    ctx.beginPath();
-                    ctx.arc(pt.x, pt.y, shapeViz.pointSize, 0, 2 * Math.PI);
-                    ctx.fillStyle = pt.color;
-                    // ctx.fillStyle = `rgba(
-                    //     ${this.hexToRgb(point.color).r},
-                    //     ${this.hexToRgb(point.color).g},
-                    //     ${this.hexToRgb(point.color).b},
-                    //     ${this.getPointOpacity(freqData[this.getPointIterator(i)], point)}
-                    // )`;
-                    ctx.fill();
-
-                    // ctx.beginPath();
-                    // const sliceWidth = w * 1.0 / playerRef.current?.analyser?.frequencyBinCount;
-                    // let x = 0;
-                    // for(let i = 0; i < playerRef.current?.analyser?.frequencyBinCount; i++) {
-                    //     const v = freqData[i] / 128.0; // Normalize the value
-                    //     const y = v * h / 2;
-
-                    //     if(i === 0) {
-                    //     ctx.moveTo(x, y);
-                    //     } else {
-                    //     ctx.lineTo(x, y);
-                    //     }
-
-                    //     x += sliceWidth;
-                    // }
-                    // ctx.lineTo(w, h / 2);
-                    // ctx.stroke();
-                // }
-            }
+            renderOnce(ctx)
 
             rotate.current += Number(shapeViz.rotateSpeed);
         }
@@ -439,8 +446,8 @@ function Ethereal(
 
     const observer = new IntersectionObserver(
         ([entry]) => {
-            if(entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-                if(animationFrameId.current == null && !pause) {
+            if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+                if (animationFrameId.current == null && !pause) {
                     animationFrameId.current = requestAnimationFrame(frameTicker);
                 }
             } else {
@@ -455,7 +462,7 @@ function Ethereal(
     );
 
     useEffect(() => {
-        
+
         if (containerRef.current) {
             observer.observe(containerRef.current);
         }
@@ -468,7 +475,7 @@ function Ethereal(
     }, [containerRef]);
 
     useEffect(() => {
-        if(pause) {
+        if (pause) {
             cancelAnimationFrame(animationFrameId.current);
             animationFrameId.current = null
         } else {
@@ -479,66 +486,66 @@ function Ethereal(
     }, [pause]);
 
     useEffect(() => {
-        console.log(pointsRef.current)
+        // console.log(pointsRef.current)
     }, [pointsRef.current]);
 
     const updateColors = () => {
         if (shape.current && shape.current.pointCount && pointsRef.current && pointsRef.current.length > 0) {
-          let colors = shape.current?.colors;
-          
-          if (colors && colors.length > 0) {
-            let newRanges = colors.map(point => {
-                let finalCount
+            let colors = shape.current?.colors;
 
-                let newCount = parseInt(point.amount) * shape.current.pointCount / 100
+            if (colors && colors.length > 0) {
+                let newRanges = colors.map(point => {
+                    let finalCount
 
-                if(newCount < 1) {
-                    finalCount = 1
+                    let newCount = parseInt(point.amount) * shape.current.pointCount / 100
+
+                    if (newCount < 1) {
+                        finalCount = 1
+                    } else {
+                        finalCount = newCount
+                    }
+                    return {
+                        count: finalCount
+                    }
+                });
+
+                console.log("newRanges", newRanges)
+
+                let updatedPoints = [];
+
+                if (newRanges.length === 1) {
+                    updatedPoints = pointsRef.current.slice(0, shape.current.pointCount).map(point => ({
+                        ...point,
+                        color: colors[0].color
+                    }));
                 } else {
-                    finalCount = newCount
-                }
-                return {
-                    count: finalCount
-                }
-            });
+                    let accumulatedCount = 0;
+                    newRanges.forEach((range, index) => {
+                        const rangePoints = pointsRef.current.slice(accumulatedCount, accumulatedCount + range.count).map(point => ({
+                            ...point,
+                            color: colors[index].color
+                        }));
+                        accumulatedCount += range.count;
+                        updatedPoints = [...updatedPoints, ...rangePoints];
+                    });
 
-            console.log("newRanges", newRanges)
-    
-            let updatedPoints = [];
-    
-            if (newRanges.length === 1) {
-              updatedPoints = pointsRef.current.slice(0, shape.current.pointCount).map(point => ({
-                ...point,
-                color: colors[0].color
-              }));
+                    if (accumulatedCount < shape.current.pointCount) {
+                        const remainingPoints = pointsRef.current.slice(accumulatedCount).map(point => ({ ...point, hidden: true }));
+                        updatedPoints = [...updatedPoints, ...remainingPoints];
+                    }
+                }
+
+                pointsRef.current = updatedPoints;
+
+                // console.log("updatedPoints", updatedPoints)
             } else {
-              let accumulatedCount = 0;
-              newRanges.forEach((range, index) => {
-                const rangePoints = pointsRef.current.slice(accumulatedCount, accumulatedCount + range.count).map(point => ({
-                  ...point,
-                  color: colors[index].color
+                pointsRef.current = pointsRef.current.map(point => ({
+                    ...point,
+                    color: `rgba(255,255,255,1)`,
                 }));
-                accumulatedCount += range.count;
-                updatedPoints = [...updatedPoints, ...rangePoints];
-              });
-    
-              if (accumulatedCount < shape.current.pointCount) {
-                const remainingPoints = pointsRef.current.slice(accumulatedCount).map(point => ({ ...point, hidden: true }));
-                updatedPoints = [...updatedPoints, ...remainingPoints];
-              }
             }
-    
-            pointsRef.current = updatedPoints;
-
-            // console.log("updatedPoints", updatedPoints)
-          } else {
-            pointsRef.current = pointsRef.current.map(point => ({
-              ...point,
-              color: `rgba(255,255,255,1)`,
-            }));
-          }
         }
-      };
+    };
 
 
     if (!item) return null;
@@ -549,14 +556,15 @@ function Ethereal(
             className={classNames({
                 "viz-container": true,
             })}
+            id="viz-container"
             style={{
                 backgroundColor: paramsRef.current?.backgroundColor,
             }}
         >
 
 
-            {showControls && <VizTouch 
-                fullScreen={fullScreen} 
+            {showControls && <VizTouch
+                fullScreen={fullScreen}
                 item={item}
             />}
 
@@ -567,6 +575,8 @@ function Ethereal(
             />
 
             {renderOverlay()}
+
+            <div id="centered" style={{ display: "none" }}></div>
 
             {/* <div
                 className="placeholder-shape"

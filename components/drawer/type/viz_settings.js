@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useSelector, useDispatch} from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
+import html2canvas from "html2canvas";
 
 import Button from "@/components/button";
 
@@ -36,6 +37,16 @@ function VizSettings() {
             
         };
     }, []); 
+
+    const saveAsPNG = async () => {
+        // var canvas = document.getElementById("viz");
+      
+        const divToCapture = document.getElementById("viz-container");
+        const canvas = await html2canvas(divToCapture);
+        var dataURL = canvas.toDataURL("image/png");
+        var newTab = window.open('about:blank', 'image from canvas');
+        newTab.document.write("<img src='" + dataURL + "' alt='from canvas'/>");
+    }
 
     return (
         <div className={`app-drawer-content-container standard-drawer`}>
@@ -92,7 +103,27 @@ function VizSettings() {
                 />
 
 
-                <div className="placeholder"></div>
+                <ul className="shape_action_buttons">
+                    <li>
+                        <Button
+                            label="Save as SVG"
+                            minimal={true}
+                            onClick={() => {
+                            }}
+                        />
+                    </li>
+
+                    <li>
+                        <Button
+                            label="Save as PNG"
+                            minimal={true}
+                            onClick={() => {
+                                saveAsPNG()
+                            }}
+                        />
+                    </li>
+                </ul>
+
             </div>
         </div>
     );
