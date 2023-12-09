@@ -69,6 +69,8 @@ const app = useSelector((state) => state.app);
     });
   };
 
+  
+
   return (
     <div className="upload-and-mint">
       <input
@@ -78,7 +80,12 @@ const app = useSelector((state) => state.app);
         accept="image/*"
       />
       <div id="image-container">
-        {image && <img src={image} alt="Uploaded" />}
+        {image &&  (
+          <div>
+            
+            <img src={image} alt="Uploaded" />
+          </div>
+        )}
         <Viz 
               item={app.paramsValues ? app.paramsValues :app.playerData?.params}
               fullScreen={true}
