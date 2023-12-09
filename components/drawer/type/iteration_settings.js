@@ -10,7 +10,11 @@ import Select from "@/components/form/Select";
 import TabSwitcher from "@/components/form/TabSwitcher";
 import Slider from "@/components/form/Slider";
 
-import { updateCurrentFrame } from "@/redux";
+import {
+    Switch,
+} from "@blueprintjs/core";
+
+import { updateCurrentFrame, toggleGeneratorSave } from "@/redux";
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
@@ -58,6 +62,14 @@ function AppSettings() {
         };
     }, []);
 
+    const handleAutoSaveChange = (event) => {
+
+        let value = event.target.checked
+
+        dispatch(toggleGeneratorSave(value))
+
+    }
+
     return (
         <div className={`app-drawer-content-container standard-drawer`}>
             <div className={"details-container"}>
@@ -90,7 +102,7 @@ function AppSettings() {
 
                                 </div>
 
-                                <Button type="submit" label="Save" />
+                                {/* <Button type="submit" label="Save" /> */}
 
                                 {/* <div className="form-divider"></div>
 
@@ -110,6 +122,14 @@ function AppSettings() {
                         );
                     }}
                 </Formik>
+
+                <div className="switch-container">
+                    <Switch
+                        checked={app.generatorSave}
+                        onChange={handleAutoSaveChange}
+                    />
+                    <span>Auto save</span>
+                </div>
 
             </div>
         </div>

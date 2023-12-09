@@ -37,5 +37,16 @@
         min-width: 65px;
         border-radius: 100px;
         font-size: 10px;
+        position: relative;
+
+        .generator-save-icon {
+            top: 5px;
+            right: 12px;
+            border-radius: 20px;
+            background: red;
+            width: 5px;
+            height: 5px;
+            position: absolute;
+        }
     }
 }

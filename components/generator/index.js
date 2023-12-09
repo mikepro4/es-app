@@ -239,36 +239,40 @@ function AppSettings(props) {
                 colors: finalColors
             };
             dispatch(toggleParamsValues(newParams));
-            // dispatch(
-            //     shapeCreateItemWithData(
-            //         {
-            //             data: {
-            //                 name: app.playerData.name + " (copy)",
-            //                 algo: app.playerData.algo._id,
-            //                 params: newParams,
-            //                 track: app.playerData.track,
-            //                 iteration: true,
-            //                 origin: app.playerData?.origin?._id ? app.playerData?.origin?._id : app.playerData._id,
-            //             },
-            //             callback: (data) => {
-            //                 // dispatch(updateCollection(true))
-            //                 // dispatch(togglePlayer({
-            //                 //     playerOpen: true,
-            //                 //     playerData: data
-            //                 // }))
-
-            //                 // dispatch(toggleDrawer({
-            //                 //     drawerOpen: false,
-            //                 //     drawerType: null,
-            //                 //     drawerData: null,
-            //                 // }));
-
-            //                 // showToast("Shape duplicated with new params")
-
-            //             }
-            //         }
-            //     )
-            // )
+            
+            if(app.generatorSave) {
+                dispatch(
+                    shapeCreateItemWithData(
+                        {
+                            data: {
+                                name: app.playerData.name + " (copy)",
+                                algo: app.playerData.algo._id,
+                                params: newParams,
+                                track: app.playerData.track,
+                                iteration: true,
+                                origin: app.playerData?.origin?._id ? app.playerData?.origin?._id : app.playerData._id,
+                            },
+                            callback: (data) => {
+                                // dispatch(updateCollection(true))
+                                // dispatch(togglePlayer({
+                                //     playerOpen: true,
+                                //     playerData: data
+                                // }))
+    
+                                // dispatch(toggleDrawer({
+                                //     drawerOpen: false,
+                                //     drawerType: null,
+                                //     drawerData: null,
+                                // }));
+    
+                                // showToast("Shape duplicated with new params")
+    
+                            }
+                        }
+                    )
+                )
+            }
+            
             console.log(newParams);
         }
     }, [fullGenerator, app.playerData, dispatch, currentIterationRef.current, galaxys]); 
@@ -444,6 +448,7 @@ function AppSettings(props) {
                         }}
                     >
                         {currentIterationRef.current}
+                        {app.generatorSave && <span className="generator-save-icon"></span>}
                     </div>
                 </li>
 
