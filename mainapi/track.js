@@ -287,6 +287,39 @@ router.post('/createMany', requireSignin, async (req, res) => {
     }
 });
 
+router.post("/updateDuration", async (req, res) => {
+    try {
+        const trackId = req.body.trackId;
+        const duration = req.body.duration; 
+
+        // Ensure that updateData has an _id property
+        if (!trackId) {
+            return res.status(400).send("No ID provided");
+        }
+
+        // Update the Shape object in the database
+        const updatedTrack = await Tracks.findByIdAndUpdate(
+            trackId,
+            {
+                duration: duration
+            },
+            { new: true }  // Return the updated object
+        ).populate("album");
+
+        // If the Shape object is not found
+        if (!updatedTrack) {
+            return res.status(404).send("Shape not found");
+        }
+
+        // Send back the updated Shape object
+        res.json(updatedTrack);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+});
+
+
 
 
 // ===========================================================================

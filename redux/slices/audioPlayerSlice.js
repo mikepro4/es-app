@@ -10,14 +10,17 @@ const initialState = {
     id: "",
     audioName: "",
     isPlaying: false,
-    playerControls: false
+    playerControls: false,
+    seek: null
 };
 
 export const audioSlice = createSlice({
     name: 'audioPlayer',
     initialState,
     reducers: {
-
+        seekAudioPlayer: (state, action) => {
+            state.seek = action.payload;
+        },
         setCurrentTime: (state, action) => {
             state.currentTime = action.payload;
         },
@@ -60,6 +63,21 @@ export const audioSlice = createSlice({
     },
 });
 
-export const { setPlayerControls, setCurrentTime, setDuration, setVolume, setAnalyser, setConnected, resetPlayer, setAudioLink, setAudioId, togglePlayPause, setIsPlaying, togglePlayerControls, setAudioName, } = audioSlice.actions;
+export const { 
+    setPlayerControls, 
+    setCurrentTime, 
+    setDuration, 
+    setVolume, 
+    setAnalyser, 
+    setConnected, 
+    resetPlayer, 
+    setAudioLink, 
+    setAudioId, 
+    togglePlayPause, 
+    setIsPlaying, 
+    togglePlayerControls, 
+    setAudioName, 
+    seekAudioPlayer 
+} = audioSlice.actions;
 
 export const audioSliceReducer = audioSlice.reducer;

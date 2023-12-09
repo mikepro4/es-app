@@ -3,9 +3,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import classNames from "classnames";
 import Button from "@/components/button";
+import Icon from "@/components/icon";
+import ParamSwitch from "@/components/paramSwitch";
 import StorageUpload from "../storage_upload";
 
-import {shapeItem, shapeUpdateItem, togglePlayer} from "@/redux";
+import {shapeItem, shapeUpdateItem, togglePlayer, trackUpdateDuration} from "@/redux";
+
+import TrackAudioPlayer from "@/components/track_audio_player";
+
 
 function AppSettings() {
   const [loading, setLoading] = useState(false);
@@ -13,10 +18,7 @@ function AppSettings() {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    return () => {};
-  }, []);
-
+ 
   const removeImage = () => {
     dispatch(
       shapeItem({
@@ -43,19 +45,111 @@ function AppSettings() {
     )
   }
 
+  let switchAction = (value) => {
+    switch (value) {
+        case "removeImage":
+            console.log("edit")
+            removeImage()
+            break;
+        default:
+            break;
+    }
+  }
+
+  const renderInCollection = () => {
+    if(app.playerData.inCollection) {
+      return (
+          <div className="nft-status">In collection</div>
+      )
+    } else {
+      return (
+          <div className="nft-status">Not in collection</div>
+      )
+    }
+  }
+
+
   return (
     <div className="nft-details-container">
-      <div className="nft-details-shadow"></div>
 
       <div className="nft-details-content-container">
         {app.playerData?.imageLink ? (
           <div className="nft-details-page">
 
             <div className="nft-details-page-left">
-              <img src={app.playerData.imageLink} />
+              <div className="nft-image-container">
+                <a href={app.playerData.imageLink} target="_blank" className="nft-image-link">
+                  <img src={app.playerData.imageLink} />
+                </a>
+              </div>
+
+              <div className="nft-details-bar">
+                <div className="nft-details-bar-left">
+                  {renderInCollection()}
+                </div>
+                <div className="nft-details-bar-right">
+                  <ParamSwitch
+                    type="local-icon"
+                    icon="more-vertical"
+                    value=""
+                    position="bottom right"
+                    offset={[10,0]}
+                    params={[
+                        {
+                            type: "links",
+                            values: [
+                                {
+                                    label: "Remove image",
+                                    value: "removeImage",
+                                    icon: "media"
+                                }
+                            ],
+                        }
+                    ]}
+                    onChange={(value) => {
+                        switchAction(value)
+                    }}
+                />
+                </div>
+              </div>
             </div>
 
-            <div className="nft-details-page-left">
+            <div className="nft-details-page-right">
+              <div className="nft-details-description-container">
+
+                <div className="nft-details-description-header">
+                  <div className="nft-details-description-header-left">
+                    NFT Details
+                  </div>
+                  
+                  <div className="nft-details-description-header-right">
+                    <a href="#" className="nft-contract-link">
+                      <Icon name="ethereum" />
+                      View contract
+                    </a>
+                  </div>
+                </div>
+
+                <div className="nft-details-description-section">
+                  <div className="nft-details-field">
+                    <div className="nft-details-field-label">Name</div>
+                    <div className="nft-details-field-value-big">{app.playerData.name}</div>
+                  </div>
+
+                  <div className="nft-details-field">
+                    <div className="nft-details-field-label">Audio track</div>
+
+                    <TrackAudioPlayer
+                      item={app.playerData}
+                    />
+                    
+                   
+                  </div>
+
+                </div>
+
+              </div>
+
             </div>
             
 

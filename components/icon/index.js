@@ -30,6 +30,7 @@ import CaretRight from "./icons/caret_right"
 import CaretLeft from "./icons/caret_left"
 import AudioSettings from "./icons/audio-settings"
 import Atom from "./icons/atom"
+import Ethereum from "./icons/ethereum"
 
 const Icon = ({ name, onClick, fill }) => {
 
@@ -89,6 +90,8 @@ const Icon = ({ name, onClick, fill }) => {
                 return <CaretLeft />
             case "atom":
                 return <Atom />
+            case "ethereum":
+                return <Ethereum />
 
         }
     }

@@ -1,0 +1,93 @@
+.track-audio-player {
+    display: flex;
+    margin-top: 8px;
+
+    .track-player-left {
+        width: 70px;
+        height: 70px;
+        flex-grow: 0;
+        flex-shrink: 0;
+        background: rgba(255, 255, 255, 0.1);
+        position: relative;
+
+        img {
+            max-width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .track-controls-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+            opacity: 0;
+            transition:  all 0.2s;
+
+            &.playing {
+                opacity: 1;
+            }
+        }
+
+        &:hover {
+            .track-controls-container  {
+                opacity: 1;
+            }
+        }
+
+       
+    }
+
+    .track-player-right {
+        flex-grow: 1;
+        flex-shrink: 1;
+        margin-left: 20px;
+        display: flex;
+        // background: rgba(255, 255, 255, 0.1);
+        flex-direction: column;
+        height: 70px;
+        justify-content: space-between;
+
+        .track-player-title {
+            font-size: 16px;
+            margin: 10px 0 0 0;
+        }
+
+        .track-timeline-container {
+            height: 10px;
+            // background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            margin: 5px 0 5px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+
+            .track-timeline {
+                height: 1px;
+                background: rgba(255, 255, 255, 0.1);
+                position: relative;
+                width: 100%;
+
+                .track-timeline-progress {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    height: 1px;
+                    background: rgba(255, 255, 255, 1.0);
+                }
+            }
+        }
+
+        .track-player-time {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5)
+        }
+    }
+}

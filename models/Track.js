@@ -13,6 +13,7 @@ const TrackSchema = new Schema({
     },
     songLink: { type: String },
     album: { type: Schema.Types.ObjectId, ref: "Album" },
+    duration: { type: Number },
 });
 
 module.exports = mongoose.model("Track", TrackSchema);

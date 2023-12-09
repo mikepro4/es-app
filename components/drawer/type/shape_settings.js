@@ -196,16 +196,20 @@ function AppSettings() {
 
                   <Field
                     name="genesis"
-                    title="Genesis"
                     component={Switch}
                     label="Genesis"
                   />
 
                   <Field
                     name="iteration"
-                    title="Iteration"
                     component={Switch}
                     label="Iteration"
+                  />
+
+                  <Field
+                    name="inCollection"
+                    component={Switch}
+                    label="In Collection"
                   />
                 </div>
 

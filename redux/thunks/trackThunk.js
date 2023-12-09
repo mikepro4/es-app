@@ -90,6 +90,25 @@ const trackUpdateItem = createAsyncThunk(
   }
 );
 
+const trackUpdateDuration = createAsyncThunk(
+  "track/updateDuration",
+    async ({ trackId, duration, callback }, { rejectWithValue }) => {
+    try {
+      const response = await userApi.post("/track/updateDuration", {
+        trackId, duration
+      });
+
+      if (callback) {
+        callback(response.data)
+      }
+
+      return response.data;
+    } catch (err) {
+      throw new Error("Error");
+    }
+  }
+);
+
 function convertCriteriaToUpdateData(criteria) {
   const updateData = { $set: {} };
 
@@ -194,5 +213,6 @@ export {
     trackDuplicate,
     trackNextItem,
     trackPreviousItem,
-    trackUpdateManyItems
+    trackUpdateManyItems,
+    trackUpdateDuration
 };

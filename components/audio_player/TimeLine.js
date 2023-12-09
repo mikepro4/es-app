@@ -50,7 +50,6 @@ const TimeLine = ({ audioRef }) => {
         const seekSeconds = progressBarPercent * duration / 100;
         dispatch(setCurrentTime(seekSeconds));
         audioRef.current.currentTime = seekSeconds;
-
     };
 
     const calculateWidth = (event) => {
