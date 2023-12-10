@@ -67,15 +67,17 @@
 }
 
 .music-page-container {
-  margin: 30px auto;
+  // margin: 30px auto;
   display: flex;
   flex: 1;
-  max-width: 700px;
+  // max-width: 700px;
   flex-direction: column;
 
   .music-page-container-header {
     display: flex;
     justify-content: space-between;
+
+    margin-top: 30px;
   }
 
   h1 {

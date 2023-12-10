@@ -65,11 +65,25 @@
 }
 
 .music-page-container {
-  margin: 30px auto;
   display: flex;
   flex: 1;
-  max-width: 700px;
+  // max-width: 700px;
   flex-direction: column;
+  overflow-y: scroll;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  .music-page-center-container {
+    margin: 0 auto;
+    display: flex;
+    flex: 1;
+    width: 100%;
+    max-width: 700px;
+    flex-direction: column;
+  }
 
   .section-track-player {
     margin: 20px 0 20px 0;
@@ -241,5 +255,17 @@
       display: inline;
     }
 
+  }
+
+  
+}
+
+.music-shapes-container {
+  margin: 20px 0 0 0;
+
+  .music-shapes-container-title {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 20px;
   }
 }

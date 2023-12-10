@@ -4,6 +4,7 @@ const passport = require('passport');
 const requireSignin = passport.authenticate('jwt', { session: false });
 const passportService = require('../services/passport');
 const _ = require("lodash");
+const mongoose = require("mongoose");
 
 const Shapes = require("../models/Shape");
 
@@ -346,10 +347,11 @@ router.post("/calculateParamPercentage", async (req, res) => {
         }
 
         // Count the total number of shapes
-        const totalShapes = await Shapes.countDocuments();
+        const totalShapes = await Shapes.countDocuments({status: "approved"  });
 
         // Build the query based on field and value
         let query = { status: "approved" }; // Initial condition for status
+        
         if (field.startsWith('params.')) {
             // For nested fields like 'params.math', 'params.colors.length'
             _.set(query, field, value);
@@ -358,8 +360,13 @@ router.post("/calculateParamPercentage", async (req, res) => {
             query[field] = value;
         }
 
+        const trackId = mongoose.Types.ObjectId(value);
+
         // Construct the final query using $and
-        const finalQuery = { $and: [query] };
+        const finalQuery = { $and: [{
+            status: "approved",
+            track: trackId
+        }] };
 
         // Count the number of shapes that match the query
         const matchingShapes = await Shapes.countDocuments(finalQuery);
@@ -435,6 +442,15 @@ const buildQuery = criteria => {
         });
     }
 
+    if (criteria && criteria.track) {
+        const trackId = mongoose.Types.ObjectId(criteria.track);
+        _.assign(query, {
+            "track": {
+                $eq: trackId
+            }
+        });
+    }
+
     if (criteria && criteria.iteration) {
         _.assign(query, {
             "iteration": {
@@ -448,6 +464,7 @@ const buildQuery = criteria => {
             }
         });
     }
+  
 
     return query
 };

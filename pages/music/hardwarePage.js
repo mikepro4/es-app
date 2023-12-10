@@ -76,68 +76,70 @@ function HardwarePageContainer({
 
     return (
         <div className="music-page-container hardware-page-container">
+            <div className="music-page-center-container">
 
-            <div className="music-page-container-header">
+                <div className="music-page-container-header">
 
-                <div className="music-page-container-header-left">
-                    <Button
-                        label="Back"
-                        icon="arrow-left"
-                        minimal={true}
-                        small={true}
-                        wrap={true}
-                        onClick={() => {
-                            router.push({
-                                pathname: '/music',
-                                query: { ...router.query, hardwareId: null },
-                            }, undefined, { shallow: true })
+                    <div className="music-page-container-header-left">
+                        <Button
+                            label="Back"
+                            icon="arrow-left"
+                            minimal={true}
+                            small={true}
+                            wrap={true}
+                            onClick={() => {
+                                router.push({
+                                    pathname: '/music',
+                                    query: { ...router.query, hardwareId: null },
+                                }, undefined, { shallow: true })
+                            }
                         }
-                    }
-                    />
+                        />
 
+                    </div>
+
+                    <div className="music-page-container-header-right">
+                    <HardwareActionsView
+                            item={hardware}
+                        />
+                    </div>
                 </div>
 
-                <div className="music-page-container-header-right">
-                <HardwareActionsView
-                        item={hardware}
-                    />
+                <h1>{hardware && hardware.name} </h1>
+
+                <div 
+                    className={classNames("image-display-container", {
+                        "hasImage": hardware && hardware.imageLink
+                    })}
+                >
+                    <div className="image-container">
+                        {hardware && hardware.imageLink && <img src={hardware.imageLink} />}
+                        {hardware && !hardware.imageLink && <Icon name="x"/>}
+                    </div>
+
+                    <div className="image-container-overlay">
+                        <ImageUpload
+                            callback={(data) => {
+                                console.log("IMAGE UPLOAD", data);
+                                updateItemImage(data)
+                            }}
+                        />
+                    </div>
+                    
+
+                    {hardware && hardware.imageLink && <div className="image-remove">
+                        <Button
+                            label="Delete image"
+                            small={true}
+                            wrap={true}
+                            minimal={true}
+                            onClick={() => {
+                                updateItemImage("")
+                            }}
+                        />
+                    </div>}
+
                 </div>
-            </div>
-
-            <h1>{hardware && hardware.name} </h1>
-
-            <div 
-                className={classNames("image-display-container", {
-                    "hasImage": hardware && hardware.imageLink
-                })}
-            >
-                <div className="image-container">
-                    {hardware && hardware.imageLink && <img src={hardware.imageLink} />}
-                    {hardware && !hardware.imageLink && <Icon name="x"/>}
-                </div>
-
-                <div className="image-container-overlay">
-                    <ImageUpload
-                        callback={(data) => {
-                            console.log("IMAGE UPLOAD", data);
-                            updateItemImage(data)
-                        }}
-                    />
-                </div>
-                
-
-                {hardware && hardware.imageLink && <div className="image-remove">
-                    <Button
-                        label="Delete image"
-                        small={true}
-                        wrap={true}
-                        minimal={true}
-                        onClick={() => {
-                            updateItemImage("")
-                        }}
-                    />
-                </div>}
-
             </div>
 
             
