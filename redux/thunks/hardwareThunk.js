@@ -55,6 +55,25 @@ const hardwareDelete = createAsyncThunk(
   }
 );
 
+const hardwareCalculatePercentage = createAsyncThunk(
+  "hardware/calculatePercentage",
+    async ({ hardwareId, callback }, { rejectWithValue }) => {
+    try {
+      const response = await userApi.post("/hardware/calculatePercentage", { hardwareId });
+
+      if (callback) {
+        callback(response.data)
+      }
+
+      return response.data;
+    } catch (err) {
+      throw new Error("Error");
+    }
+  }
+);
+
+
+
 const hardwareItem = createAsyncThunk(
   "hardware/item",
     async ({ id, callback }, { rejectWithValue }) => {
@@ -194,5 +213,6 @@ export {
     hardwareDuplicate,
     hardwareNextItem,
     hardwarePreviousItem,
-    hardwareUpdateManyItems
+    hardwareUpdateManyItems,
+    hardwareCalculatePercentage
 };

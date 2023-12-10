@@ -43,6 +43,7 @@ router.post("/search", requireSignin, async (req, res) => {
     const query = Tracks.find(buildQuery(criteria))
         .sort({ [sortProperty]: order })
         .populate("album")
+        .populate("hardware")
         .skip(offset)
         .limit(limit);
 
@@ -87,6 +88,7 @@ router.post("/item", async (req, res) => {
     const query = await Tracks.findOne({ _id: req.body.id })
         .populate("author")
         .populate("album")
+        .populate("hardware")
 
     res.json(query);
 });
@@ -304,7 +306,7 @@ router.post("/updateDuration", async (req, res) => {
                 duration: duration
             },
             { new: true }  // Return the updated object
-        ).populate("album");
+        ).populate("album").populate("hardware");
 
         // If the Shape object is not found
         if (!updatedTrack) {

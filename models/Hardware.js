@@ -11,6 +11,7 @@ const HardwareSchema = new Schema({
         enum: ["active", "inactive"],
         default: "inactive"
     },
+    imageLink: { type: String }
 });
 
 module.exports = mongoose.model("Hardware", HardwareSchema);

@@ -7,6 +7,8 @@ const _ = require("lodash");
 
 const Hardwares = require("../models/Hardware");
 
+const Shapes = require("../models/Shape");
+const Tracks = require("../models/Track");
 
 // ===========================================================================
 
@@ -249,6 +251,76 @@ router.post("/updateMany", requireSignin, async (req, res) => {
             success: true,
             modifiedCount: result.nModified
         });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+});
+
+router.post("/calculatePercentage", async (req, res) => {
+    try {
+        const hardwareId = req.body.hardwareId; // Replace "111" with the actual hardware ID
+
+        // Aggregate query to find all Shapes with the specific hardware
+        const matchingShapes = await Shapes.aggregate([
+            {
+                $match: {
+                    status: "approved"
+                }
+            },
+            {
+                $lookup: {
+                    from: "tracks",
+                    localField: "track",
+                    foreignField: "_id",
+                    as: "trackDetails"
+                }
+            },
+            {
+                $unwind: {
+                    path: "$trackDetails",
+                    preserveNullAndEmptyArrays: true // Preserves the shape documents even if the track is not found
+                }
+            },
+            {
+                $lookup: {
+                    from: "hardwares",
+                    localField: "trackDetails.hardware",
+                    foreignField: "_id",
+                    as: "hardwareDetails"
+                }
+            },
+            {
+                $project: {
+                    trackDetails: 1,
+                    hardwareDetails: 1,
+                    isMatchingHardware: {
+                        $cond: {
+                            if: { $isArray: "$trackDetails.hardware" },
+                            then: { $in: [hardwareId, "$trackDetails.hardware"] },
+                            else: false
+                        }
+                    }
+                }
+            },
+            {
+                $match: {
+                    isMatchingHardware: true
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    count: { $sum: 1 }
+                }
+            }
+        ]);
+        const totalShapes = await Shapes.countDocuments({ status: "approved" });
+
+        const count = matchingShapes.length > 0 ? matchingShapes[0].count : 0;
+        const percentage = totalShapes > 0 ? (count / totalShapes) * 100 : 0;
+
+        res.json({ count, percentage: percentage.toFixed(2), total: totalShapes });
     } catch (error) {
         console.error(error);
         res.status(500).send("Server Error");

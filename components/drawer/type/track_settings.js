@@ -12,7 +12,7 @@ import {
     Switch,
 } from "@blueprintjs/core";;
 
-import { trackUpdateItem, updateCollectionItem, trackUpdateManyItems, toggleDrawer, togglePlayer, toggleModal, albumSearch } from "@/redux";
+import { hardwareSearch, trackUpdateItem, updateCollectionItem, trackUpdateManyItems, toggleDrawer, togglePlayer, toggleModal, albumSearch } from "@/redux";
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
@@ -20,6 +20,7 @@ function AppSettings() {
     const router = useRouter();
     const dispatch = useDispatch();
     const [localOptions, setLocalOptions] = useState([]);
+    const [localOptionsHardware, setLocalOptionsHardware] = useState([]);
 
     const handleFormChange = (values) => {
         console.log(values);
@@ -43,10 +44,26 @@ function AppSettings() {
         }))
     };
 
-    let initialValues = app.drawerData
+    let finalValues 
+
+    if(app.drawerData?.hardware?.length > 0) {
+        const hardwareIds = app.drawerData.hardware.map(hardware => hardware._id);
+        finalValues = {
+            ...app.drawerData,
+            hardware: hardwareIds
+        }
+    } else {
+        finalValues =  {
+            ...app.drawerData,
+            hardware: []
+        }
+    }
+
+    let initialValues = finalValues
 
     useEffect(() => {
         loadInitialOptions();
+        loadInitialOptionsHardware()
     
         return () => {};
       }, []);
@@ -69,6 +86,28 @@ function AppSettings() {
                 };
               });
               setLocalOptions(finalOptinos);
+            },
+          })
+        );
+      };
+
+      const loadInitialOptionsHardware = () => {
+        dispatch(
+          hardwareSearch({
+            criteria: {},
+            sortProperty: "created",
+            offset: 0,
+            limit: 10000,
+            order: 1,
+    
+            callback: (data) => {
+              let finalOptinos = data.all.map((option) => {
+                return {
+                  value: option._id,
+                  label: option.name,
+                };
+              });
+              setLocalOptionsHardware(finalOptinos);
             },
           })
         );
@@ -168,6 +207,55 @@ function AppSettings() {
                                         component={TabSwitcher}
                                         options={statusOptions}
                                     />
+
+                                    <div className="field-array-container">
+                                        <FieldArray
+                                            name="hardware"
+                                            render={arrayHelpers => (
+                                                <div>
+                                                    {values?.hardware?.map((color, index) => (
+                                                        <div key={index}>
+
+                                                            <div className="field-array-header">
+                                                                <div className="field-array-title">Hardware {index + 1}</div>
+
+                                                                <Button
+                                                                    type="button"
+                                                                    small={true}
+                                                                    minimal={true}
+                                                                    icon="trash"
+                                                                    onClick={() => arrayHelpers.remove(index)} // remove a color from the list
+                                                                />
+                                                            </div>
+
+                                                            <div className="field-array-content">
+                                              
+                                                                <Field
+                                                                    name={`hardware.${index}`}
+                                                                    title="Hardware"
+                                                                    apiUrl="/hardware/search"
+                                                                    useAsync={true}
+                                                                    component={Select}
+                                                                    options={localOptionsHardware}
+                                                                />
+
+
+                                                            </div>
+
+                                                        </div>
+                                                    ))}
+                                                    <div className="field-array-add-button">
+                                                        <Button
+                                                            type="button"
+                                                            minimal={true}
+                                                            label="Add a Color"
+                                                            onClick={() => arrayHelpers.push("1")}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            )}
+                                        />
+                                    </div>
 
                                 </div>
 

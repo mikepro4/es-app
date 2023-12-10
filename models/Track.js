@@ -13,6 +13,7 @@ const TrackSchema = new Schema({
     },
     songLink: { type: String },
     album: { type: Schema.Types.ObjectId, ref: "Album" },
+    hardware: [{ type: Schema.Types.ObjectId, ref: "Hardware" }],
     duration: { type: Number },
 });
 

@@ -8,6 +8,8 @@ import TrackAudioPlayer from "@/components/track_audio_player";
 
 import TrackActionsView from "@/components/collection_actions/trackActions";
 
+import HardwareItem from "./hardwareItem";
+
 import { trackUpdateItem, updateCollectionItem, trackItem, trackUpdateManyItems } from "@/redux";
 
 
@@ -112,6 +114,18 @@ function TrackPageContainer({
                 <TrackAudioPlayer
                     item={track}
                 />
+            </div>
+
+            <div className="track-hardware-container">
+                <div className="track-hardware-container-title">
+                    Hardware
+                </div>
+
+                <div className="track-hardware-grid">
+                    {track?.hardware?.map((item, index) => (
+                        <HardwareItem item={item} index={index}/>
+                    ))}
+                </div>
             </div>
 
             

@@ -4,11 +4,11 @@ import { useRouter } from 'next/router';
 import classNames from "classnames";
 import Button from "@/components/button";
 import Icon from "@/components/icon";
+import ImageUpload from "@/components/image_upload";
 
 import HardwareActionsView from "@/components/collection_actions/hardwareActions";
 
 import { hardwareUpdateItem, updateCollectionItem, hardwareItem, hardwareUpdateManyItems } from "@/redux";
-
 
 function HardwarePageContainer({
 }) {
@@ -27,9 +27,6 @@ function HardwarePageContainer({
                 setHardware(data)
                 dispatch(updateCollectionItem(null))
                 dispatch(toggleParamsData(data))
-                if(data.code) {
-                    setCodeItems(data.code)
-                }
             }
         }))
     }
@@ -55,6 +52,26 @@ function HardwarePageContainer({
         }
     }, [router]);
 
+    const updateItemImage = (imageLink) => {
+        dispatch(
+            hardwareItem({
+              id: hardware?._id,
+              callback: (data) => {
+                dispatch(
+                  hardwareUpdateItem({
+                    data: {
+                      ...data,
+                      imageLink: imageLink,
+                    },
+                    callback: (data) => {
+                        dispatch(updateCollectionItem(hardware?._id))
+                    },
+                  })
+                );
+              },
+            })
+          );
+    }
      
 
     return (
@@ -88,6 +105,40 @@ function HardwarePageContainer({
             </div>
 
             <h1>{hardware && hardware.name} </h1>
+
+            <div 
+                className={classNames("image-display-container", {
+                    "hasImage": hardware && hardware.imageLink
+                })}
+            >
+                <div className="image-container">
+                    {hardware && hardware.imageLink && <img src={hardware.imageLink} />}
+                    {hardware && !hardware.imageLink && <Icon name="x"/>}
+                </div>
+
+                <div className="image-container-overlay">
+                    <ImageUpload
+                        callback={(data) => {
+                            console.log("IMAGE UPLOAD", data);
+                            updateItemImage(data)
+                        }}
+                    />
+                </div>
+                
+
+                {hardware && hardware.imageLink && <div className="image-remove">
+                    <Button
+                        label="Delete image"
+                        small={true}
+                        wrap={true}
+                        minimal={true}
+                        onClick={() => {
+                            updateItemImage("")
+                        }}
+                    />
+                </div>}
+
+            </div>
 
             
             
