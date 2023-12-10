@@ -28,7 +28,7 @@ function Player() {
     const query = router.query;
     const dispatch = useDispatch();
     const shapeList = useSelector((state) => state.shapeList);
-    const [selectedTabId, setSelectedTabId] = useState(2);
+    const [selectedTabId, setSelectedTabId] = useState(1);
 
     const [prevPathname, setPrevPathname] = useState(null);
     const { toggleMicrophone, isMicrophoneListen } = useMicrophone();
