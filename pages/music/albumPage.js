@@ -222,7 +222,7 @@ function AlbumPageContainer({
                         }}
                         loadCollectionItem={shapeItem}
                         handleClick={() => { }}
-                    />}
+                />}
 
 
             </div>

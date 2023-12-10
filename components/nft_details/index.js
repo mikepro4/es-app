@@ -170,7 +170,7 @@ function AppSettings() {
                   </div>
 
                   <div className="nft-hardware-section-right">
-                    {app.playerData?.track?.hardware.map((item, index) => {
+                    {app.playerData?.track?.hardware?.map((item, index) => {
                       return (
                         <HardwareItem
                         item={item}/>

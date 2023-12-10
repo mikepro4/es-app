@@ -8,7 +8,16 @@ import ImageUpload from "@/components/image_upload";
 
 import HardwareActionsView from "@/components/collection_actions/hardwareActions";
 
-import { hardwareUpdateItem, updateCollectionItem, hardwareItem, hardwareUpdateManyItems } from "@/redux";
+import { 
+    hardwareUpdateItem, 
+    updateCollectionItem, 
+    hardwareItem, 
+    hardwareUpdateManyItems,
+    shapeSearch,
+    shapeItem
+} from "@/redux";
+
+import InfiniteList from '@/components/infinite_list'
 
 function HardwarePageContainer({
 }) {
@@ -18,6 +27,12 @@ function HardwarePageContainer({
     const dispatch = useDispatch();
     const [hardware, setHardware] = useState(false);
     const [scroll, setScroll] = useState(0);
+    const scrollContainerRef = useRef(null);
+    const [count, setCount] = useState(0);
+    const [total, setTotal] = useState(0);
+    const [screenWidth, setScreenWidth] = useState(0);
+
+    
 
     const fetchHardware = () => {
         dispatch(hardwareItem({
@@ -72,10 +87,37 @@ function HardwarePageContainer({
             })
           );
     }
+
+    const handleScroll = () => {
+        const position = scrollContainerRef.current.scrollTop
+        setScroll(position)
+    };
+
+    const handleResize = () => {
+        setScreenWidth(window.innerWidth);
+    };
+
+    useEffect(() => {
+        window.addEventListener('resize', handleResize);
+
+        const scrollContainer = scrollContainerRef.current;
+
+        if (scrollContainer) {
+            scrollContainer.addEventListener('scroll', handleScroll);
+        }
+
+        return () => {
+            if (scrollContainer) {
+                scrollContainer.removeEventListener('scroll', handleScroll);
+            }
+            window.removeEventListener('resize', handleResize);
+        };
+
+    }, []);
      
 
     return (
-        <div className="music-page-container hardware-page-container">
+        <div className="music-page-container hardware-page-container" ref={scrollContainerRef}>
             <div className="music-page-center-container">
 
                 <div className="music-page-container-header">
@@ -140,6 +182,33 @@ function HardwarePageContainer({
                     </div>}
 
                 </div>
+
+                {count > 0 && <div className="album-linked-shapes-container">
+                    {count} shapes linked to hardware
+                </div>}
+
+                {hardware && hardware._id && <InfiniteList
+                        resultType="shape-view-list"
+                        limit={20}
+                        contained={screenWidth > 500 ? true : false}
+                        scrollValue={scroll}
+                        sortProperty={"created"}
+                        order={"-1"}
+                        criteria={{
+                            status: "approved",
+                            hardware: hardware._id
+                        }}
+                        // identifier={this.props.query.folder}
+                        searchCollection={shapeSearch}
+                        updateCollectionStats={(count, total) => {
+                            setCount(count)
+                            setTotal(total)
+                            // dispatch(shapeListUpdateStats({ count: count, total: total }))
+
+                        }}
+                        loadCollectionItem={shapeItem}
+                        handleClick={() => { }}
+                />}
             </div>
 
             

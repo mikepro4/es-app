@@ -136,7 +136,7 @@ router.post("/search", requireSignin, async (req, res) => {
     if (criteria && criteria.hardware) {
         retrievalPipeline.push({
             $match: {
-                "track.hardware": { $in: [mongoose.Types.ObjectId(hardware)] } 
+                "track.hardware": { $elemMatch: { _id: mongoose.Types.ObjectId(criteria.hardware) } }
             }
         });
     }
