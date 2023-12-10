@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { FocusStyleManager } from "@blueprintjs/core";
+import { Tooltip } from 'react-tooltip'
 
 import '../styles/main.scss';
+
 
 import Head from "next/head";
 import Script from 'next/script';
@@ -101,6 +103,7 @@ const App = ({ children }) => {
       {app.modalOpen && <Modal />}
       <AudioPlayer />
       <KeyboardAction />
+      <Tooltip id="my-tooltip" />
     </>
   )
 }

@@ -124,6 +124,25 @@ const shapeUpdateGenesis = createAsyncThunk(
   }
 );
 
+const shapeCalculateParamPercentage = createAsyncThunk(
+  "shape/calculateParamPercentage",
+    async ({ field, value, callback }, { rejectWithValue }) => {
+    try {
+      const response = await userApi.post("/shape/calculateParamPercentage", {
+        field, value
+      });
+
+      if (callback) {
+        callback(response.data)
+      }
+
+      return response.data;
+    } catch (err) {
+      throw new Error("Error");
+    }
+  }
+);
+
 const shapeCreateItemWithData = createAsyncThunk(
   "shape/createItemWithData",
     async ({ data, callback }, { rejectWithValue }) => {
@@ -249,5 +268,6 @@ export {
     shapeUpdateManyItems,
     shapeCreateItemWithData,
     shapeUpdateTrack,
-    shapeUpdateGenesis
+    shapeUpdateGenesis,
+    shapeCalculateParamPercentage
 };

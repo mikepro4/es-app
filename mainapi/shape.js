@@ -336,6 +336,45 @@ router.post("/updateTrack", async (req, res) => {
     }
 });
 
+router.post("/calculateParamPercentage", async (req, res) => {
+    try {
+        const { field, value } = req.body; // Extract the field and value from the request body
+
+        // Ensure that field and value are provided
+        if (!field) {
+            return res.status(400).send("No field provided");
+        }
+
+        // Count the total number of shapes
+        const totalShapes = await Shapes.countDocuments();
+
+        // Build the query based on field and value
+        let query = { status: "approved" }; // Initial condition for status
+        if (field.startsWith('params.')) {
+            // For nested fields like 'params.math', 'params.colors.length'
+            _.set(query, field, value);
+        } else {
+            // For top-level fields like 'track'
+            query[field] = value;
+        }
+
+        // Construct the final query using $and
+        const finalQuery = { $and: [query] };
+
+        // Count the number of shapes that match the query
+        const matchingShapes = await Shapes.countDocuments(finalQuery);
+
+        // Calculate the percentage
+        const percentage = totalShapes > 0 ? (matchingShapes / totalShapes) * 100 : 0;
+
+        // Send back the percentage
+        res.json({ percentage: percentage.toFixed(2), matching: matchingShapes}); // Rounded to two decimal places
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+});
+
 router.post("/updateGenesis", async (req, res) => {
     try {
         const shapeId = req.body.shapeId;  // Extract the ID from the request body
