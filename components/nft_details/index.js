@@ -71,7 +71,7 @@ function AppSettings() {
 
   return (
     <div className="nft-details-container">
-
+      <div className="nft-details-shadow"></div>
       <div className="nft-details-content-container">
         {app.playerData?.imageLink ? (
           <div className="nft-details-page">
