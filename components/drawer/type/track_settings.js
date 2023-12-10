@@ -247,8 +247,10 @@ function AppSettings() {
                                                     <div className="field-array-add-button">
                                                         <Button
                                                             type="button"
+                                                            icon="plus"
+                                                            small={true}
                                                             minimal={true}
-                                                            label="Add a Color"
+                                                            label="Add hardware"
                                                             onClick={() => arrayHelpers.push("1")}
                                                         />
                                                     </div>

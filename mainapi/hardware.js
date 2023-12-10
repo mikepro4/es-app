@@ -4,6 +4,7 @@ const passport = require('passport');
 const requireSignin = passport.authenticate('jwt', { session: false });
 const passportService = require('../services/passport');
 const _ = require("lodash");
+const mongoose = require("mongoose");
 
 const Hardwares = require("../models/Hardware");
 
@@ -259,60 +260,29 @@ router.post("/updateMany", requireSignin, async (req, res) => {
 
 router.post("/calculatePercentage", async (req, res) => {
     try {
-        const hardwareId = req.body.hardwareId; // Replace "111" with the actual hardware ID
+        const hardwareId = mongoose.Types.ObjectId(req.body.hardwareId); // Replace "111" with the actual hardware ID
 
         // Aggregate query to find all Shapes with the specific hardware
         const matchingShapes = await Shapes.aggregate([
             {
-                $match: {
-                    status: "approved"
-                }
+                $match: { status: "approved" }
             },
             {
                 $lookup: {
-                    from: "tracks",
+                    from: "tracks", // Replace with your tracks collection name
                     localField: "track",
                     foreignField: "_id",
                     as: "trackDetails"
                 }
             },
             {
-                $unwind: {
-                    path: "$trackDetails",
-                    preserveNullAndEmptyArrays: true // Preserves the shape documents even if the track is not found
-                }
+                $unwind: "$trackDetails"
             },
             {
-                $lookup: {
-                    from: "hardwares",
-                    localField: "trackDetails.hardware",
-                    foreignField: "_id",
-                    as: "hardwareDetails"
-                }
+                $match: { "trackDetails.hardware": { $in: [hardwareId] } }
             },
             {
-                $project: {
-                    trackDetails: 1,
-                    hardwareDetails: 1,
-                    isMatchingHardware: {
-                        $cond: {
-                            if: { $isArray: "$trackDetails.hardware" },
-                            then: { $in: [hardwareId, "$trackDetails.hardware"] },
-                            else: false
-                        }
-                    }
-                }
-            },
-            {
-                $match: {
-                    isMatchingHardware: true
-                }
-            },
-            {
-                $group: {
-                    _id: null,
-                    count: { $sum: 1 }
-                }
+                $count: "count"
             }
         ]);
         const totalShapes = await Shapes.countDocuments({ status: "approved" });

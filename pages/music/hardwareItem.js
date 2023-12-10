@@ -18,7 +18,7 @@ function AppSettings({item, index}) {
                 hardwareId: item._id,
                 callback: (data) => {
                     console.log(data);
-                    setPercentage(data.percentage)
+                    setPercentage(data)
                 }
             }))
         }
@@ -40,8 +40,13 @@ function AppSettings({item, index}) {
                     {item.name}
                 </div>
 
-                <div className="hardware-percentage">
-                    {percentage}%
+                <div className="hardware-percentage" 
+              
+                >
+                    <span
+                      data-tooltip-id="my-tooltip" 
+                      data-tooltip-content={`${percentage?.count} other shapes have this hardware`}
+                    >{percentage?.percentage}%</span>
                 </div>
 
             </div>
