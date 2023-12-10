@@ -58,9 +58,23 @@
             font-size: 16px;
             margin: 10px 0 0 0;
             cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .track-player-title-container  {
+                font-weight: 500;
+            }
+
+            .track-player-percentage-container {
+                font-size: 12px;
+                // color: rgba(255, 255, 255, 0.5);
+            }
 
             &:hover {
-                text-decoration: underline;
+                .track-player-title-container {
+                    text-decoration: underline;
+                }
             }
         }
 
@@ -92,9 +106,25 @@
 
         .track-player-time {
             display: flex;
-            justify-content: space-between;
+            // justify-content: space-between;
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.5)
+            color: rgba(255, 255, 255, 0.5);
+
+            .track-player-current-time {
+                min-width: 35px;
+                // background: red;
+                color: rgba(255, 255, 255, 0.3);
+            }
+
+            .track-player-duration {
+                color: rgba(255, 255, 255, 0.3);
+            }
+
+            .track-player-divider {
+                margin-right: 10px;
+                margin-left: 0;
+                opacity: 0.2;
+            }
         }
     }
 }

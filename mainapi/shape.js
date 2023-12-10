@@ -368,7 +368,7 @@ router.post("/calculateParamPercentage", async (req, res) => {
         const percentage = totalShapes > 0 ? (matchingShapes / totalShapes) * 100 : 0;
 
         // Send back the percentage
-        res.json({ percentage: percentage.toFixed(2), matching: matchingShapes}); // Rounded to two decimal places
+        res.json({ percentage: percentage.toFixed(2), count: matchingShapes}); // Rounded to two decimal places
     } catch (error) {
         console.error(error);
         res.status(500).send("Server Error");

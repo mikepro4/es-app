@@ -23,20 +23,6 @@ function AppSettings() {
   const app = useSelector((state) => state.app);
   const router = useRouter();
   const dispatch = useDispatch();
-  const [audioPercentage, setAudioPercentage] = useState(null);
-
-  useEffect(() => {
-    if(app.playerData?.track?._id) {
-      dispatch(shapeCalculateParamPercentage({
-        field: "track",
-        value: app.playerData.track._id,
-        callback: (data) => {
-          setAudioPercentage(data)
-        }
-      }))
-    }
-    
-  }, [app.playerData.track._id]);
 
  
   const removeImage = () => {
@@ -158,12 +144,12 @@ function AppSettings() {
 
                   <div className="nft-details-field">
                     <div className="nft-details-field-label">Audio track</div>
-                   {audioPercentage?.percentage && <div 
+                   {/* {audioPercentage?.percentage && <div 
                    data-tooltip-id="my-tooltip" 
                    data-tooltip-content={`${audioPercentage.matching} other shapes have this track`}
                    className="audio-percentage-container">
                     {audioPercentage.percentage}%
-                    </div>}
+                    </div>} */}
 
                     <TrackAudioPlayer
                       item={app.playerData.track}

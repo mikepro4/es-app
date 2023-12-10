@@ -13,7 +13,8 @@ import {
     seekAudioPlayer,
     togglePlayer,
     trackUpdateDuration,
-    updateCollectionItem
+    updateCollectionItem,
+    shapeCalculateParamPercentage
 } from '@/redux';
 import { formatTime } from '@/utils/timeFormatter';
 
@@ -34,6 +35,21 @@ function TrackAudioPlayer({
         seek,
         id: trackId 
     } = useSelector(state => state.audioPlayer)
+
+    const [audioPercentage, setAudioPercentage] = useState(null);
+
+    useEffect(() => {
+      if(item._id) {
+        dispatch(shapeCalculateParamPercentage({
+          field: "track",
+          value: item._id,
+          callback: (data) => {
+            setAudioPercentage(data)
+          }
+        }))
+      }
+      
+    }, [item]);
 
 
     useEffect(() => {
@@ -131,7 +147,18 @@ function TrackAudioPlayer({
                         }))
                     }}
                 >
-                    {item.name}
+                    <div className="track-player-title-container">
+                        {item.name}
+                    </div>
+
+                    <div className="track-player-percentage-container">
+                        {audioPercentage && <span
+                            data-tooltip-id="my-tooltip" 
+                            data-tooltip-content={`${audioPercentage?.count} other shapes have this track`}
+                        >
+                            {audioPercentage?.percentage}%
+                        </span>}
+                    </div>
                 </div>
 
                 <div 
@@ -150,6 +177,8 @@ function TrackAudioPlayer({
                     <div className="track-player-current-time">
                         {currentTime && trackId === item._id ? formatTime(currentTime): "0:00"}
                     </div>
+
+                    <div className="track-player-divider">/</div>
 
                     <div className="track-player-duration">
                         {item.duration && formatTime(item.duration)}
