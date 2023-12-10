@@ -61,42 +61,173 @@ router.post("/createItemWithData", requireSignin, async (req, res) => {
 router.post("/search", requireSignin, async (req, res) => {
     const { criteria, sortProperty, offset, limit, order } = req.body;
 
-    const query = Shapes.find(buildQuery(criteria))
-        .sort({ [sortProperty]: order })
-        .populate("algo")
-        .populate({
-            path: 'track',
-            populate: [
-                {
-                    path: 'album'
-                },
-                {
-                    path: 'hardware' // populate 'hardware' within each 'track'
-                }
-            ]
-        })
-        .populate('origin', '_id name')
-        .skip(offset)
-        .limit(limit);
+    // Start building the aggregation pipeline
+    const aggregationPipeline = [];
+    const retrievalPipeline = [];
 
-    return Promise.all(
-        [
-            query,
-            Shapes.find(buildQuery(criteria)).countDocuments(),
-            Shapes.find().countDocuments()
-        ]
-    ).then(
-        results => {
-            return res.json({
-                all: results[0],
-                count: results[1],
-                offset: offset,
-                limit: limit,
-                total: results[2]
-            });
+
+    // Add the initial match stage
+    retrievalPipeline.push({
+        $match: buildQuery(criteria)
+    });
+
+    // Look up 'algo' and 'origin' as they were populated before
+    // Replace 'algorithms' and 'origins' with actual collection names if different
+    retrievalPipeline.push({
+        $lookup: {
+            from: 'algos', // replace with the actual collection name for 'algo'
+            localField: 'algo',
+            foreignField: '_id',
+            as: 'algo'
         }
-    );
+    });
+    retrievalPipeline.push({
+        $lookup: {
+            from: 'origins', // replace with the actual collection name for 'origin'
+            localField: 'origin',
+            foreignField: '_id',
+            as: 'origin'
+        }
+    });
+
+    // Unwind 'algo' and 'origin' if they are always single documents
+    retrievalPipeline.push({ $unwind: { path: '$algo', preserveNullAndEmptyArrays: true } });
+    aggregationPipeline.push({ $unwind: { path: '$origin', preserveNullAndEmptyArrays: true } });
+
+    // Look up 'track' and its nested fields
+    retrievalPipeline.push({
+        $lookup: {
+            from: "tracks", // replace with your actual tracks collection name
+            localField: "track",
+            foreignField: "_id",
+            as: "track"
+        }
+    });
+    retrievalPipeline.push({ $unwind: { path: "$track", preserveNullAndEmptyArrays: true } });
+
+    // Add nested lookups for 'album' and 'hardware' within 'track'
+    retrievalPipeline.push({
+        $lookup: {
+            from: "albums", // replace with actual collection name for 'album'
+            localField: "track.album",
+            foreignField: "_id",
+            as: "track.album"
+        }
+    });
+    retrievalPipeline.push({ $unwind: { path: "$track.album", preserveNullAndEmptyArrays: true } });
+    retrievalPipeline.push({
+        $lookup: {
+            from: "hardwares", // replace with actual collection name for 'hardware'
+            localField: "track.hardware",
+            foreignField: "_id",
+            as: "track.hardware"
+        }
+    });
+
+    // Additional match for album criteria if specified
+    if (criteria && criteria.album) {
+        retrievalPipeline.push({
+            $match: {
+                "track.album._id": mongoose.Types.ObjectId(criteria.album)
+            }
+        });
+    }
+
+    if (criteria && criteria.hardware) {
+        retrievalPipeline.push({
+            $match: {
+                "track.hardware": { $in: [mongoose.Types.ObjectId(hardware)] } 
+            }
+        });
+    }
+
+    
+
+  
+
+    // Add sorting, skipping, and limiting
+    let sortObj = {};
+    sortObj[sortProperty] = order === 'asc' ? 1 : -1;
+    retrievalPipeline.push({ $sort: sortObj });
+    retrievalPipeline.push({ $skip: offset });
+    retrievalPipeline.push({ $limit: limit });
+
+    // Clone the retrieval pipeline for counting and modify it
+    const countPipeline = retrievalPipeline.slice(); // Clone the retrieval pipeline
+
+    // Remove sorting, skipping, and limiting stages from the counting pipeline
+    countPipeline.splice(countPipeline.findIndex(stage => stage.$sort), 1);
+    countPipeline.splice(countPipeline.findIndex(stage => stage.$skip), 1);
+    countPipeline.splice(countPipeline.findIndex(stage => stage.$limit), 1);
+
+    // Add the count stage
+    countPipeline.push({ $count: "total" });
+    
+    try {
+        // Execute the retrieval pipeline
+        const shapes = await Shapes.aggregate(retrievalPipeline).exec();
+
+        // Execute the counting pipeline
+        const countResults = await Shapes.aggregate(countPipeline).exec();
+        const totalCount = countResults.length > 0 ? countResults[0].total : 0;
+
+        const totalShapes = await Shapes.countDocuments(); // Corrected this line
+
+
+
+        return res.json({
+            all: shapes,
+            count: totalCount,
+            offset: offset,
+            limit: limit,
+            total: totalShapes // or use another count if needed
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
 });
+
+
+// router.post("/search", requireSignin, async (req, res) => {
+//     const { criteria, sortProperty, offset, limit, order } = req.body;
+
+//     const query = Shapes.find(buildQuery(criteria))
+//         .sort({ [sortProperty]: order })
+//         .populate("algo")
+//         .populate({
+//             path: 'track',
+//             populate: [
+//                 {
+//                     path: 'album'
+//                 },
+//                 {
+//                     path: 'hardware' // populate 'hardware' within each 'track'
+//                 }
+//             ]
+//         })
+//         .populate('origin', '_id name')
+//         .skip(offset)
+//         .limit(limit);
+
+//     return Promise.all(
+//         [
+//             query,
+//             Shapes.find(buildQuery(criteria)).countDocuments(),
+//             Shapes.find().countDocuments()
+//         ]
+//     ).then(
+//         results => {
+//             return res.json({
+//                 all: results[0],
+//                 count: results[1],
+//                 offset: offset,
+//                 limit: limit,
+//                 total: results[2]
+//             });
+//         }
+//     );
+// });
 
 
 // ===========================================================================
@@ -497,6 +628,21 @@ const buildQuery = criteria => {
         });
     }
 
+    if (criteria && criteria.album) {
+        _.assign(query, {
+            "iteration": {
+                $in: [true, false, null]
+            }
+        });
+    }
+
+    if (criteria && criteria.hardware) {
+        _.assign(query, {
+            "iteration": {
+                $in: [true, false, null]
+            }
+        });
+    }
 
     return query
 };

@@ -8,7 +8,7 @@ import ImageUpload from "@/components/image_upload";
 
 import AlbumActionsView from "@/components/collection_actions/albumActions";
 
-import { albumUpdateItem, updateCollectionItem, albumItem, albumUpdateManyItems, trackSearch, trackItem } from "@/redux";
+import { shapeSearch, shapeItem, albumUpdateItem, updateCollectionItem, albumItem, albumUpdateManyItems, trackSearch, trackItem } from "@/redux";
 
 import InfiniteList from '@/components/infinite_list'
 
@@ -23,6 +23,9 @@ function AlbumPageContainer({
     const scrollContainerRef = useRef(null);
     const [screenWidth, setScreenWidth] = useState(0);
     const [scroll, setScroll] = useState(0);
+
+    const [count, setCount] = useState(0);
+    const [total, setTotal] = useState(0);
 
     const fetchAlbum = () => {
         if (router.query.albumId) {
@@ -194,6 +197,32 @@ function AlbumPageContainer({
                     loadCollectionItem={trackItem}
                 />}
 
+                {count > 0 && <div className="album-linked-shapes-container">
+                    {count} shapes linked to album
+                </div>}
+
+                {album && <InfiniteList
+                        resultType="shape-view-list"
+                        limit={20}
+                        contained={screenWidth > 500 ? true : false}
+                        scrollValue={scroll}
+                        sortProperty={"created"}
+                        order={"-1"}
+                        criteria={{
+                            status: "approved",
+                            album: album._id
+                        }}
+                        // identifier={this.props.query.folder}
+                        searchCollection={shapeSearch}
+                        updateCollectionStats={(count, total) => {
+                            setCount(count)
+                            setTotal(total)
+                            // dispatch(shapeListUpdateStats({ count: count, total: total }))
+
+                        }}
+                        loadCollectionItem={shapeItem}
+                        handleClick={() => { }}
+                    />}
 
 
             </div>
