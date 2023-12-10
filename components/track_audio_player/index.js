@@ -3,7 +3,16 @@ import { useSelector, useDispatch} from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 import Button from "@/components/button";
-import { togglePlayPause, setAudioId, setAudioName, setIsPlaying, setAudioLink, setCurrentTime, seekAudioPlayer} from '@/redux';
+import { 
+    togglePlayPause, 
+    setAudioId, 
+    setAudioName, 
+    setIsPlaying, 
+    setAudioLink, 
+    setCurrentTime, 
+    seekAudioPlayer,
+    togglePlayer
+} from '@/redux';
 import { formatTime } from '@/utils/timeFormatter';
 
 function TrackAudioPlayer({
@@ -85,6 +94,7 @@ function TrackAudioPlayer({
             })}
         >
             <div className="track-player-left">
+                {item.track.album.imageLink && <img src={item.track.album.imageLink} />}
                 <div 
                     className={classNames({
                         "track-controls-container": true,
@@ -93,7 +103,6 @@ function TrackAudioPlayer({
                 >
                     <Button
                         icon={isPlaying ? "pause" : "play"}
-                        minimal={true}
                         small={true} 
                         onClick={() => handlePlay()}
                     />
@@ -101,7 +110,20 @@ function TrackAudioPlayer({
             </div>
 
             <div className="track-player-right">
-                <div className="track-player-title">
+                <div 
+                    className="track-player-title"
+                    onClick={() => {
+                        
+                        router.push({
+                            pathname: '/music',
+                            query: { ...router.query, tab: 1, trackId: item.track._id },
+                        }, undefined, { shallow: true })
+                        dispatch(togglePlayer({
+                            playerOpen: false,
+                            playerData: null
+                        }))
+                    }}
+                >
                     {item.track.name}
                 </div>
 

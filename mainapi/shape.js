@@ -63,7 +63,12 @@ router.post("/search", requireSignin, async (req, res) => {
     const query = Shapes.find(buildQuery(criteria))
         .sort({ [sortProperty]: order })
         .populate("algo")
-        .populate("track")
+        .populate({
+            path: 'track',
+            populate: {
+                path: 'album'
+            }
+        })
         .populate('origin', '_id name')
         .skip(offset)
         .limit(limit);
@@ -108,7 +113,12 @@ router.post("/delete", async (req, res) => {
 router.post("/item", async (req, res) => {
     const query = await Shapes.findOne({ _id: req.body.id })
         .populate("algo")
-        .populate("track")
+        .populate({
+            path: 'track',
+            populate: {
+                path: 'album'
+            }
+        })
         .populate('origin', '_id name')
 
     res.json(query);
@@ -165,7 +175,12 @@ router.post("/updateItem", async (req, res) => {
             shapeId,
             updateData,
             { new: true }  // Return the updated object
-        ).populate("algo").populate('origin', '_id name');
+        ).populate("algo").populate('origin', '_id name').populate({
+            path: 'track',
+            populate: {
+                path: 'album'
+            }
+        });
 
         // If the Shape object is not found
         if (!updatedShape) {
@@ -301,7 +316,12 @@ router.post("/updateTrack", async (req, res) => {
                 track: track
             },
             { new: true }  // Return the updated object
-        ).populate("algo").populate("track");
+        ).populate("algo").populate("track").populate({
+            path: 'track',
+            populate: {
+                path: 'album'
+            }
+        });
 
         // If the Shape object is not found
         if (!updatedShape) {
@@ -332,7 +352,12 @@ router.post("/updateGenesis", async (req, res) => {
                 genesis: true
             },
             { new: true }  // Return the updated object
-        ).populate("algo").populate("track");
+        ).populate("algo").populate("track").populate({
+            path: 'track',
+            populate: {
+                path: 'album'
+            }
+        });
 
         // If the Shape object is not found
         if (!updatedShape) {

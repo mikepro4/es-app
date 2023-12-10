@@ -14,6 +14,7 @@
             max-width: 100%;
             position: relative;
             z-index: 1;
+            border-radius: 0;
         }
 
         .track-controls-container {
@@ -27,6 +28,7 @@
             display: flex;
             opacity: 0;
             transition:  all 0.2s;
+            z-index: 2;
 
             &.playing {
                 opacity: 1;
