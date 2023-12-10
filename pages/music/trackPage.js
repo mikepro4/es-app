@@ -179,7 +179,7 @@ function TrackPageContainer({
                         {count} shapes linked to track
                     </div>
 
-                    <InfiniteList
+                    {track && <InfiniteList
                         resultType="shape-view-list"
                         limit={20}
                         contained={screenWidth > 500 ? true : false}
@@ -195,12 +195,12 @@ function TrackPageContainer({
                         updateCollectionStats={(count, total) => {
                             setCount(count)
                             setTotal(total)
-                            dispatch(shapeListUpdateStats({ count: count, total: total }))
+                            // dispatch(shapeListUpdateStats({ count: count, total: total }))
 
                         }}
                         loadCollectionItem={shapeItem}
                         handleClick={() => { }}
-                    />
+                    />}
                 </div>
 
             </div>

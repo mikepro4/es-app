@@ -442,14 +442,7 @@ const buildQuery = criteria => {
         });
     }
 
-    if (criteria && criteria.track) {
-        const trackId = mongoose.Types.ObjectId(criteria.track);
-        _.assign(query, {
-            "track": {
-                $eq: trackId
-            }
-        });
-    }
+   
 
     if (criteria && criteria.iteration) {
         _.assign(query, {
@@ -461,6 +454,18 @@ const buildQuery = criteria => {
         _.assign(query, {
             "iteration": {
                 $in: [false, null] 
+            }
+        });
+    }
+
+    if (criteria && criteria.track) {
+        const trackId = mongoose.Types.ObjectId(criteria.track);
+        _.assign(query, {
+            "track": {
+                $eq: trackId
+            },
+            "iteration": {
+                $in: [true, false, null] 
             }
         });
     }

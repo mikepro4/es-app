@@ -69,12 +69,16 @@
   flex: 1;
   // max-width: 700px;
   flex-direction: column;
-  overflow-y: scroll;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  
+
+  @media only screen and (min-width: $mobile) {
+    overflow-y: scroll;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
 
   .music-page-center-container {
     margin: 0 auto;
@@ -228,6 +232,7 @@
     position: relative;
     flex-grow: 0;
     margin-right: 20px;
+    margin-left: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
