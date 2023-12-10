@@ -5,7 +5,7 @@ import classNames from "classnames";
 
 import {hardwareCalculatePercentage} from "@/redux";
 
-function AppSettings({item, index}) {
+function HardwareItem({item, index}) {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
@@ -55,4 +55,4 @@ function AppSettings({item, index}) {
     );
 }
 
-export default AppSettings;
+export default HardwareItem;

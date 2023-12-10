@@ -113,7 +113,7 @@ function Player() {
                     } else {
                         router.push({
                             pathname: router.pathname,
-                            query: {}
+                            query: {...router.query, shapeId: null}
                         }, undefined, { shallow: true });
                     }
                 }}
