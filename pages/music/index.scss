@@ -71,9 +71,19 @@
   max-width: 700px;
   flex-direction: column;
 
+  .section-track-player {
+    margin: 20px 0 20px 0;
+  }
+
+
   .music-page-container-header {
     display: flex;
     justify-content: space-between;
+
+    .music-page-container-header-right {
+      display: flex;
+      align-items: center;
+    }
   }
 
   h1 {

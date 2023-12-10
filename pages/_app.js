@@ -45,6 +45,7 @@ import Sidebar from "../components/sidebar";
 import KeyboardListener from '../components/keyboard';
 import KeyboardAction from '../components/keyboard_action';
 
+import { shapeItem, togglePlayer } from "@/redux"
 
 
 const App = ({ children }) => {
@@ -68,6 +69,28 @@ const App = ({ children }) => {
 
     fetchUserDetails();
   }, []);
+
+  const fetchShape = () => {
+    dispatch(
+        shapeItem({
+            id: query.shapeId,
+            callback: (data) => {
+                console.log("loaded shape", data)
+                dispatch(
+                    togglePlayer({
+                        playerOpen: true,
+                        playerData: data
+                    })
+                )
+            }
+        })
+    )
+}
+useEffect(() => {
+  if(query?.shapeId && app.playerOpen == false) {
+    fetchShape()
+  }
+}, [router]);
 
   // useEffect(() => {
   // useLastKeyPressed(dispatch, app, keyboard)

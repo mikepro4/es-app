@@ -6,12 +6,24 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    // border: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.2s;
     margin-bottom: 20px;
+    width: 100%;
+    position: relative;
+
+    .collection-view-actions {
+        position: relative;
+        top: 10px;
+        opacity: 0.5;
+    }
+
+    .track-audio-player {
+        flex: 1;
+    }
 
     &__active {
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        // border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .track-view-list-left {
@@ -38,7 +50,7 @@
     }
 
     &:hover {
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        // border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
 

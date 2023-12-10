@@ -11,6 +11,7 @@ import PlayBtn from "@/components/play-btn";
 import { togglePlayer, toggleNoRedirect, setAudioLink, setAudioId, togglePlayPause, setIsPlaying, setAudioName } from "@/redux";
 //import { Icon } from "@blueprintjs/core";
 import TrackActionsView from "@/components/collection_actions/trackActions";
+import TrackAudioPlayer from "@/components/track_audio_player";
 
 import Button from "@/components/button";
 
@@ -51,45 +52,15 @@ function TrackListView({
         })}
         >
 
-            <PlayBtn ml isCurrentTrackPlaying={isCurrentTrackPlaying} handlePlay={() => handlePlay()} />
+            
+            <TrackAudioPlayer 
+                item={item}
+            />
 
-
-            <div
-                className="track-view-list-left"
-                onClick={() => {
-                    router.push({
-                        pathname: '/music',
-                        query: { ...router.query, tab: 1, trackId: item._id },
-                    }, undefined, { shallow: true })
-                }}
-            >
-                <div className="track-view-list__name-play">
-
-                    <div className="track-name">
-                        {item.name}
-                    </div>
-                </div>
-
-                <div className="track-slug">
-                    {item.slug}
-                </div>
-            </div>
-            <div className="track-view-list-right">
-                {item.default && <Label
-                    label="Default"
-                    intent="neutral"
-                />}
-                <TrackActionsView
-                    item={item}
-                />
-            </div>
-
-            {/* <Button
-                minimal={true}
-                label={item.name}
-                actionList={true}
-                iconRight="arrow-right"
+            {/* <TrackActionsView
+                item={item}
             /> */}
+
 
 
         </div>

@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import classNames from "classnames";
 import Button from "@/components/button";
 import Icon from "@/components/icon";
+import TrackAudioPlayer from "@/components/track_audio_player";
 
 import TrackActionsView from "@/components/collection_actions/trackActions";
 
@@ -64,7 +65,7 @@ function TrackPageContainer({
 
                 <div className="music-page-container-header-left">
                     <Button
-                        label="Back"
+                        label="All tracks"
                         icon="arrow-left"
                         minimal={true}
                         small={true}
@@ -74,36 +75,48 @@ function TrackPageContainer({
                                 pathname: '/music',
                                 query: { ...router.query, trackId: null },
                             }, undefined, { shallow: true })
+                            // router.back()
                         }
                         }
                     />
 
                 </div>
 
-                <div className="music-page-container-header-right">
-                    <TrackActionsView
-                        item={track}
-                    />
-                </div>
+                <ul className="music-page-container-header-right">
+                    <li>
+                        {track && track.album?._id && <Button
+                        label="Go to album"
+                        minimal={true}
+                        small={true}
+                        wrap={true}
+                        purple={true}
+                        onClick={() => {
+                            router.push({
+                                pathname: '/music',
+                                query: { ...router.query, tab: 2, albumId: track.album._id },
+                            }, undefined, { shallow: true })
+                        }
+                        }
+                    />}
+                    </li>
+
+                    <li>
+                        <TrackActionsView
+                            item={track}
+                        />
+                    </li>
+                </ul>
             </div>
 
-            <h1>{track && track.name} </h1>
+            <div className="section-track-player">
+                <TrackAudioPlayer
+                    item={track}
+                />
+            </div>
 
-            {track && track.album?._id && <Button
-                label="Go to album"
-                icon="arrow-Right"
-                minimal={true}
-                small={true}
-                wrap={true}
-                onClick={() => {
-                    router.push({
-                        pathname: '/music',
-                        query: { ...router.query, tab: 2, albumId: track.album._id },
-                    }, undefined, { shallow: true })
-                }
-                }
-            />}
+            
 
+            
 
 
 

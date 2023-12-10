@@ -11,7 +11,9 @@ import {
     setAudioLink, 
     setCurrentTime, 
     seekAudioPlayer,
-    togglePlayer
+    togglePlayer,
+    trackUpdateDuration,
+    updateCollectionItem
 } from '@/redux';
 import { formatTime } from '@/utils/timeFormatter';
 
@@ -35,30 +37,34 @@ function TrackAudioPlayer({
 
 
     useEffect(() => {
-        if(item?.track?.duration) {
-        } else {
-          if(duration) {
-            dispatch(trackUpdateDuration({
-              trackId: item.track._id,
-              duration: duration,
-            }))
-          }
+        if(item?.duration) {
+            } else {
+            if(duration && item._id === trackId) {
+                dispatch(trackUpdateDuration({
+                    trackId: item._id,
+                    duration: duration,
+                    callback: (data) => {
+                        dispatch(updateCollectionItem(item._id))
+                    }
+                }))
+            }
         }
-        return () => {};
+        return () => {
+        };
     }, [duration]);
 
     useEffect(() => {
 
         return () => {
-            
+            dispatch(setCurrentTime(0))
         };
     }, []); 
 
     const handlePlay = () => {
-        if (item && item.track && item.track._id !== trackId ) {
-            dispatch(setAudioId(item.track._id));
-            dispatch(setAudioName(item.track.name));
-            dispatch(setAudioLink(item.track.songLink));
+        if (item && item && item._id !== trackId ) {
+            dispatch(setAudioId(item._id));
+            dispatch(setAudioName(item.name));
+            dispatch(setAudioLink(item.songLink));
             dispatch(setIsPlaying(true));
         } else {
             dispatch(togglePlayPause());
@@ -74,16 +80,16 @@ function TrackAudioPlayer({
         dispatch(seekAudioPlayer(seekSeconds));
 
         // setTimeout(() => {
-        dispatch(setAudioId(item.track._id));
-        dispatch(setAudioName(item.track.name));
-        dispatch(setAudioLink(item.track.songLink));
+        dispatch(setAudioId(item._id));
+        dispatch(setAudioName(item.name));
+        dispatch(setAudioLink(item.songLink));
         dispatch(setIsPlaying(true));
         // }, 1000)
 
     };
 
 
-    if(!item) {
+    if(!item ) {
         return null;
     }
 
@@ -94,17 +100,18 @@ function TrackAudioPlayer({
             })}
         >
             <div className="track-player-left">
-                {item.track.album.imageLink && <img src={item.track.album.imageLink} />}
+                {item.album?.imageLink && <img src={item.album?.imageLink} />}
                 <div 
                     className={classNames({
                         "track-controls-container": true,
-                        "playing": isPlaying
+                        "playing": isPlaying && trackId === item._id
                     })}
+                    onClick={() => handlePlay()}
+                    // onTouchStart={() => handlePlay()}
                 >
                     <Button
-                        icon={isPlaying ? "pause" : "play"}
+                        icon={isPlaying && trackId === item._id ? "pause" : "play"}
                         small={true} 
-                        onClick={() => handlePlay()}
                     />
                 </div>
             </div>
@@ -116,7 +123,7 @@ function TrackAudioPlayer({
                         
                         router.push({
                             pathname: '/music',
-                            query: { ...router.query, tab: 1, trackId: item.track._id },
+                            query: { tab: 1, trackId: item._id },
                         }, undefined, { shallow: true })
                         dispatch(togglePlayer({
                             playerOpen: false,
@@ -124,7 +131,7 @@ function TrackAudioPlayer({
                         }))
                     }}
                 >
-                    {item.track.name}
+                    {item.name}
                 </div>
 
                 <div 
@@ -135,17 +142,17 @@ function TrackAudioPlayer({
                     // onMouseLeave={onMouseLeave}
                 >
                     <div className="track-timeline">
-                        <div className="track-timeline-progress" style={{ width: `${(currentTime * 100) / item.track.duration}%` }} />
+                        {trackId === item._id && <div className="track-timeline-progress" style={{ width: `${(currentTime * 100) / item.duration}%` }} />}
                     </div>
                 </div>
 
                 <div className="track-player-time">
                     <div className="track-player-current-time">
-                        {currentTime ? formatTime(currentTime): "0:00"}
+                        {currentTime && trackId === item._id ? formatTime(currentTime): "0:00"}
                     </div>
 
                     <div className="track-player-duration">
-                        {item.track.duration && formatTime(item.track.duration)}
+                        {item.duration && formatTime(item.duration)}
                     </div>
                     
                 </div>

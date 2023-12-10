@@ -166,7 +166,7 @@ function AppSettings() {
                     </div>}
 
                     <TrackAudioPlayer
-                      item={app.playerData}
+                      item={app.playerData.track}
                     />
                     
                    
