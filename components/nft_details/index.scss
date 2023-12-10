@@ -15,9 +15,13 @@
         bottom: 0;
         left: 0;
         right: 0;
-        height: 200px;
+        height: 100px;
         z-index: 10;
         background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 50%);
+
+        @media only screen and (min-width: $mobile) {
+            height: 150px;
+        }
 
     }
 
@@ -174,5 +178,48 @@
             }
         }
         
+    }
+
+    .nft-hardware-section {
+        display: flex;
+        padding: 25px 25px 25px 25px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+        .nft-hardware-section-left {
+            width: 90px;
+            flex-grow: 0;
+            flex-shrink: 0;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+
+            
+        }
+
+        .nft-hardware-item-title {
+            cursor: pointer;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        .nft-hardware-section-right {
+            flex-grow: 1;
+            flex-shrink: 1;
+            font-size: 12px;
+
+            .nft-hardware-item {
+                margin-bottom: 8px;
+                display: flex;
+                justify-content: space-between;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+
+            .nft-hardware-item-percentage {
+                opacity: 0.5;
+            }
+        }
     }
 }

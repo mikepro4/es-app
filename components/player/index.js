@@ -28,7 +28,7 @@ function Player() {
     const query = router.query;
     const dispatch = useDispatch();
     const shapeList = useSelector((state) => state.shapeList);
-    const [selectedTabId, setSelectedTabId] = useState(1);
+    const [selectedTabId, setSelectedTabId] = useState(2);
 
     const [prevPathname, setPrevPathname] = useState(null);
     const { toggleMicrophone, isMicrophoneListen } = useMicrophone();
@@ -233,13 +233,13 @@ function Player() {
 
             {renderTab()}
 
-            <div className="player-main-info ">
+            {selectedTabId == 1 && <div className="player-main-info ">
                 <ShapeMainInfo
                     item={app.playerData}
                 />
-            </div>
+            </div> }
 
-            <ul className="play-main-actions">
+            {selectedTabId == 1 && <ul className="play-main-actions">
 
                 <li className="player-main-action" onClick={() => toggleMicrophone()}>
                     <Icon name="mic" fill={isMicrophoneListen} />
@@ -263,7 +263,7 @@ function Player() {
                 }}>
                     <Icon name="properties" />
                 </li>
-            </ul>
+            </ul>}
 
             <div className="collection-info-bar-container">
 

@@ -66,9 +66,14 @@ router.post("/search", requireSignin, async (req, res) => {
         .populate("algo")
         .populate({
             path: 'track',
-            populate: {
-                path: 'album'
-            }
+            populate: [
+                {
+                    path: 'album'
+                },
+                {
+                    path: 'hardware' // populate 'hardware' within each 'track'
+                }
+            ]
         })
         .populate('origin', '_id name')
         .skip(offset)
@@ -116,9 +121,14 @@ router.post("/item", async (req, res) => {
         .populate("algo")
         .populate({
             path: 'track',
-            populate: {
-                path: 'album'
-            }
+            populate: [
+                {
+                    path: 'album'
+                },
+                {
+                    path: 'hardware' // populate 'hardware' within each 'track'
+                }
+            ]
         })
         .populate('origin', '_id name')
 
@@ -178,9 +188,14 @@ router.post("/updateItem", async (req, res) => {
             { new: true }  // Return the updated object
         ).populate("algo").populate('origin', '_id name').populate({
             path: 'track',
-            populate: {
-                path: 'album'
-            }
+            populate: [
+                {
+                    path: 'album'
+                },
+                {
+                    path: 'hardware' // populate 'hardware' within each 'track'
+                }
+            ]
         });
 
         // If the Shape object is not found
@@ -213,7 +228,7 @@ router.post("/nextItem", async (req, res) => {
 
         // Determine the sorting order and condition
         let sortCondition;
-        if(order === "1") {
+        if (order === "1") {
             // Ascending order: find the first item that has a greater sortProperty value
             sortCondition = { ...additionalQuery, [sortProperty]: { $gt: currentItem[sortProperty] } };
         } else {
@@ -254,7 +269,7 @@ router.post("/previousItem", async (req, res) => {
 
         // Determine the sorting order and condition
         let sortCondition;
-        if(order === "1") {
+        if (order === "1") {
             // Ascending order: find the last item that has a lesser sortProperty value
             sortCondition = { ...additionalQuery, [sortProperty]: { $lt: currentItem[sortProperty] } };
         } else {
@@ -319,9 +334,14 @@ router.post("/updateTrack", async (req, res) => {
             { new: true }  // Return the updated object
         ).populate("algo").populate("track").populate({
             path: 'track',
-            populate: {
-                path: 'album'
-            }
+            populate: [
+                {
+                    path: 'album'
+                },
+                {
+                    path: 'hardware' // populate 'hardware' within each 'track'
+                }
+            ]
         });
 
         // If the Shape object is not found
@@ -347,11 +367,11 @@ router.post("/calculateParamPercentage", async (req, res) => {
         }
 
         // Count the total number of shapes
-        const totalShapes = await Shapes.countDocuments({status: "approved"  });
+        const totalShapes = await Shapes.countDocuments({ status: "approved" });
 
         // Build the query based on field and value
         let query = { status: "approved" }; // Initial condition for status
-        
+
         if (field.startsWith('params.')) {
             // For nested fields like 'params.math', 'params.colors.length'
             _.set(query, field, value);
@@ -363,10 +383,12 @@ router.post("/calculateParamPercentage", async (req, res) => {
         const trackId = mongoose.Types.ObjectId(value);
 
         // Construct the final query using $and
-        const finalQuery = { $and: [{
-            status: "approved",
-            track: trackId
-        }] };
+        const finalQuery = {
+            $and: [{
+                status: "approved",
+                track: trackId
+            }]
+        };
 
         // Count the number of shapes that match the query
         const matchingShapes = await Shapes.countDocuments(finalQuery);
@@ -375,7 +397,7 @@ router.post("/calculateParamPercentage", async (req, res) => {
         const percentage = totalShapes > 0 ? (matchingShapes / totalShapes) * 100 : 0;
 
         // Send back the percentage
-        res.json({ percentage: percentage.toFixed(2), count: matchingShapes}); // Rounded to two decimal places
+        res.json({ percentage: percentage.toFixed(2), count: matchingShapes }); // Rounded to two decimal places
     } catch (error) {
         console.error(error);
         res.status(500).send("Server Error");
@@ -400,9 +422,14 @@ router.post("/updateGenesis", async (req, res) => {
             { new: true }  // Return the updated object
         ).populate("algo").populate("track").populate({
             path: 'track',
-            populate: {
-                path: 'album'
-            }
+            populate: [
+                {
+                    path: 'album'
+                },
+                {
+                    path: 'hardware' // populate 'hardware' within each 'track'
+                }
+            ]
         });
 
         // If the Shape object is not found
@@ -442,7 +469,7 @@ const buildQuery = criteria => {
         });
     }
 
-   
+
 
     if (criteria && criteria.iteration) {
         _.assign(query, {
@@ -450,10 +477,10 @@ const buildQuery = criteria => {
                 $eq: true,
             }
         });
-    } else  {
+    } else {
         _.assign(query, {
             "iteration": {
-                $in: [false, null] 
+                $in: [false, null]
             }
         });
     }
@@ -465,11 +492,11 @@ const buildQuery = criteria => {
                 $eq: trackId
             },
             "iteration": {
-                $in: [true, false, null] 
+                $in: [true, false, null]
             }
         });
     }
-  
+
 
     return query
 };

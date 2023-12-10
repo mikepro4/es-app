@@ -17,12 +17,16 @@ import {
 
 import TrackAudioPlayer from "@/components/track_audio_player";
 
+import HardwareItem from "./hardwareItem";
+
 
 function AppSettings() {
   const [loading, setLoading] = useState(false);
   const app = useSelector((state) => state.app);
   const router = useRouter();
   const dispatch = useDispatch();
+
+
 
  
   const removeImage = () => {
@@ -160,6 +164,21 @@ function AppSettings() {
 
                 </div>
 
+                <div className="nft-hardware-section">
+                  <div className="nft-hardware-section-left">
+                    <div className="nft-hardware-title">Hardware</div>
+                  </div>
+
+                  <div className="nft-hardware-section-right">
+                    {app.playerData?.track?.hardware.map((item, index) => {
+                      return (
+                        <HardwareItem
+                        item={item}/>
+                      )
+                    })}
+                  </div>
+                </div>
+
               </div>
 
             </div>
@@ -169,7 +188,7 @@ function AppSettings() {
           </div>
           
         ) : (
-          <StorageUpload id={app.playerData._id} />
+          <StorageUpload id={app.playerData?._id} />
         )}
       </div>
 
