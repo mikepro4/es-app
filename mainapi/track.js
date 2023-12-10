@@ -355,6 +355,14 @@ const buildQuery = criteria => {
         });
     }
 
+    if (criteria && criteria.hardware) {
+        _.assign(query, {
+            "hardware": {
+                $in: criteria.hardware,
+            }
+        });
+    }
+
     return query
 };
 

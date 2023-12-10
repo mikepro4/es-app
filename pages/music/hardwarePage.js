@@ -14,13 +14,21 @@ import {
     hardwareItem, 
     hardwareUpdateManyItems,
     shapeSearch,
-    shapeItem
+    shapeItem,
+    trackSearch,
+    trackItem,
+    hardwareCalculatePercentage
 } from "@/redux";
 
 import InfiniteList from '@/components/infinite_list'
 
+import HardwareItem from "./hardwareItem";
+
+import Loader from "@/components/loader";
+
 function HardwarePageContainer({
 }) {
+    const [percentage, setPercentage] = useState(0);
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
@@ -45,6 +53,24 @@ function HardwarePageContainer({
             }
         }))
     }
+
+    useEffect(() => {
+        if(hardware && hardware._id) {
+            dispatch(hardwareCalculatePercentage({
+                hardwareId: router.query.hardwareId,
+                callback: (data) => {
+                    console.log(data);
+                    setPercentage(data)
+                }
+            }))
+        }
+
+
+            return () => {
+                
+            };
+    }, [hardware]); 
+
 
     useEffect(() => {
         fetchHardware()
@@ -114,6 +140,8 @@ function HardwarePageContainer({
         };
 
     }, []);
+
+    if(!hardware) return <Loader big={true}/>;
      
 
     return (
@@ -147,46 +175,82 @@ function HardwarePageContainer({
                     </div>
                 </div>
 
-                <h1>{hardware && hardware.name} </h1>
+                {/* {hardware && hardware._id && <HardwareItem item={hardware} />} */}
 
-                <div 
-                    className={classNames("image-display-container", {
-                        "hasImage": hardware && hardware.imageLink
-                    })}
-                >
-                    <div className="image-container">
-                        {hardware && hardware.imageLink && <img src={hardware.imageLink} />}
-                        {hardware && !hardware.imageLink && <Icon name="x"/>}
+                {/* <h1>{hardware && hardware.name} </h1> */}
+
+                <div className="hardware-item-container">
+                    <div className="hardware-item-container-left">
+                        <div 
+                        className={classNames("image-display-container", {
+                            "hasImage": hardware && hardware.imageLink
+                        })}
+                    >
+                        <div className="image-container">
+                            {hardware && hardware.imageLink && <img src={hardware.imageLink} />}
+                            {hardware && !hardware.imageLink && <Icon name="x"/>}
+                        </div>
+
+                        <div className="image-container-overlay">
+                            <ImageUpload
+                                callback={(data) => {
+                                    console.log("IMAGE UPLOAD", data);
+                                    updateItemImage(data)
+                                }}
+                            />
+                        </div>
+                        
+
+                        {hardware && hardware.imageLink && <div className="image-remove">
+                            <Button
+                                label="Delete image"
+                                small={true}
+                                wrap={true}
+                                minimal={true}
+                                onClick={() => {
+                                    updateItemImage("")
+                                }}
+                            />
+                        </div>}
+
+                    </div>
                     </div>
 
-                    <div className="image-container-overlay">
-                        <ImageUpload
-                            callback={(data) => {
-                                console.log("IMAGE UPLOAD", data);
-                                updateItemImage(data)
-                            }}
-                        />
+                    <div className="hardware-item-container-right">
+                        <h1>{hardware && hardware.name} </h1> 
+                        <div className="hardware-percentage" 
+                        >
+                            <span
+                            data-tooltip-id="my-tooltip" 
+                            data-tooltip-content={`${percentage?.count} other shapes have this hardware`}
+                            >{percentage?.percentage}%</span>
+                        </div>
                     </div>
-                    
-
-                    {hardware && hardware.imageLink && <div className="image-remove">
-                        <Button
-                            label="Delete image"
-                            small={true}
-                            wrap={true}
-                            minimal={true}
-                            onClick={() => {
-                                updateItemImage("")
-                            }}
-                        />
-                    </div>}
-
                 </div>
+
+                
+
+                {hardware && hardware._id && <InfiniteList
+                    resultType="track-view-list"
+                    limit={50}
+                    contained={screenWidth > 500 ? true : false}
+                    scrollValue={scroll}
+                    sortProperty="created"
+                    order="-1"
+                    criteria={{ hardware: hardware._id }}
+                    // identifier={this.props.query.folder}
+                    searchCollection={trackSearch}
+                    updateCollectionStats={(count, total) => {
+                    }}
+                    loadCollectionItem={trackItem}
+                />}
+
 
                 {count > 0 && <div className="album-linked-shapes-container">
                     {count} shapes linked to hardware
                 </div>}
 
+                
                 {hardware && hardware._id && <InfiniteList
                         resultType="shape-view-list"
                         limit={20}
