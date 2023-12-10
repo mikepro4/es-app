@@ -3,7 +3,7 @@ import { useSelector, useDispatch} from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 
-import {hardwareCalculatePercentage} from "@/redux";
+import { hardwareCalculatePercentage } from "@/redux";
 
 function HardwareItem({item, index}) {
     const [loading, setLoading] = useState(false);
@@ -29,15 +29,17 @@ function HardwareItem({item, index}) {
             };
     }, [item]); 
 
+    if(!item) return null;
+
     return (
-        <div className="track-hardware-grid-item" key={index}>
+        <div className="track-hardware-grid-item" key={item?._id}>
             <div className="track-hardware-grid-item-left">
-                <img src={item.imageLink} />
+                <img src={item?.imageLink} />
             </div>
 
             <div className="track-hardware-grid-item-right">
                 <div className="hardware-title">
-                    {item.name}
+                    {item?.name}
                 </div>
 
                 <div className="hardware-percentage" 
