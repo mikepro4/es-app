@@ -20,12 +20,12 @@ function AlbumPageContainer({
     const router = useRouter();
     const dispatch = useDispatch();
     const [album, setAlbum] = useState(false);
-    const scrollContainerRef = useRef(null); 
+    const scrollContainerRef = useRef(null);
     const [screenWidth, setScreenWidth] = useState(0);
     const [scroll, setScroll] = useState(0);
-    
+
     const fetchAlbum = () => {
-        if(router.query.albumId) {
+        if (router.query.albumId) {
             dispatch(albumItem({
                 id: router.query.albumId,
                 callback: (data) => {
@@ -88,108 +88,115 @@ function AlbumPageContainer({
     const updateItemImage = (imageLink) => {
         dispatch(
             albumItem({
-              id: album?._id,
-              callback: (data) => {
-                dispatch(
-                  albumUpdateItem({
-                    data: {
-                      ...data,
-                      imageLink: imageLink,
-                    },
-                    callback: (data) => {
-                        dispatch(updateCollectionItem(album?._id))
-                    },
-                  })
-                );
-              },
+                id: album?._id,
+                callback: (data) => {
+                    dispatch(
+                        albumUpdateItem({
+                            data: {
+                                ...data,
+                                imageLink: imageLink,
+                            },
+                            callback: (data) => {
+                                dispatch(updateCollectionItem(album?._id))
+                            },
+                        })
+                    );
+                },
             })
-          );
+        );
     }
 
     return (
         <div className="music-page-container album-page-container" ref={scrollContainerRef}>
+            <div className="music-page-center-container">
+                <div className="music-page-container-header">
 
-            <div className="music-page-container-header">
+                    <div className="music-page-container-header-left">
+                        <Button
+                            label="All albums"
+                            icon="arrow-left"
+                            minimal={true}
+                            small={true}
+                            wrap={true}
+                            onClick={() => {
+                                router.push({
+                                    pathname: '/music',
+                                    query: { ...router.query, albumId: null },
+                                }, undefined, { shallow: true })
+                            }
+                            }
+                        />
 
-                <div className="music-page-container-header-left">
-                    <Button
-                        label="Back"
-                        icon="arrow-left"
-                        minimal={true}
-                        small={true}
-                        wrap={true}
-                        onClick={() => {
-                            router.push({
-                                pathname: '/music',
-                                query: { ...router.query, albumId: null },
-                            }, undefined, { shallow: true })
-                        }
-                    }
-                    />
+                    </div>
 
+                    <div className="music-page-container-header-right">
+                        <AlbumActionsView
+                            item={album}
+                        />
+                    </div>
                 </div>
 
-                <div className="music-page-container-header-right">
-                <AlbumActionsView
-                        item={album}
-                    />
+                <div className="music-page-album-container">
+                    <div className="music-page-album-container-left">
+                        <div
+                            className={classNames("image-display-container", {
+                                "hasImage": album && album.imageLink
+                            })}
+                        >
+                            <div className="image-container">
+                                {album && album.imageLink && <img src={album.imageLink} />}
+                                {album && !album.imageLink && <Icon name="x" />}
+                            </div>
+
+                            <div className="image-container-overlay">
+                                <ImageUpload
+                                    callback={(data) => {
+                                        console.log("IMAGE UPLOAD", data);
+                                        updateItemImage(data)
+                                    }}
+                                />
+                            </div>
+
+
+                            {album && album.imageLink && <div className="image-remove">
+                                <Button
+                                    label="Delete image"
+                                    small={true}
+                                    wrap={true}
+                                    minimal={true}
+                                    onClick={() => {
+                                        updateItemImage("")
+                                    }}
+                                />
+                            </div>}
+
+                        </div>
+                    </div>
+
+                    <div className="music-page-album-container-right">
+                        <h1>{album && album.name}</h1>
+                        <div className="album-artist">DCDNT</div>
+                    </div>
                 </div>
+
+                {album && album._id && <InfiniteList
+                    resultType="track-view-list"
+                    limit={50}
+                    contained={screenWidth > 500 ? true : false}
+                    scrollValue={scroll}
+                    sortProperty="created"
+                    order="-1"
+                    criteria={{ album: album?._id }}
+                    // identifier={this.props.query.folder}
+                    searchCollection={trackSearch}
+                    updateCollectionStats={(count, total) => {
+                    }}
+                    loadCollectionItem={trackItem}
+                />}
+
+
+
             </div>
-
-            <h1>{album && album.name} </h1>
-
-            <div 
-                className={classNames("image-display-container", {
-                    "hasImage": album && album.imageLink
-                })}
-            >
-                <div className="image-container">
-                    {album && album.imageLink && <img src={album.imageLink} />}
-                    {album && !album.imageLink && <Icon name="x"/>}
-                </div>
-
-                <div className="image-container-overlay">
-                    <ImageUpload
-                        callback={(data) => {
-                            console.log("IMAGE UPLOAD", data);
-                            updateItemImage(data)
-                        }}
-                    />
-                </div>
-                
-
-                {album && album.imageLink && <div className="image-remove">
-                    <Button
-                        label="Delete image"
-                        small={true}
-                        wrap={true}
-                        minimal={true}
-                        onClick={() => {
-                            updateItemImage("")
-                        }}
-                    />
-                </div>}
-
-            </div>
-            
-            {album && album._id && <InfiniteList
-                resultType="track-view-list"
-                limit={50}
-                contained={screenWidth > 500 ? true : false}
-                scrollValue={scroll}
-                sortProperty="created"
-                order="-1"
-                criteria={{ album: album?._id }}
-                // identifier={this.props.query.folder}
-                searchCollection={trackSearch}
-                updateCollectionStats={(count, total) => {
-                }}
-                loadCollectionItem={trackItem}
-            />}
-
-            
-            
-           
         </div>
     );
 }

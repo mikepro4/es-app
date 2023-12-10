@@ -82,7 +82,7 @@ function HardwarePageContainer({
 
                     <div className="music-page-container-header-left">
                         <Button
-                            label="Back"
+                            label="All hardware"
                             icon="arrow-left"
                             minimal={true}
                             small={true}

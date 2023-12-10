@@ -37,7 +37,12 @@ function HardwareItem({item, index}) {
                 <img src={item?.imageLink} />
             </div>
 
-            <div className="track-hardware-grid-item-right">
+            <div className="track-hardware-grid-item-right" onClick={() => {
+                router.push({
+                    pathname: '/music',
+                    query: { ...router.query, tab: 3, hardwareId: item._id },
+                }, undefined, { shallow: true })
+            }}>
                 <div className="hardware-title">
                     {item?.name}
                 </div>
