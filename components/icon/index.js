@@ -31,6 +31,7 @@ import CaretLeft from "./icons/caret_left"
 import AudioSettings from "./icons/audio-settings"
 import Atom from "./icons/atom"
 import Ethereum from "./icons/ethereum"
+import Tiers from "./icons/tiers"
 
 const Icon = ({ name, onClick, fill }) => {
 
@@ -92,6 +93,8 @@ const Icon = ({ name, onClick, fill }) => {
                 return <Atom />
             case "ethereum":
                 return <Ethereum />
+            case "tiers":
+                return <Tiers />
 
         }
     }

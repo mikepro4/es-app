@@ -194,6 +194,62 @@ function AppSettings() {
                     options={statusOptions}
                   />
 
+                  <FieldArray
+                    name="tiers"
+                    render={arrayHelpers => (
+                      <div className="generator-params-container">
+                        <div className="generator-params-header">
+                            Tiers
+                        </div>
+                        {values.tiers.map((tier, index) => (
+                          <div className="generator-param-container" key={index}>
+                            <div className="generator-param-container-header">
+                                <div className="generator-param-container-header-left">
+                                    Variant {index + 1}
+                                </div>
+
+                                <div className="generator-param-container-header-right">
+                                    <Button
+                                        type="button"
+                                        icon="trash"
+                                        small={true}
+                                        minimal={true}
+                                        onClick={() => arrayHelpers.remove(index)} // remove a list item
+                                    />
+                                </div>
+                            </div>
+                            <Field
+                              name={`tiers[${index}].tier`}
+                              component={Select}
+                              options={[]} // You need to define tierOptions
+                              title="Tier"
+                            />
+                            <Field
+                              name={`tiers[${index}].tierLetter`}
+                              component={Input}
+                              title="Tier Letter"
+                              placeholder="Tier Letter"
+                            />
+            
+                          </div>
+                        ))}
+                        
+                        <div className="generator-params-footer">
+                          <Button
+                              type="button"
+                              icon="plus"
+                              small={true}
+                              minimal={true}
+                              label="Add parameter"
+                              onClick={() => arrayHelpers.push({
+                                tier: '', tierLetter: ''
+                              })}>
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                  />
+
                   <Field
                     name="genesis"
                     component={Switch}
@@ -212,6 +268,7 @@ function AppSettings() {
                     label="In Collection"
                   />
                 </div>
+                
 
                 <Button type="submit" label="Save" />
 

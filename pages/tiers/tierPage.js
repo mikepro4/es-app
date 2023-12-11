@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 import Button from "@/components/button";
-import Icon from "@/components/icon";
+import TiersIcon from "@/components/icon/icons/tiers";
 
 import TierActionsView from "@/components/collection_actions/tierActions";
 
@@ -17,6 +17,9 @@ function TierPageContainer({
     const router = useRouter();
     const dispatch = useDispatch();
     const [tier, setTier] = useState(false);
+    const alphabet = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
+    const [activeLetter, setActiveLetter] = useState(null);
+
 
     const fetchTier = () => {
         dispatch(tierItem({
@@ -35,6 +38,15 @@ function TierPageContainer({
 
     useEffect(() => {
         fetchTier()
+        if(router.query.activeLetter) {
+            setActiveLetter(router.query.activeLetter)
+        } else {
+            router.push({
+                pathname: router.pathname,
+                query: { ...router.query, activeLetter: "A"}
+            }, undefined, { shallow: true });
+        }
+        
 
         return () => {
 
@@ -51,6 +63,10 @@ function TierPageContainer({
     useEffect(() => {
         if (router.query.tierId && tier?._id && router.query.tierId !== tier?._id) {
             fetchTier()
+        }
+
+        if (router.query.activeLetter && router.query.activeLetter !== activeLetter) {
+            setActiveLetter(router.query.activeLetter)
         }
     }, [router]);
 
@@ -87,6 +103,29 @@ function TierPageContainer({
             </div>
 
             <h1>{tier && tier.name} </h1>
+
+            <div className="tiers-tree-container">
+                <TiersIcon
+                    activeLetters={["A", "Z", "L"]}
+                />
+            </div>
+
+            <div className="alphabet-city">
+                {alphabet.map(letter => (
+                    <div 
+                        className={classNames("alphabet-letter", {
+                            "active": activeLetter === letter,
+                        })}
+                        key={letter} onClick={() =>  {
+                            router.push({
+                                pathname: router.pathname,
+                                query: { ...router.query, activeLetter: letter}
+                            }, undefined, { shallow: true });
+                        }}>
+                        {letter} 
+                    </div>
+                ))}
+        </div>
 
             
             

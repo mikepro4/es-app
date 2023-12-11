@@ -71,6 +71,10 @@
   max-width: 700px;
   flex-direction: column;
 
+  @media only screen and (max-width: $mobile) {
+    margin-top: 0;
+  }
+
   .music-page-container-header {
     display: flex;
     justify-content: space-between;
@@ -79,6 +83,68 @@
   h1 {
     font-size: 30px;
     margin-top: 20px;
+  }
+
+  .alphabet-city {
+    display: grid;
+    grid-template-columns: repeat(13, 1fr);
+    column-gap: 10px;
+    row-gap: 10px;
+    margin: 20px 0;
+
+    @media only screen and (max-width: $mobile) {
+      grid-template-columns: repeat(6, 1fr);
+    }
+
+    .alphabet-letter {
+      background: rgba($purple, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px 0;
+      color: $purple;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        background: rgba($purple, 0.5);
+        color: $white;
+      }
+
+      &.active {
+        background: $purple;
+        color: white;
+      }
+    }
+  }
+
+  .tiers-tree-container {
+    margin: 20px auto;
+
+    svg {
+      width: 500px;
+      height: 400px;
+    }
+
+    @media only screen and (max-width: $mobile) {
+      svg {
+        width: auto;
+        height: auto;
+      }
+    }
+
+    .letter-row {
+      opacity: 0.3;
+
+      &.active {
+        opacity: 1;
+      }
+
+      &.bright {
+        fill: red;
+      }
+    }
   }
 
 }

@@ -18,7 +18,13 @@ const ShapeSchema = new Schema({
   genesis: Boolean,
   origin: { type: Schema.Types.ObjectId, ref: "Shape" },
   iteration: Boolean,
-  inCollection: Boolean
+  inCollection: Boolean,
+  tiers: [
+    {
+      tier: { type: Schema.Types.ObjectId, ref: "Tier" },
+      tierLetter: String,
+    }
+  ]
 });
 
 module.exports = mongoose.model("Shape", ShapeSchema);
