@@ -141,7 +141,7 @@ function HardwarePageContainer({
 
     }, []);
 
-    if(!hardware) return <Loader big={true}/>;
+    if(!hardware) return null
      
 
     return (
