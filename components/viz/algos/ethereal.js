@@ -36,6 +36,7 @@ function Ethereal(
     const shape = useRef()
     const playerRef = useRef()
     const micRef = useRef()
+    const [paused, setPaused] = useState(true)
     // const [shape, setShape] = useState();
 
     useEffect(() => {
@@ -217,26 +218,26 @@ function Ethereal(
 
 
     useEffect(() => {
-        if (!_.isEqual(paramsRef.current?.colors, shape.current?.colors)) {
+        if (!_.isEqual(paramsRef.current?.colors, shape.current?.colors) && !paused) {
             generatePoints()
             setTimeout(() => {
                 updateColors()
             }, 1)
         }
-    }, [paramsRef.current?.colors]);
+    }, [paramsRef.current?.colors, paused]);
 
     useEffect(() => {
-        if (paramsRef.current?.pointCount !== shape.current?.pointCount) {
+        if (paramsRef.current?.pointCount !== shape.current?.pointCount && !paused) {
             generatePoints()
             setTimeout(() => {
                 updateColors()
             }, 100)
         }
 
-    }, [paramsRef.current?.pointCount]);
+    }, [paramsRef.current?.pointCount, paused]);
 
     useEffect(() => {
-        if (!loaded && dimensions.width > 0 && dimensions.height > 0) {
+        if (!loaded && dimensions.width > 0 && dimensions.height > 0 && !paused) {
             generatePoints()
             setTimeout(() => {
                 updateColors()
@@ -244,7 +245,7 @@ function Ethereal(
             setLoaded(true)
         }
 
-    }, [dimensions])
+    }, [dimensions, paused])
 
     const updateDimensions = () => {
         if (containerRef.current) {
@@ -271,7 +272,7 @@ function Ethereal(
 
         window.addEventListener("resize", updateDimensions);
 
-        if (animationFrameId.current == null && !pause && !respondToScroll) {
+        if (animationFrameId.current == null && !pause && !respondToScroll && !paused) {
             animationFrameId.current = requestAnimationFrame(frameTicker);
         }
 
@@ -458,10 +459,12 @@ function Ethereal(
     const observer = new IntersectionObserver(
         ([entry]) => {
             if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+                setPaused(false)
                 if (animationFrameId.current == null && !pause) {
                     animationFrameId.current = requestAnimationFrame(frameTicker);
                 }
             } else {
+                setPaused(true)
                 cancelAnimationFrame(animationFrameId.current);
                 animationFrameId.current = null
             }
@@ -558,8 +561,6 @@ function Ethereal(
         }
     };
 
-
-    if (!item) return null;
 
     return (
         <div

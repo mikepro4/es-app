@@ -19,6 +19,9 @@ import TierView from "./views/tier_list_view"
 import PlanetView from "./views/planet_list_view"
 import GalaxyView from "./views/galaxy_list_view"
 
+import { OverlayToaster } from '@blueprintjs/core';
+
+
 function InfiniteList({
     type,
     resultType,
@@ -53,6 +56,10 @@ function InfiniteList({
     const orderRef = useRef(order);
     const criteriaRef = useRef(criteria);
 
+    const toasterRef = useRef(null)
+
+    const loadingRef = useRef(false);
+
     const searchCollectionFunction = useCallback((offset, reset) => {
 
         if (!loading && anchorRef.current) {
@@ -84,13 +91,14 @@ function InfiniteList({
                                 count.current = data.count
                                 dispatch(updateCollection(false))
                                 updateCollectionStats(data.count, data.total)
+                                loadingRef.current = false;
                             }
                         },)
                 )
             }
 
         }
-    }, [loading, count.current, criteria, sortPropertyRef.current, localOffset.current, limit, orderRef.current, dispatch, searchCollection, collection]);
+    }, [loading, loadingRef.current, count.current, criteria, sortPropertyRef.current, localOffset.current, limit, orderRef.current, dispatch, searchCollection, collection]);
 
 
     const renderResultItem = (item, i) => {
@@ -179,13 +187,15 @@ function InfiniteList({
                 const rect = anchorRef.current.getBoundingClientRect();
 
 
-                if (rect.top < 1200) {
+                if (rect.top > 0 && rect.top < 1200 && !loadingRef.current) {
+                    loadingRef.current = true
+                    // toasterRef.current.show({ message: rect.top });
                     searchCollectionFunction(localOffset.current)
                 }
             }
         }
 
-    }, 200), []);
+    }, 200), [localOffset.current, anchorRef.current, loading, loadingRef.current]);
 
     useEffect(() => {
         console.log("criteria", criteria)
@@ -294,6 +304,7 @@ function InfiniteList({
             </div>
 
             <div className="anchor" ref={anchorRef}></div>
+            {/* <OverlayToaster ref={toasterRef} /> */}
         </div>
     );
 }

@@ -22,12 +22,43 @@ function ShapeListView({
     const app = useSelector((state) => state.app);
     const router = useRouter();
     const dispatch = useDispatch();
+    const [paused, setPaused] = useState(false);
+    const containerRef = useRef(null);
 
     console.log("Vizitem", item?.track)
-    return (
-        <div className="shape-view-list-container">
 
-            <div className="shape-view-list-shape-container"
+    const observer = new IntersectionObserver(
+        ([entry]) => {
+            if (entry.isIntersecting && entry.intersectionRatio >= 0.05) {
+                setPaused(false)
+            } else {
+                setPaused(true)
+            }
+        },
+        {
+            root: null, // null means it observes changes in the viewport
+            threshold: 0.05 // 0.5 means 50% visibility
+        }
+    );
+
+    useEffect(() => {
+
+        if (containerRef.current) {
+            observer.observe(containerRef.current);
+        }
+
+        return () => {
+            if (containerRef.current) {
+                observer.unobserve(containerRef.current);
+            }
+        };
+    }, [containerRef]);
+
+    const renderContent = () => {
+        if(!paused) {
+            return(
+                <>
+                <div className="shape-view-list-shape-container"
                 onClick={() => {
                     dispatch(toggleNoRedirect(true))
                     dispatch(togglePlayer({
@@ -69,9 +100,14 @@ function ShapeListView({
                 <Icon name="arrow-forward" />
             </div>
 
+                </>
+            )
+        }
+    }
 
-
-
+    return (
+        <div className="shape-view-list-container " ref={containerRef}>
+            {renderContent()}
         </div>
     );
 }
