@@ -183,10 +183,12 @@ router.post("/search", requireSignin, async (req, res) => {
     if (criteria && criteria.tierId && criteria.tierLetter) {
         retrievalPipeline.push({
             $match: {
-                $and: [
-                    { "tiers.tier._id": mongoose.Types.ObjectId(criteria.tierId) },
-                    { "tiers.tierLetter": criteria.tierLetter }
-                ]
+                "tiers": {
+                    $elemMatch: {
+                        "tier._id": mongoose.Types.ObjectId(criteria.tierId),
+                        "tierLetter": criteria.tierLetter
+                    }
+                }
             }
         });
     }
