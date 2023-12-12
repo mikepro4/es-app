@@ -77,7 +77,7 @@ function TrackAudioPlayer({
     }, []); 
 
     const handlePlay = () => {
-        if (item && item && item._id !== trackId ) {
+        if (item && item?._id !== trackId ) {
             dispatch(setAudioId(item._id));
             dispatch(setAudioName(item.name));
             dispatch(setAudioLink(item.songLink));
