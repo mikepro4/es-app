@@ -17,6 +17,7 @@ import {
   toggleDrawer,
   togglePlayer,
   toggleModal,
+  tierSearch
 } from "@/redux";
 
 function AppSettings() {
@@ -26,6 +27,7 @@ function AppSettings() {
   const dispatch = useDispatch();
   const [localOptions, setLocalOptions] = useState([]);
   const [tracks, setTracks] = useState([]);
+  const [tiers, setTiers] = useState([]);
 
   const handleFormChange = (values) => {
     console.log(values);
@@ -69,6 +71,7 @@ function AppSettings() {
   useEffect(() => {
     loadInitialOptions();
     loadInitialTracks();
+    loadInitialTiers()
 
     return () => {};
   }, []);
@@ -128,6 +131,28 @@ function AppSettings() {
             };
           });
           setTracks(finalOptinos);
+        },
+      })
+    );
+  };
+
+  const loadInitialTiers = () => {
+    dispatch(
+      tierSearch({
+        criteria: {},
+        sortProperty: "created",
+        offset: 0,
+        limit: 10000,
+        order: 1,
+
+        callback: (data) => {
+          let finalOptinos = data.all.map((option) => {
+            return {
+              value: option._id,
+              label: option.name,
+            };
+          });
+          setTiers(finalOptinos);
         },
       })
     );
@@ -221,7 +246,7 @@ function AppSettings() {
                             <Field
                               name={`tiers[${index}].tier`}
                               component={Select}
-                              options={[]} // You need to define tierOptions
+                              options={tiers} // You need to define tierOptions
                               title="Tier"
                             />
                             <Field
@@ -233,7 +258,7 @@ function AppSettings() {
             
                           </div>
                         ))}
-                        
+
                         <div className="generator-params-footer">
                           <Button
                               type="button"
