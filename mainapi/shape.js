@@ -180,6 +180,17 @@ router.post("/search", requireSignin, async (req, res) => {
         });
     }
 
+    if (criteria && criteria.tierId && criteria.tierLetter) {
+        retrievalPipeline.push({
+            $match: {
+                $and: [
+                    { "tiers.tier": mongoose.Types.ObjectId(criteria.tierId) },
+                    { "tiers.tierLetter": criteria.tierLetter }
+                ]
+            }
+        });
+    }
+
 
     // Add sorting, skipping, and limiting
     let sortObj = {};

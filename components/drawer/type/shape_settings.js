@@ -60,7 +60,15 @@ function AppSettings() {
     );
   };
 
-  let initialValues = app.drawerData;
+  let initialValues =  {
+    ...app.drawerData ,
+    tiers: app.drawerData.tiers.map((tier) => {
+      return {
+        tier: tier.tier._id,
+        tierLetter: tier.tierLetter
+      }
+    })
+  };
 
   // let initialValues = {
   //     _id: app.drawerData._id,
