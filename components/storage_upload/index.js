@@ -89,8 +89,8 @@ const app = useSelector((state) => state.app);
         )}
         <Viz 
               item={app.paramsValues ? app.paramsValues :app.playerData?.params}
-              fullScreen={true}
               showControls={true}
+              preview={true}
           />
       </div>
       <div className="storage btn-margin">

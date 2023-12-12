@@ -11,7 +11,8 @@ function Viz({
     respondToScroll,
     scale,
     fullScreen,
-    showControls
+    showControls,
+    preview
 }) {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
@@ -39,6 +40,7 @@ function Viz({
                 scale={scale}
                 fullScreen={fullScreen}
                 showControls={showControls}
+                preview={preview}
             />
         </>
     );

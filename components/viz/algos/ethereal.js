@@ -16,7 +16,8 @@ function Ethereal(
         pause,
         respondToScroll = false,
         fullScreen,
-        showControls
+        showControls,
+        preview
     }
 ) {
     const app = useSelector((state) => state.app);
@@ -135,19 +136,47 @@ function Ethereal(
         let finalSize
         let originalPointSize = Number(fullShape.pointSize)
         let mobilePointSize = originalPointSize - 0.4
-
-        if (containerRef.current.offsetWidth > 500) {
-            if (originalPointSize > 0.6) {
-                return originalPointSize
+        if(!preview) {
+            if (containerRef.current.offsetWidth > 500) {
+                if (originalPointSize > 0.6) {
+                    return originalPointSize
+                } else {
+                    return 0.5
+                }
             } else {
-                return 0.5
+                if (mobilePointSize > 1.0) {
+                    return mobilePointSize
+                } else {
+                    return 1.0
+                }
             }
         } else {
-            if (mobilePointSize > 1.0) {
-                return mobilePointSize
+            if(originalPointSize < 2.2) {
+                return 2.2
             } else {
-                return 1.0
+                if (containerRef.current.offsetWidth > 500) {
+                    if (originalPointSize > 0.6) {
+                        return originalPointSize
+                    } else {
+                        return 0.5
+                    }
+                } else {
+                    if (mobilePointSize > 1.0) {
+                        return mobilePointSize
+                    } else {
+                        return 1.0
+                    }
+                }
             }
+        }
+
+    }
+
+    const getInternalScale = (fullShape) => {
+        if(preview) {
+            return 1.5
+        } else {
+            return fullShape.scale ? Number(fullShape.scale) : 1
         }
     }
 
