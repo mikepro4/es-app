@@ -83,7 +83,7 @@ router.post("/search", requireSignin, async (req, res) => {
     });
     retrievalPipeline.push({
         $lookup: {
-            from: 'origins', // replace with the actual collection name for 'origin'
+            from: 'shapes', // replace with the actual collection name for 'origin'
             localField: 'origin',
             foreignField: '_id',
             as: 'origin'
