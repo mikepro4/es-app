@@ -14,7 +14,13 @@ import _ from 'lodash';
 
 import { useFormik } from 'formik';
 
-import { updateCollection, shapeListChangeCriteria, shapeResetCriteria, shapeCreate } from "@/redux"
+import { 
+    updateCollection, 
+    shapeListChangeCriteria, 
+    shapeResetCriteria, 
+    shapeCreate,
+    shapeAssignIterationCounts
+} from "@/redux"
 
 import ShapeChangeSort from "@/components/collection_actions/shapeChangeSort"
 
@@ -160,6 +166,22 @@ function AppSettings() {
                                                 />
                                             </li>
 
+                                            <li>
+                                                <Button
+                                                    small={true}
+                                                    minimal={true}
+                                                    wrap={true}
+                                                    label="Assign Iterations Count"
+                                                    onClick={() => {
+                                                        dispatch(shapeAssignIterationCounts({
+                                                            callback: (data) => {
+                                                                console.log(data)
+                                                            }
+                                                        }))
+                                                    }}
+                                                />
+                                            </li>
+
                                            
                                         </ul>
 
@@ -170,6 +192,7 @@ function AppSettings() {
                         }}
                     </Formik>
                 </div>
+
 
             </div>
         </div>

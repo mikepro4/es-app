@@ -82,6 +82,7 @@ router.post("/search", requireSignin, async (req, res) => {
             as: 'algo'
         }
     });
+
     retrievalPipeline.push({
         $lookup: {
             from: 'shapes', // replace with the actual collection name for 'origin'
@@ -106,7 +107,6 @@ router.post("/search", requireSignin, async (req, res) => {
     });
     retrievalPipeline.push({ $unwind: { path: "$track", preserveNullAndEmptyArrays: true } });
 
-    // Add nested lookups for 'album' and 'hardware' within 'track'
     retrievalPipeline.push({
         $lookup: {
             from: "albums", // replace with actual collection name for 'album'

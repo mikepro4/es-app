@@ -180,7 +180,7 @@ function AppSettings() {
                   </div>
                 </div>}
 
-                {app.playerData?.tiers && app.playerData?.tiers.length > 0 && <div className="nft-tier-section">
+                {app.playerData?.tiers && app.playerData?.tiers?.length > 0 && <div className="nft-tier-section">
                   <div className="nft-tier-section-left">
                     <div className="nft-tier-title">Access tier</div>
                   </div>

@@ -30,4 +30,32 @@ const ShapeSchema = new Schema({
   iterationsRejected: Number
 });
 
+
+// Single field index
+ShapeSchema.index({ 'track': 1 });
+
+// Compound index
+ShapeSchema.index({ 'origin': 1, 'status': 1 });
+
+// For fields used in sorting
+ShapeSchema.index({ 'createdAt': -1 });
+
+// For fields used in $lookup
+ShapeSchema.index({ 'algo': 1 });
+
+ShapeSchema.index({ 'origin': 1 });
+ShapeSchema.index({ 'genesis': 1 });
+ShapeSchema.index({ 'inCollection': 1 });
+
+ShapeSchema.index({ 'iterationsUnverified': 1 });
+ShapeSchema.index({ 'iterationsVerified': 1 });
+ShapeSchema.index({ 'iterationsRejected': 1 });
+
+
+// For fields used in $match
+ShapeSchema.index({ 'status': 1, 'iteration': 1 });
+
+// Text index for string searches
+ShapeSchema.index({ 'name': 'text' });
+
 module.exports = mongoose.model("Shape", ShapeSchema);

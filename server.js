@@ -86,6 +86,7 @@ io.on("connection", socket => {
 
 const PORT = process.env.PORT || 9000;
 
+
 nextApp.prepare().then(() => {
     fs.readdirSync(path.resolve(`./mainapi`)).map(filePath =>
         app.use(`/mainapi/${filePath.split(".")[0]}`, require(`./mainapi/${filePath}`))

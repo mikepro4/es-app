@@ -93,19 +93,22 @@ function AppSettings() {
         <div className="collection-sidebar">
             <ShapesDetails />
 
-            <Button
-                small={true}
-                minimal={true}
-                wrap={true}
-                label="Assign Iterations Count"
-                onClick={() => {
-                    dispatch(shapeAssignIterationCounts({
-                        callback: (data) => {
-                            console.log(data)
-                        }
-                    }))
-                }}
-            />
+            <div className="assign-iteration-count">
+                <Button
+                    small={true}
+                    minimal={true}
+                    wrap={true}
+                    label="Assign Iterations Count"
+                    onClick={() => {
+                        dispatch(shapeAssignIterationCounts({
+                            callback: (data) => {
+                                console.log(data)
+                            }
+                        }))
+                    }}
+                />
+            </div>
+           
 
             <Formik
                 enableReinitialize

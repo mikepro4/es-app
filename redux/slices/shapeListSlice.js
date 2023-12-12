@@ -45,6 +45,11 @@ const shapeListSlice = createSlice({
         state.sortProperty = "iterationsUnverified"
         state.order = "-1"
       }
+      
+      if(action.payload == "leastUnreviewed") {
+        state.sortProperty = "iterationsUnverified"
+        state.order = "1"
+      }
 
       if(action.payload == "mostRejected") {
         state.sortProperty = "iterationsRejected"

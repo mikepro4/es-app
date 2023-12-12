@@ -41,6 +41,10 @@ function ShapeChangeSort() {
             setSortValue("mostUnreviewed")
         }
 
+        if (shapeList.sortProperty == "iterationsUnverified" && shapeList.order == "1") {
+            setSortValue("leastUnreviewed")
+        }
+
         if (shapeList.sortProperty == "iterationsRejected" && shapeList.order == "-1") {
             setSortValue("mostRejected")
         }
@@ -82,6 +86,10 @@ function ShapeChangeSort() {
                         {
                             label: "Most Unreviewed",
                             value: "mostUnreviewed",
+                        },
+                        {
+                            label: "Least Unreviewed",
+                            value: "leastUnreviewed",
                         },
                         {
                             label: "Most Rejected",
