@@ -124,6 +124,45 @@ router.post("/search", requireSignin, async (req, res) => {
         }
     });
 
+    retrievalPipeline.push(
+        {
+            $lookup: {
+                from: 'tiers', // The name of the collection where the tier documents are stored
+                localField: 'tiers.tier', // The field that contains the reference ID
+                foreignField: '_id', // The _id field in the referenced collection
+                as: 'tiersPopulated' // The array where the joined documents will be placed
+            }
+        },
+    )
+
+    retrievalPipeline.push(
+        {
+            $set: {
+                tiers: {
+                    $map: {
+                        input: '$tiers',
+                        as: 'tierItem',
+                        in: {
+                            tier: {
+                                $arrayElemAt: [
+                                    {
+                                        $filter: {
+                                            input: '$tiersPopulated',
+                                            as: 'populatedTier',
+                                            cond: { $eq: ['$$populatedTier._id', '$$tierItem.tier'] }
+                                        }
+                                    },
+                                    0
+                                ]
+                            },
+                            tierLetter: '$$tierItem.tierLetter'
+                        }
+                    }
+                }
+            }
+        },
+    )
+
     // Additional match for album criteria if specified
     if (criteria && criteria.album) {
         retrievalPipeline.push({
@@ -141,9 +180,6 @@ router.post("/search", requireSignin, async (req, res) => {
         });
     }
 
-    
-
-  
 
     // Add sorting, skipping, and limiting
     let sortObj = {};
@@ -250,6 +286,7 @@ router.post("/delete", async (req, res) => {
 router.post("/item", async (req, res) => {
     const query = await Shapes.findOne({ _id: req.body.id })
         .populate("algo")
+        .populate("tiers.tier")
         .populate({
             path: 'track',
             populate: [
@@ -317,7 +354,7 @@ router.post("/updateItem", async (req, res) => {
             shapeId,
             updateData,
             { new: true }  // Return the updated object
-        ).populate("algo").populate('origin', '_id name').populate({
+        ).populate("algo").populate("tiers.tier").populate('origin', '_id name').populate({
             path: 'track',
             populate: [
                 {
@@ -463,7 +500,7 @@ router.post("/updateTrack", async (req, res) => {
                 track: track
             },
             { new: true }  // Return the updated object
-        ).populate("algo").populate("track").populate({
+        ).populate("algo").populate("tiers.tier").populate("track").populate({
             path: 'track',
             populate: [
                 {
@@ -551,7 +588,7 @@ router.post("/updateGenesis", async (req, res) => {
                 genesis: true
             },
             { new: true }  // Return the updated object
-        ).populate("algo").populate("track").populate({
+        ).populate("algo").populate("tiers.tier").populate("track").populate({
             path: 'track',
             populate: [
                 {
