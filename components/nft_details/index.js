@@ -19,6 +19,7 @@ import TrackAudioPlayer from "@/components/track_audio_player";
 
 import HardwareItem from "./hardwareItem";
 import TierItem from "./tierItem";
+import { use } from "passport";
 
 
 function AppSettings() {
@@ -27,8 +28,7 @@ function AppSettings() {
   const appData = useSelector((state) => state.appData);
   const router = useRouter();
   const dispatch = useDispatch();
-
-
+  const [track, setTrack] = useState(null);
 
  
   const removeImage = () => {
@@ -79,8 +79,10 @@ function AppSettings() {
       )
     }
   }
-
-  const track = appData.tracks.find((t) => t._id === app.playerData.track)
+  useEffect(() => {
+    const t = appData.tracks.find((t) => t._id === app.playerData.track)
+    setTrack(t)
+  }, [appData.tracks])
 
 
   return (

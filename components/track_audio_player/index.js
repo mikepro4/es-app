@@ -55,7 +55,7 @@ function TrackAudioPlayer({
     useEffect(() => {
         if(item?.duration) {
             } else {
-            if(duration && item._id === trackId) {
+            if(duration && item?._id === trackId) {
                 dispatch(trackUpdateDuration({
                     trackId: item._id,
                     duration: duration,
