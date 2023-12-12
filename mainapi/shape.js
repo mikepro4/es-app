@@ -188,7 +188,7 @@ router.post("/search", requireSignin, async (req, res) => {
             $match: {
                 "tiers": {
                     $elemMatch: {
-                        "tier._id": mongoose.Types.ObjectId(criteria.tierId),
+                        "tier": mongoose.Types.ObjectId(criteria.tierId),
                         "tierLetter": criteria.tierLetter
                     }
                 }
@@ -301,7 +301,6 @@ router.post("/delete", async (req, res) => {
 
 router.post("/item", async (req, res) => {
     const query = await Shapes.findOne({ _id: req.body.id })
-        .populate("tiers.tier")
         .populate('origin', '_id name')
 
     res.json(query);

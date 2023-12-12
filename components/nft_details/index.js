@@ -24,6 +24,7 @@ import TierItem from "./tierItem";
 function AppSettings() {
   const [loading, setLoading] = useState(false);
   const app = useSelector((state) => state.app);
+  const appData = useSelector((state) => state.appData);
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -78,6 +79,8 @@ function AppSettings() {
       )
     }
   }
+
+  const track = appData.tracks.find((t) => t._id === app.playerData.track)
 
 
   return (
@@ -157,7 +160,7 @@ function AppSettings() {
                     </div>} */}
 
                     <TrackAudioPlayer
-                      item={app.playerData.track}
+                      item={track}
                     />
                     
                    
@@ -165,13 +168,13 @@ function AppSettings() {
 
                 </div>
 
-                {app.playerData?.track?.hardware && <div className="nft-hardware-section">
+                {track.hardware && <div className="nft-hardware-section">
                   <div className="nft-hardware-section-left">
                     <div className="nft-hardware-title">Hardware</div>
                   </div>
 
                   <div className="nft-hardware-section-right">
-                    {app.playerData?.track?.hardware?.map((item, index) => {
+                    {track.hardware?.map((item, index) => {
                       return (
                         <HardwareItem
                         item={item}/>

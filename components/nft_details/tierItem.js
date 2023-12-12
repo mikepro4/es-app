@@ -8,14 +8,17 @@ import { tierCalculatePercentage, togglePlayer } from "@/redux";
 function TierItem({ item, index }) {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
+    const appData = useSelector((state) => state.appData);
     const router = useRouter();
     const dispatch = useDispatch();
     const [percentage, setPercentage] = useState(0);
 
+    const tier = appData.tiers.find((t) => t._id === item.tier)
+
     useEffect(() => {
-        if (item && item.tier._id) {
+        if (item && item.tier) {
             dispatch(tierCalculatePercentage({
-                tierId: item.tier._id,
+                tierId: item.tier,
                 tierLetter: item.tierLetter,
                 callback: (data) => {
                     console.log(data);
@@ -38,7 +41,7 @@ function TierItem({ item, index }) {
             onClick={() => {
                 router.push({
                     pathname: '/tiers',
-                    query: { activeLetter: item.tierLetter, tierId: item.tier._id},
+                    query: { activeLetter: item.tierLetter, tierId: item.tier},
                 }, undefined, { shallow: true })
 
                 dispatch(
@@ -50,7 +53,7 @@ function TierItem({ item, index }) {
             }}
         >
             <div className="nft-tier-item-title">
-                {item.tierLetter}{item.tier.name}
+                {item.tierLetter}{tier?.name}
             </div>
 
             <div className="nft-tier-item-percentage">
