@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 
-import { hardwareCalculatePercentage,  } from "@/redux";
+import { hardwareCalculatePercentage, togglePlayer } from "@/redux";
 
 function HardwareItem({ item, index }) {
     const [loading, setLoading] = useState(false);
