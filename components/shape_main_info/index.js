@@ -15,21 +15,30 @@ function ShapeMainInfo({
 }) {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
+    const appData = useSelector((state) => state.appData);
     const keyboard = useSelector((state) => state.keyboard);
     const { isPlaying, audioName, playerControls, volume, id: trackId } = useSelector(state => state.audioPlayer)
     const router = useRouter();
     const dispatch = useDispatch();
+    const [track, setTrack] = useState(null);
 
     const handlePlay = () => {
-        if (item && item.track && item.track._id !== trackId ) {
-            dispatch(setAudioId(item.track._id));
-            dispatch(setAudioName(item.track.name));
-            dispatch(setAudioLink(item.track.songLink));
+        if (track && track._id !== trackId ) {
+            dispatch(setAudioId(track._id));
+            dispatch(setAudioName(track.name));
+            dispatch(setAudioLink(track.songLink));
             dispatch(setIsPlaying(true));
         } else {
             dispatch(togglePlayPause());
         }
     };
+
+    useEffect(() => {
+        if(item && item.track) {
+            let fetchedTrack = appData.tracks.find((t) => t._id === item.track)
+            setTrack(fetchedTrack)
+        }
+    }, [item]);
 
 
     useEffect(() => {
@@ -53,10 +62,10 @@ function ShapeMainInfo({
             >
                 <Icon icon="play" />
             </div> */}
-            {item.track && item.track._id && <PlayBtn
+            {track && track._id && <PlayBtn
                 mr
                 round
-                isCurrentTrackPlaying={item.track._id === trackId && isPlaying}
+                isCurrentTrackPlaying={item.track === trackId && isPlaying}
                 handlePlay={() => handlePlay()}
             />}
 

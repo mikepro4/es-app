@@ -8,6 +8,7 @@ import { toggleParamsValues, togglePlayPause } from '@/redux';
 function AppSettings() {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
+    const appData = useSelector((state) => state.appData);
     const keyboard = useSelector((state) => state.keyboard);
     const router = useRouter();
     const dispatch = useDispatch();
@@ -21,8 +22,8 @@ function AppSettings() {
         let paramsData
         let paramsValues
     
-        if(app.playerData?.algo) {
-            paramsData = app.playerData.algo
+        if(app.playerData?.algo && appData?.algos && appData?.algos.length > 0) {
+            paramsData = appData.algos.find((algo) => algo._id === app.playerData.algo)
         } else if (app.paramsData) {
             paramsData = app.paramsData
         }

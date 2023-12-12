@@ -7,10 +7,12 @@ import { toggleParamsValues, keyDown, keyUp } from "@/redux"
 
 function AppSettings({
     item,
-    fullScreen
+    fullScreen,
+    algo
 }) {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
+    const appData = useSelector((state) => state.appData);
     const router = useRouter();
     const dispatch = useDispatch();
     const intervalRef = useRef(null);
@@ -28,8 +30,8 @@ function AppSettings({
         let paramsData
         let paramsValues = paramsRef.current
     
-        if(app.playerData?.algo) {
-            paramsData = app.playerData.algo
+        if(algo) {
+            paramsData = appData.algos.find((algo) => algo._id === app.playerData.algo)
         } else if (app.paramsData) {
             paramsData = app.paramsData
         }

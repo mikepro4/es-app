@@ -27,7 +27,6 @@ router.post("/create", requireSignin, async (req, res) => {
         }).save();
         if (Shape) {
             let query = await Shapes.findOne({ _id: Shape._id })
-                .populate("algo")
                 .populate('origin', '_id name')
 
             res.json(query);
@@ -44,7 +43,6 @@ router.post("/createItemWithData", requireSignin, async (req, res) => {
         const Shape = await new Shapes(req.body.data).save();
         if (Shape) {
             let query = await Shapes.findOne({ _id: Shape._id })
-                .populate("algo")
                 .populate('origin', '_id name')
 
             res.json(query);
@@ -74,99 +72,99 @@ router.post("/search", requireSignin, async (req, res) => {
 
     // Look up 'algo' and 'origin' as they were populated before
     // Replace 'algorithms' and 'origins' with actual collection names if different
-    retrievalPipeline.push({
-        $lookup: {
-            from: 'algos', // replace with the actual collection name for 'algo'
-            localField: 'algo',
-            foreignField: '_id',
-            as: 'algo'
-        }
-    });
+    // retrievalPipeline.push({
+    //     $lookup: {
+    //         from: 'algos', // replace with the actual collection name for 'algo'
+    //         localField: 'algo',
+    //         foreignField: '_id',
+    //         as: 'algo'
+    //     }
+    // });
 
-    retrievalPipeline.push({
-        $lookup: {
-            from: 'shapes', // replace with the actual collection name for 'origin'
-            localField: 'origin',
-            foreignField: '_id',
-            as: 'origin'
-        }
-    });
+    // retrievalPipeline.push({
+    //     $lookup: {
+    //         from: 'shapes', // replace with the actual collection name for 'origin'
+    //         localField: 'origin',
+    //         foreignField: '_id',
+    //         as: 'origin'
+    //     }
+    // });
 
     // Unwind 'algo' and 'origin' if they are always single documents
-    retrievalPipeline.push({ $unwind: { path: '$algo', preserveNullAndEmptyArrays: true } });
-    retrievalPipeline.push({ $unwind: { path: '$origin', preserveNullAndEmptyArrays: true } });
+    // retrievalPipeline.push({ $unwind: { path: '$algo', preserveNullAndEmptyArrays: true } });
+    // retrievalPipeline.push({ $unwind: { path: '$origin', preserveNullAndEmptyArrays: true } });
 
     // Look up 'track' and its nested fields
-    retrievalPipeline.push({
-        $lookup: {
-            from: "tracks", // replace with your actual tracks collection name
-            localField: "track",
-            foreignField: "_id",
-            as: "track"
-        }
-    });
-    retrievalPipeline.push({ $unwind: { path: "$track", preserveNullAndEmptyArrays: true } });
+    // retrievalPipeline.push({
+    //     $lookup: {
+    //         from: "tracks", // replace with your actual tracks collection name
+    //         localField: "track",
+    //         foreignField: "_id",
+    //         as: "track"
+    //     }
+    // });
+    // retrievalPipeline.push({ $unwind: { path: "$track", preserveNullAndEmptyArrays: true } });
 
-    retrievalPipeline.push({
-        $lookup: {
-            from: "albums", // replace with actual collection name for 'album'
-            localField: "track.album",
-            foreignField: "_id",
-            as: "track.album"
-        }
-    });
-    retrievalPipeline.push({ $unwind: { path: "$track.album", preserveNullAndEmptyArrays: true } });
-    retrievalPipeline.push({
-        $lookup: {
-            from: "hardwares", // replace with actual collection name for 'hardware'
-            localField: "track.hardware",
-            foreignField: "_id",
-            as: "track.hardware"
-        }
-    });
+    // retrievalPipeline.push({
+    //     $lookup: {
+    //         from: "albums", // replace with actual collection name for 'album'
+    //         localField: "track.album",
+    //         foreignField: "_id",
+    //         as: "track.album"
+    //     }
+    // });
+    // retrievalPipeline.push({ $unwind: { path: "$track.album", preserveNullAndEmptyArrays: true } });
+    // retrievalPipeline.push({
+    //     $lookup: {
+    //         from: "hardwares", // replace with actual collection name for 'hardware'
+    //         localField: "track.hardware",
+    //         foreignField: "_id",
+    //         as: "track.hardware"
+    //     }
+    // });
 
-    retrievalPipeline.push(
-        {
-            $lookup: {
-                from: 'tiers', // The name of the collection where the tier documents are stored
-                localField: 'tiers.tier', // The field that contains the reference ID
-                foreignField: '_id', // The _id field in the referenced collection
-                as: 'tiersPopulated' // The array where the joined documents will be placed
-            }
-        },
-    )
+    // retrievalPipeline.push(
+    //     {
+    //         $lookup: {
+    //             from: 'tiers', // The name of the collection where the tier documents are stored
+    //             localField: 'tiers.tier', // The field that contains the reference ID
+    //             foreignField: '_id', // The _id field in the referenced collection
+    //             as: 'tiersPopulated' // The array where the joined documents will be placed
+    //         }
+    //     },
+    // )
 
-    retrievalPipeline.push(
-        {
-            $set: {
-                'origin': {
-                    _id: '$origin._id',
-                    name: '$origin.name'
-                },
-                tiers: {
-                    $map: {
-                        input: '$tiers',
-                        as: 'tierItem',
-                        in: {
-                            tier: {
-                                $arrayElemAt: [
-                                    {
-                                        $filter: {
-                                            input: '$tiersPopulated',
-                                            as: 'populatedTier',
-                                            cond: { $eq: ['$$populatedTier._id', '$$tierItem.tier'] }
-                                        }
-                                    },
-                                    0
-                                ]
-                            },
-                            tierLetter: '$$tierItem.tierLetter'
-                        }
-                    }
-                }
-            }
-        },
-    )
+    // retrievalPipeline.push(
+    //     {
+    //         $set: {
+    //             'origin': {
+    //                 _id: '$origin._id',
+    //                 name: '$origin.name'
+    //             },
+    //             tiers: {
+    //                 $map: {
+    //                     input: '$tiers',
+    //                     as: 'tierItem',
+    //                     in: {
+    //                         tier: {
+    //                             $arrayElemAt: [
+    //                                 {
+    //                                     $filter: {
+    //                                         input: '$tiersPopulated',
+    //                                         as: 'populatedTier',
+    //                                         cond: { $eq: ['$$populatedTier._id', '$$tierItem.tier'] }
+    //                                     }
+    //                                 },
+    //                                 0
+    //                             ]
+    //                         },
+    //                         tierLetter: '$$tierItem.tierLetter'
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     },
+    // )
 
     // Additional match for album criteria if specified
     if (criteria && criteria.album) {
@@ -303,22 +301,7 @@ router.post("/delete", async (req, res) => {
 
 router.post("/item", async (req, res) => {
     const query = await Shapes.findOne({ _id: req.body.id })
-        .populate("algo")
         .populate("tiers.tier")
-        .populate({
-            path: 'track',
-            populate: [
-                {
-                    path: "duration"
-                },
-                {
-                    path: 'album'
-                },
-                {
-                    path: 'hardware' // populate 'hardware' within each 'track'
-                }
-            ]
-        })
         .populate('origin', '_id name')
 
     res.json(query);
@@ -375,18 +358,7 @@ router.post("/updateItem", async (req, res) => {
             shapeId,
             updateData,
             { new: true }  // Return the updated object
-        ).populate("algo").populate("tiers.tier").populate('origin', '_id name').populate({
-            path: 'track',
-            populate: [
-                {
-                    path: 'album'
-                },
-                {
-                    path: 'hardware' // populate 'hardware' within each 'track'
-                }
-            ]
-        });
-
+        ).populate("tiers.tier").populate('origin', '_id name')
         // If the Shape object is not found
         if (!updatedShape) {
             return res.status(404).send("Shape not found");
@@ -417,17 +389,7 @@ router.post("/updateStatus", async (req, res) => {
             shapeId,
             { status: status }, // Update only the status field
             { new: true } // Return the updated object
-        ).populate("algo").populate("tiers.tier").populate('origin', '_id name').populate({
-            path: 'track',
-            populate: [
-                {
-                    path: 'album'
-                },
-                {
-                    path: 'hardware' // populate 'hardware' within each 'track'
-                }
-            ]
-        });;
+        ).populate("tiers.tier").populate('origin', '_id name')
 
         // If the Shape object is not found or not updated
         if (!updatedShape) {
@@ -469,19 +431,7 @@ router.post("/nextItem", async (req, res) => {
 
         // Find the next item
         const nextItem = await Shapes.findOne(sortCondition)
-            .populate("algo")
             .populate("tiers.tier")
-            .populate({
-                path: 'track',
-                populate: [
-                    {
-                        path: 'album'
-                    },
-                    {
-                        path: 'hardware' // populate 'hardware' within each 'track'
-                    }
-                ]
-            })
             .populate('origin', '_id name')
             .sort({ [sortProperty]: order })
             .exec();
@@ -524,19 +474,7 @@ router.post("/previousItem", async (req, res) => {
 
         // Find the previous item
         const previousItem = await Shapes.findOne(sortCondition)
-            .populate("algo")
             .populate("tiers.tier")
-            .populate({
-                path: 'track',
-                populate: [
-                    {
-                        path: 'album'
-                    },
-                    {
-                        path: 'hardware' // populate 'hardware' within each 'track'
-                    }
-                ]
-            })
             .populate('origin', '_id name')
             .sort({ [sortProperty]: order === "1" ? -1 : 1 }) // Invert the sorting order
             .exec();
@@ -587,17 +525,7 @@ router.post("/updateProperty", requireSignin, async (req, res) => {
             shapeId,
             { [req.body.updateProperty]: req.body.value }, // Update only the status field
             { new: true } // Return the updated object
-        ).populate("algo").populate("tiers.tier").populate('origin', '_id name').populate({
-            path: 'track',
-            populate: [
-                {
-                    path: 'album'
-                },
-                {
-                    path: 'hardware' // populate 'hardware' within each 'track'
-                }
-            ]
-        });;
+        ).populate("tiers.tier").populate('origin', '_id name');
 
         // If the Shape object is not found or not updated
         if (!updatedShape) {
@@ -713,17 +641,7 @@ router.post("/updateTrack", async (req, res) => {
                 track: track
             },
             { new: true }  // Return the updated object
-        ).populate("algo").populate("tiers.tier").populate("track").populate({
-            path: 'track',
-            populate: [
-                {
-                    path: 'album'
-                },
-                {
-                    path: 'hardware' // populate 'hardware' within each 'track'
-                }
-            ]
-        });
+        ).populate("tiers.tier").populate("track")
 
         // If the Shape object is not found
         if (!updatedShape) {
@@ -801,17 +719,7 @@ router.post("/updateGenesis", async (req, res) => {
                 genesis: true
             },
             { new: true }  // Return the updated object
-        ).populate("algo").populate("tiers.tier").populate("track").populate({
-            path: 'track',
-            populate: [
-                {
-                    path: 'album'
-                },
-                {
-                    path: 'hardware' // populate 'hardware' within each 'track'
-                }
-            ]
-        });
+        ).populate("tiers.tier").populate("track")
 
         // If the Shape object is not found
         if (!updatedShape) {

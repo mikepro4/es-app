@@ -32,8 +32,8 @@ function ParamRenderer(props) {
             } else {
                 finalParams = props.item.params
             }
-            if(!app.paramsData) {
-                let newParams = props.item?.algo?.params.map((param, i) => {
+            if(!app.paramsData && props.algo) {
+                let newParams = props.algo?.params.map((param, i) => {
                     if(param.type === 'array') {
                         return{
                             ...param,
@@ -49,7 +49,7 @@ function ParamRenderer(props) {
                 })
     
                 let newItem = {
-                    ...props.item.algo,
+                    ...props.algo,
                     params: newParams
                 }
     
@@ -86,7 +86,7 @@ function ParamRenderer(props) {
         return () => {
 
         };
-    }, [app.paramsData, app.paramsValues]);
+    }, [app.paramsData, app.paramsValues, props.algo]);
 
     useEffect(() => {
         console.log("item", props.item)

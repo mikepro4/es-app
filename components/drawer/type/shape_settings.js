@@ -196,7 +196,7 @@ function AppSettings() {
                   />
 
                   <Field
-                    name="algo._id"
+                    name="algo"
                     title="Algorithm"
                     apiUrl="/algo/search"
                     useAsync={true}
@@ -205,7 +205,7 @@ function AppSettings() {
                   />
 
                   <Field
-                    name="track._id"
+                    name="track"
                     title="Track"
                     apiUrl="/track/search"
                     useAsync={true}

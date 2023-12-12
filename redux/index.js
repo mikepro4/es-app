@@ -4,6 +4,7 @@ import { signout } from "./thunks/userThunk";
 
 // Reducers
 import { appReducer } from "./slices/appSlice";
+import { appDataReducer } from "./slices/appDataSlice";
 import { userReducer } from "./slices/userSlice";
 import { testListReducer } from "./slices/testListSlice";
 import { shapeListReducer } from "./slices/shapeListSlice";
@@ -22,6 +23,7 @@ import { iterationListReducer } from "./slices/iterationListSlice";
 
 const rootReducer = combineReducers({
   app: appReducer,
+  appData: appDataReducer,
   user: userReducer,
   testList: testListReducer,
   shapeList: shapeListReducer,
@@ -95,3 +97,4 @@ export * from "./slices/audioPlayerSlice";
 export * from "./slices/galaxyListSlice";
 export * from "./slices/keyboardSlice";
 export * from "./slices/microphoneListenSlice";
+export * from "./slices/appDataSlice";

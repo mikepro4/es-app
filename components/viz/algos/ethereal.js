@@ -22,6 +22,7 @@ function Ethereal(
     }
 ) {
     const app = useSelector((state) => state.app);
+    const appData = useSelector((state) => state.appData);
     const player = useSelector((state) => state.audioPlayer);
     const mic = useSelector((state) => state.microphoneListen);
     const [loaded, setLoaded] = useState(false);
@@ -608,6 +609,7 @@ function Ethereal(
             {showControls && <VizTouch
                 fullScreen={fullScreen}
                 item={item}
+                algo={appData.algos.find((item) => item._id === app.playerData.algo)}
             />}
 
             <canvas

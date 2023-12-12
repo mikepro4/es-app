@@ -27,6 +27,7 @@ import {
 function AppSettings() {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
+    const appData = useSelector((state) => state.appData);
     const router = useRouter();
     const toasterRef = useRef(null)
     const dispatch = useDispatch();
@@ -244,11 +245,14 @@ function AppSettings() {
     // }
 
     const getParam = (value) => {
-        const param = app.playerData?.algo.params.find(param => param.value === value)
+        const algo = appData.algos.find((item) => item._id === app.playerData.algo)
+        const param = algo.params.find(param => param.value === value)
+
         return param
     }
 
     const renderGeneratorParams = () => {
+        const algo = appData.algos.find((item) => item._id === app.playerData.algo)
         return (
             <div className="generator-params">
 
@@ -321,7 +325,7 @@ function AppSettings() {
                                                         <Field
                                                             name={`params.list.${index}.paramName`}
                                                             title="Param name"
-                                                            options={app.playerData.algo.params}
+                                                            options={algo.params}
                                                             component={Select}
                                                             searchable={false}
                                                         />

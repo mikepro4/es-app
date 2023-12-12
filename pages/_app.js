@@ -13,7 +13,13 @@ import { useRouter } from 'next/router';
 import {
   store,
   fetchUserInfo,
-  toggleNoRedirect
+  toggleNoRedirect,
+  setAlgos,
+  setTracks,
+  setTiers,
+  algoSearch,
+  trackSearch,
+  tierSearch
 } from "../redux";
 
 import AudioControls from '@/components/audio-controls';
@@ -66,9 +72,60 @@ const App = ({ children }) => {
   };
 
   useEffect(() => {
-
+    loadInitialTracks()
+    loadInitialAlgos()
+    loadInitialTiers()
     fetchUserDetails();
   }, []);
+
+
+  const loadInitialTracks = () => {
+    dispatch(
+      trackSearch({
+        criteria: {},
+        sortProperty: "created",
+        offset: 0,
+        limit: 10000,
+        order: 1,
+
+        callback: (data) => {
+          dispatch(setTracks(data.all));
+        },
+      })
+    );
+  };
+
+  const loadInitialAlgos = () => {
+    dispatch(
+      algoSearch({
+        criteria: {},
+        sortProperty: "created",
+        offset: 0,
+        limit: 10000,
+        order: 1,
+
+        callback: (data) => {
+          dispatch(setAlgos(data.all));
+        },
+      })
+    );
+  };
+
+  const loadInitialTiers = () => {
+    dispatch(
+      tierSearch({
+        criteria: {},
+        sortProperty: "created",
+        offset: 0,
+        limit: 10000,
+        order: 1,
+
+        callback: (data) => {
+          dispatch(setTiers(data.all));
+        },
+      })
+    );
+  };
 
   const fetchShape = () => {
     dispatch(

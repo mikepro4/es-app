@@ -36,7 +36,7 @@ function AppSettings(props) {
         clearInterval(timeInterval);
         setTimeInterval(null);
         dispatch(toggleParamsValues(app.playerData.params));
-        dispatch(setIsPlaying(false))
+        // dispatch(setIsPlaying(false))
     }
 
     const getRgbaObject = (value) => {
@@ -81,42 +81,42 @@ function AppSettings(props) {
         }
     }, [app.updateCurrentFrame])
 
-    useEffect(() => {
-        if (player.isPlaying && status !== "play") {
-            if(!internalPlay) {
-                setStatus("play");
-                // If there's no interval set, start one
-                if (!timeInterval && fullGenerator && fullGenerator.params) {
-                    const intervalId = setInterval(() => {
-                        // Update the current iteration
-                        currentIterationRef.current += 1;
-                        // Perform the update values action
-                        updateValues();
-                    }, fullGenerator?.params?.iterationGap);
-                    // Store the interval ID so it can be cleared later
-                    setTimeInterval(intervalId);
-                }
-            } else {
-                setInternalPlay(false)
-            }
-        } else if (!player.isPlaying && status == "play" && !internalPlay) {
-            setStatus("paused");
-            setInternalPlay(false)
-            // If the player is not playing, clear the interval
-            if (timeInterval) {
-                clearInterval(timeInterval);
-                setTimeInterval(null);
-            }
-        }
-        // Update the previous player playing state
-        setPrevPlayerIsPlaying(player.isPlaying);
-        // Cleanup interval on unmount or if player.isPlaying changes
-        return () => {
-            if (timeInterval) {
-                clearInterval(timeInterval);
-            }
-        };
-    }, [player.isPlaying, status, timeInterval, updateValues, internalPlay]);
+    // useEffect(() => {
+    //     if (player.isPlaying && status !== "play") {
+    //         if(!internalPlay) {
+    //             setStatus("play");
+    //             // If there's no interval set, start one
+    //             if (!timeInterval && fullGenerator && fullGenerator.params) {
+    //                 const intervalId = setInterval(() => {
+    //                     // Update the current iteration
+    //                     currentIterationRef.current += 1;
+    //                     // Perform the update values action
+    //                     updateValues();
+    //                 }, fullGenerator?.params?.iterationGap);
+    //                 // Store the interval ID so it can be cleared later
+    //                 setTimeInterval(intervalId);
+    //             }
+    //         } else {
+    //             setInternalPlay(false)
+    //         }
+    //     } else if (!player.isPlaying && status == "play" && !internalPlay) {
+    //         setStatus("paused");
+    //         setInternalPlay(false)
+    //         // If the player is not playing, clear the interval
+    //         if (timeInterval) {
+    //             clearInterval(timeInterval);
+    //             setTimeInterval(null);
+    //         }
+    //     }
+    //     // Update the previous player playing state
+    //     setPrevPlayerIsPlaying(player.isPlaying);
+    //     // Cleanup interval on unmount or if player.isPlaying changes
+    //     return () => {
+    //         if (timeInterval) {
+    //             clearInterval(timeInterval);
+    //         }
+    //     };
+    // }, [player.isPlaying, status, timeInterval, updateValues, internalPlay]);
  
 
     useEffect(() => {
@@ -196,31 +196,31 @@ function AppSettings(props) {
             }, {});
 
 
-            const currentGalaxyIndex = currentIterationRef.current % 110;
-            const currentGalaxy = galaxys[currentGalaxyIndex];
-            const galaxyColors = currentGalaxy.image_url.color_summary
-            console.log("current galaxy", currentGalaxy.image_url.color_summary)
+            // const currentGalaxyIndex = currentIterationRef.current % 110;
+            // const currentGalaxy = galaxys[currentGalaxyIndex];
+            // const galaxyColors = currentGalaxy.image_url.color_summary
+            // console.log("current galaxy", currentGalaxy.image_url.color_summary)
+
+            const galaxyColors = [{ color: "1"}, { color: "2"}, { color: "3"}]
 
             let newColors = galaxyColors.map((color, i) => {
-                let finalAmount
+                // let finalAmount
 
-                if(i == 0) {
-                    finalAmount = 54.5
-                }
+                // if(i == 0) {
+                //     finalAmount = 54.5
+                // }
 
-                if(i == 1) {
-                    finalAmount = 34
-                }
+                // if(i == 1) {
+                //     finalAmount = 34
+                // }
 
-                if(i == 2) {
-                    finalAmount = 44.5
-                }
+                // if(i == 2) {
+                //     finalAmount = 44.5
+                // }
 
-                let newColor = getRgbaObject(color)
-                newColor.b = `${newColor.b}`
 
                 return {
-                    color: `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${newColor.a})`,
+                    color: `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 1`,
                     amount: randomNumber(20,50)
                 }
             })
@@ -309,7 +309,7 @@ function AppSettings(props) {
                 sortProperty: "created",
                 offset: 0,
                 limit: 10000,
-                order: 1,
+                order: -1,
 
                 callback: (data) => {
                     let finalOptions = data.all.map((option) => {

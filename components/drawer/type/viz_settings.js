@@ -26,8 +26,10 @@ import ParamRenderer from "@/components/param_renderer";
 function VizSettings() {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
+    const appData = useSelector((state) => state.appData);
     const router = useRouter();
     const dispatch = useDispatch();
+    const [algo, setAlgo] = useState(null);
 
     const showToast = useCallback((message) => {
         // Ensure AppToaster is not null before calling show
@@ -40,10 +42,15 @@ function VizSettings() {
 
     useEffect(() => {
 
+        if(appData?.algos?.length > 0) {
+            let algo = appData.algos.find((item) => item._id === app.playerData.algo)
+            setAlgo(algo)
+        } 
+
         return () => {
             
         };
-    }, []); 
+    }, [appData.algos]); 
 
     const saveAsPNG = async () => {
         // var canvas = document.getElementById("viz");
@@ -62,7 +69,7 @@ function VizSettings() {
                 <div className="viz-settings-header">
 
                     <div className="viz-settings-header-left">
-                    {app.playerData?.name} 
+                        {app.playerData?.name} 
                     </div>
 
                     <div className="viz-settings-header-right">
@@ -83,6 +90,7 @@ function VizSettings() {
 
                 <ParamRenderer
                     item={app.playerData}
+                    algo={appData.algos.find((item) => item._id === app.playerData.algo)}
                 />
 
                 <Button

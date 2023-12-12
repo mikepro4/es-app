@@ -51,7 +51,6 @@ const AudioPlayer = () => {
     }, [volume]);
 
     useEffect(() => {
-
         const audio = audioRef.current;
         const setAudioContext = () => {
             if (!connected) {
@@ -78,6 +77,7 @@ const AudioPlayer = () => {
             if (isPlaying) {
                 audio.play();
             } else {
+
                 audio.pause();
             }
         }
