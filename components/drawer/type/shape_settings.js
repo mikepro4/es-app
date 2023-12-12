@@ -64,7 +64,7 @@ function AppSettings() {
     ...app.drawerData ,
     tiers: app.drawerData?.tiers?.map((tier) => {
       return {
-        tier: tier.tier._id,
+        tier: tier.tier,
         tierLetter: tier.tierLetter
       }
     })

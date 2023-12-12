@@ -89,7 +89,7 @@ function ShapeActionsView({
                             {
                                 data: {
                                     name: item.name + " (copy)",
-                                    algo: item.algo._id,
+                                    algo: item.algo,
                                     params: app.paramsValues,
                                     track: item.track,
                                     origin: item?.origin?._id ? item?.origin?._id : item._id,

@@ -95,33 +95,35 @@ router.post("/search", requireSignin, async (req, res) => {
     // retrievalPipeline.push({ $unwind: { path: '$origin', preserveNullAndEmptyArrays: true } });
 
     // Look up 'track' and its nested fields
-    // retrievalPipeline.push({
-    //     $lookup: {
-    //         from: "tracks", // replace with your actual tracks collection name
-    //         localField: "track",
-    //         foreignField: "_id",
-    //         as: "track"
-    //     }
-    // });
-    // retrievalPipeline.push({ $unwind: { path: "$track", preserveNullAndEmptyArrays: true } });
+    if(criteria?.hardware || criteria?.album ) {
+    retrievalPipeline.push({
+        $lookup: {
+            from: "tracks", // replace with your actual tracks collection name
+            localField: "track",
+            foreignField: "_id",
+            as: "track"
+        }
+    });
+    retrievalPipeline.push({ $unwind: { path: "$track", preserveNullAndEmptyArrays: true } });
 
-    // retrievalPipeline.push({
-    //     $lookup: {
-    //         from: "albums", // replace with actual collection name for 'album'
-    //         localField: "track.album",
-    //         foreignField: "_id",
-    //         as: "track.album"
-    //     }
-    // });
-    // retrievalPipeline.push({ $unwind: { path: "$track.album", preserveNullAndEmptyArrays: true } });
-    // retrievalPipeline.push({
-    //     $lookup: {
-    //         from: "hardwares", // replace with actual collection name for 'hardware'
-    //         localField: "track.hardware",
-    //         foreignField: "_id",
-    //         as: "track.hardware"
-    //     }
-    // });
+    retrievalPipeline.push({
+        $lookup: {
+            from: "albums", // replace with actual collection name for 'album'
+            localField: "track.album",
+            foreignField: "_id",
+            as: "track.album"
+        }
+    });
+    retrievalPipeline.push({ $unwind: { path: "$track.album", preserveNullAndEmptyArrays: true } });
+    retrievalPipeline.push({
+        $lookup: {
+            from: "hardwares", // replace with actual collection name for 'hardware'
+            localField: "track.hardware",
+            foreignField: "_id",
+            as: "track.hardware"
+        }
+    });
+}
 
     // retrievalPipeline.push(
     //     {

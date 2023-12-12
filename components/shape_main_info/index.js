@@ -34,9 +34,13 @@ function ShapeMainInfo({
     };
 
     useEffect(() => {
-        if(item && item.track) {
-            let fetchedTrack = appData.tracks.find((t) => t._id === item.track)
-            setTrack(fetchedTrack)
+        if(item && item.track && item.track._id) {
+            setTrack(item.track)
+        } else {
+            if(item && item.track) {
+                let fetchedTrack = appData.tracks.find((t) => t._id === item.track)
+                setTrack(fetchedTrack)
+            }
         }
     }, [item]);
 
@@ -52,6 +56,7 @@ function ShapeMainInfo({
         };
     }, [keyboard]);
 
+
     return (
         <div className="shape-main-info-container">
             {/* <div
@@ -65,7 +70,7 @@ function ShapeMainInfo({
             {track && track._id && <PlayBtn
                 mr
                 round
-                isCurrentTrackPlaying={item.track === trackId && isPlaying}
+                isCurrentTrackPlaying={item.track && item.track._id ? item.track._id === trackId && isPlaying : item.track === trackId && isPlaying}
                 handlePlay={() => handlePlay()}
             />}
 
