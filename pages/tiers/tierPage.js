@@ -14,7 +14,8 @@ import {
     tierItem, 
     tierUpdateManyItems,
     shapeSearch,
-    shapeItem
+    shapeItem,
+    tierSearch
 } from "@/redux";
 
 
@@ -33,6 +34,8 @@ function TierPageContainer({
     const [total, setTotal] = useState(0);
     const [scroll, setScroll] = useState(0);
     const scrollContainerRef = useRef(null); 
+    const [tiers, setTiers] = useState([]);
+
 
     const handleScroll = () => {
         const position = scrollContainerRef.current.scrollTop
@@ -44,6 +47,7 @@ function TierPageContainer({
     };
 
     useEffect(() => {
+        loadInitialTiers()
         window.addEventListener('resize', handleResize);
 
         const scrollContainer = scrollContainerRef.current;
@@ -111,6 +115,28 @@ function TierPageContainer({
         }
     }, [router]);
 
+    const loadInitialTiers = () => {
+        dispatch(
+          tierSearch({
+            criteria: {},
+            sortProperty: "created",
+            offset: 0,
+            limit: 10000,
+            order: -1,
+    
+            callback: (data) => {
+              let finalOptinos = data.all.map((option) => {
+                return {
+                  value: option._id,
+                  label: option.name,
+                };
+              });
+              setTiers(finalOptinos);
+            },
+          })
+        );
+      };
+
      
 
     return (
@@ -144,12 +170,29 @@ function TierPageContainer({
                 </div>
             </div>
 
-            <h1>{tier && tier.name} </h1>
+            {/* <h1>{tier && tier.name} </h1> */}
 
             <div className="tiers-tree-container">
                 <TiersIcon
                     activeLetters={["A", "Z", "L"]}
                 />
+            </div>
+
+            <div className="tier-switcher">
+                {tiers.map(tier => (
+                    <div 
+                        className={classNames("tier-item", {
+                            "active": tier.value === router.query.tierId,
+                        })}
+                        key={tier._id} onClick={() =>  {
+                            router.push({
+                                pathname: router.pathname,
+                                query: { ...router.query, tierId: tier.value}
+                            }, undefined, { shallow: true });
+                        }}>
+                        {tier.label} 
+                    </div>
+                ))}
             </div>
 
             <div className="alphabet-city">
@@ -167,6 +210,10 @@ function TierPageContainer({
                         {letter} 
                     </div>
                 ))}
+            </div>
+
+            <div className="tier-shapes-container-title">
+                {count} shapes linked to tier
             </div>
 
             {tier && <InfiniteList
