@@ -30,6 +30,45 @@
         }
     }
 
+    .shape-view-count {
+        position: absolute;
+        top: 32px;
+        left: 32px;
+        z-index: 3;
+        display: flex;
+
+        li {
+            display: flex;
+            margin-right: 20px;
+            font-size: 12px;
+
+            .shape-single-view-count {
+               
+            }
+
+            .shape-view-count-label {
+                color: rgba(255, 255, 255, 0.2)
+            }
+
+            .shape-view-count-value {
+                margin: 0 0 0 5px
+            }
+
+            // &.a {
+            //     .shape-view-count-value {
+            //         color: $green
+            //     }
+            // }
+
+
+            // &.r {
+            //     .shape-view-count-value {
+            //         color: #f10000
+            //     }
+            // }
+        }
+    }
+
 
 
     .shape-view-actions {

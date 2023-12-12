@@ -250,7 +250,8 @@ function AppSettings(props) {
                                 params: newParams,
                                 track: app.playerData.track,
                                 iteration: true,
-                                origin: app.playerData?.origin?._id ? app.playerData?.origin?._id : app.playerData._id,
+                                // origin: app.playerData?.origin?._id ? app.playerData?.origin?._id : app.playerData._id,
+                                origin: app.playerData?.genesis ? app.playerData._id : app.playerData?.origin?._id
                             },
                             callback: (data) => {
                                

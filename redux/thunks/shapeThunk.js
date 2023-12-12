@@ -291,6 +291,25 @@ const shapeUpdateProperty = createAsyncThunk(
 );
 
 
+const shapeAssignIterationCounts = createAsyncThunk(
+  "shape/assignIterationCounts",
+    async ({  callback }, { rejectWithValue }) => {
+      console.log("HERE")
+    try {
+      const response = await userApi.post("/shape/assignIterationCounts");
+
+      if (callback) {
+        callback(response.data)
+      }
+
+      return response.data;
+    } catch (err) {
+      throw new Error("Error");
+    }
+  }
+);
+
+
 
 
 export { 
@@ -308,5 +327,6 @@ export {
     shapeUpdateGenesis,
     shapeCalculateParamPercentage,
     shapeUpdateStatus,
-    shapeUpdateProperty
+    shapeUpdateProperty,
+    shapeAssignIterationCounts
 };

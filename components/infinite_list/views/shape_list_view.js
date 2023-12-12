@@ -76,6 +76,40 @@ function ShapeListView({
                 />
             </div>
 
+            {item.genesis && <ul className="shape-view-count">
+                <li className="shape-single-view-count a">
+                    <div className="shape-view-count-label a">
+                        A:
+                    </div>
+
+                    <div className="shape-view-count-value a">
+                        {item.iterationsVerified}
+                    </div>
+                </li>
+
+                <li className="shape-single-view-count u">
+                    <div className="shape-view-count-label u">
+                        U:
+                    </div>
+
+                    <div className="shape-view-count-value u">
+                        {item.iterationsUnverified}
+                    </div>
+                </li>
+
+                <li className="shape-single-view-count r">
+                    <div className="shape-view-count-label r">
+                        R:
+                    </div>
+
+                    <div className="shape-view-count-value r">
+                        {item.iterationsRejected}
+                    </div>
+                </li>
+                
+                
+            </ul>}
+
 
             <div className="shape-view-actions">
                 <ShapeActionsView

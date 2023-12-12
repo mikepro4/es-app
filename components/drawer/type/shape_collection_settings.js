@@ -6,6 +6,7 @@ import TabSwitcher from "../../../components/form/TabSwitcher";
 
 import { Formik, Form, Field, FieldArray } from 'formik';
 import Input from "../../../components/form/BladeInput";
+import Switch from "@/components/form/Switch";
 
 import { toggleDrawer } from "@/redux";
 import Button from "@/components/button";
@@ -16,6 +17,8 @@ import { useFormik } from 'formik';
 import { updateCollection, shapeListChangeCriteria, shapeResetCriteria, shapeCreate } from "@/redux"
 
 import ShapeChangeSort from "@/components/collection_actions/shapeChangeSort"
+
+
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
@@ -29,6 +32,7 @@ function AppSettings() {
     const initialValues = {
         search: shapeList.criteria?.search,
         status: shapeList.criteria?.status,
+        genesis: shapeList.criteria?.genesis,
     }
 
     const handleFormChange = (values, data) => {
@@ -133,6 +137,12 @@ function AppSettings() {
                                             title="Status"
                                             component={TabSwitcher}
                                             options={statusOptions}
+                                        />
+                                        
+                                        <Field
+                                            name="genesis"
+                                            label="Genesis"
+                                            component={Switch}
                                         />
 
                                         <ul className="action-buttons">

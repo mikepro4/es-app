@@ -30,6 +30,26 @@ const shapeListSlice = createSlice({
         state.sortProperty = "name"
         state.order = "-1"
       }
+
+      if(action.payload == "mostApproved") {
+        state.sortProperty = "iterationsVerified"
+        state.order = "-1"
+      }
+
+      if(action.payload == "leastApproved") {
+        state.sortProperty = "iterationsVerified"
+        state.order = "1"
+      }
+
+      if(action.payload == "mostUnreviewed") {
+        state.sortProperty = "iterationsUnverified"
+        state.order = "-1"
+      }
+
+      if(action.payload == "mostRejected") {
+        state.sortProperty = "iterationsRejected"
+        state.order = "-1"
+      }
     },
 
     shapeListChangeCriteria: (state, action) => {

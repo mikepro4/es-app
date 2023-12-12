@@ -24,7 +24,10 @@ const ShapeSchema = new Schema({
       tier: { type: Schema.Types.ObjectId, ref: "Tier" },
       tierLetter: String,
     }
-  ]
+  ],
+  iterationsUnverified: Number,
+  iterationsVerified: Number,
+  iterationsRejected: Number
 });
 
 module.exports = mongoose.model("Shape", ShapeSchema);

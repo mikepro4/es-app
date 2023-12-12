@@ -93,7 +93,7 @@ router.post("/search", requireSignin, async (req, res) => {
 
     // Unwind 'algo' and 'origin' if they are always single documents
     retrievalPipeline.push({ $unwind: { path: '$algo', preserveNullAndEmptyArrays: true } });
-    aggregationPipeline.push({ $unwind: { path: '$origin', preserveNullAndEmptyArrays: true } });
+    retrievalPipeline.push({ $unwind: { path: '$origin', preserveNullAndEmptyArrays: true } });
 
     // Look up 'track' and its nested fields
     retrievalPipeline.push({
@@ -139,6 +139,10 @@ router.post("/search", requireSignin, async (req, res) => {
     retrievalPipeline.push(
         {
             $set: {
+                'origin': {
+                    _id: '$origin._id',
+                    name: '$origin.name'
+                },
                 tiers: {
                     $map: {
                         input: '$tiers',
@@ -197,7 +201,7 @@ router.post("/search", requireSignin, async (req, res) => {
 
     // Add sorting, skipping, and limiting
     let sortObj = {};
-    sortObj[sortProperty] = order === 'asc' ? 1 : -1;
+    sortObj[sortProperty] = Number(order);
     retrievalPipeline.push({ $sort: sortObj });
     retrievalPipeline.push({ $skip: offset });
     retrievalPipeline.push({ $limit: limit });
@@ -822,6 +826,51 @@ router.post("/updateGenesis", async (req, res) => {
     }
 });
 
+router.post("/assignIterationCounts", requireSignin, async (req, res) => {
+    try {
+        // Fetch all shapes
+        const shapes = await Shapes.find({
+            genesis: true,
+            status: "approved"
+        });
+
+        for (const shape of shapes) {
+            console.log(shape._id)
+            // Count shapes with iteration: true, origin: current shape's ID, and status: "unverified"
+            const iterationsUnverified = await Shapes.countDocuments({
+                iteration: true,
+                origin: shape._id,
+                status: "unreviewed"
+            });
+
+            // Count shapes with iteration: true, origin: current shape's ID, and status: "approved"
+            const iterationsVerified = await Shapes.countDocuments({
+                iteration: true,
+                origin: shape._id,
+                status: "approved"
+            });
+
+            const iterationsRejected= await Shapes.countDocuments({
+                iteration: true,
+                origin: shape._id,
+                status: "rejected"
+            });
+
+            // Update the current shape with new attributes
+            await Shapes.findByIdAndUpdate(shape._id, {
+                iterationsUnverified: Number(iterationsUnverified),
+                iterationsVerified: Number(iterationsVerified),
+                iterationsRejected: Number(iterationsRejected)
+            });
+        }
+
+        res.json({ success: true, message: "Iteration counts assigned to all shapes successfully." });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+});
+
 
 // ===========================================================================
 
@@ -886,6 +935,14 @@ const buildQuery = criteria => {
         _.assign(query, {
             "iteration": {
                 $in: [true, false, null]
+            }
+        });
+    }
+
+    if (criteria && criteria.genesis) {
+        _.assign(query, {
+            "genesis": {
+                $eq: true
             }
         });
     }

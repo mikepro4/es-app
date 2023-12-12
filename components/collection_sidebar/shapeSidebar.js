@@ -7,12 +7,18 @@ import Button from "@/components/button";
 
 import { Formik, Form, Field, FieldArray } from 'formik';
 import Input from "@/components/form/BladeInput";
+import Switch from "@/components/form/Switch";
 
 import { useFormik } from 'formik';
 
 import ShapesDetails from "@/components/collectionControls/shapesDetails";
 
-import { shapeListChangeCriteria, shapeResetCriteria, shapeUpdateProperty } from "@/redux"
+import { 
+    shapeListChangeCriteria, 
+    shapeResetCriteria, 
+    shapeUpdateProperty, 
+    shapeAssignIterationCounts 
+} from "@/redux"
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
@@ -87,22 +93,19 @@ function AppSettings() {
         <div className="collection-sidebar">
             <ShapesDetails />
 
-            {/* <Button
+            <Button
                 small={true}
                 minimal={true}
                 wrap={true}
-                label="Reset Track value"
+                label="Assign Iterations Count"
                 onClick={() => {
-                    dispatch(shapeUpdateProperty({
-                        criteria:  {
-                            status: "approved",
-                            iteration: true
-                        },
-                        updateProperty: "track",
-                        value: null,
+                    dispatch(shapeAssignIterationCounts({
+                        callback: (data) => {
+                            console.log(data)
+                        }
                     }))
                 }}
-            /> */}
+            />
 
             <Formik
                 enableReinitialize
@@ -134,6 +137,13 @@ function AppSettings() {
                                     component={Select}
                                     options={statusOptions}
                                 />
+
+                                <Field
+                                    name="genesis"
+                                    label="Genesis"
+                                    component={Switch}
+                                />
+
 
                                 <Button
                                     type="button"

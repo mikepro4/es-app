@@ -29,6 +29,22 @@ function ShapeChangeSort() {
             setSortValue("name")
         }
 
+        if (shapeList.sortProperty == "iterationsVerified" && shapeList.order == "-1") {
+            setSortValue("mostApproved")
+        }
+
+        if (shapeList.sortProperty == "iterationsVerified" && shapeList.order == "1") {
+            setSortValue("leastApproved")
+        }
+
+        if (shapeList.sortProperty == "iterationsUnverified" && shapeList.order == "-1") {
+            setSortValue("mostUnreviewed")
+        }
+
+        if (shapeList.sortProperty == "iterationsRejected" && shapeList.order == "-1") {
+            setSortValue("mostRejected")
+        }
+
         return () => {
 
         };
@@ -54,7 +70,23 @@ function ShapeChangeSort() {
                         {
                             label: "Name",
                             value: "name",
-                        }
+                        },
+                        {
+                            label: "Most Approved",
+                            value: "mostApproved",
+                        },
+                        {
+                            label: "Least Approved",
+                            value: "leastApproved",
+                        },
+                        {
+                            label: "Most Unreviewed",
+                            value: "mostUnreviewed",
+                        },
+                        {
+                            label: "Most Rejected",
+                            value: "mostRejected",
+                        },
                     ],
                 }
             ]}
