@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CLIENT_ID } from "@/config";
 
 import Button from "@/components/button";
-import { shapeItem, shapeUpdateItem, togglePlayer } from "@/redux";
+import { shapeItem, shapeUpdateItem, togglePlayer, updateCollectionItem } from "@/redux";
 
 import Viz from "@/components/viz";
 
@@ -60,6 +60,7 @@ const app = useSelector((state) => state.app);
                       playerData: data,
                     })
                   );
+                  dispatch(updateCollectionItem(id))
                 },
               })
             );

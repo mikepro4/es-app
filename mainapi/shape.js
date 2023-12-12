@@ -304,6 +304,9 @@ router.post("/item", async (req, res) => {
             path: 'track',
             populate: [
                 {
+                    path: "duration"
+                },
+                {
                     path: 'album'
                 },
                 {
@@ -419,6 +422,20 @@ router.post("/nextItem", async (req, res) => {
 
         // Find the next item
         const nextItem = await Shapes.findOne(sortCondition)
+            .populate("algo")
+            .populate("tiers.tier")
+            .populate({
+                path: 'track',
+                populate: [
+                    {
+                        path: 'album'
+                    },
+                    {
+                        path: 'hardware' // populate 'hardware' within each 'track'
+                    }
+                ]
+            })
+            .populate('origin', '_id name')
             .sort({ [sortProperty]: order })
             .exec();
 
@@ -460,6 +477,20 @@ router.post("/previousItem", async (req, res) => {
 
         // Find the previous item
         const previousItem = await Shapes.findOne(sortCondition)
+            .populate("algo")
+            .populate("tiers.tier")
+            .populate({
+                path: 'track',
+                populate: [
+                    {
+                        path: 'album'
+                    },
+                    {
+                        path: 'hardware' // populate 'hardware' within each 'track'
+                    }
+                ]
+            })
+            .populate('origin', '_id name')
             .sort({ [sortProperty]: order === "1" ? -1 : 1 }) // Invert the sorting order
             .exec();
 

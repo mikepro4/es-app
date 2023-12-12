@@ -39,7 +39,7 @@ function AppSettings() {
 
     let newValues = {
       ...values,
-      origin: app.drawerData.origin._id,
+      origin: app.drawerData.origin?._id,
     }
 
     dispatch(
