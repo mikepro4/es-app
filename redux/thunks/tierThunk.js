@@ -1,6 +1,23 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import userApi from "../api";
 
+const tierCalculatePercentage = createAsyncThunk(
+  "tier/calculatePercentage",
+    async ({ tierId, tierLetter, callback }, { rejectWithValue }) => {
+    try {
+      const response = await userApi.post("/tier/calculatePercentage", { tierId, tierLetter });
+
+      if (callback) {
+        callback(response.data)
+      }
+
+      return response.data;
+    } catch (err) {
+      throw new Error("Error");
+    }
+  }
+);
+
 
 const tierCreate = createAsyncThunk(
     "tier/create",
@@ -194,5 +211,6 @@ export {
     tierDuplicate,
     tierNextItem,
     tierPreviousItem,
-    tierUpdateManyItems
+    tierUpdateManyItems,
+    tierCalculatePercentage
 };

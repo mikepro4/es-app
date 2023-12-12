@@ -222,4 +222,47 @@
             }
         }
     }
+
+    .nft-tier-section {
+        display: flex;
+        padding: 25px 25px 25px 25px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+        .nft-tier-section-left {
+            width: 90px;
+            flex-grow: 0;
+            flex-shrink: 0;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+
+            
+        }
+
+        .nft-tier-item-title {
+            cursor: pointer;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        .nft-tier-section-right {
+            flex-grow: 1;
+            flex-shrink: 1;
+            font-size: 12px;
+
+            .nft-tier-item {
+                margin-bottom: 8px;
+                display: flex;
+                justify-content: space-between;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+
+            .nft-tier-item-percentage {
+                opacity: 0.5;
+            }
+        }
+    }
 }

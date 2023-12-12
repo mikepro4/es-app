@@ -18,6 +18,7 @@ import {
 import TrackAudioPlayer from "@/components/track_audio_player";
 
 import HardwareItem from "./hardwareItem";
+import TierItem from "./tierItem";
 
 
 function AppSettings() {
@@ -164,7 +165,7 @@ function AppSettings() {
 
                 </div>
 
-                <div className="nft-hardware-section">
+                {app.playerData?.track?.hardware && <div className="nft-hardware-section">
                   <div className="nft-hardware-section-left">
                     <div className="nft-hardware-title">Hardware</div>
                   </div>
@@ -177,7 +178,23 @@ function AppSettings() {
                       )
                     })}
                   </div>
-                </div>
+                </div>}
+
+                {app.playerData?.tiers && app.playerData?.tiers.length > 0 && <div className="nft-tier-section">
+                  <div className="nft-tier-section-left">
+                    <div className="nft-tier-title">Access tier</div>
+                  </div>
+
+                  <div className="nft-tier-section-right">
+                    {app.playerData?.tiers?.map((item, index) => {
+                      return (
+                        <TierItem
+                        item={item}/>
+                      )
+                    })}
+                  </div>
+                </div>}
+
 
               </div>
 

@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from 'next/router';
 import classNames from "classnames";
 
-import { hardwareCalculatePercentage,  } from "@/redux";
+import { tierCalculatePercentage, togglePlayer } from "@/redux";
 
-function HardwareItem({ item, index }) {
+function TierItem({ item, index }) {
     const [loading, setLoading] = useState(false);
     const app = useSelector((state) => state.app);
     const router = useRouter();
@@ -13,9 +13,10 @@ function HardwareItem({ item, index }) {
     const [percentage, setPercentage] = useState(0);
 
     useEffect(() => {
-        if (item && item._id) {
-            dispatch(hardwareCalculatePercentage({
-                hardwareId: item._id,
+        if (item && item.tier._id) {
+            dispatch(tierCalculatePercentage({
+                tierId: item.tier._id,
+                tierLetter: item.tierLetter,
                 callback: (data) => {
                     console.log(data);
                     setPercentage(data)
@@ -33,11 +34,11 @@ function HardwareItem({ item, index }) {
 
     return (
         <div
-            className="nft-hardware-item"
+            className="nft-tier-item"
             onClick={() => {
                 router.push({
-                    pathname: '/music',
-                    query: { tab: 3, hardwareId: item._id },
+                    pathname: '/tiers',
+                    query: { activeLetter: item.tierLetter, tierId: item.tier._id},
                 }, undefined, { shallow: true })
 
                 dispatch(
@@ -48,11 +49,11 @@ function HardwareItem({ item, index }) {
                 );
             }}
         >
-            <div className="nft-hardware-item-title">
-                {item.name}
+            <div className="nft-tier-item-title">
+                {item.tierLetter}{item.tier.name}
             </div>
 
-            <div className="nft-hardware-item-percentage">
+            <div className="nft-tier-item-percentage">
                 <span
                     data-tooltip-id="my-tooltip" 
                     data-tooltip-content={`${percentage?.count} other shapes have this hardware`}
@@ -62,4 +63,4 @@ function HardwareItem({ item, index }) {
     );
 }
 
-export default HardwareItem;
+export default TierItem;

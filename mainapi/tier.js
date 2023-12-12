@@ -4,8 +4,56 @@ const passport = require('passport');
 const requireSignin = passport.authenticate('jwt', { session: false });
 const passportService = require('../services/passport');
 const _ = require("lodash");
+const mongoose = require("mongoose");
 
 const Tiers = require("../models/Tier");
+const Shapes = require("../models/Shape");
+
+
+// ===========================================================================
+
+
+
+router.post("/calculatePercentage", async (req, res) => {
+    try {
+        const tierId = mongoose.Types.ObjectId(req.body.tierId); // Ensure this is a valid ObjectId
+        const tierLetter = req.body.tierLetter; // The tier letter to match
+
+        // Aggregate query to find all Shapes with the specific tier and tierLetter
+        const matchingShapes = await Shapes.aggregate([
+            {
+                $match: { status: "approved" }
+            },
+            {
+                $unwind: "$tiers"
+            },
+            {
+                $match: {
+                    "tiers.tier": tierId,
+                    "tiers.tierLetter": tierLetter
+                }
+            },
+            {
+                $group: {
+                    _id: null, // Grouping by null to count all documents
+                    count: { $sum: 1 } // Count the number of documents
+                }
+            }
+        ]);
+
+        const totalShapes = await Shapes.countDocuments({ status: "approved" });
+
+        // If there are no matching shapes, the aggregation will return an empty array
+        const count = matchingShapes.length > 0 ? matchingShapes[0].count : 0;
+        const percentage = totalShapes > 0 ? (count / totalShapes) * 100 : 0;
+
+        res.json({ count, percentage: percentage.toFixed(2), total: totalShapes });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+});
+
 
 
 // ===========================================================================
