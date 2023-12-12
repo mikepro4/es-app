@@ -570,6 +570,43 @@ router.post("/updateMany", requireSignin, async (req, res) => {
 
 router.post("/updateProperty", requireSignin, async (req, res) => {
 
+    try {
+        const shapeId = req.body.shapeId; // Extract the ID from the request body
+
+        // Ensure that the shape ID and new status are provided
+        if (!shapeId) {
+            return res.status(400).send("Shape ID and new status must be provided");
+        }
+
+        // Update the status of the Shape object in the database
+        const updatedShape = await Shapes.findByIdAndUpdate(
+            shapeId,
+            { [req.body.updateProperty]: req.body.value }, // Update only the status field
+            { new: true } // Return the updated object
+        ).populate("algo").populate("tiers.tier").populate('origin', '_id name').populate({
+            path: 'track',
+            populate: [
+                {
+                    path: 'album'
+                },
+                {
+                    path: 'hardware' // populate 'hardware' within each 'track'
+                }
+            ]
+        });;
+
+        // If the Shape object is not found or not updated
+        if (!updatedShape) {
+            return res.status(404).send("Shape not found or update failed");
+        }
+
+        // Send back the updated Shape object
+        res.json(updatedShape);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+
     // assign track to iterations
     // try {
     //     // Build the query based on criteria (e.g., {iteration: true})
@@ -633,7 +670,7 @@ router.post("/updateProperty", requireSignin, async (req, res) => {
     // }
 
     // // Build the update object dynamically
-    // // const update = { [updateProperty]: value };
+    // const update = { [updateProperty]: value };
     // // const update = { $unset: { [updateProperty]: "" } };
 
     // try {

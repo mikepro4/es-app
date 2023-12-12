@@ -273,10 +273,10 @@ const shapePreviousItem = createAsyncThunk(
 
 const shapeUpdateProperty = createAsyncThunk(
   "shape/updateProperty",
-    async ({ criteria, updateProperty, value, }, { rejectWithValue }) => {
+    async ({ shapeId, updateProperty, value, callback }, { rejectWithValue }) => {
     try {
       const response = await userApi.post("/shape/updateProperty", {
-        criteria, updateProperty, value, 
+        shapeId, updateProperty, value, 
       });
 
       if (callback) {

@@ -13,7 +13,8 @@ import {
     shapeUpdateItem, 
     toggleDrawer, 
     updateCollectionItem, 
-    toggleSaveAsSvg 
+    toggleSaveAsSvg,
+    shapeUpdateProperty
 } from "@/redux";
 
 import ShapeActionsView from "../../collection_actions/shapeActions";
@@ -88,11 +89,10 @@ function VizSettings() {
                     label="Update shape"
                     onClick={() => {
                         if(app.paramsValues) {
-                            dispatch(shapeUpdateItem({
-                                data: {
-                                    ...app.playerData,
-                                    params: app.paramsValues
-                                },
+                            dispatch(shapeUpdateProperty({
+                                shapeId: app.playerData._id,
+                                updateProperty: "params",
+                                value: app.paramsValues,
                                 callback: (data) => {
                                     console.log("update item", data);
                                     dispatch(toggleDrawer({
