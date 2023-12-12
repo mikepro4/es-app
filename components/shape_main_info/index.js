@@ -42,7 +42,7 @@ function ShapeMainInfo({
                 setTrack(fetchedTrack)
             }
         }
-    }, [item]);
+    }, [item, appData.tracks]);
 
 
     useEffect(() => {

@@ -168,13 +168,13 @@ function AppSettings() {
 
                 </div>
 
-                {track.hardware && <div className="nft-hardware-section">
+                {track?.hardware && <div className="nft-hardware-section">
                   <div className="nft-hardware-section-left">
                     <div className="nft-hardware-title">Hardware</div>
                   </div>
 
                   <div className="nft-hardware-section-right">
-                    {track.hardware?.map((item, index) => {
+                    {track?.hardware?.map((item, index) => {
                       return (
                         <HardwareItem
                         item={item}/>
