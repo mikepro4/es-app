@@ -4,10 +4,18 @@ import { useRouter } from 'next/router';
 import classNames from "classnames";
 import Button from "@/components/button";
 import TiersIcon from "@/components/icon/icons/tiers";
+import InfiniteList from '@/components/infinite_list';
 
 import TierActionsView from "@/components/collection_actions/tierActions";
 
-import { tierUpdateItem, updateCollectionItem, tierItem, tierUpdateManyItems } from "@/redux";
+import { 
+    tierUpdateItem, 
+    updateCollectionItem, 
+    tierItem, 
+    tierUpdateManyItems,
+    shapeSearch,
+    shapeItem
+} from "@/redux";
 
 
 function TierPageContainer({
@@ -19,6 +27,39 @@ function TierPageContainer({
     const [tier, setTier] = useState(false);
     const alphabet = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
     const [activeLetter, setActiveLetter] = useState(null);
+
+    const [screenWidth, setScreenWidth] = useState(0);
+    const [count, setCount] = useState(0);
+    const [total, setTotal] = useState(0);
+    const [scroll, setScroll] = useState(0);
+    const scrollContainerRef = useRef(null); 
+
+    const handleScroll = () => {
+        const position = scrollContainerRef.current.scrollTop
+        setScroll(position)
+    };
+
+    const handleResize = () => {
+        setScreenWidth(window.innerWidth);
+    };
+
+    useEffect(() => {
+        window.addEventListener('resize', handleResize);
+
+        const scrollContainer = scrollContainerRef.current;
+
+        if (scrollContainer) {
+            scrollContainer.addEventListener('scroll', handleScroll);
+        }
+
+        return () => {
+            if (scrollContainer) {
+                scrollContainer.removeEventListener('scroll', handleScroll);
+            }
+            window.removeEventListener('resize', handleResize);
+        };
+
+    }, []);
 
 
     const fetchTier = () => {
@@ -73,7 +114,8 @@ function TierPageContainer({
      
 
     return (
-        <div className="music-page-container tier-page-container">
+        <div className="music-page-container tier-page-container" ref={scrollContainerRef}>
+            <div className="music-page-center-container">
 
             <div className="music-page-container-header">
 
@@ -125,11 +167,35 @@ function TierPageContainer({
                         {letter} 
                     </div>
                 ))}
-        </div>
+            </div>
+
+            {tier && <InfiniteList
+                resultType="shape-view-list"
+                limit={20}
+                contained={screenWidth > 500 ? true : false}
+                scrollValue={scroll}
+                sortProperty={"created"}
+                order={"-1"}
+                criteria={{
+                    status: "approved",
+                    tierId: tier._id,
+                    tierLetter: activeLetter
+                }}
+                // identifier={this.props.query.folder}
+                searchCollection={shapeSearch}
+                updateCollectionStats={(count, total) => {
+                    setCount(count)
+                    setTotal(total)
+                    // dispatch(shapeListUpdateStats({ count: count, total: total }))
+
+                }}
+                loadCollectionItem={shapeItem}
+                handleClick={() => { }}
+            />}
 
             
             
-           
+           </div>
         </div>
     );
 }

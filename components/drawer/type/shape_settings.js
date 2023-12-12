@@ -62,7 +62,7 @@ function AppSettings() {
 
   let initialValues =  {
     ...app.drawerData ,
-    tiers: app.drawerData.tiers.map((tier) => {
+    tiers: app.drawerData?.tiers?.map((tier) => {
       return {
         tier: tier.tier._id,
         tierLetter: tier.tierLetter
@@ -234,7 +234,7 @@ function AppSettings() {
                         <div className="generator-params-header">
                             Tiers
                         </div>
-                        {values.tiers.map((tier, index) => (
+                        {values.tiers?.map((tier, index) => (
                           <div className="generator-param-container" key={index}>
                             <div className="generator-param-container-header">
                                 <div className="generator-param-container-header-left">

@@ -65,10 +65,10 @@
 }
 
 .tier-page-container {
-  margin: 30px auto;
+  margin: 0px auto;
   display: flex;
   flex: 1;
-  max-width: 700px;
+  // max-width: 700px;
   flex-direction: column;
 
   @media only screen and (max-width: $mobile) {
@@ -121,6 +121,7 @@
 
   .tiers-tree-container {
     margin: 20px auto;
+    display: none;
 
     svg {
       width: 500px;

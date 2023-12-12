@@ -184,7 +184,7 @@ router.post("/search", requireSignin, async (req, res) => {
         retrievalPipeline.push({
             $match: {
                 $and: [
-                    { "tiers.tier": mongoose.Types.ObjectId(criteria.tierId) },
+                    { "tiers.tier._id": mongoose.Types.ObjectId(criteria.tierId) },
                     { "tiers.tierLetter": criteria.tierLetter }
                 ]
             }
