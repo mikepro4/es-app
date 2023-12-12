@@ -6,7 +6,7 @@ import classNames from "classnames";
 import ParamSwitch from "@/components/paramSwitch";
 import Label from "@/components/label";
 
-import { togglePlayer, toggleNoRedirect, shapeUpdateItem, updateCollection } from "@/redux";
+import { togglePlayer, toggleNoRedirect, shapeUpdateItem, updateCollection, shapeUpdateStatus } from "@/redux";
 
 import ShapeActionsView from "@/components/collection_actions/shapeActions";
 import ShapeMainInfo from "@/components/shape_main_info";
@@ -57,16 +57,14 @@ function ShapeListView({
                             label="Approve"
                             onClick={() => {
                                 dispatch(
-                                    shapeUpdateItem({
-                                        data: {
-                                            ...item,
-                                            status: "approved"
-                                        },
+                                    shapeUpdateStatus({
+                                        shapeId: item?._id,
+                                        status: "approved",
                                         callback: (data) => {
                                             dispatch(updateCollection(true));
-                                        },
-                                    })
-                                )
+                                        }
+                                    }))
+                                
                             }}
                         />
                     </li>
@@ -80,16 +78,13 @@ function ShapeListView({
                             purple={true}
                             onClick={() => {
                                 dispatch(
-                                    shapeUpdateItem({
-                                        data: {
-                                            ...item,
-                                            status: "rejected"
-                                        },
+                                    shapeUpdateStatus({
+                                        shapeId: item?._id,
+                                        status: "rejected",
                                         callback: (data) => {
                                             dispatch(updateCollection(true));
-                                        },
-                                    })
-                                )
+                                        }
+                                    }))
                             }}
                         />
                     </li>

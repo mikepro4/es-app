@@ -39,7 +39,7 @@ function TrackAudioPlayer({
     const [audioPercentage, setAudioPercentage] = useState(null);
 
     useEffect(() => {
-      if(item._id) {
+      if(item?._id) {
         dispatch(shapeCalculateParamPercentage({
           field: "track",
           value: item._id,

@@ -6,7 +6,17 @@ import { AppToaster } from '@/components/toaster';
 import ParamSwitch from "@/components/paramSwitch";
 import Label from "@/components/label";
 
-import { shapeDelete, shapeUpdateItem, updateCollectionItem, toggleDrawer, shapeDuplicate, updateCollection, togglePlayer, shapeCreateItemWithData } from "@/redux";
+import { 
+    shapeDelete, 
+    shapeUpdateItem, 
+    updateCollectionItem, 
+    toggleDrawer, 
+    shapeDuplicate, 
+    updateCollection, 
+    togglePlayer, 
+    shapeCreateItemWithData,
+    shapeUpdateStatus
+} from "@/redux";
 
 function ShapeActionsView({
     item,
@@ -169,11 +179,9 @@ function ShapeActionsView({
                     onChange={(value) => {
                         switchAction(value)
                         dispatch(
-                            shapeUpdateItem({
-                                data: {
-                                    ...item,
-                                    status: value
-                                },
+                            shapeUpdateStatus({
+                                shapeId: item?._id,
+                                status: value,
                                 callback: (data) => {
                                     dispatch(updateCollectionItem(data._id))
                                     onChange && onChange(data)

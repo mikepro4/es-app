@@ -5,6 +5,7 @@ import classNames from "classnames";
 import VizTouch from "../../viz_touch";
 import * as _ from 'lodash'
 
+
 import { toggleSaveAsSvg } from "@/redux";
 
 function Ethereal(
@@ -428,14 +429,14 @@ function Ethereal(
         for (i = 0; i < l; i++) {
             let pt = pointsRef.current[i];
 
-            if (playerRef.current.analyser && soundModifier) {
+            // if (playerRef.current.analyser && soundModifier) {
 
-                soundModifier = freqData[i] / 100
+            //     soundModifier = freqData[i] / 100
 
-                if (!soundModifier) {
-                    soundModifier = 0
-                }
-            }
+            //     if (!soundModifier) {
+            //         soundModifier = 0
+            //     }
+            // }
 
             if (micRef.current.microphoneAnalyser && soundModifier) {
 

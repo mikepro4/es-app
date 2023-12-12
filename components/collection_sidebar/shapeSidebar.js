@@ -12,7 +12,7 @@ import { useFormik } from 'formik';
 
 import ShapesDetails from "@/components/collectionControls/shapesDetails";
 
-import { shapeListChangeCriteria, shapeResetCriteria } from "@/redux"
+import { shapeListChangeCriteria, shapeResetCriteria, shapeUpdateProperty } from "@/redux"
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
@@ -86,6 +86,23 @@ function AppSettings() {
     return (
         <div className="collection-sidebar">
             <ShapesDetails />
+
+            {/* <Button
+                small={true}
+                minimal={true}
+                wrap={true}
+                label="Reset Track value"
+                onClick={() => {
+                    dispatch(shapeUpdateProperty({
+                        criteria:  {
+                            status: "approved",
+                            iteration: true
+                        },
+                        updateProperty: "track",
+                        value: null,
+                    }))
+                }}
+            /> */}
 
             <Formik
                 enableReinitialize

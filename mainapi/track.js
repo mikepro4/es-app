@@ -17,8 +17,10 @@ router.post("/create", requireSignin, async (req, res) => {
         const count = await Tracks.countDocuments();
         const trackName = `New Track ${count + 1}`;
         const Track = await new Tracks({
-            name: trackName,
+            name: req.body.name,
             author: req.user._id,
+            album: req.body.album ? req.body.album : null,
+            songLink: req.body.songLink ? req.body.songLink : null,
             created: new Date()
         }).save();
         if (Track) {

@@ -4,9 +4,9 @@ import userApi from "../api";
 
 const trackCreate = createAsyncThunk(
     "track/create",
-      async ({ name, callback }, { rejectWithValue }) => {
+      async ({ name, album, songLink, callback }, { rejectWithValue }) => {
       try {
-        const response = await userApi.post("/track/create", { name });
+        const response = await userApi.post("/track/create", { name, album, songLink });
   
         if (callback) {
           callback(response.data)

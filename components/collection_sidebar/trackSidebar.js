@@ -12,7 +12,9 @@ import { useFormik } from 'formik';
 
 import TracksDetails from "@/components/collectionControls/tracksDetails";
 
-import { trackListChangeCriteria, trackResetCriteria } from "@/redux"
+import { trackListChangeCriteria, trackResetCriteria, trackCreate } from "@/redux"
+
+import { updatedFinalJSON } from "./updatedFinalJSON";
 
 function AppSettings() {
     const [loading, setLoading] = useState(false);
@@ -78,6 +80,31 @@ function AppSettings() {
     return (
         <div className="collection-sidebar">
             <TracksDetails />
+
+            {/* <Button
+                label="Add all tracks"
+                onClick={() => {
+                    console.log(updatedFinalJSON)
+
+                    updatedFinalJSON.forEach((track) => {
+
+                         dispatch(
+                            trackCreate(
+                              {
+                                name: track.ngc,
+                                album: track.album, 
+                                songLink: track.ipfsLink,
+                                callback: (data) => {
+                                  toasterRef.current.show({ message: `${data.name} was created` });
+                                  dispatch(updateCollection(true))
+                                }
+                              },)
+                          )
+                    })
+
+                       
+                }}
+            /> */}
 
             <Formik
                 enableReinitialize

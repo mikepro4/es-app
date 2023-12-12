@@ -7,6 +7,7 @@ const _ = require("lodash");
 const mongoose = require("mongoose");
 
 const Shapes = require("../models/Shape");
+const Track = require("../models/Track"); 
 
 
 // ===========================================================================
@@ -397,6 +398,48 @@ router.post("/updateItem", async (req, res) => {
 
 // ===========================================================================
 
+router.post("/updateStatus", async (req, res) => {
+    try {
+        const shapeId = req.body.shapeId; // Extract the ID from the request body
+        const status = req.body.status; // Extract the status from the request body
+
+        // Ensure that the shape ID and new status are provided
+        if (!shapeId || !status) {
+            return res.status(400).send("Shape ID and new status must be provided");
+        }
+
+        // Update the status of the Shape object in the database
+        const updatedShape = await Shapes.findByIdAndUpdate(
+            shapeId,
+            { status: status }, // Update only the status field
+            { new: true } // Return the updated object
+        ).populate("algo").populate("tiers.tier").populate('origin', '_id name').populate({
+            path: 'track',
+            populate: [
+                {
+                    path: 'album'
+                },
+                {
+                    path: 'hardware' // populate 'hardware' within each 'track'
+                }
+            ]
+        });;
+
+        // If the Shape object is not found or not updated
+        if (!updatedShape) {
+            return res.status(404).send("Shape not found or update failed");
+        }
+
+        // Send back the updated Shape object
+        res.json(updatedShape);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+});
+
+// ===========================================================================
+
 router.post("/nextItem", async (req, res) => {
     try {
         const { id, sortProperty, order, criteria } = req.body;
@@ -523,6 +566,91 @@ router.post("/updateMany", requireSignin, async (req, res) => {
         console.error(error);
         res.status(500).send("Server Error");
     }
+});
+
+router.post("/updateProperty", requireSignin, async (req, res) => {
+
+    // assign track to iterations
+    // try {
+    //     // Build the query based on criteria (e.g., {iteration: true})
+    //     const query = buildQuery(req.body.criteria);
+
+    //     // Fetch shapes matching the query
+    //     const shapes = await Shapes.find(query);
+
+    //     // Loop through each shape
+    //     for (const shape of shapes) {
+    //         if (shape && shape.origin) {
+    //             // Fetch the origin shape
+    //             const originShape = await Shapes.findById(shape.origin);
+
+    //             if (originShape && originShape.track) {
+    //                 // Update the original shape with the track ID of its origin
+    //                 await Shapes.findByIdAndUpdate(shape._id, { track: originShape.track });
+    //             }
+    //         }
+    //     }
+
+    //     res.json({ success: true, message: "Tracks from origin shapes assigned successfully." });
+    // } catch (error) {
+    //     console.error(error);
+    //     res.status(500).send("Server Error");
+    // }
+
+    // assign track to 660
+
+    // assign track to 660 
+    // try {
+    //     const query = buildQuery(req.body.criteria);
+    //     // Fetch all tracks
+    //     const tracks = await Track.find({}).sort({ name: 1 }); // Sort by _id or another field if preferred
+
+    //     // Fetch all shapes
+    //     const shapes = await Shapes.find(query).sort({ name: 1 }); // Sort by _id or another field if preferred
+
+    //     // Loop through shapes and assign tracks
+    //     for (let i = 0; i < shapes.length; i++) {
+    //         // Calculate track index (cycling through the tracks)
+    //         const trackIndex = i % tracks.length;
+
+    //         // Update the shape with the corresponding track
+    //         await Shapes.findByIdAndUpdate(shapes[i]._id, { track: tracks[trackIndex]._id });
+    //     }
+
+    //     res.json({ success: true, message: "Tracks assigned to shapes successfully." });
+    // } catch (error) {
+    //     console.error(error);
+    //     res.status(500).send("Server Error");
+    // }
+    // assign track to 660
+
+    //
+    // const { criteria, updateProperty, value } = req.body;
+
+    // // Validate input
+    // if (!updateProperty || value === undefined) {
+    //     return res.status(400).send("Update property and value must be provided");
+    // }
+
+    // // Build the update object dynamically
+    // // const update = { [updateProperty]: value };
+    // // const update = { $unset: { [updateProperty]: "" } };
+
+    // try {
+    //     // Build the query based on criteria
+    //     const query = buildQuery(criteria);
+
+    //     // Update multiple documents that match the query
+    //     const result = await Shapes.updateMany(query, update);
+
+    //     res.json({
+    //         success: true,
+    //         modifiedCount: result.nModified
+    //     });
+    // } catch (error) {
+    //     console.error(error);
+    //     res.status(500).send("Server Error");
+    // }
 });
 
 // ===========================================================================

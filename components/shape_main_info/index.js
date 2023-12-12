@@ -53,7 +53,7 @@ function ShapeMainInfo({
             >
                 <Icon icon="play" />
             </div> */}
-            {item.track && <PlayBtn
+            {item.track && item.track._id && <PlayBtn
                 mr
                 round
                 isCurrentTrackPlaying={item.track._id === trackId && isPlaying}

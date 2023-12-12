@@ -160,6 +160,24 @@ const shapeCreateItemWithData = createAsyncThunk(
   }
 );
 
+const shapeUpdateStatus = createAsyncThunk(
+  "shape/shapeUpdateStatus",
+    async ({ shapeId, status, callback }, { rejectWithValue }) => {
+    try {
+      const response = await userApi.post("/shape/updateStatus", {shapeId, status});
+
+      if (callback) {
+        callback(response.data)
+      }
+
+      return response.data;
+    } catch (err) {
+      throw new Error("Error");
+    }
+  }
+);
+
+
 
 function convertCriteriaToUpdateData(criteria) {
   const updateData = { $set: {} };
@@ -253,6 +271,25 @@ const shapePreviousItem = createAsyncThunk(
   }
 );
 
+const shapeUpdateProperty = createAsyncThunk(
+  "shape/updateProperty",
+    async ({ criteria, updateProperty, value, }, { rejectWithValue }) => {
+    try {
+      const response = await userApi.post("/shape/updateProperty", {
+        criteria, updateProperty, value, 
+      });
+
+      if (callback) {
+        callback(response.data)
+      }
+
+      return response.data;
+    } catch (err) {
+      throw new Error("Error");
+    }
+  }
+);
+
 
 
 
@@ -269,5 +306,7 @@ export {
     shapeCreateItemWithData,
     shapeUpdateTrack,
     shapeUpdateGenesis,
-    shapeCalculateParamPercentage
+    shapeCalculateParamPercentage,
+    shapeUpdateStatus,
+    shapeUpdateProperty
 };
