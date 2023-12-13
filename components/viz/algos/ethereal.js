@@ -609,7 +609,7 @@ function Ethereal(
             {showControls && <VizTouch
                 fullScreen={fullScreen}
                 item={item}
-                algo={appData.algos.find((item) => item._id === app.playerData.algo)}
+                algo={app.playerData?.paramData ? app.aplerData.paramData : appData.algos.find((item) => item._id === app.playerData?.algo)}
             />}
 
             <canvas
