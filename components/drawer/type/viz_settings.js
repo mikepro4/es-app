@@ -41,15 +41,17 @@ function VizSettings() {
 
     useEffect(() => {
 
-        if(appData?.algos?.length > 0) {
+        // if(appData.algos > 0) {
+            if(app.playerData.algo) {
+
+            console.log("HEHEEEEE")
             let algo = appData.algos.find((item) => item._id === app.playerData.algo)
             setAlgo(algo)
-        } 
+        }
 
-        return () => {
-            
-        };
-    }, [appData.algos]); 
+        // } 
+
+    }, [appData.algos, app.playerData.algo]); 
 
     const saveAsPNG = async () => {
         // var canvas = document.getElementById("viz");

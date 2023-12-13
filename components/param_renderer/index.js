@@ -32,6 +32,7 @@ function ParamRenderer(props) {
             } else {
                 finalParams = props.item.params
             }
+            console.log("props.algo", props.algo)
             if(!app.paramsData && props.algo) {
                 let newParams = props.algo?.params.map((param, i) => {
                     if(param.type === 'array') {

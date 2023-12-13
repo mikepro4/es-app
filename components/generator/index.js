@@ -246,7 +246,7 @@ function AppSettings(props) {
                         {
                             data: {
                                 name: app.playerData.name + " (copy)",
-                                algo: app.playerData.algo._id,
+                                algo: app.playerData.algo,
                                 params: newParams,
                                 track: app.playerData.track,
                                 iteration: true,
