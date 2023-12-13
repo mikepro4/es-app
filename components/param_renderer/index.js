@@ -55,27 +55,31 @@ function ParamRenderer(props) {
     
                 setItem(newItem)
             } else {
-                let newParams = app.paramsData.params.map((param, i) => {
-                    if(param.type === 'array') {
-                        return{
-                            ...param,
-                            values: finalParams[param.value]
+                if(app.paramsData) {
+
+                    let newParams = app.paramsData.params.map((param, i) => {
+                        if(param.type === 'array') {
+                            return{
+                                ...param,
+                                values: finalParams[param.value]
+                            }
+                        }else {
+                            return{
+                                ...param,
+                                defaultValue: finalParams[param.value]
+                            }
                         }
-                    }else {
-                        return{
-                            ...param,
-                            defaultValue: finalParams[param.value]
-                        }
+                        
+                    })
+        
+                    let newItem = {
+                        ...app.paramsData,
+                        params: newParams
                     }
-                    
-                })
-    
-                let newItem = {
-                    ...app.paramsData,
-                    params: newParams
+        
+                    setItem(newItem)
                 }
-    
-                setItem(newItem)
+
             }
             
 

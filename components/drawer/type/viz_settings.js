@@ -39,7 +39,6 @@ function VizSettings() {
     }, []);
 
 
-
     useEffect(() => {
 
         if(appData?.algos?.length > 0) {
@@ -61,6 +60,8 @@ function VizSettings() {
         var newTab = window.open('about:blank', 'image from canvas');
         newTab.document.write("<img src='" + dataURL + "' alt='from canvas'/>");
     }
+
+    
 
     return (
         <div className={`app-drawer-content-container standard-drawer`}>
@@ -90,7 +91,7 @@ function VizSettings() {
 
                 <ParamRenderer
                     item={app.playerData}
-                    algo={appData.algos.find((item) => item._id === app.playerData.algo)}
+                    algo={algo}
                 />
 
                 <Button
