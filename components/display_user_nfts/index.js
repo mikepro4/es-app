@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import {
     useAddress,
@@ -10,7 +10,7 @@ import { TEST_CONTRACT_ADDRESS } from "@/config";
 
 
 
-const UserNfts = () => {
+const UserNfts = ({ setNfts }) => {
     const address = useAddress();
 
 
@@ -20,6 +20,8 @@ const UserNfts = () => {
         contract,
         address
     );
+    useEffect(() => { setNfts(ownedNFTs) }, [ownedNFTs])
+
     console.log("ownedNFTs", ownedNFTs)
 
     const displayNftProps = (nft) => {
