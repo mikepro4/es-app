@@ -146,8 +146,30 @@ const TestView = () => {
               }}
             />
           </li>
-
-
+          <li>
+            <Button
+              small={true}
+              label="AudioPlayer"
+              wrap={true}
+              minimal={true}
+              iconRight="chevron-right"
+              onClick={() => {
+                router.push("/ui/audioPlayer")
+              }}
+            />
+          </li>
+          <li>
+            <Button
+              small={true}
+              label="Pyramid"
+              wrap={true}
+              minimal={true}
+              iconRight="chevron-right"
+              onClick={() => {
+                router.push("/ui/pyramid")
+              }}
+            />
+          </li>
         </div>
 
       </div>

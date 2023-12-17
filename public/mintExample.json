@@ -1,0 +1,170 @@
+[
+  {
+    "name": "17 Scorpii b",
+    "description": "This is a shape NFT",
+    "image": "ipfs://QmbwThmWxYLCvYGr4VBGY9jUZPubXkqPKd6RVrY1ER6c6M/screenshot.png",
+    "id": "6578e579c586498d8cfd097b",
+    "attributes": [
+      {
+        "trait_type": "L",
+        "value": 0,
+        "max_value": 3,
+        "display_type": "number"
+      },
+      {
+        "trait_type": "G",
+        "value": 5,
+        "max_value": 21,
+        "display_type": "number"
+      },
+      {
+        "trait_type": "H",
+        "value": 13,
+        "max_value": 23,
+        "display_type": "number"
+      },
+      {
+        "trait_type": "Track Name",
+        "value": "NGC 1068"
+      },
+      {
+        "trait_type": "Primary Device",
+        "value": "Octatrack"
+      },
+      {
+        "trait_type": "Secondary Device",
+        "value": "Digitakt"
+      },
+      {
+        "trait_type": "Rarity",
+        "value": "Generic"
+      }
+    ]
+  },
+  {
+    "name": "24 Bootis b",
+    "description": "This is a shape NFT",
+    "image": "ipfs://QmcPxN9rz3sweMXhNmzCYKkyyUvMCRou4pYAmxXUVgwgdK/screenshot.png",
+    "id": "6578e579c586498d8cfd097b",
+    "attributes": [
+      {
+        "trait_type": "E",
+        "value": 5,
+        "max_value": 15,
+        "display_type": "number"
+      },
+      {
+        "trait_type": "F",
+        "value": 8,
+        "max_value": 17,
+        "display_type": "number"
+      },
+      {
+        "trait_type": "G",
+        "value": 11,
+        "max_value": 21,
+        "display_type": "number"
+      },
+      {
+        "trait_type": "Track Name",
+        "value": "NGC 1068"
+      },
+      {
+        "trait_type": "Primary Device",
+        "value": "Octatrack"
+      },
+      {
+        "trait_type": "Secondary Device",
+        "value": "Digitakt"
+      },
+      {
+        "trait_type": "Rarity",
+        "value": "Vanilla"
+      }
+    ]
+  },
+  {
+    "name": "2MASS J04414489+2301513 b",
+    "description": "This is a shape NFT",
+    "image": "ipfs://QmUSGnzgmcLidFDHvxkGBfQyRQe2WT8oXH9JS825G6nwx5/screenshot.png",
+    "id": "6578e579c586498d8cfd097b",
+    "attributes": [
+      {
+        "trait_type": "X",
+        "value": 1,
+        "max_value": 1,
+        "display_type": "number"
+      },
+      {
+        "trait_type": "C",
+        "value": 3,
+        "max_value": 9,
+        "display_type": "number"
+      },
+      {
+        "trait_type": "D",
+        "value": 3,
+        "max_value": 11,
+        "display_type": "number"
+      },
+      {
+        "trait_type": "Track Name",
+        "value": "NGC 1068"
+      },
+      {
+        "trait_type": "Primary Device",
+        "value": "Octatrack"
+      },
+      {
+        "trait_type": "Secondary Device",
+        "value": "Digitakt"
+      },
+      {
+        "trait_type": "Rarity",
+        "value": "Special"
+      }
+    ]
+  },
+  {
+    "name": "42 Draconis b",
+    "description": "This is a shape NFT",
+    "image": "ipfs://QmVAgBx8rVwJXzZbd6LrD7fHTQi1MazajdzgVCxzp6mf3N/screenshot.png",
+    "id": "6578e579c586498d8cfd097b",
+    "attributes": [
+      {
+        "trait_type": "A",
+        "value": 1,
+        "max_value": 3,
+        "display_type": "number"
+      },
+      {
+        "trait_type": "B",
+        "value": 2,
+        "max_value": 5,
+        "display_type": "number"
+      },
+      {
+        "trait_type": "C",
+        "value": 5,
+        "max_value": 9,
+        "display_type": "number"
+      },
+      {
+        "trait_type": "Track Name",
+        "value": "NGC 1068"
+      },
+      {
+        "trait_type": "Primary Device",
+        "value": "Octatrack"
+      },
+      {
+        "trait_type": "Secondary Device",
+        "value": "Digitakt"
+      },
+      {
+        "trait_type": "Rarity",
+        "value": "Insane"
+      }
+    ]
+  }
+]

@@ -1,0 +1,30 @@
+.red-letter {
+    color: red;
+}
+
+.letter {
+    margin-right: 10px;
+    margin-bottom: 10px !important;
+
+    &-exponent {
+        position: absolute;
+        right: -5px;
+        bottom: 20px;
+        color: orange;
+    }
+}
+
+.letter-container {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+
+
+}
+
+.pyramid-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}

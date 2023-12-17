@@ -7,6 +7,7 @@ import {
 } from "@thirdweb-dev/react";
 
 import { TEST_CONTRACT_ADDRESS } from "@/config";
+import UserNfts from "@/components/display_user_nfts";
 
 export default function Genesis() {
   const address = useAddress();
@@ -22,6 +23,15 @@ export default function Genesis() {
     address
   );
 
+  const displayNftProps = (nft) => {
+    return nft.metadata.attributes.map((prop, index) => (
+      <div key={index}>
+        <h3>{prop.trait_type}: {prop.value} </h3>
+
+      </div>
+    ));
+  }
+
   return (
     <>
       <div className="ui-screen">
@@ -34,25 +44,7 @@ export default function Genesis() {
                 <p>Wallet Address: {truncateAddress(address) || ""}</p>
               </div>
               <hr />
-              <div>
-                <h3>My NFTs:</h3>
-                <div className="profile__grid">
-                  {!isOwnedNFTsLoading ? (
-                    ownedNFTs?.length > 0 ? (
-                      ownedNFTs?.map((nft) => (
-                        <div key={nft.metadata.id} className="profile__card">
-                          <ThirdwebNftMedia metadata={nft.metadata} />
-                          <h3>{nft.metadata.name}</h3>
-                        </div>
-                      ))
-                    ) : (
-                      <p>No NFTs owned.</p>
-                    )
-                  ) : (
-                    <p>Loading...</p>
-                  )}
-                </div>
-              </div>
+              <UserNfts />
             </div>
           ) : (
             <div>

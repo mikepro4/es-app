@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { FocusStyleManager } from "@blueprintjs/core";
 import { Tooltip } from 'react-tooltip'
+import { CLIENT_ID } from "../config"
 
 import '../styles/main.scss';
 
@@ -129,25 +130,25 @@ const App = ({ children }) => {
 
   const fetchShape = () => {
     dispatch(
-        shapeItem({
-            id: query.shapeId,
-            callback: (data) => {
-                console.log("loaded shape", data)
-                dispatch(
-                    togglePlayer({
-                        playerOpen: true,
-                        playerData: data
-                    })
-                )
-            }
-        })
+      shapeItem({
+        id: query.shapeId,
+        callback: (data) => {
+          console.log("loaded shape", data)
+          dispatch(
+            togglePlayer({
+              playerOpen: true,
+              playerData: data
+            })
+          )
+        }
+      })
     )
-}
-useEffect(() => {
-  if(query?.shapeId && app.playerOpen == false) {
-    fetchShape()
   }
-}, [router]);
+  useEffect(() => {
+    if (query?.shapeId && app.playerOpen == false) {
+      fetchShape()
+    }
+  }, [router]);
 
   // useEffect(() => {
   // useLastKeyPressed(dispatch, app, keyboard)
@@ -235,7 +236,7 @@ export default function MainApp({ Component, pageProps }) {
       <Provider store={store}>
         <ThirdwebProvider
           activeChain="mumbai"
-          clientId="a0815e45c470abdad32bb79a489e88d2"
+          clientId={CLIENT_ID}
           supportedWallets={[
             metamaskWallet({ recommended: true }),
             coinbaseWallet(),
