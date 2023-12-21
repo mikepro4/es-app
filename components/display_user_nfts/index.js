@@ -20,11 +20,13 @@ const UserNfts = ({ setNfts }) => {
         contract,
         address
     );
-    useEffect(() => { setNfts(ownedNFTs) }, [ownedNFTs])
+
+    useEffect(() => { setNfts && setNfts(ownedNFTs) }, [ownedNFTs])
 
     console.log("ownedNFTs", ownedNFTs)
 
     const displayNftProps = (nft) => {
+        console.log(nft)
         return nft.metadata.attributes.map((prop, index) => (
             <div key={index}>
                 <h3>{prop.trait_type}: {prop.value} </h3>
@@ -43,6 +45,7 @@ const UserNfts = ({ setNfts }) => {
                                 <ThirdwebNftMedia metadata={nft.metadata} />
                                 <h2>{nft.metadata.name}</h2>
                                 {displayNftProps(nft)}
+                                <p>{nft.metadata.description}</p>
                             </div>
                         ))
                     ) : (

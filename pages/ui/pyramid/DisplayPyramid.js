@@ -13,28 +13,35 @@ const lettersObject = [
     { letter: "F", amount: 17, active: 0 },
     { letter: "L", amount: 3, active: 0 },
     { letter: "G", amount: 21, active: 0 },
-    { letter: "H", amount: 23, active: 0 },
+    { letter: "H", amount: 25, active: 0 },
 ]
 
 const DisplayPyramid = ({ nfts }) => {
     const [letters, setLetters] = useState(lettersObject);
+    console.log("nfts", nfts)
 
     useEffect(() => {
-        if (nfts) {
-            const updatedLetters = letters.map(letter => {
-                // Find the NFT with the corresponding letter
-                const nft = nfts.find(n => n.metadata.attributes.some(a => a.trait_type === letter.letter && a.display_type === "number"));
 
-                // Update the 'active' value if the NFT exists
-                if (nft) {
-                    const attribute = nft.metadata.attributes.find(a => a.trait_type === letter.letter);
-                    return { ...letter, active: attribute.value };
-                }
-                return letter;
+        if (nfts) {
+            const letterSums = {};
+            nfts?.forEach(nft => {
+                nft.metadata.attributes.forEach(attribute => {
+                    if (attribute.trait_type.length === 1 && /^[A-Z]$/.test(attribute.trait_type)) {
+                        if (!letterSums[attribute.trait_type]) {
+                            letterSums[attribute.trait_type] = 0;
+                        }
+                        letterSums[attribute.trait_type] += attribute.value;
+                    }
+                });
             });
 
-            setLetters(updatedLetters);
+            // Update state
+            setLetters(letters.map(letter => ({
+                ...letter,
+                active: letterSums[letter.letter] || 0
+            })));
         }
+
     }, [nfts]);
 
     const totalActive = letters.reduce((sum, letter) => {
@@ -57,3 +64,22 @@ const DisplayPyramid = ({ nfts }) => {
 }
 
 export default DisplayPyramid
+
+
+// useEffect(() => {
+//     if (nfts) {
+//         const updatedLetters = letters.map(letter => {
+//             // Find the NFT with the corresponding letter
+//             const nft = nfts.find(n => n.metadata.attributes.some(a => a.trait_type === letter.letter && a.display_type === "number"));
+
+//             // Update the 'active' value if the NFT exists
+//             if (nft) {
+//                 const attribute = nft.metadata.attributes.find(a => a.trait_type === letter.letter);
+//                 return { ...letter, active: attribute.value };
+//             }
+//             return letter;
+//         });
+
+//         setLetters(updatedLetters);
+//     }
+// }, [nfts]);
