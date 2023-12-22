@@ -170,6 +170,18 @@ const TestView = () => {
               }}
             />
           </li>
+          <li>
+            <Button
+              small={true}
+              label="VoiceToGPT"
+              wrap={true}
+              minimal={true}
+              iconRight="chevron-right"
+              onClick={() => {
+                router.push("/ui/audio_api_test")
+              }}
+            />
+          </li>
         </div>
 
       </div>

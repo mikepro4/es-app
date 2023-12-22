@@ -65,7 +65,7 @@ function Player() {
     useEffect(() => {
         dispatch(toggleParamsValues(app.playerData?.params))
         document.body.classList.add("no-scroll")
-       
+
         return () => {
             document.body.classList.remove("no-scroll");
             dispatch(toggleParamsValues(null))
@@ -113,7 +113,7 @@ function Player() {
                     } else {
                         router.push({
                             pathname: router.pathname,
-                            query: {...router.query, shapeId: null}
+                            query: { ...router.query, shapeId: null }
                         }, undefined, { shallow: true });
                     }
                 }}
@@ -229,7 +229,7 @@ function Player() {
             </div> */}
             {/* {app.playerData?.name} */}
 
-            {selectedTabId == 1 && <Generator item={app.playerData}/>}
+            {selectedTabId == 1 && <Generator item={app.playerData} />}
 
             {renderTab()}
 
@@ -237,10 +237,13 @@ function Player() {
                 <ShapeMainInfo
                     item={app.playerData}
                 />
-            </div> 
+            </div>
 
             <ul className="play-main-actions">
 
+                <li className="player-main-action" onClick={() => { }}>
+                    <Icon name="openai" fill={"#E33E33"} />
+                </li>
                 <li className="player-main-action" onClick={() => toggleMicrophone()}>
                     <Icon name="mic" fill={isMicrophoneListen} />
                 </li>

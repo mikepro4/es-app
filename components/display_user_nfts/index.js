@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import Link from 'next/link';
 
 import {
     useAddress,
@@ -45,7 +46,8 @@ const UserNfts = ({ setNfts }) => {
                                 <ThirdwebNftMedia metadata={nft.metadata} />
                                 <h2>{nft.metadata.name}</h2>
                                 {displayNftProps(nft)}
-                                <p>{nft.metadata.description}</p>
+                                <h4>{nft.metadata.description}</h4>
+                                <a href={`https://testnets.opensea.io/assets/mumbai/${TEST_CONTRACT_ADDRESS}/${nft.metadata.id}`}>Link to OpenSea</a>
                             </div>
                         ))
                     ) : (

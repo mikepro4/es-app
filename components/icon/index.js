@@ -32,6 +32,7 @@ import AudioSettings from "./icons/audio-settings"
 import Atom from "./icons/atom"
 import Ethereum from "./icons/ethereum"
 import Tiers from "./icons/tiers"
+import OpenAi from "./icons/openai"
 
 const Icon = ({ name, onClick, fill }) => {
 
@@ -41,6 +42,8 @@ const Icon = ({ name, onClick, fill }) => {
 
             case "logo-desktop":
                 return <LogoDesktop />
+            case "openai":
+                return <OpenAi fill={fill} />
             case "logo-mobile":
                 return <LogoMobile />
             case "mountains":
